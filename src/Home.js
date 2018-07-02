@@ -52,7 +52,7 @@ class Home extends React.Component {
 					{this.state.data.fields.subtitle}
 				</Typography>
 				
-				<Link to='/media' style={{ textDecoration: 'none' }}>
+				<Link to='/audio' style={{ textDecoration: 'none' }}>
 					<Button variant='outlined' className={classes.button}>
 						{this.state.data.fields.buttonLabel}
 					</Button>

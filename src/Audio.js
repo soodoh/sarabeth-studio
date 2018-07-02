@@ -1,7 +1,7 @@
 import React from 'react';
 import Keys from './keys';
 
-class Resume extends React.Component {
+class Audio extends React.Component {
 	constructor(props) {
 		super(props);
 		
@@ -11,16 +11,16 @@ class Resume extends React.Component {
 	}
 	
 	componentDidMount() {
-		this.client.getEntries({ content_type: 'about' }).then(res => {
+		this.client.getEntries({ content_type: 'audio' }).then(res => {
 			console.log(res);
 		});
 	}
 	
 	render() {
 		return (
-			<div>Resume</div>
+			<div>Audio</div>
 		);
 	}
 }
 
-export default Resume;
+export default Audio;
