@@ -1,6 +1,7 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 .idea
 .DS_Store
+keys.js
 
 # dependencies
 /node_modules
