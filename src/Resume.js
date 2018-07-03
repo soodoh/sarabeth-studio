@@ -1,5 +1,6 @@
 import React from 'react';
 import Keys from './keys';
+import { withStyles } from '@material-ui/core/styles';
 
 class Resume extends React.Component {
 	constructor(props) {
@@ -12,15 +13,34 @@ class Resume extends React.Component {
 	
 	componentDidMount() {
 		this.client.getEntries({ content_type: 'about' }).then(res => {
-			console.log(res);
+			this.setState({
+				resume: res.items[0].fields.resume.fields.file.url,
+				loading: false
+			});
 		});
 	}
 	
 	render() {
+		const { classes } = this.props;
+		
+		if(this.state.loading)
+			return <div>Loading</div>
 		return (
-			<div>Resume</div>
+			<object data={this.state.resume}
+			        type='application/pdf'
+			        className={classes.resume}
+			>
+				<a href={this.state.resume}>Sarabeth_Resume.pdf</a>
+			</object>
 		);
 	}
 }
 
-export default Resume;
+const styles = theme => ({
+	resume: {
+		width: '100%',
+		height: `calc(100vh - ${theme.spacing.unit * 20}px)`
+	}
+});
+
+export default withStyles(styles)(Resume);
