@@ -16,17 +16,21 @@ const theme = createMuiTheme({
 			contrastText: '#F4F4E0'
 		},
 		secondary: {
-			light: '#CEC0A8',
-			main: '#CEC0A8',
-			dark: '#CEC0A8',
-			contrastText: '#fff'
+			light: '#E8C3B8',
+			main: '#E8C3B8',
+			dark: '#E8C3B8',
+			contrastText: '#1A1A1'
 		}
 	},
 	typography: {
 		fontFamily: `'Muli', sans-serif`,
-		display1: {
+		display2: {
 			fontFamily: `'Playfair Display', cursive`,
-			fontStyle: 'italic'
+			fontStyle: 'italic',
+			fontSize: '2.5rem'
+		},
+		display1: {
+		
 		},
 		title: {
 			fontFamily: `'Playfair Display', cursive`

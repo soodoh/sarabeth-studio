@@ -44,11 +44,19 @@ class Home extends React.Component {
 			
 		return (
 			<div className={classes.container}>
-				<Typography variant='display3' color='inherit' gutterBottom>
+				<Typography variant='display3'
+				            color='secondary'
+				            align='center'
+				            gutterBottom
+				>
 					{this.state.data.fields.title}
 				</Typography>
 				
-				<Typography variant='display1' color='inherit' gutterBottom>
+				<Typography variant='display2'
+				            color='secondary'
+				            align='center'
+				            gutterBottom
+				>
 					{this.state.data.fields.subtitle}
 				</Typography>
 				
@@ -68,8 +76,7 @@ const styles = theme => ({
 		paddingTop: '30vh',
 		justifyContent: 'center',
 		alignItems: 'center',
-		flexDirection: 'column',
-		color: theme.palette.primary.light
+		flexDirection: 'column'
 	},
 	button: {
 		marginTop: theme.spacing.unit * 7,

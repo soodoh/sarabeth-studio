@@ -89,8 +89,9 @@ class MiniNavigation extends React.Component {
 const styles = theme => ({
 	button: {
 		backgroundColor: 'transparent',
-		border: `1px solid ${theme.palette.secondary.main}`,
+		border: `1px solid ${theme.palette.primary.contrastText}`,
 		borderRadius: '2px',
+		color: theme.palette.primary.contrastText,
 		
 		'&:focus': {
 			backgroundColor: 'transparent'
