@@ -52,7 +52,7 @@ class Home extends React.Component {
 					{this.state.data.fields.title}
 				</Typography>
 				
-				<Typography variant='display2'
+				<Typography variant='display1'
 				            color='secondary'
 				            align='center'
 				            gutterBottom

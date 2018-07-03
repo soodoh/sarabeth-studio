@@ -24,13 +24,9 @@ const theme = createMuiTheme({
 	},
 	typography: {
 		fontFamily: `'Muli', sans-serif`,
-		display2: {
-			fontFamily: `'Playfair Display', cursive`,
-			fontStyle: 'italic',
-			fontSize: '2.5rem'
-		},
 		display1: {
-		
+			fontFamily: `'Playfair Display', cursive`,
+			fontStyle: 'italic'
 		},
 		title: {
 			fontFamily: `'Playfair Display', cursive`
