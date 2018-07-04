@@ -4,7 +4,6 @@ import Loading from '../Loading';
 import Title from '../Title';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 
 class Index extends React.Component {
 	constructor(props) {
