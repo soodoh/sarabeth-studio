@@ -1,5 +1,6 @@
 import React from 'react';
 import Keys from './keys';
+import Loading from './Loading';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -23,16 +24,16 @@ class About extends React.Component {
 	}
 	
 	render() {
-		console.log(this.state.data)
 		const { classes } = this.props;
 		
 		if(this.state.loading)
-			return <div>Loading</div>;
+			return <Loading />;
 		
 		return (
 			<Grid container spacing={16} className={classes.container}>
 				<Grid item xs={12} sm={6} md={4}>
 					<img src={this.state.data.fields.headshot.fields.file.url}
+					     alt={this.state.data.fields.headshot.fields.title}
 					     className={classes.headshot}
 					/>
 				</Grid>
@@ -54,10 +55,12 @@ class About extends React.Component {
 const styles = theme => ({
 	container: {
 		color: theme.palette.primary.contrastText,
-		padding: theme.spacing.unit * 2
+		padding: theme.spacing.unit * 2,
+		width: '100%'
 	},
 	headshot: {
-		width: '100%'
+		width: '100%',
+		maxWidth: '400px'
 	},
 	bio: {
 		paddingLeft: theme.spacing.unit * 2

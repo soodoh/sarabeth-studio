@@ -1,5 +1,6 @@
 import React from 'react';
 import Keys from './keys';
+import Loading from './Loading';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -40,7 +41,7 @@ class Home extends React.Component {
 		const { classes } = this.props;
 		
 		if(this.state.loading)
-			return <div>Loading</div>;
+			return <Loading />;
 			
 		return (
 			<div className={classes.container}>

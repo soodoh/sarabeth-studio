@@ -1,5 +1,6 @@
 import React from 'react';
 import Keys from './keys';
+import Loading from './Loading';
 import { withStyles } from '@material-ui/core/styles';
 
 class Resume extends React.Component {
@@ -24,7 +25,8 @@ class Resume extends React.Component {
 		const { classes } = this.props;
 		
 		if(this.state.loading)
-			return <div>Loading</div>
+			return <Loading />;
+		
 		return (
 			<object data={this.state.resume}
 			        type='application/pdf'

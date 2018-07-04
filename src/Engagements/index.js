@@ -1,10 +1,11 @@
 import React from 'react';
-import Keys from './keys';
+import Keys from '../keys';
+import Loading from '../Loading';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-class Photos extends React.Component {
+class Index extends React.Component {
 	constructor(props) {
 		super(props);
 		
@@ -14,8 +15,7 @@ class Photos extends React.Component {
 	}
 	
 	componentDidMount() {
-		this.client.getEntries({ content_type: 'photoAlbums' }).then(res => {
-			console.log(res);
+		this.client.getEntries({ content_type: 'engagements' }).then(res => {
 			this.setState({
 				loading: false
 			});
@@ -26,13 +26,23 @@ class Photos extends React.Component {
 		const { classes } = this.props;
 		
 		if(this.state.loading)
-			return <div>Loading</div>;
-			
+			return <Loading />;
+		
 		return (
 			<Grid container spacing={8} className={classes.container}>
 				<Grid item xs={12}>
 					<Typography variant='display1' align='center'>
-						<span className={classes.title}>Photos</span>
+						<span className={classes.title}>Upcoming</span>
+					</Typography>
+				</Grid>
+				
+				<Grid item xs={12}>
+					&nbsp
+				</Grid>
+				
+				<Grid item xs={12}>
+					<Typography variant='display1' align='center'>
+						<span className={classes.title}>Past</span>
 					</Typography>
 				</Grid>
 			</Grid>
@@ -42,7 +52,8 @@ class Photos extends React.Component {
 
 const styles = theme => ({
 	container: {
-		margin: theme.spacing.unit * 4
+		width: '100%',
+		padding: theme.spacing.unit * 4
 	},
 	title: {
 		backgroundColor: theme.palette.secondary.main,
@@ -51,4 +62,4 @@ const styles = theme => ({
 	}
 });
 
-export default withStyles(styles)(Photos);
+export default withStyles(styles)(Index);

@@ -12,7 +12,9 @@ class SocialMedia extends React.Component {
 	
 	componentDidMount() {
 		this.client.getEntries({ content_type: 'socialMedia' }).then(res => {
-			// console.log(res);
+			this.setState({
+				loading: false
+			});
 		});
 	}
 	
