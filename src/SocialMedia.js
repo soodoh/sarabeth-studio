@@ -1,5 +1,8 @@
 import React from 'react';
-import Keys from "./keys";
+import Keys from './keys';
+import { withStyles, withTheme } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import SVG from 'react-inlinesvg';
 
 class SocialMedia extends React.Component {
 	constructor(props) {
@@ -7,22 +10,45 @@ class SocialMedia extends React.Component {
 		
 		const Contentful = require('contentful');
 		this.client = Contentful.createClient(Keys);
-		this.state = { loading: true };
+		this.state = { icons: [] };
 	}
 	
 	componentDidMount() {
 		this.client.getEntries({ content_type: 'socialMedia' }).then(res => {
 			this.setState({
-				loading: false
+				icons: res.items
 			});
 		});
 	}
 	
 	render() {
+		const { classes, theme, color } = this.props;
+		const colorCode = color ? theme.palette[color].main : 'inherit';
+		
 		return (
-			<div>Social Media Buttons</div>
+			<div className={classes.container}>
+				{this.state.icons.map((icon, index) => (
+					<a href={icon.fields.link}
+					   style={{ color: 'inherit' }}
+					   key={index}
+					>
+						<IconButton color={color || 'inherit'}>
+							<SVG src={icon.fields.icon.fields.file.url}
+							     style={{ fill: colorCode }}
+							/>
+						</IconButton>
+					</a>
+				))}
+			</div>
 		);
 	}
 }
 
-export default SocialMedia;
+const styles = {
+	container: {
+		display: 'flex',
+		justifyContent: 'center'
+	}
+};
+
+export default withTheme()(withStyles(styles)(SocialMedia));
