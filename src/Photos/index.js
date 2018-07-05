@@ -2,11 +2,11 @@ import React from 'react';
 import Keys from '../keys';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import Gallery from './Gallery';
 import Title from '../Title';
+import Filters from '../Filters';
 
-class Index extends React.Component {
+class Photos extends React.Component {
 	constructor(props) {
 		super(props);
 		
@@ -73,16 +73,11 @@ class Index extends React.Component {
 					<Title>Photos</Title>
 				</Grid>
 				
-				<Grid item xs={12} className={classes.buttonGroup}>
-					{this.getAlbums().map((album, index) => (
-						<Button key={index}
-						        variant='raised'
-						        className={this.state.currentAlbum === album ? classes.active : classes.button}
-						        onClick={() => this.setState({ currentAlbum: album })}
-						>
-							{album}
-						</Button>
-					))}
+				<Grid item xs={12}>
+					<Filters list={this.getAlbums()}
+					         activeItem={this.state.currentAlbum}
+					         onClick={(album) => this.setState({ currentAlbum: album })}
+					/>
 				</Grid>
 				
 				<Grid item xs={12}>
@@ -97,30 +92,7 @@ const styles = theme => ({
 	container: {
 		width: '100%',
 		padding: theme.spacing.unit * 4
-	},
-	buttonGroup: {
-		display: 'flex',
-		justifyContent: 'space-around',
-		marginTop: theme.spacing.unit * 4
-	},
-	button: {
-		backgroundColor: theme.palette.secondary.dark,
-		color: theme.palette.primary.contrastText,
-		borderRadius: 0,
-		
-		'&:hover': {
-			backgroundColor: 'transparent'
-		}
-	},
-	active: {
-		backgroundColor: theme.palette.primary.main,
-		color: theme.palette.primary.contrastText,
-		borderRadius: 0,
-		
-		'&:hover': {
-			backgroundColor: theme.palette.primary.light
-		}
 	}
 });
 
-export default withStyles(styles)(Index);
+export default withStyles(styles)(Photos);

@@ -23,8 +23,8 @@ class Gallery extends React.Component {
 					isOpen={this.state.photoActive}
 					backdropClosesModal
 					currentImage={this.state.currentPhoto}
-					onClickPrev={() => this.setState({ currentPhoto: --this.state.currentPhoto })}
-					onClickNext={() => this.setState({ currentPhoto: ++this.state.currentPhoto })}
+					onClickPrev={() => this.setState({ currentPhoto: this.state.currentPhoto - 1 })}
+					onClickNext={() => this.setState({ currentPhoto: this.state.currentPhoto + 1 })}
 					onClose={() => this.setState({ photoActive: false })}
 				/>
 				
