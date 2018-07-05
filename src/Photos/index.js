@@ -57,8 +57,7 @@ class Index extends React.Component {
 		
 		return photos.map(photo => ({
 			title: photo.fields.title,
-			url: photo.fields.file.url,
-			isPortrait: photo.fields.file.details.image.width < photo.fields.file.details.image.height
+			url: photo.fields.file.url
 		}));
 	}
 	

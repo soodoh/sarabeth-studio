@@ -9,7 +9,7 @@ const Engagement = props => {
 	const { classes, data } = props;
 	const isUpcoming = Moment(data.fields.endDate).isBefore(Moment());
 	const startDate = Moment(data.fields.startDate).format('MMMM Do');
-	const endDate = Moment(data.fields.startDate).format('MMMM Do, YYYY');
+	const endDate = Moment(data.fields.endDate).format('MMMM Do, YYYY');
 	
 	return (
 		<Grid container

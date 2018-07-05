@@ -9,6 +9,7 @@
     "moment": "^2.22.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-images": "^0.5.17",
     "react-inlinesvg": "^0.8.1",
     "react-masonry-component": "^6.2.1",
     "react-router-dom": "^4.3.1",
