@@ -1,7 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Hidden from '@material-ui/core/Hidden';
 
 const Filters = props => {
 	const { classes, list, activeItem, onClick } = props;

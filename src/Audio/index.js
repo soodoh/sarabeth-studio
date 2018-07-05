@@ -2,6 +2,8 @@ import React from 'react';
 import Keys from '../keys';
 import Loading from '../Loading';
 import Title from '../Title';
+import Filters from '../Filters';
+import Song from './Song';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
@@ -11,15 +13,47 @@ class Index extends React.Component {
 		
 		const Contentful = require('contentful');
 		this.client = Contentful.createClient(Keys);
-		this.state = { loading: true };
+		this.getAudioGroups = this.getAudioGroups.bind(this);
+		this.getAudioFiles = this.getAudioFiles.bind(this);
+		
+		this.state = {
+			audioGroups: [],
+			currentAudioGroup: 'All',
+			loading: true
+		};
 	}
 	
 	componentDidMount() {
 		this.client.getEntries({ content_type: 'audio' }).then(res => {
 			this.setState({
+				audioGroups: res.items,
 				loading: false
 			});
 		});
+	}
+	
+	getAudioGroups() {
+		const groups = this.state.audioGroups
+			.map(group => group.fields.label)
+			.sort((a, b) => a < b);
+		
+		groups.unshift('All');
+		return groups;
+	}
+	
+	getAudioFiles() {
+		let files = [];
+		
+		if(this.state.currentAudioGroup === 'All') {
+			this.state.audioGroups.forEach(group => {
+				files = [...files, ...group.fields.audioFiles]
+			});
+		} else {
+			const audioGroup = this.state.audioGroups.find(group => group.fields.label === this.state.currentAudioGroup);
+			files = audioGroup.fields.audioFiles;
+		}
+		
+		return files;
 	}
 	
 	render() {
@@ -27,19 +61,33 @@ class Index extends React.Component {
 		
 		if(this.state.loading)
 			return <Loading />;
-		
+			
 		return (
 			<Grid container spacing={8} className={classes.container}>
 				<Grid item xs={12}>
 					<Title>Video</Title>
 				</Grid>
-				
 				<Grid item xs={12}>
 					&nbsp
 				</Grid>
 				
 				<Grid item xs={12}>
 					<Title>Audio</Title>
+				</Grid>
+				<Grid item xs={12}>
+					<Filters list={this.getAudioGroups()}
+					         activeItem={this.state.currentAudioGroup}
+					         onClick={(item) => this.setState({ currentAudioGroup: item })}
+					/>
+				</Grid>
+				<Grid item xs={12}>
+					{this.getAudioFiles().map((audio, index) => (
+						<Song key={index}
+						      title={audio.fields.title}
+						      subtitle={audio.fields.subtitle}
+						      url={audio.fields.audio.fields.file.url}
+						/>
+					))}
 				</Grid>
 			</Grid>
 		);
