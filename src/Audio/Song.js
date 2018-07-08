@@ -1,5 +1,5 @@
 import React from 'react';
-import AudioPlayer from 'react-responsive-audio-player';
+import AudioPlayer from './AudioPlayer';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
@@ -18,9 +18,8 @@ const Song = props => {
 				</Typography>
 			</div>
 			
-			<AudioPlayer playlist={[{ url, title: `${title} - ${subtitle}` }]}
-			             className={classes.player}
-			/>
+			
+			<AudioPlayer url={url} />
 		</div>
 	);
 };
@@ -38,9 +37,6 @@ const styles = theme => ({
 	subtitle: {
 		color: theme.palette.primary.contrastText,
 		marginLeft: theme.spacing.unit * 2
-	},
-	player: {
-		// backgroundColor: 'red'
 	}
 });
 
