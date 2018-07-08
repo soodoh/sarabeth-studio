@@ -36,7 +36,7 @@ class MiniNavigation extends React.Component {
 				      onClose={() => this.setState({ menuAnchor: null })}
 				>
 					<NavLink to='/about' style={{ textDecoration: 'none' }}>
-						<MenuItem onClick={() => this.setState({ mediaAnchor: null })}
+						<MenuItem onClick={() => this.setState({ menuAnchor: null })}
 						          className={classes.menuLink}
 						          selected={match.path === '/about'}
 						>
@@ -45,7 +45,7 @@ class MiniNavigation extends React.Component {
 					</NavLink>
 					
 					<NavLink to='/engagements' style={{ textDecoration: 'none' }}>
-						<MenuItem onClick={() => this.setState({ mediaAnchor: null })}
+						<MenuItem onClick={() => this.setState({ menuAnchor: null })}
 						          className={classes.menuLink}
 						          selected={match.path === '/engagements'}
 						>
@@ -54,7 +54,7 @@ class MiniNavigation extends React.Component {
 					</NavLink>
 					
 					<NavLink to='/photos' style={{ textDecoration: 'none' }}>
-						<MenuItem onClick={() => this.setState({ mediaAnchor: null })}
+						<MenuItem onClick={() => this.setState({ menuAnchor: null })}
 						          className={classes.menuLink}
 						          selected={match.path === '/photos'}
 						>
@@ -63,7 +63,7 @@ class MiniNavigation extends React.Component {
 					</NavLink>
 					
 					<NavLink to='/audio' style={{ textDecoration: 'none' }}>
-						<MenuItem onClick={() => this.setState({ mediaAnchor: null })}
+						<MenuItem onClick={() => this.setState({ menuAnchor: null })}
 						          className={classes.menuLink}
 						          selected={match.path === '/audio'}
 						>
@@ -72,11 +72,20 @@ class MiniNavigation extends React.Component {
 					</NavLink>
 					
 					<NavLink to='/resume' style={{ textDecoration: 'none' }}>
-						<MenuItem onClick={() => this.setState({ mediaAnchor: null })}
+						<MenuItem onClick={() => this.setState({ menuAnchor: null })}
 						          className={classes.menuLink}
 						          selected={match.path === '/resume'}
 						>
 							Resume
+						</MenuItem>
+					</NavLink>
+					
+					<NavLink to='/contact' style={{ textDecoration: 'none' }}>
+						<MenuItem onClick={() => this.setState({ menuAnchor: null })}
+						          className={classes.menuLink}
+						          selected={match.path === '/contact'}
+						>
+							Contact
 						</MenuItem>
 					</NavLink>
 				</Menu>

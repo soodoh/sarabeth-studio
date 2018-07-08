@@ -74,6 +74,13 @@ class Navigation extends React.Component {
 				>
 					Resume
 				</NavLink>
+				
+				<NavLink to='/contact'
+				         className={classes.link}
+				         activeClassName={classes.active}
+				>
+					Contact
+				</NavLink>
 			</div>
 		);
 	}

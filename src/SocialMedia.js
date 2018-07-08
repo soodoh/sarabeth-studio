@@ -8,20 +8,23 @@ import Soundcloud from 'mdi-material-ui/Soundcloud';
 import Youtube from 'mdi-material-ui/Youtube';
 import Linkedin from 'mdi-material-ui/Linkedin';
 import Twitter from 'mdi-material-ui/Twitter';
+import Email from 'mdi-material-ui/Email';
 
 function renderIcon(icon) {
 	switch(icon) {
-		case 'instagram':
+		case 'Email':
+			return <Email />;
+		case 'Instagram':
 			return <Instagram />;
-		case 'facebook':
+		case 'Facebook':
 			return <Facebook />;
-		case 'soundcloud':
+		case 'Soundcloud':
 			return <Soundcloud />;
-		case 'youtube':
+		case 'Youtube':
 			return <Youtube />;
-		case 'linkedin':
+		case 'Linkedin':
 			return <Linkedin />;
-		case 'twitter':
+		case 'Twitter':
 			return <Twitter />;
 		default:
 			return <div></div>;
@@ -29,7 +32,7 @@ function renderIcon(icon) {
 }
 
 const ButtonBase = props => (
-	<a href={props.url} style={{ color: 'inherit' }}>
+	<a href={props.icon === 'Email' ? `mailto:${props.url}` : props.url} style={{ color: 'inherit' }}>
 		<Button variant='fab' mini className={props.classes.button}>
 			{renderIcon(props.icon)}
 		</Button>
@@ -64,7 +67,6 @@ class SocialMedia extends React.Component {
 	render() {
 		const { classes } = this.props;
 		
-		console.log(this.state.icons)
 		return (
 			<div className={classes.container}>
 				{this.state.icons.map((icon, index) => (

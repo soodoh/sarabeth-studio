@@ -11,6 +11,7 @@ import Engagements from '../Engagements';
 import Photos from '../Photos';
 import Audio from '../Audio';
 import Resume from '../Resume';
+import Contact from '../Contact';
 
 const App = props => (
 	<MuiThemeProvider theme={Theme}>
@@ -22,6 +23,7 @@ const App = props => (
 				<Route path='/photos' component={ContentWrapper(Photos)} />
 				<Route path='/audio' component={ContentWrapper(Audio)} />
 				<Route path='/resume' component={ContentWrapper(Resume)} />
+				<Route path='/contact' component={ContentWrapper(Contact)} />
 				<Route component={ContentWrapper(NotFound)} />
 			</Switch>
 		</BrowserRouter>
