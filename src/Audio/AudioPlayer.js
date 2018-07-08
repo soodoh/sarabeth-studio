@@ -2,8 +2,8 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import Play from '@material-ui/icons/PlayArrow';
-import Pause from '@material-ui/icons/Pause'
+import Play from 'mdi-material-ui/Play';
+import Pause from 'mdi-material-ui/Pause';
 
 class AudioPlayer extends React.Component {
 	constructor(props) {

@@ -7,7 +7,7 @@ const Song = props => {
 	const { classes, title, subtitle, url } = props;
 	
 	return (
-		<div className={classes.container}>
+		<div>
 			<div className={classes.metadata}>
 				<Typography variant='body2' className={classes.title}>
 					{title}
@@ -18,16 +18,12 @@ const Song = props => {
 				</Typography>
 			</div>
 			
-			
 			<AudioPlayer url={url} />
 		</div>
 	);
 };
 
 const styles = theme => ({
-	container: {
-		margin: theme.spacing.unit * 4
-	},
 	metadata: {
 		display: 'flex'
 	},

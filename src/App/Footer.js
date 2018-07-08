@@ -40,6 +40,7 @@ const styles = theme => ({
 		display: 'flex',
 		height: '100%',
 		flex: 1,
+		flexWrap: 'wrap',
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		padding: `0 ${theme.spacing.unit * 2}px`

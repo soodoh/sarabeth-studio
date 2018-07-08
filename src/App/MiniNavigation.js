@@ -2,7 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { NavLink } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import MenuIcon from '@material-ui/icons/Menu';
+import MenuIcon from 'mdi-material-ui/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 

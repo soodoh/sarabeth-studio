@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 
 const Engagement = props => {
 	const { classes, data } = props;
-	const isUpcoming = Moment(data.fields.endDate).isBefore(Moment());
+	const isUpcoming = Moment(data.fields.endDate).isAfter(Moment());
 	const startDate = Moment(data.fields.startDate).format('MMMM Do');
 	const endDate = Moment(data.fields.endDate).format('MMMM Do, YYYY');
 	

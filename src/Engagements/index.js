@@ -33,13 +33,13 @@ class Index extends React.Component {
 	
 	getUpcoming() {
 		return this.state.engagements.filter(engagement => {
-			return Moment(engagement.fields.endDate).isBefore(Moment());
+			return Moment(engagement.fields.endDate).isAfter(Moment());
 		});
 	}
 	
 	getPast() {
 		return this.state.engagements.filter(engagement => {
-			return Moment(engagement.fields.endDate).isAfter(Moment());
+			return Moment(engagement.fields.endDate).isBefore(Moment());
 		});
 	}
 	

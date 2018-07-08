@@ -4,7 +4,7 @@ import Loading from '../Loading';
 import Title from '../Title';
 import Filters from '../Filters';
 import Song from './Song';
-import Videos from './Videos';
+import Videos from '../Videos';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
@@ -65,22 +65,17 @@ class Index extends React.Component {
 			
 		return (
 			<Grid container spacing={8} className={classes.container}>
-				<Grid item xs={12}>
-					<Title>Video</Title>
-				</Grid>
-				<Grid item xs={12}>
-					<Videos />
-				</Grid>
+				<Videos />
 				
 				<Grid item xs={12}>
 					<Title>Audio</Title>
 				</Grid>
-				<Grid item xs={12}>
+				
+				{this.state.audioGroups.length > 1 &&
 					<Filters list={this.getAudioGroups()}
 					         activeItem={this.state.currentAudioGroup}
-					         onClick={(item) => this.setState({ currentAudioGroup: item })}
-					/>
-				</Grid>
+					         onClick={(item) => this.setState({currentAudioGroup: item})}
+				/>}
 				<Grid item xs={12}>
 					{this.getAudioFiles().map((audio, index) => (
 						<Song key={`${audio.fields.title}-${index}`}
