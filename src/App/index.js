@@ -9,7 +9,7 @@ import Home from '../Home';
 import About from '../About';
 import Engagements from '../Engagements';
 import Photos from '../Photos';
-import Audio from '../Audio';
+import Audio from '../Media';
 import Resume from '../Resume';
 import Contact from '../Contact';
 

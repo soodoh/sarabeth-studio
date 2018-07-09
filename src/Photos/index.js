@@ -17,28 +17,25 @@ class Photos extends React.Component {
 		
 		this.state = {
 			albums: [],
-			currentAlbum: '',
+			currentAlbum: 'All',
 			loading: true
 		};
 	}
 	
 	componentDidMount() {
-		this.client.getEntries({ content_type: 'photoAlbums' }).then(res => {
+		this.client.getEntries({ content_type: 'photoAlbums', order: 'fields.label' }).then(res => {
 			this.setState({
 				albums: res.items,
-				currentAlbum: 'All',
 				loading: false
 			});
 		});
 	}
 	
 	getAlbums() {
-		const albums = ['All'];
-		this.state.albums
-			.sort((a, b) => a.fields.label > b.fields.label)
-			.forEach(album => {
-				albums.push(album.fields.label);
-			});
+		const albums = this.state.albums
+			.map(group => group.fields.label);
+		
+		albums.unshift('All');
 		
 		return albums;
 	}
@@ -73,12 +70,10 @@ class Photos extends React.Component {
 					<Title>Photos</Title>
 				</Grid>
 				
-				<Grid item xs={12}>
-					<Filters list={this.getAlbums()}
-					         activeItem={this.state.currentAlbum}
-					         onClick={(album) => this.setState({ currentAlbum: album })}
-					/>
-				</Grid>
+				<Filters list={this.getAlbums()}
+				         activeItem={this.state.currentAlbum}
+				         onClick={album => this.setState({ currentAlbum: album })}
+				/>
 				
 				<Grid item xs={12}>
 					<Gallery photos={this.getPhotos()} />

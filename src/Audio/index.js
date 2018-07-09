@@ -4,11 +4,9 @@ import Loading from '../Loading';
 import Title from '../Title';
 import Filters from '../Filters';
 import Song from './Song';
-import Videos from '../Videos';
-import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
-class Index extends React.Component {
+export default class Audio extends React.Component {
 	constructor(props) {
 		super(props);
 		
@@ -25,7 +23,7 @@ class Index extends React.Component {
 	}
 	
 	componentDidMount() {
-		this.client.getEntries({ content_type: 'audio' }).then(res => {
+		this.client.getEntries({ content_type: 'audio', order: 'fields.label' }).then(res => {
 			this.setState({
 				audioGroups: res.items,
 				loading: false
@@ -35,8 +33,7 @@ class Index extends React.Component {
 	
 	getAudioGroups() {
 		const groups = this.state.audioGroups
-			.map(group => group.fields.label)
-			.sort((a, b) => a < b);
+			.map(group => group.fields.label);
 		
 		groups.unshift('All');
 		return groups;
@@ -58,15 +55,11 @@ class Index extends React.Component {
 	}
 	
 	render() {
-		const { classes } = this.props;
-		
 		if(this.state.loading)
 			return <Loading />;
 			
 		return (
-			<Grid container spacing={8} className={classes.container}>
-				<Videos />
-				
+			<Grid container spacing={8}>
 				<Grid item xs={12}>
 					<Title>Audio</Title>
 				</Grid>
@@ -75,7 +68,8 @@ class Index extends React.Component {
 					<Filters list={this.getAudioGroups()}
 					         activeItem={this.state.currentAudioGroup}
 					         onClick={(item) => this.setState({currentAudioGroup: item})}
-				/>}
+					/>
+				}
 				<Grid item xs={12}>
 					{this.getAudioFiles().map((audio, index) => (
 						<Song key={`${audio.fields.title}-${index}`}
@@ -89,12 +83,3 @@ class Index extends React.Component {
 		);
 	}
 }
-
-const styles = theme => ({
-	container: {
-		width: '100%',
-		padding: theme.spacing.unit * 4
-	}
-});
-
-export default withStyles(styles)(Index);
