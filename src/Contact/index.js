@@ -1,10 +1,12 @@
 import React from 'react';
-import Title from './Title';
-import Keys from "./keys";
+import Title from '../Title';
+import Form from './Form';
+import Message from './Message';
+import Keys from "../keys";
 import Validator from 'email-validator';
+import axios from 'axios';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -22,9 +24,12 @@ class Contact extends React.Component {
 			message: '',
 			validations: {},
 			submitUrl: '',
+			messageOpen: false,
+			submitSuccess: false,
 			loading: true
 		};
 		this.handleChange = this.handleChange.bind(this);
+		this.messageClose = this.messageClose.bind(this);
 		this.validate = this.validate.bind(this);
 		this.submit = this.submit.bind(this);
 	}
@@ -64,9 +69,34 @@ class Contact extends React.Component {
 			});
 			return;
 		}
-
+		
 		this.setState({ loading: true });
 		
+		const data = {
+			name: this.state.name,
+			email: this.state.email,
+			subject: this.state.subject,
+			message: this.state.message
+		};
+		axios.post(this.state.submitUrl, JSON.stringify(data)).then(res => {
+			console.log(res)
+			this.setState({
+				loading: false,
+				submitSuccess: res.status === 200,
+				messageOpen: true,
+				name: '',
+				email: '',
+				subject: '',
+				message: ''
+			});
+		}).catch(err => {
+			console.error(err);
+			this.setState({
+				loading: false,
+				submitSuccess: false,
+				messageOpen: true
+			});
+		});
 	}
 	
 	handleChange(key) {
@@ -78,59 +108,32 @@ class Contact extends React.Component {
 		};
 	}
 	
+	messageClose(event, reason) {
+		if(reason === 'clickaway')
+			return;
+		
+		this.setState({ messageOpen: false });
+	}
+	
 	render() {
 		const { classes } = this.props;
+		const values = {
+			name: this.state.name,
+			email: this.state.email,
+			subject: this.state.subject,
+			message: this.state.message
+		};
+		
 		return (
 			<Grid container spacing={8} className={classes.container}>
 				<Grid item xs={12}>
 					<Title>Contact Sarabeth</Title>
 				</Grid>
 				
-				<Grid item xs={12}>
-					<Grid item xs={12} sm={6}>
-						<TextField fullWidth
-						           margin='normal'
-						           label='Name'
-						           value={this.state.name}
-						           onChange={this.handleChange('name')}
-						           error={!!this.state.validations.name}
-						           helperText={this.state.validations.name}
-						/>
-					</Grid>
-				</Grid>
-				<Grid item xs={12}>
-					<Grid item xs={12} sm={6}>
-						<TextField fullWidth
-						           margin='normal'
-						           label='Email'
-						           value={this.state.email}
-						           onChange={this.handleChange('email')}
-						           error={!!this.state.validations.email}
-						           helperText={this.state.validations.email}
-						/>
-					</Grid>
-				</Grid>
-				<Grid item xs={12}>
-					<TextField fullWidth
-					           margin='normal'
-					           label='Subject'
-					           value={this.state.subject}
-					           onChange={this.handleChange('subject')}
-					           error={!!this.state.validations.subject}
-					           helperText={this.state.validations.subject}
-					/>
-				</Grid>
-				<Grid item xs={12}>
-					<TextField fullWidth
-					           multiline
-					           margin='normal'
-					           label='Message'
-					           value={this.state.message}
-					           onChange={this.handleChange('message')}
-					           error={!!this.state.validations.message}
-					           helperText={this.state.validations.message}
-					/>
-				</Grid>
+				<Form values={values}
+				      validations={this.state.validations}
+				      onChange={this.handleChange}
+				/>
 				
 				<Grid item xs={12}>
 					{this.state.loading ?
@@ -143,6 +146,11 @@ class Contact extends React.Component {
 						</Button>
 					}
 				</Grid>
+				
+				<Message open={this.state.messageOpen}
+				         onClose={this.messageClose}
+				         success={this.state.submitSuccess}
+				/>
 			</Grid>
 		);
 	}
