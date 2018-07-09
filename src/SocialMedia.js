@@ -83,7 +83,8 @@ class SocialMedia extends React.Component {
 const styles = {
 	container: {
 		display: 'flex',
-		justifyContent: 'center'
+		justifyContent: 'center',
+		flexWrap: 'wrap'
 	}
 };
 

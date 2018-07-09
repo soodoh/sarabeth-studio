@@ -81,11 +81,7 @@ const styles = theme => ({
 	},
 	button: {
 		marginTop: theme.spacing.unit * 7,
-		textTransform: 'none',
 		fontSize: '1.2rem',
-		color: theme.palette.primary.contrastText,
-		border: `1px solid ${theme.palette.primary.contrastText}`,
-		borderRadius: 0
 	}
 });
 

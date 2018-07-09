@@ -25,7 +25,7 @@ const Song = props => {
 
 const styles = theme => ({
 	container: {
-		marginTop: theme.spacing.unit
+		marginTop: theme.spacing.unit * 2
 	},
 	metadata: {
 		display: 'flex'

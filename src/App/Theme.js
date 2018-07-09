@@ -1,5 +1,6 @@
 import WebFont from 'webfontloader';
 import { createMuiTheme } from '@material-ui/core/styles';
+import grey from '@material-ui/core/colors/grey';
 
 WebFont.load({
 	google: {
@@ -51,12 +52,23 @@ const theme = createMuiTheme({
 				},
 				'&:hover:not($disabled):not($focused):not($error):before': {
 					borderBottom: `2px solid ${secondary.main}`
+				},
+				'&$disabled': {
+					borderBottom: `1px dotted ${grey[200]}`
 				}
 			}
 		},
 		MuiInputLabel: {
 			root: {
 				color: primary.contrastText
+			}
+		},
+		MuiButton: {
+			outlined: {
+				color: primary.contrastText,
+				border: `1px solid ${primary.contrastText}`,
+				borderRadius: 0,
+				textTransform: 'none'
 			}
 		}
 	}

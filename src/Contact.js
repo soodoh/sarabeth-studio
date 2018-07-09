@@ -1,25 +1,41 @@
 import React from 'react';
 import Title from './Title';
+import Keys from "./keys";
 import Validator from 'email-validator';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class Contact extends React.Component {
 	constructor(props) {
 		super(props);
+		
+		const Contentful = require('contentful');
+		this.client = Contentful.createClient(Keys);
 		
 		this.state = {
 			name: '',
 			email: '',
 			subject: '',
 			message: '',
-			validations: {}
+			validations: {},
+			submitUrl: '',
+			loading: true
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.validate = this.validate.bind(this);
 		this.submit = this.submit.bind(this);
+	}
+	
+	componentDidMount() {
+		this.client.getEntries({ content_type: 'contact' }).then(res => {
+			this.setState({
+				loading: false,
+				submitUrl: res.items[0].fields.awsUrl
+			});
+		});
 	}
 	
 	validate(key, newValue) {
@@ -49,7 +65,8 @@ class Contact extends React.Component {
 			return;
 		}
 
-		console.log('Submitted!');
+		this.setState({ loading: true });
+		
 	}
 	
 	handleChange(key) {
@@ -116,12 +133,15 @@ class Contact extends React.Component {
 				</Grid>
 				
 				<Grid item xs={12}>
-					<Button variant='outlined'
-					        className={classes.button}
-					        onClick={this.submit}
-					>
-						Submit
-					</Button>
+					{this.state.loading ?
+						<CircularProgress color='secondary' className={classes.loading} /> :
+						<Button variant='outlined'
+						        className={classes.button}
+						        onClick={this.submit}
+						>
+							Submit
+						</Button>
+					}
 				</Grid>
 			</Grid>
 		);
@@ -134,10 +154,10 @@ const styles = theme => ({
 		padding: theme.spacing.unit * 4
 	},
 	button: {
-		marginTop: theme.spacing.unit * 2,
-		color: theme.palette.primary.contrastText,
-		border: `1px solid ${theme.palette.primary.contrastText}`,
-		borderRadius: 0
+		marginTop: theme.spacing.unit * 2
+	},
+	loading: {
+		margin: theme.spacing.unit * 4
 	}
 });
 

@@ -38,7 +38,6 @@ const Engagement = props => {
 			
 			<Grid item xs={12} sm={2}>
 				<Button variant='outlined'
-				        className={classes.button}
 				        onClick={() => window.location.href=data.fields.link}
 				>
 					{isUpcoming ? 'Buy Tickets' : 'Learn More'}
@@ -52,11 +51,6 @@ const styles = theme => ({
 	container: {
 		color: theme.palette.primary.contrastText,
 		margin: theme.spacing.unit * 4
-	},
-	button: {
-		color: theme.palette.primary.contrastText,
-		border: `1px solid ${theme.palette.primary.contrastText}`,
-		borderRadius: 0
 	}
 });
 
