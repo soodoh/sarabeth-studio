@@ -36,6 +36,7 @@ const styles = theme => ({
 		height: theme.spacing.unit * 11,
 		position: 'absolute',
 		bottom: 0,
+		zIndex: 1,
 		color: theme.palette.primary.contrastText
 	},
 	content: {

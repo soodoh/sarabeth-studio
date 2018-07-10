@@ -16,17 +16,21 @@ const Wrapper = Component => {
 		}
 	});
 	
-	const Content = props => (
-		<div className={props.classes.container}>
-			<Header match={props.match} />
-			
-			<section className={props.classes.content}>
-				<Component />
-			</section>
-			
-			<Footer />
-		</div>
-	);
+	const Content = props => {
+		const { classes } = props;
+		
+		return (
+			<div className={classes.container}>
+				<Header />
+				
+				<section className={classes.content}>
+					<Component />
+				</section>
+				
+				<Footer />
+			</div>
+		);
+	};
 	
 	return withStyles(styles)(Content);
 };

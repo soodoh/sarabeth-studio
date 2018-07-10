@@ -2,8 +2,8 @@ import React from 'react';
 import './index.css';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import Theme from './Theme';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import ContentWrapper from './Wrapper';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Wrapper from './Wrapper';
 import NotFound from './NotFound';
 import Home from '../Home';
 import About from '../About';
@@ -13,21 +13,23 @@ import Audio from '../Media';
 import Resume from '../Resume';
 import Contact from '../Contact';
 
-const App = props => (
-	<MuiThemeProvider theme={Theme}>
-		<BrowserRouter>
-			<Switch>
-				<Route exact path='/' component={ContentWrapper(Home)} />
-				<Route path='/about' component={ContentWrapper(About)} />
-				<Route path='/engagements' component={ContentWrapper(Engagements)} />
-				<Route path='/photos' component={ContentWrapper(Photos)} />
-				<Route path='/audio' component={ContentWrapper(Audio)} />
-				<Route path='/resume' component={ContentWrapper(Resume)} />
-				<Route path='/contact' component={ContentWrapper(Contact)} />
-				<Route component={ContentWrapper(NotFound)} />
-			</Switch>
-		</BrowserRouter>
-	</MuiThemeProvider>
-);
+const App = props => {
+	return (
+		<MuiThemeProvider theme={Theme}>
+			<BrowserRouter>
+				<Switch>
+					<Route exact path='/' component={Wrapper(Home)} />
+					<Route path='/about' component={Wrapper(About)} />
+					<Route path='/engagements' component={Wrapper(Engagements)} />
+					<Route path='/photos' component={Wrapper(Photos)} />
+					<Route path='/audio' component={Wrapper(Audio)} />
+					<Route path='/resume' component={Wrapper(Resume)} />
+					<Route path='/contact' component={Wrapper(Contact)} />
+					<Route component={NotFound} />
+				</Switch>
+			</BrowserRouter>
+		</MuiThemeProvider>
+	);
+};
 
 export default App;

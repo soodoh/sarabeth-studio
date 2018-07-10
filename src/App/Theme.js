@@ -42,6 +42,11 @@ const theme = createMuiTheme({
 		}
 	},
 	overrides: {
+		MuiTypography: {
+			root: {
+				zIndex: 1
+			}
+		},
 		MuiInput: {
 			root: {
 				color: primary.contrastText

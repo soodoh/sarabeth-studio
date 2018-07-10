@@ -6,6 +6,18 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
+const Background = props => (
+	<div style={{
+		backgroundImage: `url(${props.url})`,
+		backgroundSize: 'cover',
+		backgroundAttachment: 'fixed',
+		position: 'fixed',
+		top: 0, left: 0, right: 0, bottom: 0,
+		zIndex: 0
+	}}>
+	</div>
+);
+
 class Home extends React.Component {
 	constructor(props) {
 		super(props);
@@ -20,21 +32,10 @@ class Home extends React.Component {
 			const data = res.items[0];
 			this.setState({
 				loading: false,
-				data
+				data,
+				backgroundImage: data.fields.background.fields.file.url
 			});
-			
-			// Set background image
-			const bodyStyle = document.body.style;
-			bodyStyle.backgroundSize = 'cover';
-			bodyStyle.backgroundPosition = 'top';
-			bodyStyle.backgroundAttachment = 'fixed';
-			bodyStyle.backgroundImage = `url(${data.fields.background.fields.file.url})`;
 		});
-	}
-	
-	componentWillUnmount() {
-		// Remove background image
-		document.body.style.backgroundImage = ``;
 	}
 	
 	render() {
@@ -45,6 +46,8 @@ class Home extends React.Component {
 			
 		return (
 			<div className={classes.container}>
+				<Background url={this.state.backgroundImage} />
+				
 				<Typography variant='display3'
 				            color='secondary'
 				            align='center'
