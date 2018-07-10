@@ -41,8 +41,6 @@ class Video extends React.Component {
 
 const styles = theme => ({
 	video: {
-		padding: theme.spacing.unit * 2,
-		width: `calc(100% - ${theme.spacing.unit * 4}px)`,
 		verticalAlign: 'top' // Removes bottom gutter for Masonry
 	},
 	videoContainer: {
@@ -62,11 +60,19 @@ const styles = theme => ({
 	[`@media (min-width: ${theme.breakpoints.values.xs}px)`]: {
 		videoContainer: {
 			width: '50%'
+		},
+		video: {
+			padding: theme.spacing.unit / 2,
+			width: `calc(100% - ${theme.spacing.unit}px)`
 		}
 	},
 	[`@media (min-width: ${theme.breakpoints.values.md}px)`]: {
 		videoContainer: {
 			width: '33.33%'
+		},
+		video: {
+			padding: theme.spacing.unit * 2,
+			width: `calc(100% - ${theme.spacing.unit * 4}px)`
 		}
 	},
 	[`@media (min-width: ${theme.breakpoints.values.lg}px)`]: {

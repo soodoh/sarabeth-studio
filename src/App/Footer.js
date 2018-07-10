@@ -13,7 +13,9 @@ const Footer = props => {
 					Copyright &copy; {new Date().getFullYear()} Sarabeth Belon
 				</Typography>
 				
-				<SocialMedia />
+				<div className={classes.buttons}>
+					<SocialMedia />
+				</div>
 				
 				<div>
 					<Typography variant='caption' color='inherit'>
@@ -44,6 +46,14 @@ const styles = theme => ({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		padding: `0 ${theme.spacing.unit * 2}px`
+	},
+	[`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
+		content: {
+			flexDirection: 'column',
+			alignItems: 'center',
+			justifyContent: 'center',
+			flexWrap: 'nowrap'
+		}
 	}
 });
 

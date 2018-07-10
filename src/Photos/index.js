@@ -70,10 +70,12 @@ class Photos extends React.Component {
 					<Title>Photos</Title>
 				</Grid>
 				
-				<Filters list={this.getAlbums()}
-				         activeItem={this.state.currentAlbum}
-				         onClick={album => this.setState({ currentAlbum: album })}
-				/>
+				{this.state.albums.length > 1 &&
+					<Filters list={this.getAlbums()}
+					         activeItem={this.state.currentAlbum}
+					         onClick={album => this.setState({ currentAlbum: album })}
+					/>
+				}
 				
 				<Grid item xs={12}>
 					<Gallery photos={this.getPhotos()} />

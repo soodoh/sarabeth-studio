@@ -79,7 +79,6 @@ class Contact extends React.Component {
 			message: this.state.message
 		};
 		axios.post(this.state.submitUrl, JSON.stringify(data)).then(res => {
-			console.log(res)
 			this.setState({
 				loading: false,
 				submitSuccess: res.status === 200,

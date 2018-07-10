@@ -17,6 +17,9 @@ const Engagement = props => {
 		      className={classes.container}
 		>
 			<Grid item xs={12} sm={4}>
+				<Typography variant='title' color='inherit' className={classes.prefix}>
+					Performing as
+				</Typography>
 				<Typography variant='headline' color='inherit'>
 					{data.fields.role}
 				</Typography>
@@ -51,6 +54,10 @@ const styles = theme => ({
 	container: {
 		color: theme.palette.primary.contrastText,
 		margin: theme.spacing.unit * 4
+	},
+	prefix: {
+		fontStyle: 'italic',
+		fontSize: '.8rem'
 	}
 });
 

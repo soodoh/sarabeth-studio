@@ -6,6 +6,7 @@ import List from './List';
 import Moment from 'moment';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 class Index extends React.Component {
 	constructor(props) {
@@ -45,24 +46,35 @@ class Index extends React.Component {
 	
 	render() {
 		const { classes } = this.props;
+		const upcoming = this.getUpcoming();
+		const past = this.getPast();
 		
 		if(this.state.loading)
 			return <Loading />;
 		
 		return (
 			<Grid container spacing={8} className={classes.container}>
-				<Grid item xs={12}>
-					<Title>Upcoming</Title>
-				</Grid>
-				<Grid item xs={12}>
-					<List data={this.getUpcoming()} />
-				</Grid>
+				{upcoming &&
+					<Grid item xs={12}>
+						<Grid item xs={12}>
+							<Title>Upcoming</Title>
+						</Grid>
+						<Grid item xs={12}>
+							<List data={upcoming} />
+						</Grid>
+					</Grid>
+				}
 				
 				<Grid item xs={12}>
 					<Title>Past</Title>
 				</Grid>
 				<Grid item xs={12}>
-					<List data={this.getPast()} />
+					{past ?
+						<List data={past} /> :
+						<Typography variant='headline' color='inherit' align='center'>
+							There are currently no engagements
+						</Typography>
+					}
 				</Grid>
 			</Grid>
 		);
@@ -72,7 +84,8 @@ class Index extends React.Component {
 const styles = theme => ({
 	container: {
 		width: '100%',
-		padding: theme.spacing.unit * 4
+		padding: theme.spacing.unit * 4,
+		color: theme.palette.primary.contrastText
 	}
 });
 

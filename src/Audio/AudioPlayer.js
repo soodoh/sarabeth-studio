@@ -29,9 +29,9 @@ class AudioPlayer extends React.Component {
 	}
 	
 	formatTimecode(time) {
-		const minutes = Math.floor(time / 60)
+		const minutes = (Math.floor(time / 60) || 0)
 			.toString().padStart(2, '0');
-		const seconds = Math.floor(time % 60)
+		const seconds = (Math.floor(time % 60) || 0)
 			.toString().padStart(2, '0');
 		
 		return `${minutes}:${seconds}`;
@@ -44,7 +44,7 @@ class AudioPlayer extends React.Component {
 		const parentWidth = event.currentTarget.offsetWidth;
 		// Useful values
 		const percentage = (mouseX - parentX) / parentWidth;
-		const duration = this.audioPlayer.current.duration;
+		const duration = this.audioPlayer.current.duration || 0;
 		const newTime = duration * percentage;
 		
 		this.setState({ currentTime: newTime });
