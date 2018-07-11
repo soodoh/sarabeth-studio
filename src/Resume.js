@@ -1,6 +1,7 @@
 import React from 'react';
 import Keys from './keys';
 import Loading from './Loading';
+import { Document, Page } from 'react-pdf/dist/entry.webpack';
 import { withStyles } from '@material-ui/core/styles';
 
 class Resume extends React.Component {
@@ -24,24 +25,29 @@ class Resume extends React.Component {
 	render() {
 		const { classes } = this.props;
 		
-		if(this.state.loading)
-			return <Loading />;
-		
 		return (
-			<object data={this.state.resume}
-			        type='application/pdf'
-			        className={classes.resume}
-			>
-				<a href={this.state.resume}>Sarabeth_Resume.pdf</a>
-			</object>
+			<div className={classes.container}>
+				{this.state.loading &&
+					<Loading />
+				}
+				<Document file={this.state.resume}
+				          className={classes.resume}
+				          loading={<Loading />}
+				>
+					<Page pageNumber={1} />
+				</Document>
+			</div>
 		);
 	}
 }
 
 const styles = theme => ({
+	container: {
+		width: '100%'
+	},
 	resume: {
-		width: '100%',
-		height: `calc(100vh - ${theme.spacing.unit * 20}px)`
+		display: 'flex',
+		justifyContent: 'center'
 	}
 });
 
