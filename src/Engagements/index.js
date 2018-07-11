@@ -24,7 +24,7 @@ class Index extends React.Component {
 	}
 	
 	componentDidMount() {
-		this.client.getEntries({ content_type: 'engagements' }).then(res => {
+		this.client.getEntries({ content_type: 'engagements', order: 'fields.endDate' }).then(res => {
 			this.setState({
 				loading: false,
 				engagements: res.items
@@ -41,7 +41,7 @@ class Index extends React.Component {
 	getPast() {
 		return this.state.engagements.filter(engagement => {
 			return Moment(engagement.fields.endDate).isBefore(Moment());
-		});
+		}).reverse();
 	}
 	
 	render() {

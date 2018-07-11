@@ -25,7 +25,7 @@ const App = props => {
 					<Route path='/audio' component={Wrapper(Audio)} />
 					<Route path='/resume' component={Wrapper(Resume)} />
 					<Route path='/contact' component={Wrapper(Contact)} />
-					<Route component={NotFound} />
+					<Route component={Wrapper(NotFound)} />
 				</Switch>
 			</BrowserRouter>
 		</MuiThemeProvider>

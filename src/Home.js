@@ -8,8 +8,9 @@ import Button from '@material-ui/core/Button';
 
 const Background = props => (
 	<div style={{
-		backgroundImage: `url(${props.url})`,
+		backgroundImage: `url(${props.url}?w=1000)`,
 		backgroundSize: 'cover',
+		backgroundPosition: 'center top',
 		backgroundAttachment: 'fixed',
 		position: 'fixed',
 		top: 0, left: 0, right: 0, bottom: 0,
@@ -77,13 +78,13 @@ class Home extends React.Component {
 const styles = theme => ({
 	container: {
 		display: 'flex',
-		paddingTop: '30vh',
+		paddingTop: '25vh',
 		justifyContent: 'center',
 		alignItems: 'center',
 		flexDirection: 'column'
 	},
 	button: {
-		marginTop: theme.spacing.unit * 7,
+		margin: `${theme.spacing.unit * 7}px 0`,
 		fontSize: '1.2rem',
 	}
 });

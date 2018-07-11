@@ -19,64 +19,65 @@ class Video extends React.Component {
 		const { classes, coverImage, title, onClick } = this.props;
 		
 		return (
-			<div className={classes.videoContainer}
-			     onClick={onClick}
-			     onMouseEnter={() => this.setState({ labelActive: true })}
-			     onMouseLeave={() => this.setState({ labelActive: false })}
-			>
-				<img src={`${coverImage}?w=400`}
-				     alt={title}
-				     className={classes.video}
-				/>
-				<Fade in={detectIt.deviceType === 'touchOnly' || this.state.labelActive}>
-					<GridListTileBar className={classes.label}
-					                 title={<PlayIcon style={{ fontSize: '2.5rem' }} />}
-					                 subtitle={<Typography variant='body2' color='inherit'>{title}</Typography>}
+			<div className={classes.container}>
+				<div className={classes.videoContainer}
+				     onClick={onClick}
+				     onMouseEnter={() => this.setState({ labelActive: true })}
+				     onMouseLeave={() => this.setState({ labelActive: false })}
+				>
+					<img src={`${coverImage}?w=400`}
+					     alt={title}
+					     className={classes.thumbnail}
 					/>
-				</Fade>
+					<Fade in={detectIt.deviceType === 'touchOnly' || this.state.labelActive}>
+						<GridListTileBar className={classes.label}
+						                 title={<PlayIcon style={{ fontSize: '2.5rem' }} />}
+						                 subtitle={<Typography variant='body2' color='inherit'>{title}</Typography>}
+						/>
+					</Fade>
+				</div>
 			</div>
 		);
 	}
 }
 
 const styles = theme => ({
-	video: {
+	thumbnail: {
+		width: `100%`,
+		height: 'auto',
 		verticalAlign: 'top' // Removes bottom gutter for Masonry
 	},
 	videoContainer: {
-		height: 'auto',
-		padding: 0,
-		margin: 0,
-		cursor: 'pointer'
+		position: 'relative',
+		cursor: 'pointer',
+		overflow: 'hidden'
 	},
 	label: {
-		color: theme.palette.common.white,
 		height: '100%',
+		width: '100%',
 		display: 'flex',
 		textAlign: 'center',
 		alignItems: 'center'
 	},
 	// Breakpoints
 	[`@media (min-width: ${theme.breakpoints.values.xs}px)`]: {
-		videoContainer: {
+		container: {
 			width: '50%'
 		},
-		video: {
-			padding: theme.spacing.unit / 2,
-			width: `calc(100% - ${theme.spacing.unit}px)`
+		videoContainer: {
+			margin: theme.spacing.unit / 2
 		}
 	},
 	[`@media (min-width: ${theme.breakpoints.values.md}px)`]: {
-		videoContainer: {
+		container: {
 			width: '33.33%'
 		},
-		video: {
-			padding: theme.spacing.unit * 2,
-			width: `calc(100% - ${theme.spacing.unit * 4}px)`
+		videoContainer: {
+			margin: theme.spacing.unit * 2
 		}
 	},
 	[`@media (min-width: ${theme.breakpoints.values.lg}px)`]: {
-		videoContainer: {
+		container: {
 			width: '25%'
 		}
 	}
