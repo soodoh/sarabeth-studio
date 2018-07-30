@@ -1,10 +1,8 @@
 import React from 'react';
 import Keys from './keys';
 import Loading from './Loading';
-import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 
 const Background = props => (
 	<div style={{
@@ -49,27 +47,12 @@ class Home extends React.Component {
 			<div className={classes.container}>
 				<Background url={this.state.backgroundImage} />
 				
-				<Typography variant='display3'
-				            color='secondary'
-				            align='center'
+				<Typography variant='display1'
+				            className={classes.title}
 				            gutterBottom
 				>
 					{this.state.data.fields.title}
 				</Typography>
-				
-				<Typography variant='display1'
-				            color='secondary'
-				            align='center'
-				            gutterBottom
-				>
-					{this.state.data.fields.subtitle}
-				</Typography>
-				
-				<Link to='/audio' style={{ textDecoration: 'none' }}>
-					<Button variant='outlined' className={classes.button}>
-						{this.state.data.fields.buttonLabel}
-					</Button>
-				</Link>
 			</div>
 		);
 	}
@@ -78,14 +61,12 @@ class Home extends React.Component {
 const styles = theme => ({
 	container: {
 		display: 'flex',
-		paddingTop: '25vh',
-		justifyContent: 'center',
-		alignItems: 'center',
-		flexDirection: 'column'
+		padding: theme.spacing.unit * 3
 	},
-	button: {
-		margin: `${theme.spacing.unit * 7}px 0`,
-		fontSize: '1.2rem',
+	title: {
+		marginTop: -theme.spacing.unit * 2,
+		color: theme.palette.primary.contrastText,
+		fontSize: '1.5rem'
 	}
 });
 

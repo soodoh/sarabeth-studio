@@ -7,6 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import MiniNavigation from './MiniNavigation';
 import Navigation from './Navigation';
+import classNames from 'classnames';
 
 class Header extends React.Component {
 	constructor(props) {
@@ -20,13 +21,19 @@ class Header extends React.Component {
 	
 	render() {
 		const { classes, match } = this.props;
+		const isHome = match.path === '/' && match.isExact;
 		
 		return (
-			<AppBar position='sticky' className={match.path === '/' && match.isExact ? classes.transparent : classes.appBar}>
+			<AppBar position='sticky'
+			        className={classNames({
+				        [classes.transparent]: isHome,
+				        [classes.appBar]: !isHome
+			        })}
+			>
 				<Toolbar>
 					<Typography variant='title' color='inherit' className={classes.brand}>
 						<NavLink to='/'>
-							Sarabeth Belon
+							Sarabeth Belón
 						</NavLink>
 					</Typography>
 					

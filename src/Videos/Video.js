@@ -1,45 +1,27 @@
 import React from 'react';
-import detectIt from "detect-it";
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import Fade from '@material-ui/core/Fade';
 import PlayIcon from 'mdi-material-ui/Play';
 
-class Video extends React.Component {
-	constructor(props) {
-		super(props);
-		
-		this.state = {
-			labelActive: detectIt.deviceType === 'touchOnly'
-		};
-	}
+const Video = (props) => {
+	const { classes, title, onClick } = props;
 	
-	render() {
-		const { classes, coverImage, title, onClick } = this.props;
-		
-		return (
-			<div className={classes.container}>
-				<div className={classes.videoContainer}
-				     onClick={onClick}
-				     onMouseEnter={() => this.setState({ labelActive: true })}
-				     onMouseLeave={() => this.setState({ labelActive: false })}
+	return (
+		<div className={classes.container}>
+			<div className={classes.videoContainer}
+			     onClick={onClick}
+			>
+				<PlayIcon style={{ fontSize: '2.5rem' }} />
+				<Typography variant='body2'
+				            color='inherit'
+				            className={classes.label}
 				>
-					<img src={`${coverImage}?w=400`}
-					     alt={title}
-					     className={classes.thumbnail}
-					/>
-					<Fade in={detectIt.deviceType === 'touchOnly' || this.state.labelActive}>
-						<GridListTileBar className={classes.label}
-						                 title={<PlayIcon style={{ fontSize: '2.5rem' }} />}
-						                 subtitle={<Typography variant='body2' color='inherit'>{title}</Typography>}
-						/>
-					</Fade>
-				</div>
+					{title}
+				</Typography>
 			</div>
-		);
-	}
-}
+		</div>
+	);
+};
 
 const styles = theme => ({
 	thumbnail: {
@@ -50,14 +32,24 @@ const styles = theme => ({
 	videoContainer: {
 		position: 'relative',
 		cursor: 'pointer',
-		overflow: 'hidden'
+		overflow: 'hidden',
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: theme.palette.grey[800],
+		color: theme.palette.primary.contrastText,
+		
+		'&:hover': {
+			color: theme.palette.secondary.main
+		}
 	},
 	label: {
-		height: '100%',
 		width: '100%',
-		display: 'flex',
 		textAlign: 'center',
-		alignItems: 'center'
+		overflow: 'hidden',
+		whiteSpace: 'nowrap',
+		textOverflow: 'ellipsis'
 	},
 	// Breakpoints
 	[`@media (min-width: ${theme.breakpoints.values.xs}px)`]: {
@@ -65,7 +57,8 @@ const styles = theme => ({
 			width: '50%'
 		},
 		videoContainer: {
-			margin: theme.spacing.unit / 2
+			margin: theme.spacing.unit / 2,
+			height: '30vw'
 		}
 	},
 	[`@media (min-width: ${theme.breakpoints.values.md}px)`]: {
@@ -73,12 +66,16 @@ const styles = theme => ({
 			width: '33.33%'
 		},
 		videoContainer: {
-			margin: theme.spacing.unit * 2
+			margin: theme.spacing.unit * 2,
+			height: '20vw'
 		}
 	},
 	[`@media (min-width: ${theme.breakpoints.values.lg}px)`]: {
 		container: {
 			width: '25%'
+		},
+		videoContainer: {
+			height: '15vw'
 		}
 	}
 });

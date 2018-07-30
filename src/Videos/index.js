@@ -54,8 +54,7 @@ export default class Videos extends React.Component {
 		
 		return videos.map(video => ({
 			url: video.fields.link,
-			title: video.fields.label,
-			coverImage: video.fields.coverImage.fields.file.url
+			title: video.fields.label
 		}));
 	}
 	

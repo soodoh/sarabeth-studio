@@ -54,7 +54,8 @@ class Photos extends React.Component {
 		
 		return photos.map(photo => ({
 			title: photo.fields.title,
-			url: photo.fields.file.url
+			src: photo.fields.file.url,
+			caption: photo.fields.description
 		}));
 	}
 	

@@ -4,6 +4,7 @@ import Loading from './Loading';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Markdown from 'react-markdown';
 
 class About extends React.Component {
 	constructor(props) {
@@ -43,9 +44,9 @@ class About extends React.Component {
 						{this.state.data.fields.title}
 					</Typography>
 					
-					<Typography variant='body1' color='inherit'>
+					<Markdown className={classes.bodyText}>
 						{this.state.data.fields.bio}
-					</Typography>
+					</Markdown>
 				</Grid>
 			</Grid>
 		);
@@ -64,6 +65,10 @@ const styles = theme => ({
 	},
 	bio: {
 		paddingLeft: theme.spacing.unit * 2
+	},
+	bodyText: {
+		...theme.typography.body1,
+		color: theme.palette.primary.contrastText
 	}
 });
 

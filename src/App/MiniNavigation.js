@@ -67,7 +67,7 @@ class MiniNavigation extends React.Component {
 						          className={classes.menuLink}
 						          selected={match.path === '/audio'}
 						>
-							Audio
+							Recordings
 						</MenuItem>
 					</NavLink>
 					

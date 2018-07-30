@@ -1,7 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Masonry from 'react-masonry-component';
-import Lightbox from 'react-images';
+import Lightbox from './Lightbox';
 
 class Gallery extends React.Component {
 	constructor(props) {
@@ -19,9 +19,8 @@ class Gallery extends React.Component {
 		return (
 			<Masonry {...other}>
 				<Lightbox
-					images={photos.map(photo => ({ src: photo.url }))}
+					images={photos}
 					isOpen={this.state.photoActive}
-					backdropClosesModal
 					currentImage={this.state.currentPhoto}
 					onClickPrev={() => this.setState({ currentPhoto: this.state.currentPhoto - 1 })}
 					onClickNext={() => this.setState({ currentPhoto: this.state.currentPhoto + 1 })}
@@ -30,7 +29,7 @@ class Gallery extends React.Component {
 				
 				{Array.isArray(photos) && photos.map((photo, index) => (
 					<div className={classes.photoContainer} key={index}>
-						<img src={`${photo.url}?w=400`}
+						<img src={`${photo.src}?w=400`}
 						     alt={photo.title}
 						     className={classes.photo}
 						     onClick={() => this.setState({ photoActive: true, currentPhoto: index })}

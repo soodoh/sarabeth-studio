@@ -1,6 +1,5 @@
 import React from 'react';
 import Video from './Video';
-import Masonry from 'react-masonry-component';
 import Player from 'react-player';
 import { withStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
@@ -21,10 +20,10 @@ class VideoList extends React.Component {
 	}
 	
 	render() {
-		const { classes, videos, ...other } = this.props;
+		const { classes, videos } = this.props;
 		
 		return (
-			<Masonry {...other}>
+			<div className={classes.container}>
 				<Dialog open={this.state.videoActive}
 				        maxWidth='md'
 				        fullWidth
@@ -43,22 +42,26 @@ class VideoList extends React.Component {
 				</Dialog>
 				
 				{Array.isArray(videos) && videos.map((video, index) => (
-					<Video key={index}
-					       coverImage={video.coverImage}
+					<Video key={`video-${index}`}
 					       title={video.title}
 					       onClick={() => this.setState({ currentVideo: index, videoActive: true})}
 					/>
 				))}
-			</Masonry>
+			</div>
 		);
 	}
 }
 
 const styles = {
+	container: {
+		display: 'flex',
+		flexDirection: 'row'
+	},
 	playerContainer: {
 		position: 'relative',
 		paddingTop: '56.25%',
-		overflow: 'hidden'
+		overflow: 'hidden',
+		backgroundColor: 'transparent!important'
 	},
 	player: {
 		position: 'absolute',
