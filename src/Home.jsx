@@ -12,9 +12,8 @@ const Background = props => (
 		backgroundAttachment: 'fixed',
 		position: 'fixed',
 		top: 0, left: 0, right: 0, bottom: 0,
-		zIndex: 0
-	}}>
-	</div>
+		zIndex: 0,
+	}} />
 );
 
 class Home extends React.Component {
@@ -27,31 +26,33 @@ class Home extends React.Component {
 	}
 
 	componentDidMount() {
-		this.client.getEntries({ content_type: 'home' }).then(res => {
+		this.client.getEntries({ content_type: 'home' }).then((res) => {
 			const data = res.items[0];
 			this.setState({
 				loading: false,
 				data,
-				backgroundImage: data.fields.background.fields.file.url
+				backgroundImage: data.fields.background.fields.file.url,
 			});
 		});
 	}
 
 	render() {
+    const { loading, backgroundImage, data } = this.state;
 		const { classes } = this.props;
 
-		if(this.state.loading)
+		if(loading)
 			return <Loading />;
 
 		return (
 			<div className={classes.container}>
-				<Background url={this.state.backgroundImage} />
+				<Background url={backgroundImage} />
 
-				<Typography variant='h4'
-				            className={classes.title}
-				            gutterBottom
+				<Typography
+          variant="h4"
+          className={classes.title}
+          gutterBottom
 				>
-					{this.state.data.fields.title}
+					{data.fields.title}
 				</Typography>
 			</div>
 		);
@@ -61,13 +62,13 @@ class Home extends React.Component {
 const styles = theme => ({
 	container: {
 		display: 'flex',
-		padding: theme.spacing.unit * 3
+		padding: theme.spacing.unit * 3,
 	},
 	title: {
 		marginTop: -theme.spacing.unit * 2,
 		color: theme.palette.primary.contrastText,
-		fontSize: '1.5rem'
-	}
+		fontSize: '1.5rem',
+	},
 });
 
 export default withStyles(styles)(Home);

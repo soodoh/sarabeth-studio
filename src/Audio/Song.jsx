@@ -3,17 +3,17 @@ import AudioPlayer from './AudioPlayer';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
-const Song = props => {
+const SongCore = props => {
 	const { classes, title, subtitle, url } = props;
 
 	return (
 		<div className={classes.container}>
 			<div className={classes.metadata}>
-				<Typography variant='body2' className={classes.title}>
+				<Typography variant="body2" className={classes.title}>
 					{title}
 				</Typography>
 
-				<Typography variant='body2' className={classes.subtitle}>
+				<Typography variant="body2" className={classes.subtitle}>
 					{subtitle}
 				</Typography>
 			</div>
@@ -25,18 +25,18 @@ const Song = props => {
 
 const styles = theme => ({
 	container: {
-		marginTop: theme.spacing.unit * 2
+		marginTop: theme.spacing.unit * 2,
 	},
 	metadata: {
-		display: 'flex'
+		display: 'flex',
 	},
 	title: {
-		color: theme.palette.secondary.main
+		color: theme.palette.secondary.main,
 	},
 	subtitle: {
 		color: theme.palette.primary.contrastText,
-		marginLeft: theme.spacing.unit * 2
-	}
+		marginLeft: theme.spacing.unit * 2,
+	},
 });
 
-export default withStyles(styles)(Song);
+export default withStyles(styles)(SongCore);

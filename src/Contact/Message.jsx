@@ -9,10 +9,9 @@ import ErrorIcon from 'mdi-material-ui/AlertCircle';
 import SuccessIcon from 'mdi-material-ui/CheckCircle';
 import IconButton from '@material-ui/core/IconButton';
 
-
-const Message = props => {
+const MessageCore = props => {
 	const { classes, open, onClose, success } = props;
-	
+
 	return (
 		<Snackbar
 			anchorOrigin={{
@@ -39,9 +38,9 @@ const Message = props => {
 				}
 				action={[
 					<IconButton
-						key='close'
-						aria-label='Close'
-						color='inherit'
+						key="close"
+						aria-label="Close"
+						color="inherit"
 						onClick={onClose}
 					>
 						<CloseIcon />
@@ -55,17 +54,17 @@ const Message = props => {
 const styles = theme => ({
 	message: {
 		display: 'flex',
-		alignItems: 'center'
+		alignItems: 'center',
 	},
 	icon: {
-		marginRight: theme.spacing.unit
+		marginRight: theme.spacing.unit,
 	},
 	success: {
 		backgroundColor: green[600],
 	},
 	error: {
 		backgroundColor: theme.palette.error.dark,
-	}
+	},
 });
 
-export default withStyles(styles)(Message);
+export default withStyles(styles)(MessageCore);

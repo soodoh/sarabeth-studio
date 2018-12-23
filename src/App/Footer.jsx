@@ -3,25 +3,25 @@ import { withStyles } from '@material-ui/core/styles';
 import SocialMedia from '../SocialMedia';
 import Typography from '@material-ui/core/Typography';
 
-const Footer = props => {
+const FooterCore = props => {
 	const { classes } = props;
-	
+
 	return (
 		<footer className={classes.footer}>
 			<section className={classes.content}>
-				<Typography variant='caption' color='inherit'>
+				<Typography variant="caption" color="inherit">
 					Copyright &copy; {new Date().getFullYear()} Sarabeth Belon
 				</Typography>
-				
+
 				<div className={classes.buttons}>
 					<SocialMedia />
 				</div>
-				
+
 				<div>
-					<Typography variant='caption' color='inherit'>
+					<Typography variant="caption" color="inherit">
 						Designed by Carolyn DiLoreto
 					</Typography>
-					<Typography variant='caption' color='inherit'>
+					<Typography variant="caption" color="inherit">
 						Developed by Paul DiLoreto
 					</Typography>
 				</div>
@@ -37,7 +37,7 @@ const styles = theme => ({
 		position: 'absolute',
 		bottom: 0,
 		zIndex: 1,
-		color: theme.palette.primary.contrastText
+		color: theme.palette.primary.contrastText,
 	},
 	content: {
 		display: 'flex',
@@ -46,7 +46,7 @@ const styles = theme => ({
 		flexWrap: 'wrap',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		padding: `0 ${theme.spacing.unit * 2}px`
+		padding: `0 ${theme.spacing.unit * 2}px`,
 	},
 	[`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
 		content: {
@@ -54,8 +54,8 @@ const styles = theme => ({
 			alignItems: 'center',
 			justifyContent: 'center',
 			flexWrap: 'nowrap'
-		}
-	}
+		},
+	},
 });
 
-export default withStyles(styles)(Footer);
+export default withStyles(styles)(FooterCore);

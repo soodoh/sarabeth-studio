@@ -1,5 +1,5 @@
 import React from 'react';
-import Keys from './keys';
+import { uid } from 'react-uid';
 import { withStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import Instagram from 'mdi-material-ui/Instagram';
@@ -9,6 +9,7 @@ import Youtube from 'mdi-material-ui/Youtube';
 import Linkedin from 'mdi-material-ui/Linkedin';
 import Twitter from 'mdi-material-ui/Twitter';
 import Email from 'mdi-material-ui/Email';
+import Keys from './keys';
 
 function renderIcon(icon) {
 	switch(icon) {
@@ -27,7 +28,7 @@ function renderIcon(icon) {
 		case 'Twitter':
 			return <Twitter />;
 		default:
-			return <div></div>;
+			return <div />;
 	}
 }
 
@@ -41,12 +42,12 @@ const ButtonBase = props => (
 
 const buttonStyles = theme => ({
 	button: {
-		margin: theme.spacing.unit
-	}
+		margin: theme.spacing.unit,
+	},
 });
 const SocialMediaButton = withStyles(buttonStyles)(ButtonBase);
 
-class SocialMedia extends React.Component {
+class SocialMediaCore extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -58,20 +59,19 @@ class SocialMedia extends React.Component {
 
 	componentDidMount() {
 		this.client.getEntries({ content_type: 'socialMedia', order: 'fields.order' }).then(res => {
-			this.setState({
-				icons: res.items
-			});
+			this.setState({ icons: res.items });
 		});
 	}
 
 	render() {
+    const { icons } = this.state;
 		const { classes } = this.props;
 
 		return (
 			<div className={classes.container}>
-				{this.state.icons.map((icon, index) => (
+				{icons.map(icon => (
           <SocialMediaButton
-            key={index}
+            key={uid(icon)}
             url={icon.fields.link}
             icon={icon.fields.source}
 					/>
@@ -85,8 +85,8 @@ const styles = {
 	container: {
 		display: 'flex',
 		justifyContent: 'center',
-		flexWrap: 'wrap'
-	}
+		flexWrap: 'wrap',
+	},
 };
 
-export default withStyles(styles)(SocialMedia);
+export default withStyles(styles)(SocialMediaCore);

@@ -4,7 +4,7 @@ import Header from './Header';
 import Footer from './Footer';
 
 // So that router props.match is passed to Header
-const Wrapper = Component => {
+const Wrapper = (Component) => {
 	const styles = theme => ({
 		container: {
 			position: 'relative',
@@ -15,23 +15,23 @@ const Wrapper = Component => {
 			paddingBottom: theme.spacing.unit * 11
 		}
 	});
-	
-	const Content = props => {
+
+	const Content = (props) => {
 		const { classes } = props;
-		
+
 		return (
 			<div className={classes.container}>
 				<Header />
-				
+
 				<section className={classes.content}>
 					<Component />
 				</section>
-				
+
 				<Footer />
 			</div>
 		);
 	};
-	
+
 	return withStyles(styles)(Content);
 };
 

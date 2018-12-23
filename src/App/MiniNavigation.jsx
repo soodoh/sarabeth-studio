@@ -6,7 +6,7 @@ import MenuIcon from 'mdi-material-ui/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
-class MiniNavigation extends React.Component {
+class MiniNavigationCore extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -14,13 +14,14 @@ class MiniNavigation extends React.Component {
 	}
 
 	render() {
-		const { classes, match } = this.props;
+    const { classes, match } = this.props;
+    const { menuAnchor } = this.state;
 
 		return (
 			<div>
 				<Fab
           size="small"
-          aria-owns={this.state.menuAnchor ? 'Navigation' : null}
+          aria-owns={menuAnchor ? 'Navigation' : null}
           aria-haspopup="true"
           color="secondary"
           classes={{root: classes.button}}
@@ -29,62 +30,69 @@ class MiniNavigation extends React.Component {
 					<MenuIcon />
 				</Fab>
 
-				<Menu id="Navigation"
-				      classes={{ paper: classes.menu }}
-				      anchorEl={this.state.menuAnchor}
-				      open={!!this.state.menuAnchor}
-				      onEnter={() => document.activeElement.blur()}
-				      onClose={() => this.setState({ menuAnchor: null })}
+				<Menu
+          id="Navigation"
+          classes={{ paper: classes.menu }}
+          anchorEl={menuAnchor}
+          open={!!menuAnchor}
+          onEnter={() => document.activeElement.blur()}
+          onClose={() => this.setState({ menuAnchor: null })}
 				>
 					<NavLink to='/about' style={{ textDecoration: 'none' }}>
-						<MenuItem onClick={() => this.setState({ menuAnchor: null })}
-						          className={classes.menuLink}
-						          selected={match.path === '/about'}
+						<MenuItem
+              onClick={() => this.setState({ menuAnchor: null })}
+              className={classes.menuLink}
+              selected={match.path === '/about'}
 						>
 							About
 						</MenuItem>
 					</NavLink>
 
 					<NavLink to='/engagements' style={{ textDecoration: 'none' }}>
-						<MenuItem onClick={() => this.setState({ menuAnchor: null })}
-						          className={classes.menuLink}
-						          selected={match.path === '/engagements'}
+						<MenuItem
+              onClick={() => this.setState({ menuAnchor: null })}
+              className={classes.menuLink}
+              selected={match.path === '/engagements'}
 						>
 							Engagements
 						</MenuItem>
 					</NavLink>
 
 					<NavLink to='/photos' style={{ textDecoration: 'none' }}>
-						<MenuItem onClick={() => this.setState({ menuAnchor: null })}
-						          className={classes.menuLink}
-						          selected={match.path === '/photos'}
+						<MenuItem
+              onClick={() => this.setState({ menuAnchor: null })}
+              className={classes.menuLink}
+              selected={match.path === '/photos'}
 						>
 							Photos
 						</MenuItem>
 					</NavLink>
 
 					<NavLink to='/audio' style={{ textDecoration: 'none' }}>
-						<MenuItem onClick={() => this.setState({ menuAnchor: null })}
-						          className={classes.menuLink}
-						          selected={match.path === '/audio'}
+						<MenuItem
+              onClick={() => this.setState({ menuAnchor: null })}
+              className={classes.menuLink}
+              selected={match.path === '/audio'}
 						>
 							Recordings
 						</MenuItem>
 					</NavLink>
 
 					<NavLink to='/resume' style={{ textDecoration: 'none' }}>
-						<MenuItem onClick={() => this.setState({ menuAnchor: null })}
-						          className={classes.menuLink}
-						          selected={match.path === '/resume'}
+						<MenuItem
+              onClick={() => this.setState({ menuAnchor: null })}
+              className={classes.menuLink}
+              selected={match.path === '/resume'}
 						>
 							Resume
 						</MenuItem>
 					</NavLink>
 
 					<NavLink to='/contact' style={{ textDecoration: 'none' }}>
-						<MenuItem onClick={() => this.setState({ menuAnchor: null })}
-						          className={classes.menuLink}
-						          selected={match.path === '/contact'}
+						<MenuItem
+              onClick={() => this.setState({ menuAnchor: null })}
+              className={classes.menuLink}
+              selected={match.path === '/contact'}
 						>
 							Contact
 						</MenuItem>
@@ -104,7 +112,7 @@ const styles = theme => ({
 
 		'&:focus': {
 			backgroundColor: 'transparent'
-		}
+		},
 	},
 	menu: {
 		backgroundColor: theme.palette.primary.dark,
@@ -113,7 +121,7 @@ const styles = theme => ({
 	menuLink: {
 		color: theme.palette.primary.contrastText,
 		textTransform: 'uppercase'
-	}
+	},
 });
 
-export default withStyles(styles)(MiniNavigation);
+export default withStyles(styles)(MiniNavigationCore);

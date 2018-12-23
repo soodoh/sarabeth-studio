@@ -9,7 +9,7 @@ import MiniNavigation from './MiniNavigation';
 import Navigation from './Navigation';
 import classNames from 'classnames';
 
-class Header extends React.Component {
+class HeaderCore extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -24,15 +24,20 @@ class Header extends React.Component {
 		const isHome = match.path === '/' && match.isExact;
 
 		return (
-			<AppBar position='sticky'
-			        className={classNames({
-				        [classes.transparent]: isHome,
-				        [classes.appBar]: !isHome
-			        })}
+      <AppBar
+        position="sticky"
+        className={classNames({
+          [classes.transparent]: isHome,
+          [classes.appBar]: !isHome
+        })}
 			>
 				<Toolbar>
-					<Typography variant='h6' color='inherit' className={classes.brand}>
-						<NavLink to='/'>
+					<Typography
+            className={classes.brand}
+            variant="h6"
+            color="inherit"
+          >
+						<NavLink to="/">
 							Sarabeth Belón
 						</NavLink>
 					</Typography>
@@ -51,11 +56,11 @@ class Header extends React.Component {
 
 const styles = theme => ({
 	appBar: {
-		backgroundColor: theme.palette.primary.main
+		backgroundColor: theme.palette.primary.main,
 	},
 	transparent: {
 		backgroundColor: 'transparent',
-		boxShadow: 'none'
+		boxShadow: 'none',
 	},
 	brand: {
 		display: 'flex',
@@ -65,10 +70,10 @@ const styles = theme => ({
 
 		'& a': {
 			textDecoration: 'none',
-			color: 'inherit'
-		}
+			color: 'inherit',
+		},
 	},
 
 });
 
-export default withRouter(withStyles(styles)(Header));
+export default withRouter(withStyles(styles)(HeaderCore));

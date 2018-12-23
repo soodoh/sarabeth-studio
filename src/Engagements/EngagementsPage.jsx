@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-class Index extends React.Component {
+class EngagementsPageCore extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -19,7 +19,7 @@ class Index extends React.Component {
 
 		this.state = {
 			engagements: [],
-			loading: true
+			loading: true,
 		};
 	}
 
@@ -27,7 +27,7 @@ class Index extends React.Component {
 		this.client.getEntries({ content_type: 'engagements', order: 'fields.endDate' }).then(res => {
 			this.setState({
 				loading: false,
-				engagements: res.items
+				engagements: res.items,
 			});
 		});
 	}
@@ -71,7 +71,7 @@ class Index extends React.Component {
 				<Grid item xs={12}>
 					{past ?
 						<List data={past} /> :
-						<Typography variant='h5' color='inherit' align='center'>
+						<Typography variant="h5" color="inherit" align="center">
 							There are currently no engagements
 						</Typography>
 					}
@@ -85,8 +85,8 @@ const styles = theme => ({
 	container: {
 		width: '100%',
 		padding: theme.spacing.unit * 4,
-		color: theme.palette.primary.contrastText
-	}
+		color: theme.palette.primary.contrastText,
+	},
 });
 
-export default withStyles(styles)(Index);
+export default withStyles(styles)(EngagementsPageCore);

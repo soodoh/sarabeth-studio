@@ -1,13 +1,13 @@
 import React from 'react';
-import Keys from './keys';
-import Loading from './Loading';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Keys from './keys';
+import Loading from './Loading';
 
 const PdfError = props => (
 	<div>
 		<Typography
-      variant='h5'
+      variant="h5"
       align="center"
       color="secondary"
       gutterBottom
@@ -17,7 +17,7 @@ const PdfError = props => (
 	</div>
 );
 
-class Resume extends React.Component {
+class ResumeCore extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -32,6 +32,7 @@ class Resume extends React.Component {
 
 			window.location.href = resumeUrl;
 		}).catch((err) => {
+      console.error(err);
       this.setState({ error: true, loading: false })
     });
 	}
@@ -62,17 +63,17 @@ const styles = theme => ({
 	},
 	link: {
 		color: theme.palette.primary.contrastText,
-		textAlign: 'center'
+		textAlign: 'center',
 	},
 	button: {
 		position: 'absolute',
 		top: 0, left: 0,
-		margin: theme.spacing.unit
+		margin: theme.spacing.unit,
 	},
 	resume: {
 		display: 'flex',
-		justifyContent: 'center'
-	}
+		justifyContent: 'center',
+	},
 });
 
-export default withStyles(styles)(Resume);
+export default withStyles(styles)(ResumeCore);

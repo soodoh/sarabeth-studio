@@ -1,38 +1,44 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import { uid } from 'react-uid';
 import Masonry from 'react-masonry-component';
 import Lightbox from './Lightbox';
 
-class Gallery extends React.Component {
+class GalleryCore extends React.Component {
 	constructor(props) {
 		super(props);
-		
+
 		this.state = {
 			photoActive: false,
-			currentPhoto: 0
+			currentPhoto: 0,
 		};
 	}
-	
+
 	render() {
-		const { classes, photos, ...other } = this.props;
-		
+    const { classes, photos, ...other } = this.props;
+    const { photoActive, currentPhoto } = this.state;
+
 		return (
 			<Masonry {...other}>
 				<Lightbox
 					images={photos}
-					isOpen={this.state.photoActive}
-					currentImage={this.state.currentPhoto}
-					onClickPrev={() => this.setState({ currentPhoto: this.state.currentPhoto - 1 })}
-					onClickNext={() => this.setState({ currentPhoto: this.state.currentPhoto + 1 })}
+					isOpen={photoActive}
+					currentImage={currentPhoto}
+					onClickPrev={() => this.setState({ currentPhoto: currentPhoto - 1 })}
+					onClickNext={() => this.setState({ currentPhoto: currentPhoto + 1 })}
 					onClose={() => this.setState({ photoActive: false })}
 				/>
-				
+
 				{Array.isArray(photos) && photos.map((photo, index) => (
-					<div className={classes.photoContainer} key={index}>
-						<img src={`${photo.src}?w=400`}
-						     alt={photo.title}
-						     className={classes.photo}
-						     onClick={() => this.setState({ photoActive: true, currentPhoto: index })}
+          <div
+            className={classes.photoContainer}
+            key={uid(photo)}
+          >
+						<img
+              src={`${photo.src}?w=400`}
+              alt={photo.title}
+              className={classes.photo}
+              onClick={() => this.setState({ photoActive: true, currentPhoto: index })}
 						/>
 					</div>
 				))}
@@ -46,29 +52,29 @@ const styles = theme => ({
 		padding: theme.spacing.unit * 2,
 		width: `calc(100% - ${theme.spacing.unit * 4}px)`,
 		cursor: 'pointer',
-		verticalAlign: 'top' // Removes bottom gutter for Masonry
+		verticalAlign: 'top', // Removes bottom gutter for Masonry
 	},
 	photoContainer: {
 		height: 'auto',
 		padding: 0,
-		margin: 0
+		margin: 0,
 	},
 	// Breakpoints
 	[`@media (min-width: ${theme.breakpoints.values.xs}px)`]: {
 		photoContainer: {
-			width: '50%'
-		}
+			width: '50%',
+		},
 	},
 	[`@media (min-width: ${theme.breakpoints.values.md}px)`]: {
 		photoContainer: {
-			width: '33.33%'
-		}
+			width: '33.33%',
+		},
 	},
 	[`@media (min-width: ${theme.breakpoints.values.lg}px)`]: {
 		photoContainer: {
-			width: '25%'
-		}
-	}
+			width: '25%',
+		},
+	},
 });
 
-export default withStyles(styles)(Gallery);
+export default withStyles(styles)(GalleryCore);

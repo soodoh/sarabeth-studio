@@ -1,11 +1,11 @@
 import React from 'react';
-import Videos from './Videos';
-import Audio from './Audio';
+import Videos from './Videos/VideosPage';
+import Audio from './Audio/AudioPage';
 import { withStyles } from '@material-ui/core/styles';
 
-const Media = props => {
+const MediaCore = (props) => {
 	const { classes } = props;
-	
+
 	return (
 		<div className={classes.container}>
 			<Videos />
@@ -16,8 +16,8 @@ const Media = props => {
 
 const styles = theme => ({
 	container: {
-		padding: theme.spacing.unit * 4
-	}
+		padding: theme.spacing.unit * 4,
+	},
 });
 
-export default withStyles(styles)(Media);
+export default withStyles(styles)(MediaCore);
