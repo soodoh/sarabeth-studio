@@ -8,7 +8,7 @@ import Pause from 'mdi-material-ui/Pause';
 class AudioPlayer extends React.Component {
 	constructor(props) {
 		super(props);
-		
+
 		this.state = {
 			isPlaying: false,
 			currentTime: 0
@@ -18,7 +18,7 @@ class AudioPlayer extends React.Component {
 		this.formatTimecode = this.formatTimecode.bind(this);
 		this.seekTime = this.seekTime.bind(this);
 	}
-	
+
 	togglePlayer() {
 		if(this.state.isPlaying) {
 			this.audioPlayer.current.pause();
@@ -27,16 +27,16 @@ class AudioPlayer extends React.Component {
 		}
 		this.setState({ isPlaying: !this.state.isPlaying });
 	}
-	
+
 	formatTimecode(time) {
 		const minutes = (Math.floor(time / 60) || 0)
 			.toString().padStart(2, '0');
 		const seconds = (Math.floor(time % 60) || 0)
 			.toString().padStart(2, '0');
-		
+
 		return `${minutes}:${seconds}`;
 	}
-	
+
 	seekTime(event) {
 		// Page X calculations
 		const mouseX = event.pageX;
@@ -46,15 +46,15 @@ class AudioPlayer extends React.Component {
 		const percentage = (mouseX - parentX) / parentWidth;
 		const duration = this.audioPlayer.current.duration || 0;
 		const newTime = duration * percentage;
-		
+
 		this.setState({ currentTime: newTime });
 		this.audioPlayer.current.currentTime = newTime;
 	}
-	
+
 	render() {
 		const { classes, url } = this.props;
 		const duration = this.audioPlayer.current ? this.audioPlayer.current.duration : 1;
-		
+
 		return (
 			<div className={classes.container}>
 				<div>
@@ -64,18 +64,18 @@ class AudioPlayer extends React.Component {
 						<source src={url} type="audio/mp3" />
 					</audio>
 				</div>
-				
+
 				<div className={classes.button}
 				     onClick={this.togglePlayer}>
 					{this.state.isPlaying ?
 						<Pause /> : <Play />
 					}
 				</div>
-				
-				<Typography variant='body2' color='inherit' className={classes.timecode}>
+
+				<Typography variant='body1' color='inherit' className={classes.timecode}>
 					{this.formatTimecode(this.state.currentTime)}
 				</Typography>
-				
+
 				<LinearProgress classes={{ root: classes.progress, bar1Determinate: classes.progressBar }}
 				                onClick={this.seekTime}
 				                variant='determinate'

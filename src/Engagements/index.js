@@ -11,18 +11,18 @@ import Typography from '@material-ui/core/Typography';
 class Index extends React.Component {
 	constructor(props) {
 		super(props);
-		
+
 		const Contentful = require('contentful');
 		this.client = Contentful.createClient(Keys);
 		this.getUpcoming = this.getUpcoming.bind(this);
 		this.getPast = this.getPast.bind(this);
-		
+
 		this.state = {
 			engagements: [],
 			loading: true
 		};
 	}
-	
+
 	componentDidMount() {
 		this.client.getEntries({ content_type: 'engagements', order: 'fields.endDate' }).then(res => {
 			this.setState({
@@ -31,27 +31,27 @@ class Index extends React.Component {
 			});
 		});
 	}
-	
+
 	getUpcoming() {
 		return this.state.engagements.filter(engagement => {
 			return Moment(engagement.fields.endDate).isAfter(Moment());
 		});
 	}
-	
+
 	getPast() {
 		return this.state.engagements.filter(engagement => {
 			return Moment(engagement.fields.endDate).isBefore(Moment());
 		}).reverse();
 	}
-	
+
 	render() {
 		const { classes } = this.props;
 		const upcoming = this.getUpcoming();
 		const past = this.getPast();
-		
+
 		if(this.state.loading)
 			return <Loading />;
-		
+
 		return (
 			<Grid container spacing={8} className={classes.container}>
 				{upcoming &&
@@ -64,14 +64,14 @@ class Index extends React.Component {
 						</Grid>
 					</Grid>
 				}
-				
+
 				<Grid item xs={12}>
 					<Title>Past</Title>
 				</Grid>
 				<Grid item xs={12}>
 					{past ?
 						<List data={past} /> :
-						<Typography variant='headline' color='inherit' align='center'>
+						<Typography variant='h5' color='inherit' align='center'>
 							There are currently no engagements
 						</Typography>
 					}

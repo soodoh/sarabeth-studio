@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 
 const Title = props => (
 	<div className={props.classes.container}>
-		<Typography variant='display1' className={props.classes.title}>
+		<Typography variant='h4' className={props.classes.title}>
 			{props.children}
 		</Typography>
 	</div>

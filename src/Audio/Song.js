@@ -5,19 +5,19 @@ import Typography from '@material-ui/core/Typography';
 
 const Song = props => {
 	const { classes, title, subtitle, url } = props;
-	
+
 	return (
 		<div className={classes.container}>
 			<div className={classes.metadata}>
 				<Typography variant='body2' className={classes.title}>
 					{title}
 				</Typography>
-				
+
 				<Typography variant='body2' className={classes.subtitle}>
 					{subtitle}
 				</Typography>
 			</div>
-			
+
 			<AudioPlayer url={url} />
 		</div>
 	);

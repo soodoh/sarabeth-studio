@@ -12,17 +12,17 @@ import classNames from 'classnames';
 class Header extends React.Component {
 	constructor(props) {
 		super(props);
-		
+
 		this.state = {
 			menuAnchor: null,
 			mediaAnchor: null
 		};
 	}
-	
+
 	render() {
 		const { classes, match } = this.props;
 		const isHome = match.path === '/' && match.isExact;
-		
+
 		return (
 			<AppBar position='sticky'
 			        className={classNames({
@@ -31,12 +31,12 @@ class Header extends React.Component {
 			        })}
 			>
 				<Toolbar>
-					<Typography variant='title' color='inherit' className={classes.brand}>
+					<Typography variant='h6' color='inherit' className={classes.brand}>
 						<NavLink to='/'>
 							Sarabeth Belón
 						</NavLink>
 					</Typography>
-					
+
 					<Hidden smDown>
 						<Navigation match={match} />
 					</Hidden>
@@ -62,13 +62,13 @@ const styles = theme => ({
 		flex: 1,
 		alignItems: 'center',
 		fontSize: '2rem',
-		
+
 		'& a': {
 			textDecoration: 'none',
 			color: 'inherit'
 		}
 	},
-	
+
 });
 
 export default withRouter(withStyles(styles)(Header));

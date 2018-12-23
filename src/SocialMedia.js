@@ -1,7 +1,7 @@
 import React from 'react';
 import Keys from './keys';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
 import Instagram from 'mdi-material-ui/Instagram';
 import Facebook from 'mdi-material-ui/Facebook';
 import Soundcloud from 'mdi-material-ui/Soundcloud';
@@ -33,9 +33,9 @@ function renderIcon(icon) {
 
 const ButtonBase = props => (
 	<a href={props.icon === 'Email' ? `mailto:${props.url}` : props.url} style={{ color: 'inherit' }}>
-		<Button variant='fab' mini className={props.classes.button}>
+		<Fab size="small" className={props.classes.button}>
 			{renderIcon(props.icon)}
-		</Button>
+		</Fab>
 	</a>
 );
 
@@ -49,13 +49,13 @@ const SocialMediaButton = withStyles(buttonStyles)(ButtonBase);
 class SocialMedia extends React.Component {
 	constructor(props) {
 		super(props);
-		
+
 		const Contentful = require('contentful');
 		this.client = Contentful.createClient(Keys);
-		
+
 		this.state = { icons: [] };
 	}
-	
+
 	componentDidMount() {
 		this.client.getEntries({ content_type: 'socialMedia', order: 'fields.order' }).then(res => {
 			this.setState({
@@ -63,16 +63,17 @@ class SocialMedia extends React.Component {
 			});
 		});
 	}
-	
+
 	render() {
 		const { classes } = this.props;
-		
+
 		return (
 			<div className={classes.container}>
 				{this.state.icons.map((icon, index) => (
-					<SocialMediaButton key={index}
-					                   url={icon.fields.link}
-					                   icon={icon.fields.source}
+          <SocialMediaButton
+            key={index}
+            url={icon.fields.link}
+            icon={icon.fields.source}
 					/>
 				))}
 			</div>

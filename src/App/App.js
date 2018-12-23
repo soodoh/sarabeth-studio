@@ -1,5 +1,5 @@
 import React from 'react';
-import './index.css';
+import './App.css';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import Theme from './Theme';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -13,7 +13,7 @@ import Audio from '../Media';
 import Resume from '../Resume';
 import Contact from '../Contact';
 
-const App = props => {
+const App = (props) => {
 	return (
 		<MuiThemeProvider theme={Theme}>
 			<BrowserRouter>

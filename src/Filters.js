@@ -5,12 +5,12 @@ import Button from '@material-ui/core/Button';
 
 const Filters = props => {
 	const { classes, list, activeItem, onClick } = props;
-	
+
 	return (
 		<div className={classes.buttonGroup}>
 			{list.map((item, index) => (
 				<Button key={`${item}-${index}`}
-				        variant='raised'
+				        variant='contained'
 				        className={classNames(classes.button, { [classes.active]: activeItem === item })}
 				        onClick={() => onClick(item)}
 				>
@@ -34,14 +34,14 @@ const styles = theme => ({
 		color: theme.palette.primary.contrastText,
 		borderRadius: 0,
 		margin: theme.spacing.unit,
-		
+
 		'&:hover': {
 			backgroundColor: 'transparent'
 		}
 	},
 	active: {
 		backgroundColor: theme.palette.primary.main,
-		
+
 		'&:hover': {
 			backgroundColor: theme.palette.primary.light
 		}

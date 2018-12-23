@@ -20,12 +20,12 @@ const Background = props => (
 class Home extends React.Component {
 	constructor(props) {
 		super(props);
-		
+
 		const Contentful = require('contentful');
 		this.client = Contentful.createClient(Keys);
 		this.state = { loading: true };
 	}
-	
+
 	componentDidMount() {
 		this.client.getEntries({ content_type: 'home' }).then(res => {
 			const data = res.items[0];
@@ -36,18 +36,18 @@ class Home extends React.Component {
 			});
 		});
 	}
-	
+
 	render() {
 		const { classes } = this.props;
-		
+
 		if(this.state.loading)
 			return <Loading />;
-			
+
 		return (
 			<div className={classes.container}>
 				<Background url={this.state.backgroundImage} />
-				
-				<Typography variant='display1'
+
+				<Typography variant='h4'
 				            className={classes.title}
 				            gutterBottom
 				>

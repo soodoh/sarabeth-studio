@@ -9,12 +9,12 @@ import Markdown from 'react-markdown';
 class About extends React.Component {
 	constructor(props) {
 		super(props);
-		
+
 		const Contentful = require('contentful');
 		this.client = Contentful.createClient(Keys);
 		this.state = { loading: true };
 	}
-	
+
 	componentDidMount() {
 		this.client.getEntries({ content_type: 'about' }).then(res => {
 			this.setState({
@@ -23,13 +23,13 @@ class About extends React.Component {
 			})
 		});
 	}
-	
+
 	render() {
 		const { classes } = this.props;
-		
+
 		if(this.state.loading)
 			return <Loading />;
-		
+
 		return (
 			<Grid container spacing={16} className={classes.container}>
 				<Grid item xs={12} sm={6} md={4}>
@@ -38,12 +38,12 @@ class About extends React.Component {
 					     className={classes.headshot}
 					/>
 				</Grid>
-				
+
 				<Grid item xs={12} sm={6} md={8} className={classes.bio}>
-					<Typography variant='display3' color='secondary' gutterBottom>
+					<Typography variant='h2' color='secondary' gutterBottom>
 						{this.state.data.fields.title}
 					</Typography>
-					
+
 					<Markdown className={classes.bodyText}>
 						{this.state.data.fields.bio}
 					</Markdown>

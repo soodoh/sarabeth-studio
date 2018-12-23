@@ -10,35 +10,35 @@ const Engagement = props => {
 	const isUpcoming = Moment(data.fields.endDate).isAfter(Moment());
 	const startDate = Moment(data.fields.startDate).format('MMMM Do');
 	const endDate = Moment(data.fields.endDate).format('MMMM Do, YYYY');
-	
+
 	return (
 		<Grid container
 		      spacing={8}
 		      className={classes.container}
 		>
 			<Grid item xs={12} sm={4}>
-				<Typography variant='title' color='inherit' className={classes.prefix}>
+				<Typography variant='h6' color='inherit' className={classes.prefix}>
 					Performing as
 				</Typography>
-				<Typography variant='headline' color='inherit'>
+				<Typography variant='h5' color='inherit'>
 					{data.fields.role}
 				</Typography>
 			</Grid>
-			
+
 			<Grid item xs={12} sm={6}>
-				<Typography variant='headline' color='inherit'>
+				<Typography variant='h5' color='inherit'>
 					{data.fields.label}
 				</Typography>
-				
-				<Typography variant='subheading' color='inherit'>
+
+				<Typography variant='subtitle1' color='inherit'>
 					{data.fields.company}
 				</Typography>
-				
+
 				<Typography variant='body2' color='inherit'>
 					{`${startDate} - ${endDate}`}
 				</Typography>
 			</Grid>
-			
+
 			<Grid item xs={12} sm={2}>
 				<Button variant='outlined'
 				        onClick={() => window.location.href=data.fields.link}

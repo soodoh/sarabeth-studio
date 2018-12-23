@@ -28,8 +28,9 @@ const theme = createMuiTheme({
 		secondary
 	},
 	typography: {
+    useNextVariants: true,
 		fontFamily: `'Muli', sans-serif`,
-		display1: {
+		h4: {
 			fontFamily: `'Playfair Display', cursive`,
 			fontStyle: 'italic'
 		},
