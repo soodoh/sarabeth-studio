@@ -14,14 +14,6 @@
     "email-validator": "^2.0.4",
     "gatsby": "^2.0.76",
     "gatsby-image": "^2.0.13",
-    "gatsby-plugin-layout": "^1.0.11",
-    "gatsby-plugin-react-helmet": "^3.0.0",
-    "gatsby-plugin-remove-trailing-slashes": "^2.0.6",
-    "gatsby-plugin-sharp": "^2.0.6",
-    "gatsby-plugin-web-font-loader": "^1.0.4",
-    "gatsby-source-contentful": "^2.0.2",
-    "gatsby-transformer-remark": "^2.1.6",
-    "gatsby-transformer-sharp": "^2.0.6",
     "lodash": "^4.17.11",
     "mdi-material-ui": "^5.7.0",
     "moment": "^2.23.0",
@@ -32,10 +24,10 @@
     "react-images": "^0.5.19",
     "react-masonry-component": "^6.2.1",
     "react-player": "^1.8.0",
-    "react-uid": "^2.2.0",
-    "sharp": "^0.21.0"
+    "react-uid": "^2.2.0"
   },
   "devDependencies": {
+    "@wapps/gatsby-plugin-material-ui": "^1.1.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.11.0",
     "eslint-config-airbnb": "^17.1.0",
@@ -43,7 +35,16 @@
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
     "gatsby-plugin-eslint": "^2.0.1",
-    "yargs-parser": "^11.0.0"
+    "gatsby-plugin-layout": "^1.0.11",
+    "gatsby-plugin-manifest": "^2.0.12",
+    "gatsby-plugin-offline": "^2.0.20",
+    "gatsby-plugin-react-helmet": "^3.0.5",
+    "gatsby-plugin-remove-trailing-slashes": "^2.0.6",
+    "gatsby-plugin-sharp": "^2.0.17",
+    "gatsby-plugin-web-font-loader": "^1.0.4",
+    "gatsby-source-contentful": "^2.0.22",
+    "gatsby-transformer-remark": "^2.1.17",
+    "gatsby-transformer-sharp": "^2.1.9"
   },
   "homepage": "https://github.com/contentful-userland/gatsby-contentful-starter#readme",
   "keywords": [

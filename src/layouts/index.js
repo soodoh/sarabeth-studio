@@ -1,1 +1,1 @@
-export { default } from '../components/Layout/ThemeWrapper';
+export { default } from '../components/Layout/Layout';

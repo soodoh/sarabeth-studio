@@ -1,5 +1,5 @@
-import grey from '@material-ui/core/colors/grey';
-import { createMuiTheme } from '@material-ui/core/styles';
+// Using Require because gatsby-config uses this file
+const grey = require('@material-ui/core/colors/grey');
 
 const primary = {
   light: '#E8C3B8',
@@ -15,7 +15,7 @@ const secondary = {
   contrastText: '#1A1A1A',
 };
 
-const theme = createMuiTheme({
+const rawTheme = {
   palette: {
     primary,
     secondary,
@@ -74,6 +74,6 @@ const theme = createMuiTheme({
       },
     },
   },
-});
+};
 
-export default theme;
+module.exports = rawTheme;
