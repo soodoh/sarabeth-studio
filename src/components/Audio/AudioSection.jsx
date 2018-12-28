@@ -96,10 +96,10 @@ export default () => (
         allContentfulAudioGroups(sort: {fields: [label], order: ASC}) {
           edges{
             node{
-              label,
+              label
               audioFiles{
-                title,
-                subtitle,
+                title
+                subtitle
                 audio {
                   file {
                     url

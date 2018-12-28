@@ -38,7 +38,11 @@ const ButtonBase = (props) => {
 
   return (
     <a href={icon === 'Email' ? `mailto:${url}` : url} style={{ color: 'inherit' }}>
-      <Fab size="small" className={classes.button}>
+      <Fab
+        size="small"
+        aria-label={icon}
+        className={classes.button}
+      >
         {renderIcon(icon)}
       </Fab>
     </a>

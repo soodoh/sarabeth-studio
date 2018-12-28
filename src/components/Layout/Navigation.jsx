@@ -42,6 +42,7 @@ class NavigationCore extends React.Component {
         <div
           aria-owns={menuAnchor ? 'Media-Menu' : null}
           aria-haspopup="true"
+          aria-label="Media Menu"
           style={{ cursor: 'pointer' }}
         >
           <div

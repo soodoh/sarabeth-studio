@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { navigate } from 'gatsby';
 import { withStyles } from '@material-ui/core/styles';
-import { Link } from 'gatsby';
 import Fab from '@material-ui/core/Fab';
 import MenuIcon from 'mdi-material-ui/Menu';
 import Menu from '@material-ui/core/Menu';
@@ -24,6 +24,7 @@ class MiniNavigationCore extends React.Component {
           size="small"
           aria-owns={menuAnchor ? 'Navigation' : null}
           aria-haspopup="true"
+          aria-label="Navigation Menu"
           color="secondary"
           classes={{ root: classes.button }}
           onClick={event => this.setState({ menuAnchor: event.currentTarget })}
@@ -39,45 +40,57 @@ class MiniNavigationCore extends React.Component {
           onEnter={() => global.document.activeElement.blur()}
           onClose={() => this.setState({ menuAnchor: null })}
         >
-          <Link to="/about" style={{ textDecoration: 'none' }}>
-            <MenuItem
-              onClick={() => this.setState({ menuAnchor: null })}
-              className={classes.menuLink}
-              selected={location.pathname === '/about'}
-            >
+          {/* <Link to="/about" style={{ textDecoration: 'none' }}> */}
+          <MenuItem
+            onClick={() => {
+              this.setState({ menuAnchor: null });
+              navigate('/about');
+            }}
+            className={classes.menuLink}
+            selected={location.pathname === '/about'}
+          >
               About
-            </MenuItem>
-          </Link>
+          </MenuItem>
+          {/* </Link> */}
 
-          <Link to="/engagements" style={{ textDecoration: 'none' }}>
-            <MenuItem
-              onClick={() => this.setState({ menuAnchor: null })}
-              className={classes.menuLink}
-              selected={location.pathname === '/engagements'}
-            >
+          {/* <Link to="/engagements" style={{ textDecoration: 'none' }}> */}
+          <MenuItem
+            onClick={() => {
+              this.setState({ menuAnchor: null });
+              navigate('/engagements');
+            }}
+            className={classes.menuLink}
+            selected={location.pathname === '/engagements'}
+          >
               Engagements
-            </MenuItem>
-          </Link>
+          </MenuItem>
+          {/* </Link> */}
 
-          <Link to="/photos" style={{ textDecoration: 'none' }}>
-            <MenuItem
-              onClick={() => this.setState({ menuAnchor: null })}
-              className={classes.menuLink}
-              selected={location.pathname === '/photos'}
-            >
+          {/* <Link to="/photos" style={{ textDecoration: 'none' }}> */}
+          <MenuItem
+            onClick={() => {
+              this.setState({ menuAnchor: null });
+              navigate('/photos');
+            }}
+            className={classes.menuLink}
+            selected={location.pathname === '/photos'}
+          >
               Photos
-            </MenuItem>
-          </Link>
+          </MenuItem>
+          {/* </Link> */}
 
-          <Link to="/media" style={{ textDecoration: 'none' }}>
-            <MenuItem
-              onClick={() => this.setState({ menuAnchor: null })}
-              className={classes.menuLink}
-              selected={location.pathname === '/media'}
-            >
+          {/* <Link to="/media" style={{ textDecoration: 'none' }}> */}
+          <MenuItem
+            onClick={() => {
+              this.setState({ menuAnchor: null });
+              navigate('/media');
+            }}
+            className={classes.menuLink}
+            selected={location.pathname === '/media'}
+          >
               Recordings
-            </MenuItem>
-          </Link>
+          </MenuItem>
+          {/* </Link> */}
 
           <a href={resume} style={{ textDecoration: 'none' }}>
             <MenuItem
@@ -89,15 +102,18 @@ class MiniNavigationCore extends React.Component {
             </MenuItem>
           </a>
 
-          <Link to="/contact" style={{ textDecoration: 'none' }}>
-            <MenuItem
-              onClick={() => this.setState({ menuAnchor: null })}
-              className={classes.menuLink}
-              selected={location.pathname === '/contact'}
-            >
+          {/* <Link to="/contact" style={{ textDecoration: 'none' }}> */}
+          <MenuItem
+            onClick={() => {
+              this.setState({ menuAnchor: null });
+              navigate('/contact');
+            }}
+            className={classes.menuLink}
+            selected={location.pathname === '/contact'}
+          >
               Contact
-            </MenuItem>
-          </Link>
+          </MenuItem>
+          {/* </Link> */}
         </Menu>
       </div>
     );

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Metadata from '../components/Layout/Metadata';
 import Gallery from '../components/Photos/Gallery';
 import Title from '../components/common/Title';
 import Filters from '../components/common/Filters';
@@ -48,25 +49,32 @@ class PhotosCore extends React.Component {
     const { currentAlbum } = this.state;
 
     return (
-      <Grid container spacing={8} className={classes.container}>
-        <Grid item xs={12}>
-          <Title>Photos</Title>
-        </Grid>
+      <React.Fragment>
+        <Metadata
+          title="Sarabeth Photos"
+          description="Sarabeth Belón's photo gallery. View pictures from past performances, professional headshots and more. Photo credits included when viewing higher resolution images."
+        />
 
-        {albums.length > 1
+        <Grid container spacing={8} className={classes.container}>
+          <Grid item xs={12}>
+            <Title>Photos</Title>
+          </Grid>
+
+          {albums.length > 1
           && (
-          <Filters
-            list={this.getAlbums()}
-            activeItem={currentAlbum}
-            onClick={album => this.setState({ currentAlbum: album })}
-          />
+            <Filters
+              list={this.getAlbums()}
+              activeItem={currentAlbum}
+              onClick={album => this.setState({ currentAlbum: album })}
+            />
           )
         }
 
-        <Grid item xs={12}>
-          <Gallery photos={this.getPhotos()} />
+          <Grid item xs={12}>
+            <Gallery photos={this.getPhotos()} />
+          </Grid>
         </Grid>
-      </Grid>
+      </React.Fragment>
     );
   }
 }
@@ -99,7 +107,7 @@ export default () => (
                 title
                 description
                 fullSize: fluid(maxWidth: 1920) {
-                  src
+                  srcWebp
                   srcSetWebp
                 }
                 thumbnail: fluid(maxWidth: 600) {

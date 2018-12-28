@@ -3,45 +3,31 @@ import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-
-const Background = (props) => {
-  const { url } = props;
-
-  return (
-    <div style={{
-      backgroundImage: `url("${url}")`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center top',
-      backgroundAttachment: 'fixed',
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      zIndex: 0,
-    }}
-    />
-  );
-};
-Background.propTypes = {
-  url: PropTypes.string.isRequired,
-};
+import Metadata from '../components/Layout/Metadata';
+import Background from '../components/Layout/Background';
 
 const HomePageCore = (props) => {
   const { classes, data } = props;
 
   return (
-    <div className={classes.container}>
-      <Background url={data.background.fluid.srcWebp} />
+    <React.Fragment>
+      <Metadata
+        title="Sarabeth Belón: Portfolio"
+        description="Sarabeth Belón: Opera Singer in Los Angeles. See upcoming engagements, recordings, photos and contact for future gigs or for private voice & piano lessons."
+      />
+      <Background sizes={data.background.fluid} />
 
-      <Typography
-        variant="h4"
-        className={classes.title}
-        gutterBottom
-      >
-        {data.title}
-      </Typography>
-    </div>
+      <div className={classes.container}>
+        <Typography
+          variant="h4"
+          className={classes.title}
+          gutterBottom
+        >
+          {data.title}
+        </Typography>
+      </div>
+    </React.Fragment>
+
   );
 };
 
@@ -52,6 +38,7 @@ HomePageCore.propTypes = {
 
 const styles = theme => ({
   container: {
+    position: 'relative',
     display: 'flex',
     padding: theme.spacing.unit * 3,
   },
@@ -72,11 +59,7 @@ export default () => (
           title,
           background {
             fluid(maxWidth:1920) {
-              src,
-              sizes,
-              srcWebp,
-              srcSet,
-              srcSetWebp
+              ...GatsbyContentfulFluid_withWebp
             }
           },
         }

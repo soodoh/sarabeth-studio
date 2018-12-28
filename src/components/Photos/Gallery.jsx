@@ -24,9 +24,10 @@ class GalleryCore extends React.Component {
       <Masonry {...other}>
         <Lightbox
           images={photos.map(photo => ({
-            src: photo.fullSize.src,
+            src: photo.fullSize.srcWebp,
             srcSet: photo.fullSize.srcSetWebp,
             caption: photo.description,
+            alt: `${photo.title} (Full Resolution)`,
           }))}
           isOpen={photoActive}
           currentImage={currentPhoto}
@@ -41,6 +42,7 @@ class GalleryCore extends React.Component {
             <div
               key={uid(photo)}
               role="button"
+              aria-label={`Open Photo #${index} "${photo.title}"`}
               tabIndex={0}
               className={classes.photoContainer}
               onClick={onClick}
@@ -51,8 +53,8 @@ class GalleryCore extends React.Component {
               }}
             >
               <Img
-                sizes={photo.thumbnail}
-                alt={photo.title}
+                fluid={photo.thumbnail}
+                alt={`${photo.title} #${index} Thumbnail`}
                 className={classes.photo}
               />
             </div>
@@ -68,9 +70,7 @@ GalleryCore.propTypes = {
   photos: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
-      fullSize: PropTypes.shape({
-        src: PropTypes.string.isRequired,
-      }).isRequired,
+      fullSize: PropTypes.object.isRequired,
       thumbnail: PropTypes.object.isRequired,
       description: PropTypes.string,
     }),

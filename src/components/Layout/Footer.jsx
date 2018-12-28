@@ -47,7 +47,7 @@ const styles = theme => ({
   footer: {
     flexShrink: 0,
     width: '100%',
-    height: theme.spacing.unit * 11,
+    height: 'auto',
     zIndex: 1,
     color: theme.palette.primary.contrastText,
   },

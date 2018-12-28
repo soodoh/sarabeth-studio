@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Validator from 'email-validator';
+import Metadata from '../components/Layout/Metadata';
 import Title from '../components/common/Title';
 import Form from '../components/Contact/Form';
 import MessageStatus from '../components/Contact/MessageStatus';
@@ -119,38 +120,45 @@ class ContactCore extends React.Component {
     };
 
     return (
-      <Grid container spacing={8} className={classes.container}>
-        <Grid item xs={12}>
-          <Title>Contact Sarabeth</Title>
-        </Grid>
-
-        <Form
-          values={values}
-          validations={validations}
-          onChange={this.handleChange}
+      <React.Fragment>
+        <Metadata
+          title="Contact Sarabeth"
+          description="Send an email to Sarabeth for any questions or to follow up with upcoming singing gigs. Feel free to reach out if interested in private voice or piano lessons."
         />
 
-        <Grid item xs={12}>
-          {loading
-            ? <CircularProgress color="secondary" className={classes.loading} />
-            : (
-              <Button
-                variant="outlined"
-                className={classes.button}
-                onClick={this.submit}
-              >
+        <Grid container spacing={8} className={classes.container}>
+          <Grid item xs={12}>
+            <Title>Contact Sarabeth</Title>
+          </Grid>
+
+          <Form
+            values={values}
+            validations={validations}
+            onChange={this.handleChange}
+          />
+
+          <Grid item xs={12}>
+            {loading
+              ? <CircularProgress color="secondary" className={classes.loading} />
+              : (
+                <Button
+                  variant="outlined"
+                  className={classes.button}
+                  onClick={this.submit}
+                >
                 Submit
-              </Button>
-            )
+                </Button>
+              )
           }
-        </Grid>
+          </Grid>
 
-        <MessageStatus
-          open={messageOpen}
-          onClose={this.messageClose}
-          success={submitSuccess}
-        />
-      </Grid>
+          <MessageStatus
+            open={messageOpen}
+            onClose={this.messageClose}
+            success={submitSuccess}
+          />
+        </Grid>
+      </React.Fragment>
     );
   }
 }

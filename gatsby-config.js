@@ -22,12 +22,18 @@ module.exports = {
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
     'gatsby-plugin-react-helmet',
-    'gatsby-plugin-offline',
+    // 'gatsby-plugin-offline',
+    {
+      resolve: 'gatsby-plugin-web-font-loader',
+      options: {
+        google: {
+          families: ['Playfair Display', 'Muli'],
+        },
+      },
+    },
     {
       resolve: '@wapps/gatsby-plugin-material-ui',
-      options: {
-        theme,
-      },
+      options: { theme },
     },
     {
       resolve: 'gatsby-plugin-manifest',
@@ -41,14 +47,6 @@ module.exports = {
         // see https://developers.google.com/web/fundamentals/web-app-manifest/#display
         display: 'standalone',
         icon: 'src/images/favicon.png', // This path is relative to the root of the site.
-      },
-    },
-    {
-      resolve: 'gatsby-plugin-web-font-loader',
-      options: {
-        google: {
-          families: ['Playfair Display', 'Muli'],
-        },
       },
     },
     {

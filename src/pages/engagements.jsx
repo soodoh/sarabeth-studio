@@ -5,6 +5,7 @@ import Moment from 'moment';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Metadata from '../components/Layout/Metadata';
 import Title from '../components/common/Title';
 import List from '../components/Engagements/EngagementList';
 
@@ -13,14 +14,20 @@ const EngagementsCore = (props) => {
 
   const upcoming = data.filter(engagement => (
     Moment(engagement.endDate).isAfter(Moment())
-  ));
+  )).reverse();
   const past = data.filter(engagement => (
     Moment(engagement.endDate).isBefore(Moment())
-  )).reverse();
+  ));
 
   return (
-    <Grid container spacing={8} className={classes.container}>
-      {upcoming
+    <React.Fragment>
+      <Metadata
+        title="Sarabeth's Engagements"
+        description="View past and upcoming engagements where Sarabeth Belón will be performing. Location, venue, dates and the link to buy tickets is listed for each event."
+      />
+
+      <Grid container spacing={8} className={classes.container}>
+        {upcoming
         && (
         <Grid item xs={12}>
           <Grid item xs={12}>
@@ -33,20 +40,21 @@ const EngagementsCore = (props) => {
         )
       }
 
-      <Grid item xs={12}>
-        <Title>Past</Title>
-      </Grid>
-      <Grid item xs={12}>
-        {past
-          ? <List data={past} />
-          : (
-            <Typography variant="h5" color="inherit" align="center">
+        <Grid item xs={12}>
+          <Title>Past</Title>
+        </Grid>
+        <Grid item xs={12}>
+          {past
+            ? <List data={past} />
+            : (
+              <Typography variant="h5" color="inherit" align="center">
               There are currently no engagements
-            </Typography>
-          )
+              </Typography>
+            )
         }
+        </Grid>
       </Grid>
-    </Grid>
+    </React.Fragment>
   );
 };
 EngagementsCore.propTypes = {
@@ -70,14 +78,14 @@ export default () => (
   <StaticQuery
     query={graphql`
       query EngagementQuery {
-        allContentfulEngagements{
-          edges{
-            node{
-              endDate,
-              startDate,
-              role,
-              label,
-              company,
+        allContentfulEngagements(sort: {fields: [endDate], order: DESC}) {
+          edges {
+            node {
+              endDate
+              startDate
+              role
+              label
+              company
               link
             }
           }

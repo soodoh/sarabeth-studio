@@ -5,29 +5,41 @@ import Img from 'gatsby-image';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Metadata from '../components/Layout/Metadata';
 
 export const AboutCore = (props) => {
   const { classes, data } = props;
   const bioHtml = data.bio.childMarkdownRemark.html;
 
   return (
-    <Grid container spacing={16} className={classes.container}>
-      <Grid item xs={12} sm={6} md={4}>
-        <Img sizes={data.headshot.fluid} />
-      </Grid>
+    <React.Fragment>
+      <Metadata
+        title="About Sarabeth"
+        description="Sarabeth Belón is a San Diego native and UCLA alumnus . Based in LA County, she is available for hire as a professional singer and voice & piano teacher."
+      />
 
-      <Grid item xs={12} sm={6} md={8} className={classes.bio}>
-        <Typography variant="h2" color="secondary" gutterBottom>
-          {data.title}
-        </Typography>
+      <Grid container spacing={16} className={classes.container}>
+        <Grid item xs={12} sm={6} md={4}>
+          <Img
+            fluid={data.headshot.fluid}
+            title="Sarabeth Portrait"
+            alt="Sarabeth Belón Headshot"
+          />
+        </Grid>
 
-        <div
-          className={classes.bodyText}
+        <Grid item xs={12} sm={6} md={8} className={classes.bio}>
+          <Typography variant="h2" color="secondary" gutterBottom>
+            {data.title}
+          </Typography>
+
+          <div
+            className={classes.bodyText}
           // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: bioHtml }}
-        />
+            dangerouslySetInnerHTML={{ __html: bioHtml }}
+          />
+        </Grid>
       </Grid>
-    </Grid>
+    </React.Fragment>
   );
 };
 AboutCore.propTypes = {
@@ -44,10 +56,6 @@ const styles = theme => ({
     color: theme.palette.primary.contrastText,
     padding: theme.spacing.unit * 2,
     width: '100%',
-  },
-  headshot: {
-    width: '100%',
-    maxWidth: '400px',
   },
   bio: {
     paddingLeft: theme.spacing.unit * 2,
