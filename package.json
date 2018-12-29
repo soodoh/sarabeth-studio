@@ -1,6 +1,6 @@
 {
   "name": "sarabeth-portfolio",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "private": true,
   "author": "Paul DiLoreto <paul.diloreto@gmail.com>",
   "bugs": {
@@ -51,7 +51,9 @@
     "gatsby",
     "contentful",
     "react",
-    "aws"
+    "aws",
+    "netlify",
+    "serverless"
   ],
   "license": "MIT",
   "main": "n/a",

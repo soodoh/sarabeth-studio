@@ -48,7 +48,7 @@ const EngagementCore = (props) => {
       <Grid item xs={12} sm={2}>
         <Button
           variant="outlined"
-          onClick={() => { global.window.location.href = data.link; }}
+          onClick={() => { window.location.href = data.link; }}
         >
           {isUpcoming ? 'Buy Tickets' : 'Learn More'}
         </Button>

@@ -22,6 +22,7 @@ module.exports = {
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
     'gatsby-plugin-react-helmet',
+    'gatsby-plugin-remove-serviceworker',
     // 'gatsby-plugin-offline',
     {
       resolve: 'gatsby-plugin-web-font-loader',

@@ -64,7 +64,7 @@ class NavigationCore extends React.Component {
             classes={{ paper: classes.menu }}
             anchorEl={menuAnchor}
             open={!!menuAnchor}
-            onEnter={() => global.document.activeElement.blur()}
+            onEnter={() => document.activeElement.blur()}
             onClose={() => this.setState({ menuAnchor: null })}
             value={0}
           >

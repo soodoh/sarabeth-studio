@@ -37,10 +37,9 @@ class MiniNavigationCore extends React.Component {
           classes={{ paper: classes.menu }}
           anchorEl={menuAnchor}
           open={!!menuAnchor}
-          onEnter={() => global.document.activeElement.blur()}
+          onEnter={() => document.activeElement.blur()}
           onClose={() => this.setState({ menuAnchor: null })}
         >
-          {/* <Link to="/about" style={{ textDecoration: 'none' }}> */}
           <MenuItem
             onClick={() => {
               this.setState({ menuAnchor: null });
@@ -51,9 +50,7 @@ class MiniNavigationCore extends React.Component {
           >
               About
           </MenuItem>
-          {/* </Link> */}
 
-          {/* <Link to="/engagements" style={{ textDecoration: 'none' }}> */}
           <MenuItem
             onClick={() => {
               this.setState({ menuAnchor: null });
@@ -64,9 +61,7 @@ class MiniNavigationCore extends React.Component {
           >
               Engagements
           </MenuItem>
-          {/* </Link> */}
 
-          {/* <Link to="/photos" style={{ textDecoration: 'none' }}> */}
           <MenuItem
             onClick={() => {
               this.setState({ menuAnchor: null });
@@ -77,9 +72,7 @@ class MiniNavigationCore extends React.Component {
           >
               Photos
           </MenuItem>
-          {/* </Link> */}
 
-          {/* <Link to="/media" style={{ textDecoration: 'none' }}> */}
           <MenuItem
             onClick={() => {
               this.setState({ menuAnchor: null });
@@ -90,7 +83,6 @@ class MiniNavigationCore extends React.Component {
           >
               Recordings
           </MenuItem>
-          {/* </Link> */}
 
           <a href={resume} style={{ textDecoration: 'none' }}>
             <MenuItem
@@ -102,7 +94,6 @@ class MiniNavigationCore extends React.Component {
             </MenuItem>
           </a>
 
-          {/* <Link to="/contact" style={{ textDecoration: 'none' }}> */}
           <MenuItem
             onClick={() => {
               this.setState({ menuAnchor: null });
@@ -113,7 +104,6 @@ class MiniNavigationCore extends React.Component {
           >
               Contact
           </MenuItem>
-          {/* </Link> */}
         </Menu>
       </div>
     );
