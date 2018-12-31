@@ -47,7 +47,7 @@ class GalleryCore extends React.Component {
               className={classes.photoContainer}
               onClick={onClick}
               onKeyPress={(event) => {
-                if (event.keyCode === 13) {
+                if (event.charCode === 13) {
                   onClick();
                 }
               }}

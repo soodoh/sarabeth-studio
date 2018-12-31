@@ -51,7 +51,7 @@ class NavigationCore extends React.Component {
             className={classes.link}
             onClick={this.openMenu}
             onKeyPress={(event) => {
-              if (event.keyCode === 13) {
+              if (event.charCode === 13) {
                 this.openMenu(event);
               }
             }}
