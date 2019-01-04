@@ -107,8 +107,7 @@ export default () => (
                 title
                 description
                 fullSize: fluid(maxWidth: 1920) {
-                  srcWebp
-                  srcSetWebp
+                  ...GatsbyContentfulFluid_withWebp
                 }
                 thumbnail: fluid(maxWidth: 600) {
                   ...GatsbyContentfulFluid_withWebp
