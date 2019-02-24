@@ -68,7 +68,6 @@ const styles = theme => ({
   container: {
     width: '100%',
     padding: theme.spacing.unit * 4,
-    color: theme.palette.primary.contrastText,
   },
 });
 

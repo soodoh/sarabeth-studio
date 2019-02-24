@@ -8,7 +8,7 @@ const TitleCore = (props) => {
 
   return (
     <div className={classes.container}>
-      <Typography variant="h4" className={classes.title}>
+      <Typography variant="h3" className={classes.title}>
         {children}
       </Typography>
     </div>
@@ -29,6 +29,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.secondary.main,
     color: theme.palette.secondary.contrastText,
     padding: `${theme.spacing.unit}px ${theme.spacing.unit * 4}px`,
+    fontSize: '2rem',
   },
 });
 

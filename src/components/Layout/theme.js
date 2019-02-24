@@ -26,16 +26,35 @@ const rawTheme = {
   typography: {
     useNextVariants: true,
     fontFamily: '\'Muli\', sans-serif',
-    h4: {
+    h1: {
+      color: primary.main,
+      fontFamily: '\'Muli\', sans-serif',
+      fontSize: '3.75rem',
+    },
+    h2: {
+      color: secondary.main,
+      paddingBottom: '1.5rem',
+      fontFamily: '\'Muli\', sans-serif',
+      fontSize: '2rem',
+    },
+    h3: {
       fontFamily: '\'Playfair Display\', cursive',
       fontStyle: 'italic',
     },
-    title: {
-      fontFamily: '\'Playfair Display\', cursive',
+    h4: {
+      color: secondary.light,
+      fontSize: '1.5rem',
+      textTransform: 'uppercase',
+      paddingBottom: 0,
+      margin: 0,
     },
     body1: {
-      fontSize: '1.2rem',
+      fontSize: '1rem',
       paddingBottom: '1.5rem',
+      color: primary.contrastText,
+    },
+    subtitle1: {
+      color: primary.contrastText,
     },
   },
   overrides: {

@@ -19,7 +19,6 @@ const HomePageCore = (props) => {
 
       <div className={classes.container}>
         <Typography
-          variant="h4"
           className={classes.title}
           gutterBottom
         >
@@ -43,9 +42,11 @@ const styles = theme => ({
     padding: theme.spacing.unit * 3,
   },
   title: {
-    marginTop: -theme.spacing.unit * 2,
+    marginTop: theme.spacing.unit * -2,
     color: theme.palette.primary.contrastText,
     fontSize: '1.5rem',
+    fontFamily: theme.typography.h3.fontFamily,
+    fontStyle: 'italic',
   },
 });
 

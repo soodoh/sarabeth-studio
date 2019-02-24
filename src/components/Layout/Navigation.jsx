@@ -93,6 +93,14 @@ class NavigationCore extends React.Component {
           </Menu>
         </div>
 
+        <Link
+          to="/lessons"
+          className={classes.link}
+          activeClassName={classes.active}
+        >
+          Lessons
+        </Link>
+
         <a href={resume} className={classes.link}>
           Resume
         </a>

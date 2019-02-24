@@ -84,6 +84,17 @@ class MiniNavigationCore extends React.Component {
               Recordings
           </MenuItem>
 
+          <MenuItem
+            onClick={() => {
+              this.setState({ menuAnchor: null });
+              navigate('/lessons');
+            }}
+            className={classes.menuLink}
+            selected={location.pathname === '/lessons'}
+          >
+            Lessons
+          </MenuItem>
+
           <a href={resume} style={{ textDecoration: 'none' }}>
             <MenuItem
               onClick={() => this.setState({ menuAnchor: null })}

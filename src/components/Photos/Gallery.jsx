@@ -80,6 +80,7 @@ GalleryCore.propTypes = {
 const styles = theme => ({
   photo: {
     margin: theme.spacing.unit * 2,
+    cursor: 'pointer',
   },
   photoContainer: {
     height: 'auto',

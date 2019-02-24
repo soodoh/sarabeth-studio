@@ -28,7 +28,7 @@ export const AboutCore = (props) => {
         </Grid>
 
         <Grid item xs={12} sm={6} md={8} className={classes.bio}>
-          <Typography variant="h2" color="secondary" gutterBottom>
+          <Typography variant="h1" color="secondary" gutterBottom>
             {data.title}
           </Typography>
 
@@ -53,7 +53,6 @@ AboutCore.propTypes = {
 
 const styles = theme => ({
   container: {
-    color: theme.palette.primary.contrastText,
     padding: theme.spacing.unit * 2,
     width: '100%',
   },
@@ -62,7 +61,7 @@ const styles = theme => ({
   },
   bodyText: {
     ...theme.typography.body1,
-    color: theme.palette.primary.contrastText,
+    fontSize: '1.2rem',
   },
 });
 
