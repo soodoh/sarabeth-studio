@@ -55,6 +55,9 @@ const styles = theme => ({
   container: {
     padding: theme.spacing.unit * 2,
     width: '100%',
+    [`@media (min-width: ${theme.breakpoints.values.md}px)`]: {
+      padding: `${theme.spacing.unit * 2}px 10vw`,
+    },
   },
   bio: {
     paddingLeft: theme.spacing.unit * 2,

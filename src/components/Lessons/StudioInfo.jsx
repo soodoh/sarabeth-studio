@@ -108,6 +108,9 @@ StudioInfo.propTypes = {
 const styles = theme => ({
   container: {
     padding: theme.spacing.unit * 4,
+    [`@media (min-width: ${theme.breakpoints.values.md}px)`]: {
+      padding: `${theme.spacing.unit * 4}px 10vw`,
+    },
   },
   content: {
     ...theme.typography.body1,

@@ -36,6 +36,9 @@ const styles = theme => ({
     position: 'relative',
     minHeight: '50vh',
     padding: `${theme.spacing.unit * 4}px ${theme.spacing.unit * 2}px`,
+    [`@media (min-width: ${theme.breakpoints.values.md}px)`]: {
+      padding: `${theme.spacing.unit * 4}px 10vw`,
+    },
   },
   background: {
     filter: 'brightness(20%)',

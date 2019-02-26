@@ -114,6 +114,9 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     padding: `0 ${theme.spacing.unit * 2}px`,
+    [`@media (min-width: ${theme.breakpoints.values.md}px)`]: {
+      padding: '0 10vw',
+    },
   },
   blurbContent: {
     display: 'flex',

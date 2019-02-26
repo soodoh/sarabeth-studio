@@ -172,6 +172,9 @@ const styles = theme => ({
   container: {
     width: '100%',
     padding: theme.spacing.unit * 4,
+    [`@media (min-width: ${theme.breakpoints.values.md}px)`]: {
+      padding: `${theme.spacing.unit * 4}px 20vw`,
+    },
   },
   button: {
     marginTop: theme.spacing.unit * 2,
