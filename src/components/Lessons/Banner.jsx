@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { navigate } from 'gatsby';
 import ReactSvg from 'react-svg';
 import { withStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
@@ -10,7 +11,7 @@ import Title from '../common/Title';
 const Banner = (props) => {
   const {
     classes, mainPhoto, voiceLessonsSvg, voiceLessons,
-    pianoLessonsSvg, pianoLessons,
+    pianoLessonsSvg, pianoLessons, aboutRef, infoRef,
   } = props;
 
   return (
@@ -27,21 +28,21 @@ const Banner = (props) => {
           <Button
             variant="outlined"
             className={classes.bannerButton}
-            onClick={() => {}}
+            onClick={() => navigate('contact')}
           >
             Book a Lesson
           </Button>
           <Button
             variant="outlined"
             className={classes.bannerButton}
-            onClick={() => {}}
+            onClick={() => window.scrollTo(0, aboutRef.current.offsetTop - 100)}
           >
             Teaching Philosophy
           </Button>
           <Button
             variant="outlined"
             className={classes.bannerButton}
-            onClick={() => {}}
+            onClick={() => window.scrollTo(0, infoRef.current.offsetTop - 100)}
           >
             View Rates
           </Button>
@@ -84,6 +85,8 @@ Banner.propTypes = {
   voiceLessons: PropTypes.string.isRequired,
   pianoLessonsSvg: PropTypes.string.isRequired,
   pianoLessons: PropTypes.string.isRequired,
+  aboutRef: PropTypes.shape({}).isRequired,
+  infoRef: PropTypes.shape({}).isRequired,
 };
 
 const styles = theme => ({

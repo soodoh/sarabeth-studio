@@ -18,7 +18,7 @@ export const AboutCore = (props) => {
         description="Sarabeth Belón is a San Diego native and UCLA alumnus . Based in LA County, she is available for hire as a professional singer and voice & piano teacher."
       />
 
-      <Grid container spacing={16} className={classes.container}>
+      <Grid container spacing={40} className={classes.container}>
         <Grid item xs={12} sm={6} md={4}>
           <Img
             fluid={data.headshot.fluid}
@@ -34,7 +34,7 @@ export const AboutCore = (props) => {
 
           <div
             className={classes.bodyText}
-          // eslint-disable-next-line react/no-danger
+            // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{ __html: bioHtml }}
           />
         </Grid>

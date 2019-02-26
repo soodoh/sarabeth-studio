@@ -8,46 +8,59 @@ import About from '../components/Lessons/About';
 import LessonsInfo from '../components/Lessons/LessonsInfo';
 import StudioInfo from '../components/Lessons/StudioInfo';
 
-const LessonsCore = (props) => {
-  const {
-    classes, location, contact, reviewLink, voiceLessons,
-    pianoLessons, teachingResume, availability, mainDescription,
-    aboutDescription, mainPhoto, aboutPhoto, photoGallery,
-    voiceLessonsSvg, pianoLessonsSvg,
-  } = props;
+class LessonsCore extends React.Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <>
-      <Banner
-        mainPhoto={mainPhoto}
-        voiceLessons={voiceLessons}
-        pianoLessons={pianoLessons}
-        voiceLessonsSvg={voiceLessonsSvg}
-        pianoLessonsSvg={pianoLessonsSvg}
-      />
+    this.aboutRef = React.createRef();
+    this.infoRef = React.createRef();
+  }
 
-      <About
-        aboutPhoto={aboutPhoto}
-        aboutDescription={aboutDescription}
-      />
+  render() {
+    const {
+      classes, location, contact, reviewLink, voiceLessons,
+      pianoLessons, teachingResume, availability, mainDescription,
+      aboutDescription, mainPhoto, aboutPhoto, photoGallery,
+      voiceLessonsSvg, pianoLessonsSvg,
+    } = this.props;
 
-      <LessonsInfo
-        mainDescription={mainDescription}
-        availability={availability}
-        contact={contact}
-        location={location}
-        reviewLink={reviewLink}
-      />
+    return (
+      <>
+        <Banner
+          aboutRef={this.aboutRef}
+          infoRef={this.infoRef}
+          mainPhoto={mainPhoto}
+          voiceLessons={voiceLessons}
+          pianoLessons={pianoLessons}
+          voiceLessonsSvg={voiceLessonsSvg}
+          pianoLessonsSvg={pianoLessonsSvg}
+        />
 
-      <Divider className={classes.divider} />
+        <div ref={this.aboutRef} />
+        <About
+          aboutPhoto={aboutPhoto}
+          aboutDescription={aboutDescription}
+        />
 
-      <StudioInfo
-        teachingResume={teachingResume}
-        photoGallery={photoGallery}
-      />
-    </>
-  );
-};
+        <div ref={this.infoRef} />
+        <LessonsInfo
+          mainDescription={mainDescription}
+          availability={availability}
+          contact={contact}
+          location={location}
+          reviewLink={reviewLink}
+        />
+
+        <Divider className={classes.divider} />
+
+        <StudioInfo
+          teachingResume={teachingResume}
+          photoGallery={photoGallery}
+        />
+      </>
+    );
+  }
+}
 
 LessonsCore.propTypes = {
   classes: PropTypes.shape({}).isRequired,
