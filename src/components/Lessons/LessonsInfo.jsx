@@ -95,14 +95,14 @@ LessonsInfo.defaultProps = {
 
 const styles = theme => ({
   container: {
-    padding: theme.spacing.unit * 4,
+    padding: `${theme.spacing.unit * 6}px 0`,
     [`@media (min-width: ${theme.breakpoints.values.md}px)`]: {
-      padding: `${theme.spacing.unit * 4}px 10vw`,
+      padding: `${theme.spacing.unit * 6}px 10vw`,
     },
   },
   content: {
     ...theme.typography.body1,
-    padding: `0 ${theme.spacing.unit * 2}px`,
+    padding: `0 ${theme.spacing.unit * 3}px`,
     margin: 0,
     '& ul': {
       marginLeft: theme.spacing.unit * -4,

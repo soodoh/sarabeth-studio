@@ -28,7 +28,7 @@ class StudioInfo extends React.Component {
 
     return (
       <Grid container className={classes.container}>
-        <Grid item xs={12} sm={6} md={8}>
+        <Grid item xs={12} sm={6} md={8} className={classes.gridItem}>
           <Typography variant="h2" align="center">
             Teaching Resume
           </Typography>
@@ -50,7 +50,7 @@ class StudioInfo extends React.Component {
         </Grid>
 
         {photoGallery && photoGallery.length && (
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid item xs={12} sm={6} md={4} className={classes.gridItem}>
             <Typography variant="h2" align="center">
               Photos
             </Typography>
@@ -107,14 +107,19 @@ StudioInfo.propTypes = {
 
 const styles = theme => ({
   container: {
-    padding: theme.spacing.unit * 4,
+    paddingLeft: theme.spacing.unit * 2,
+    paddingRight: theme.spacing.unit * 2,
     [`@media (min-width: ${theme.breakpoints.values.md}px)`]: {
-      padding: `${theme.spacing.unit * 4}px 10vw`,
+      paddingLeft: '10vw',
+      paddingRight: '10vw',
     },
+  },
+  gridItem: {
+    padding: `${theme.spacing.unit * 6}px ${theme.spacing.unit * 4}px`,
   },
   content: {
     ...theme.typography.body1,
-    padding: `0 ${theme.spacing.unit * 2}px`,
+    padding: 0,
     margin: 0,
     '& ul': {
       marginLeft: theme.spacing.unit * -4,

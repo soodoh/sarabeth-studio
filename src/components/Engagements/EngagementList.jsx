@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { uid } from 'react-uid';
-import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import Engagement from './EngagementRow';
 
-const ListCore = (props) => {
-  const { classes, data } = props;
+const List = (props) => {
+  const { data } = props;
 
   return (
     <div>
@@ -14,24 +13,17 @@ const ListCore = (props) => {
         <div key={uid(engagement)}>
           <Engagement data={engagement} />
 
-          {index < data.length - 1 && <Divider className={classes.divider} />}
+          {index < data.length - 1 && <Divider />}
         </div>
       ))}
     </div>
   );
 };
 
-ListCore.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
+List.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.object,
   ).isRequired,
 };
 
-const styles = theme => ({
-  divider: {
-    backgroundColor: theme.palette.primary.contrastText,
-  },
-});
-
-export default withStyles(styles)(ListCore);
+export default List;

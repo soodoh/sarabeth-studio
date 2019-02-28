@@ -35,9 +35,9 @@ const styles = theme => ({
   container: {
     position: 'relative',
     minHeight: '50vh',
-    padding: `${theme.spacing.unit * 4}px ${theme.spacing.unit * 2}px`,
+    padding: `${theme.spacing.unit * 6}px ${theme.spacing.unit * 2}px`,
     [`@media (min-width: ${theme.breakpoints.values.md}px)`]: {
-      padding: `${theme.spacing.unit * 4}px 10vw`,
+      padding: `${theme.spacing.unit * 6}px 10vw`,
     },
   },
   background: {

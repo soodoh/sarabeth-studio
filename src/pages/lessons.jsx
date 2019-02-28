@@ -7,7 +7,6 @@ import Banner from '../components/Lessons/Banner';
 import About from '../components/Lessons/About';
 import LessonsInfo from '../components/Lessons/LessonsInfo';
 import StudioInfo from '../components/Lessons/StudioInfo';
-import Metadata from '../components/Layout/Metadata';
 
 class LessonsCore extends React.Component {
   constructor(props) {
@@ -27,11 +26,6 @@ class LessonsCore extends React.Component {
 
     return (
       <>
-        <Metadata
-          title="Sarabeth's Studio"
-          description="Interested in private singing and piano lessons? As a UCLA Vocal Performance alumnus, Sarabeth is well-versed in many styles of singing and piano. View rates and info below."
-        />
-
         <Banner
           aboutRef={this.aboutRef}
           infoRef={this.infoRef}
@@ -102,8 +96,7 @@ LessonsCore.defaultProps = {
 
 const styles = theme => ({
   divider: {
-    margin: theme.spacing.unit * 2,
-    backgroundColor: theme.palette.secondary.light,
+    margin: `0 ${theme.spacing.unit * 6}px`,
   },
 });
 

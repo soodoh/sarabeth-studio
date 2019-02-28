@@ -115,16 +115,21 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
-    padding: `0 ${theme.spacing.unit * 2}px`,
+    justifyContent: 'flex-start',
+    paddingLeft: theme.spacing.unit * 2,
+    paddingRight: theme.spacing.unit * 2,
+    paddingTop: theme.spacing.unit * 5,
+    paddingBottom: theme.spacing.unit * 7,
     [`@media (min-width: ${theme.breakpoints.values.md}px)`]: {
-      padding: '0 10vw',
+      paddingLeft: '10vw',
+      paddingRight: '10vw',
     },
   },
   blurbContent: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'flex-start',
     padding: `0 ${theme.spacing.unit * 2}px`,
 
     '& p': {

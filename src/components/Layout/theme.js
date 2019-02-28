@@ -92,6 +92,11 @@ const rawTheme = {
         textTransform: 'none',
       },
     },
+    MuiDivider: {
+      root: {
+        backgroundColor: '#515146',
+      },
+    },
   },
 };
 
