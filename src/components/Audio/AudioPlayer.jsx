@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -6,97 +6,79 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Play from 'mdi-material-ui/Play';
 import Pause from 'mdi-material-ui/Pause';
 
-function formatTimecode(time) {
+const formatTimecode = (time) => {
   const minutes = (Math.floor(time / 60) || 0)
     .toString().padStart(2, '0');
   const seconds = (Math.floor(time % 60) || 0)
     .toString().padStart(2, '0');
 
   return `${minutes}:${seconds}`;
-}
+};
 
-class AudioPlayerCore extends React.Component {
-  constructor(props) {
-    super(props);
+const AudioPlayerCore = (props) => {
+  const { classes, url, title } = props;
+  const playerRef = useRef();
+  const [currentTime, setTime] = useState(0);
+  const [isPlaying, setPlayback] = useState(false);
+  const duration = playerRef.current ? playerRef.current.duration : 1;
 
-    this.state = {
-      isPlaying: false,
-      currentTime: 0,
-    };
-    this.audioPlayer = React.createRef();
-    this.togglePlayer = this.togglePlayer.bind(this);
-    this.seekTime = this.seekTime.bind(this);
-  }
-
-  togglePlayer() {
-    const { isPlaying } = this.state;
-
-    if (isPlaying) {
-      this.audioPlayer.current.pause();
-    } else {
-      this.audioPlayer.current.play();
-    }
-    this.setState({ isPlaying: !isPlaying });
-  }
-
-  seekTime(event) {
+  const seekTime = (event) => {
     // Page X calculations
     const mouseX = event.pageX;
     const parentX = event.currentTarget.offsetLeft;
     const parentWidth = event.currentTarget.offsetWidth;
     // Useful values
     const percentage = (mouseX - parentX) / parentWidth;
-    const duration = this.audioPlayer.current.duration || 0;
-    const newTime = duration * percentage;
+    const currentDuration = playerRef.current.duration || 0;
+    const newTime = currentDuration * percentage;
 
-    this.setState({ currentTime: newTime });
-    this.audioPlayer.current.currentTime = newTime;
-  }
+    // setTime(newTime);
+    playerRef.current.currentTime = newTime;
+  };
 
-  render() {
-    const { classes, url, title } = this.props;
-    const { isPlaying, currentTime } = this.state;
-    const duration = this.audioPlayer.current ? this.audioPlayer.current.duration : 1;
-
-    return (
-      <div className={classes.container}>
-        <div>
-          <audio
-            ref={this.audioPlayer}
-            onTimeUpdate={() => (
-              this.setState({ currentTime: this.audioPlayer.current.currentTime })
-            )}
-          >
-            <source src={url} type="audio/mp3" />
-            <track kind="captions" label={title} />
-          </audio>
-        </div>
-
-        <button
-          type="button"
-          className={classes.button}
-          onClick={this.togglePlayer}
+  return (
+    <div className={classes.container}>
+      <div>
+        <audio
+          ref={playerRef}
+          onTimeUpdate={() => setTime(playerRef.current.currentTime)}
         >
-          {isPlaying
-            ? <Pause /> : <Play />
-          }
-        </button>
-
-        <Typography variant="body1" color="inherit" className={classes.timecode}>
-          {formatTimecode(currentTime)}
-        </Typography>
-
-        <LinearProgress
-          classes={{ root: classes.progress, bar1Determinate: classes.progressBar }}
-          onClick={this.seekTime}
-          variant="determinate"
-          color="primary"
-          value={currentTime / duration * 100}
-        />
+          <source src={url} type="audio/mp3" />
+          <track kind="captions" label={title} />
+        </audio>
       </div>
-    );
-  }
-}
+
+      <button
+        type="button"
+        className={classes.button}
+        onClick={() => {
+          if (isPlaying) {
+            playerRef.current.pause();
+          } else {
+            playerRef.current.play();
+          }
+          setPlayback(!isPlaying);
+        }}
+      >
+        {isPlaying
+          ? <Pause /> : <Play />
+        }
+      </button>
+
+      <Typography variant="body1" color="inherit" className={classes.timecode}>
+        {formatTimecode(currentTime)}
+      </Typography>
+
+      <LinearProgress
+        classes={{ root: classes.progress, bar1Determinate: classes.progressBar }}
+        onClick={seekTime}
+        variant="determinate"
+        color="primary"
+        value={currentTime / duration * 100}
+      />
+    </div>
+  );
+};
 
 AudioPlayerCore.propTypes = {
   classes: PropTypes.shape({}).isRequired,

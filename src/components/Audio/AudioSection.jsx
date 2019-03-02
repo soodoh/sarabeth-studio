@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
 import { uid } from 'react-uid';
@@ -7,30 +7,19 @@ import Title from '../common/Title';
 import Filters from '../common/Filters';
 import Song from './SongEntry';
 
-class AudioSection extends React.Component {
-  constructor(props) {
-    super(props);
+const AudioSection = (props) => {
+  const { audioGroups } = props;
+  const [currentGroup, setGroup] = useState('All');
 
-    this.getAudioGroups = this.getAudioGroups.bind(this);
-    this.getAudioFiles = this.getAudioFiles.bind(this);
-
-    this.state = {
-      currentGroup: 'All',
-    };
-  }
-
-  getAudioGroups() {
-    const { audioGroups } = this.props;
+  const getAudioGroups = () => {
     const groups = audioGroups
       .map(group => group.label);
 
     groups.unshift('All');
     return groups;
-  }
+  };
 
-  getAudioFiles() {
-    const { audioGroups } = this.props;
-    const { currentGroup } = this.state;
+  const getAudioFiles = () => {
     let files = [];
 
     if (currentGroup === 'All') {
@@ -47,41 +36,36 @@ class AudioSection extends React.Component {
       && audioFile.title
       && audioFile.audio.file.url
     ));
-  }
+  };
 
-  render() {
-    const { audioGroups } = this.props;
-    const { currentGroup } = this.state;
+  return (
+    <Grid container spacing={8}>
+      <Grid item xs={12}>
+        <Title>Audio</Title>
+      </Grid>
 
-    return (
-      <Grid container spacing={8}>
-        <Grid item xs={12}>
-          <Title>Audio</Title>
-        </Grid>
-
-        {audioGroups.length > 1
+      {audioGroups.length > 1
           && (
           <Filters
-            list={this.getAudioGroups()}
+            list={getAudioGroups()}
             activeItem={currentGroup}
-            onClick={item => this.setState({ currentGroup: item })}
+            onClick={item => setGroup(item)}
           />
           )
         }
-        <Grid item xs={12}>
-          {this.getAudioFiles().map(audio => (
-            <Song
-              key={uid(audio)}
-              title={audio.title}
-              subtitle={audio.subtitle}
-              url={audio.audio.file.url}
-            />
-          ))}
-        </Grid>
+      <Grid item xs={12}>
+        {getAudioFiles().map(audio => (
+          <Song
+            key={uid(audio)}
+            title={audio.title}
+            subtitle={audio.subtitle}
+            url={audio.audio.file.url}
+          />
+        ))}
       </Grid>
-    );
-  }
-}
+    </Grid>
+  );
+};
 
 AudioSection.propTypes = {
   audioGroups: PropTypes.arrayOf(

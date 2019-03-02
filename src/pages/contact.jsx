@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
 import axios from 'axios';
@@ -12,30 +12,18 @@ import Title from '../components/common/Title';
 import Form from '../components/Contact/Form';
 import MessageStatus from '../components/Contact/MessageStatus';
 
-class ContactCore extends React.Component {
-  constructor(props) {
-    super(props);
+const ContactCore = (props) => {
+  const { classes, submitUrl } = props;
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
+  const [validations, setValidations] = useState({});
+  const [messageOpen, setMessageOpen] = useState(false);
+  const [submitSuccess, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-    this.state = {
-      name: '',
-      email: '',
-      subject: '',
-      message: '',
-      validations: {},
-      messageOpen: false,
-      submitSuccess: false,
-      loading: false,
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.messageClose = this.messageClose.bind(this);
-    this.validate = this.validate.bind(this);
-    this.submit = this.submit.bind(this);
-  }
-
-  validate(key, newValue) {
-    const {
-      name, email, subject, message, validations,
-    } = this.state;
+  const validate = (key, newValue) => {
     const newValidations = { ...validations };
 
     if (!key) {
@@ -51,117 +39,107 @@ class ContactCore extends React.Component {
     }
 
     return newValidations;
-  }
+  };
 
-  submit() {
-    const validations = this.validate();
-    const {
-      name, email, subject, message,
-    } = this.state;
-    const { submitUrl } = this.props;
+  const submit = () => {
+    const allValidations = validate();
 
-    if (validations.name || validations.email || validations.subject || validations.message) {
-      this.setState({ validations });
+    if (!Object.values(allValidations).length
+      || Object.values(allValidations).some(val => !!val)) {
+      setValidations(allValidations);
       return;
     }
-    this.setState({ loading: true });
+    setLoading(true);
 
     const data = {
-      name,
-      email,
-      subject,
-      message,
+      name, email, subject, message,
     };
     axios.post(submitUrl, JSON.stringify(data)).then((res) => {
-      this.setState({
-        loading: false,
-        submitSuccess: res.status === 200,
-        messageOpen: true,
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
-      });
+      setLoading(false);
+      setSuccess(res.status === 200);
+      setMessageOpen(true);
+      setName('');
+      setEmail('');
+      setSubject('');
+      setMessage('');
     }).catch((err) => {
       // eslint-disable-next-line no-console
       console.error(err);
-      this.setState({
-        loading: false,
-        submitSuccess: false,
-        messageOpen: true,
-      });
+      setLoading(false);
+      setSuccess(false);
+      setMessageOpen(true);
     });
-  }
+  };
 
-  handleChange(key) {
-    return (event) => {
-      this.setState({
-        [key]: event.target.value,
-        validations: this.validate(key, event.target.value),
-      });
-    };
-  }
+  const handleChange = key => (event) => {
+    const newValidation = validate(key, event.target.value);
+    setValidations(newValidation);
 
-  messageClose(event, reason) {
-    if (reason === 'clickaway') return;
+    switch (key) {
+      case 'name':
+        setName(event.target.value);
+        break;
+      case 'email':
+        setEmail(event.target.value);
+        break;
+      case 'subject':
+        setSubject(event.target.value);
+        break;
+      case 'message':
+        setMessage(event.target.value);
+        break;
+      default:
+        break;
+    }
+  };
 
-    this.setState({ messageOpen: false });
-  }
+  return (
+    <React.Fragment>
+      <Metadata
+        title="Contact Sarabeth"
+        description="Send an email to Sarabeth for any questions or to follow up with upcoming singing gigs. Feel free to reach out if interested in private voice or piano lessons."
+      />
 
-  render() {
-    const { classes } = this.props;
-    const {
-      name, email, subject, message, validations,
-      loading, messageOpen, submitSuccess,
-    } = this.state;
+      <Grid container spacing={8} className={classes.container}>
+        <Grid item xs={12}>
+          <Title>Contact Sarabeth</Title>
+        </Grid>
 
-    const values = {
-      name, email, subject, message,
-    };
-
-    return (
-      <React.Fragment>
-        <Metadata
-          title="Contact Sarabeth"
-          description="Send an email to Sarabeth for any questions or to follow up with upcoming singing gigs. Feel free to reach out if interested in private voice or piano lessons."
+        <Form
+          values={{
+            name, email, subject, message,
+          }}
+          validations={validations}
+          onChange={handleChange}
         />
 
-        <Grid container spacing={8} className={classes.container}>
-          <Grid item xs={12}>
-            <Title>Contact Sarabeth</Title>
-          </Grid>
-
-          <Form
-            values={values}
-            validations={validations}
-            onChange={this.handleChange}
-          />
-
-          <Grid item xs={12}>
-            {loading
-              ? <CircularProgress color="secondary" className={classes.loading} />
-              : (
-                <Button
-                  variant="outlined"
-                  className={classes.button}
-                  onClick={this.submit}
-                >
-                Submit
-                </Button>
-              )
-          }
-          </Grid>
-
-          <MessageStatus
-            open={messageOpen}
-            onClose={this.messageClose}
-            success={submitSuccess}
-          />
+        <Grid item xs={12}>
+          {loading
+            ? <CircularProgress color="secondary" className={classes.loading} />
+            : (
+              <Button
+                variant="outlined"
+                className={classes.button}
+                onClick={submit}
+              >
+              Submit
+              </Button>
+            )
+        }
         </Grid>
-      </React.Fragment>
-    );
-  }
-}
+
+        <MessageStatus
+          open={messageOpen}
+          onClose={(event, reason) => {
+            if (reason === 'clickaway') return;
+            setMessageOpen(false);
+          }}
+          success={submitSuccess}
+        />
+      </Grid>
+    </React.Fragment>
+  );
+};
 
 ContactCore.propTypes = {
   classes: PropTypes.shape({}).isRequired,

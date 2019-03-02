@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
 import { withStyles } from '@material-ui/core/styles';
@@ -8,28 +8,18 @@ import Gallery from '../components/Photos/Gallery';
 import Title from '../components/common/Title';
 import Filters from '../components/common/Filters';
 
-class PhotosCore extends React.Component {
-  constructor(props) {
-    super(props);
+const PhotosCore = (props) => {
+  const { classes, albums } = props;
+  const [currentAlbum, setAlbum] = useState('All');
 
-    this.getAlbums = this.getAlbums.bind(this);
-    this.getPhotos = this.getPhotos.bind(this);
-
-    this.state = { currentAlbum: 'All' };
-  }
-
-  getAlbums() {
-    const { albums } = this.props;
+  const getAlbums = () => {
     const albumNames = albums.map(group => group.label);
-
     albumNames.unshift('All');
 
     return albumNames;
-  }
+  };
 
-  getPhotos() {
-    const { albums } = this.props;
-    const { currentAlbum } = this.state;
+  const getPhotos = () => {
     let photos = [];
 
     if (currentAlbum === 'All') {
@@ -42,42 +32,37 @@ class PhotosCore extends React.Component {
     }
 
     return photos;
-  }
+  };
 
-  render() {
-    const { classes, albums } = this.props;
-    const { currentAlbum } = this.state;
+  return (
+    <React.Fragment>
+      <Metadata
+        title="Sarabeth Photos"
+        description="Sarabeth Belón's photo gallery. View pictures from past performances, professional headshots and more. Photo credits included when viewing higher resolution images."
+      />
 
-    return (
-      <React.Fragment>
-        <Metadata
-          title="Sarabeth Photos"
-          description="Sarabeth Belón's photo gallery. View pictures from past performances, professional headshots and more. Photo credits included when viewing higher resolution images."
-        />
-
-        <Grid container spacing={8} className={classes.container}>
-          <Grid item xs={12}>
-            <Title>Photos</Title>
-          </Grid>
-
-          {albums.length > 1
-          && (
-            <Filters
-              list={this.getAlbums()}
-              activeItem={currentAlbum}
-              onClick={album => this.setState({ currentAlbum: album })}
-            />
-          )
-        }
-
-          <Grid item xs={12}>
-            <Gallery photos={this.getPhotos()} />
-          </Grid>
+      <Grid container spacing={8} className={classes.container}>
+        <Grid item xs={12}>
+          <Title>Photos</Title>
         </Grid>
-      </React.Fragment>
-    );
-  }
-}
+
+        {albums.length > 1
+        && (
+          <Filters
+            list={getAlbums()}
+            activeItem={currentAlbum}
+            onClick={album => setAlbum(album)}
+          />
+        )
+      }
+
+        <Grid item xs={12}>
+          <Gallery photos={getPhotos()} />
+        </Grid>
+      </Grid>
+    </React.Fragment>
+  );
+};
 
 PhotosCore.propTypes = {
   classes: PropTypes.shape({}).isRequired,

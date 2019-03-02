@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
 import Grid from '@material-ui/core/Grid';
@@ -6,32 +6,19 @@ import Filters from '../common/Filters';
 import Title from '../common/Title';
 import VideoList from './VideoList';
 
-class VideoSection extends React.Component {
-  constructor(props) {
-    super(props);
+const VideoSection = (props) => {
+  const { videoGroups } = props;
+  const [currentVideoGroup, setGroup] = useState('All');
 
-    this.state = {
-      currentVideoGroup: 'All',
-    };
-    this.getVideoGroups = this.getVideoGroups.bind(this);
-    this.getVideos = this.getVideos.bind(this);
-  }
-
-  getVideoGroups() {
-    const { videoGroups } = this.props;
-
+  const getVideoGroups = () => {
     const newVideoGroups = videoGroups
       .map(group => group.label);
 
     newVideoGroups.unshift('All');
-
     return newVideoGroups;
-  }
+  };
 
-  getVideos() {
-    const { videoGroups } = this.props;
-    const { currentVideoGroup } = this.state;
-
+  const getVideos = () => {
     const videos = currentVideoGroup === 'All'
       ? videoGroups.reduce((acc, group) => (
         [...acc, ...group.videos]
@@ -43,35 +30,30 @@ class VideoSection extends React.Component {
       url: video.link,
       title: video.label,
     }));
-  }
+  };
 
-  render() {
-    const { videoGroups } = this.props;
-    const { currentVideoGroup } = this.state;
-
-    return (
-      <Grid container spacing={8}>
-        <Grid item xs={12}>
-          <Title>Video</Title>
-        </Grid>
-
-        {videoGroups.length > 1
-          && (
-          <Filters
-            list={this.getVideoGroups()}
-            activeItem={currentVideoGroup}
-            onClick={videoGroup => this.setState({ currentVideoGroup: videoGroup })}
-          />
-          )
-        }
-
-        <Grid item xs={12}>
-          <VideoList videos={this.getVideos()} />
-        </Grid>
+  return (
+    <Grid container spacing={8}>
+      <Grid item xs={12}>
+        <Title>Video</Title>
       </Grid>
-    );
-  }
-}
+
+      {videoGroups.length > 1
+        && (
+        <Filters
+          list={getVideoGroups()}
+          activeItem={currentVideoGroup}
+          onClick={videoGroup => setGroup(videoGroup)}
+        />
+        )
+      }
+
+      <Grid item xs={12}>
+        <VideoList videos={getVideos()} />
+      </Grid>
+    </Grid>
+  );
+};
 
 VideoSection.propTypes = {
   videoGroups: PropTypes.arrayOf(

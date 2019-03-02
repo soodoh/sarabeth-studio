@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { navigate } from 'gatsby';
 import { withStyles } from '@material-ui/core/styles';
@@ -7,119 +7,111 @@ import MenuIcon from 'mdi-material-ui/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
-class MiniNavigationCore extends React.Component {
-  constructor(props) {
-    super(props);
+const MiniNavigationCore = (props) => {
+  const { classes, location, resume } = props;
+  const [menuAnchor, setAnchor] = useState(null);
 
-    this.state = { menuAnchor: null };
-  }
+  return (
+    <div>
+      <Fab
+        size="small"
+        aria-owns={menuAnchor ? 'Navigation' : null}
+        aria-haspopup="true"
+        aria-label="Navigation Menu"
+        color="secondary"
+        classes={{ root: classes.button }}
+        onClick={event => setAnchor(event.currentTarget)}
+      >
+        <MenuIcon />
+      </Fab>
 
-  render() {
-    const { classes, location, resume } = this.props;
-    const { menuAnchor } = this.state;
-
-    return (
-      <div>
-        <Fab
-          size="small"
-          aria-owns={menuAnchor ? 'Navigation' : null}
-          aria-haspopup="true"
-          aria-label="Navigation Menu"
-          color="secondary"
-          classes={{ root: classes.button }}
-          onClick={event => this.setState({ menuAnchor: event.currentTarget })}
+      <Menu
+        id="Navigation"
+        classes={{ paper: classes.menu }}
+        anchorEl={menuAnchor}
+        open={!!menuAnchor}
+        onEnter={() => document.activeElement.blur()}
+        onClose={() => setAnchor(null)}
+      >
+        <MenuItem
+          onClick={() => {
+            setAnchor(null);
+            navigate('/about');
+          }}
+          className={classes.menuLink}
+          selected={location.pathname === '/about'}
         >
-          <MenuIcon />
-        </Fab>
+            About
+        </MenuItem>
 
-        <Menu
-          id="Navigation"
-          classes={{ paper: classes.menu }}
-          anchorEl={menuAnchor}
-          open={!!menuAnchor}
-          onEnter={() => document.activeElement.blur()}
-          onClose={() => this.setState({ menuAnchor: null })}
+        <MenuItem
+          onClick={() => {
+            setAnchor(null);
+            navigate('/engagements');
+          }}
+          className={classes.menuLink}
+          selected={location.pathname === '/engagements'}
         >
-          <MenuItem
-            onClick={() => {
-              this.setState({ menuAnchor: null });
-              navigate('/about');
-            }}
-            className={classes.menuLink}
-            selected={location.pathname === '/about'}
-          >
-              About
-          </MenuItem>
+            Engagements
+        </MenuItem>
 
-          <MenuItem
-            onClick={() => {
-              this.setState({ menuAnchor: null });
-              navigate('/engagements');
-            }}
-            className={classes.menuLink}
-            selected={location.pathname === '/engagements'}
-          >
-              Engagements
-          </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setAnchor(null);
+            navigate('/photos');
+          }}
+          className={classes.menuLink}
+          selected={location.pathname === '/photos'}
+        >
+            Photos
+        </MenuItem>
 
-          <MenuItem
-            onClick={() => {
-              this.setState({ menuAnchor: null });
-              navigate('/photos');
-            }}
-            className={classes.menuLink}
-            selected={location.pathname === '/photos'}
-          >
-              Photos
-          </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setAnchor(null);
+            navigate('/media');
+          }}
+          className={classes.menuLink}
+          selected={location.pathname === '/media'}
+        >
+            Recordings
+        </MenuItem>
 
-          <MenuItem
-            onClick={() => {
-              this.setState({ menuAnchor: null });
-              navigate('/media');
-            }}
-            className={classes.menuLink}
-            selected={location.pathname === '/media'}
-          >
-              Recordings
-          </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setAnchor(null);
+            navigate('/lessons');
+          }}
+          className={classes.menuLink}
+          selected={location.pathname === '/lessons'}
+        >
+          Lessons
+        </MenuItem>
 
+        <a href={resume} style={{ textDecoration: 'none' }}>
           <MenuItem
-            onClick={() => {
-              this.setState({ menuAnchor: null });
-              navigate('/lessons');
-            }}
+            onClick={() => setAnchor(null)}
             className={classes.menuLink}
-            selected={location.pathname === '/lessons'}
+            selected={location.pathname === '/resume'}
           >
-            Lessons
+            Resume
           </MenuItem>
+        </a>
 
-          <a href={resume} style={{ textDecoration: 'none' }}>
-            <MenuItem
-              onClick={() => this.setState({ menuAnchor: null })}
-              className={classes.menuLink}
-              selected={location.pathname === '/resume'}
-            >
-              Resume
-            </MenuItem>
-          </a>
-
-          <MenuItem
-            onClick={() => {
-              this.setState({ menuAnchor: null });
-              navigate('/contact');
-            }}
-            className={classes.menuLink}
-            selected={location.pathname === '/contact'}
-          >
-              Contact
-          </MenuItem>
-        </Menu>
-      </div>
-    );
-  }
-}
+        <MenuItem
+          onClick={() => {
+            setAnchor(null);
+            navigate('/contact');
+          }}
+          className={classes.menuLink}
+          selected={location.pathname === '/contact'}
+        >
+            Contact
+        </MenuItem>
+      </Menu>
+    </div>
+  );
+};
 
 MiniNavigationCore.propTypes = {
   classes: PropTypes.shape({

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Img from 'gatsby-image';
@@ -6,64 +6,57 @@ import { uid } from 'react-uid';
 import Masonry from 'react-masonry-component';
 import Lightbox from './Lightbox';
 
-class GalleryCore extends React.Component {
-  constructor(props) {
-    super(props);
+const GalleryCore = (props) => {
+  const { classes, photos, ...other } = props;
+  const [photoOpen, setOpen] = useState(false);
+  const [currentPhoto, setPhoto] = useState(0);
 
-    this.state = {
-      photoActive: false,
-      currentPhoto: 0,
-    };
-  }
+  return (
+    <Masonry {...other}>
+      <Lightbox
+        images={photos.map(photo => ({
+          src: photo.fullSize.src,
+          srcSet: photo.fullSize.srcSet,
+          caption: photo.description,
+          alt: `${photo.title} (Full Resolution)`,
+        }))}
+        isOpen={photoOpen}
+        currentImage={currentPhoto}
+        onClickPrev={() => setPhoto(currentPhoto - 1)}
+        onClickNext={() => setPhoto(currentPhoto + 1)}
+        onClose={() => setOpen(false)}
+      />
 
-  render() {
-    const { classes, photos, ...other } = this.props;
-    const { photoActive, currentPhoto } = this.state;
-
-    return (
-      <Masonry {...other}>
-        <Lightbox
-          images={photos.map(photo => ({
-            src: photo.fullSize.src,
-            srcSet: photo.fullSize.srcSet,
-            caption: photo.description,
-            alt: `${photo.title} (Full Resolution)`,
-          }))}
-          isOpen={photoActive}
-          currentImage={currentPhoto}
-          onClickPrev={() => this.setState({ currentPhoto: currentPhoto - 1 })}
-          onClickNext={() => this.setState({ currentPhoto: currentPhoto + 1 })}
-          onClose={() => this.setState({ photoActive: false })}
-        />
-
-        {Array.isArray(photos) && photos.map((photo, index) => {
-          const onClick = () => this.setState({ photoActive: true, currentPhoto: index });
-          return (
-            <div
-              key={uid(photo)}
-              role="button"
-              aria-label={`Open Photo #${index} "${photo.title}"`}
-              tabIndex={0}
-              className={classes.photoContainer}
-              onClick={onClick}
-              onKeyPress={(event) => {
-                if (event.charCode === 13) {
-                  onClick();
-                }
-              }}
-            >
-              <Img
-                fluid={photo.thumbnail}
-                alt={`${photo.title} #${index} Thumbnail`}
-                className={classes.photo}
-              />
-            </div>
-          );
-        })}
-      </Masonry>
-    );
-  }
-}
+      {Array.isArray(photos) && photos.map((photo, index) => {
+        const onClick = () => {
+          setOpen(true);
+          setPhoto(index);
+        };
+        return (
+          <div
+            key={uid(photo)}
+            role="button"
+            aria-label={`Open Photo #${index} "${photo.title}"`}
+            tabIndex={0}
+            className={classes.photoContainer}
+            onClick={onClick}
+            onKeyPress={(event) => {
+              if (event.charCode === 13) {
+                onClick();
+              }
+            }}
+          >
+            <Img
+              fluid={photo.thumbnail}
+              alt={`${photo.title} #${index} Thumbnail`}
+              className={classes.photo}
+            />
+          </div>
+        );
+      })}
+    </Masonry>
+  );
+};
 
 GalleryCore.propTypes = {
   classes: PropTypes.shape({}).isRequired,

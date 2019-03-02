@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { navigate } from 'gatsby';
@@ -10,87 +10,77 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Lightbox from '../Photos/Lightbox';
 
-class StudioInfo extends React.Component {
-  constructor(props) {
-    super(props);
+const StudioInfo = (props) => {
+  const {
+    classes, teachingResume, photoGallery,
+  } = props;
+  const [photosOpen, setOpen] = useState(false);
+  const [currentPhoto, setPhoto] = useState(0);
 
-    this.state = {
-      photosOpen: false,
-      currentPhoto: 0,
-    };
-  }
+  return (
+    <Grid container className={classes.container}>
+      <Grid item xs={12} sm={6} md={8} className={classes.gridItem}>
+        <Typography variant="h2" align="center">
+          Teaching Resume
+        </Typography>
 
-  render() {
-    const {
-      classes, teachingResume, photoGallery,
-    } = this.props;
-    const { photosOpen, currentPhoto } = this.state;
+        <div
+          className={classes.content}
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: teachingResume }}
+        />
+        <div className={classes.centerButton}>
+          <Button
+            variant="outlined"
+            className={classes.button}
+            onClick={() => navigate('contact')}
+          >
+            Book a Lesson
+          </Button>
+        </div>
+      </Grid>
 
-    return (
-      <Grid container className={classes.container}>
-        <Grid item xs={12} sm={6} md={8} className={classes.gridItem}>
+      {photoGallery && photoGallery.length && (
+        <Grid item xs={12} sm={6} md={4} className={classes.gridItem}>
           <Typography variant="h2" align="center">
-            Teaching Resume
+            Photos
           </Typography>
 
-          <div
-            className={classes.content}
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{ __html: teachingResume }}
+          <Lightbox
+            images={photoGallery.map(photo => ({
+              src: photo.fullSize.src,
+              srcSet: photo.fullSize.srcSet,
+              caption: photo.description,
+              alt: `${photo.title} (Full Resolution)`,
+            }))}
+            isOpen={photosOpen}
+            currentImage={currentPhoto}
+            onClickPrev={() => setPhoto(currentPhoto - 1)}
+            onClickNext={() => setPhoto(currentPhoto + 1)}
+            onClose={() => setOpen(false)}
           />
-          <div className={classes.centerButton}>
-            <Button
-              variant="outlined"
-              className={classes.button}
-              onClick={() => navigate('contact')}
-            >
-              Book a Lesson
-            </Button>
-          </div>
-        </Grid>
 
-        {photoGallery && photoGallery.length && (
-          <Grid item xs={12} sm={6} md={4} className={classes.gridItem}>
-            <Typography variant="h2" align="center">
-              Photos
-            </Typography>
-
-            <Lightbox
-              images={photoGallery.map(photo => ({
-                src: photo.fullSize.src,
-                srcSet: photo.fullSize.srcSet,
-                caption: photo.description,
-                alt: `${photo.title} (Full Resolution)`,
-              }))}
-              isOpen={photosOpen}
-              currentImage={currentPhoto}
-              onClickPrev={() => this.setState({ currentPhoto: currentPhoto - 1 })}
-              onClickNext={() => this.setState({ currentPhoto: currentPhoto + 1 })}
-              onClose={() => this.setState({ photosOpen: false })}
+          <GridListTile
+            className={classes.photoGallery}
+            onClick={() => setOpen(true)}
+          >
+            <Img
+              fluid={photoGallery[0].thumbnail}
+              alt={photoGallery[0].title}
             />
-
-            <GridListTile
-              className={classes.photoGallery}
-              onClick={() => this.setState({ photosOpen: true })}
-            >
-              <Img
-                fluid={photoGallery[0].thumbnail}
-                alt={photoGallery[0].title}
-              />
-              <GridListTileBar
-                title={(
-                  <Typography variant="subtitle1">
-                    {"View Sarabeth's Studio"}
-                  </Typography>
-                )}
-              />
-            </GridListTile>
-          </Grid>
-        )}
-      </Grid>
-    );
-  }
-}
+            <GridListTileBar
+              title={(
+                <Typography variant="subtitle1">
+                  {"View Sarabeth's Studio"}
+                </Typography>
+              )}
+            />
+          </GridListTile>
+        </Grid>
+      )}
+    </Grid>
+  );
+};
 
 StudioInfo.propTypes = {
   classes: PropTypes.shape({}).isRequired,
