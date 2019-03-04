@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StaticQuery, graphql } from 'gatsby';
+import { StaticQuery, graphql, Link } from 'gatsby';
 import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Metadata from '../components/Layout/Metadata';
 import Background from '../components/Layout/Background';
@@ -19,11 +20,31 @@ const HomePageCore = (props) => {
 
       <div className={classes.container}>
         <Typography
+          variant="h3"
           className={classes.title}
           gutterBottom
         >
           {data.title}
         </Typography>
+
+        <div className={classes.callsToAction}>
+          <Button
+            component={Link}
+            to="media"
+            className={classes.button}
+            variant="outlined"
+          >
+            Have a Listen!
+          </Button>
+          <Button
+            component={Link}
+            to="lessons"
+            className={classes.button}
+            variant="outlined"
+          >
+            Get Voice or Piano Lessons
+          </Button>
+        </div>
       </div>
     </React.Fragment>
 
@@ -39,14 +60,34 @@ const styles = theme => ({
   container: {
     position: 'relative',
     display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     padding: theme.spacing.unit * 3,
   },
+  callsToAction: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+  },
+  button: {
+    whiteSpace: 'nowrap',
+    margin: theme.spacing.unit * 2,
+    borderColor: theme.palette.secondary.light,
+    color: theme.palette.secondary.light,
+    '&:hover': {
+      backgroundColor: theme.palette.secondary.light,
+      color: 'black',
+    },
+  },
   title: {
-    marginTop: theme.spacing.unit * -2,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: '30vh',
+    width: '100%',
     color: theme.palette.primary.contrastText,
-    fontSize: '1.5rem',
+    fontSize: '2rem',
     fontFamily: theme.typography.h3.fontFamily,
-    fontStyle: 'italic',
   },
 });
 

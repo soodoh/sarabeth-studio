@@ -15,7 +15,7 @@
     "gatsby": "^2.1.19",
     "gatsby-image": "^2.0.30",
     "lodash": "^4.17.11",
-    "mdi-material-ui": "^5.9.0",
+    "mdi-material-ui": "^5.10.0",
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.3",
