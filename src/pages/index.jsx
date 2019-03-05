@@ -20,17 +20,26 @@ const HomePageCore = (props) => {
 
       <div className={classes.container}>
         <Typography
-          variant="h3"
+          variant="h1"
+          align="center"
           className={classes.title}
           gutterBottom
         >
           {data.title}
         </Typography>
+        <Typography
+          variant="h3"
+          align="center"
+          className={classes.subtitle}
+          gutterBottom
+        >
+          {data.subtitle}
+        </Typography>
 
         <div className={classes.callsToAction}>
           <Button
             component={Link}
-            to="media"
+            to="/media"
             className={classes.button}
             variant="outlined"
           >
@@ -38,7 +47,7 @@ const HomePageCore = (props) => {
           </Button>
           <Button
             component={Link}
-            to="lessons"
+            to="/lessons"
             className={classes.button}
             variant="outlined"
           >
@@ -73,20 +82,21 @@ const styles = theme => ({
     whiteSpace: 'nowrap',
     margin: theme.spacing.unit * 2,
     borderColor: theme.palette.secondary.light,
-    color: theme.palette.secondary.light,
+    backgroundColor: theme.palette.secondary.light,
+    color: 'black',
     '&:hover': {
-      backgroundColor: theme.palette.secondary.light,
-      color: 'black',
+      color: theme.palette.secondary.light,
     },
   },
   title: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
     marginTop: '30vh',
-    width: '100%',
     color: theme.palette.primary.contrastText,
+    fontFamily: theme.typography.h3.fontFamily,
+    fontWeight: 'bold',
+  },
+  subtitle: {
     fontSize: '2rem',
+    color: theme.palette.primary.contrastText,
     fontFamily: theme.typography.h3.fontFamily,
   },
 });
@@ -99,6 +109,7 @@ export default () => (
       query HomePageQuery {
         contentfulHomePage {
           title,
+          subtitle,
           background {
             fluid(maxWidth:1920) {
               ...GatsbyContentfulFluid_withWebp

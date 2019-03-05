@@ -3,16 +3,18 @@ import PropTypes from 'prop-types';
 import { StaticQuery, graphql, Link } from 'gatsby';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
+import Hidden from '@material-ui/core/Hidden';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import ReactSvg from 'react-svg';
 import Navigation from './Navigation';
 import MiniNavigation from './MiniNavigation';
 
-
 const HeaderCore = (props) => {
-  const { classes, location, resume } = props;
+  const {
+    classes, logo, location, resume,
+  } = props;
   const isHome = location.pathname === '/';
 
   return (
@@ -24,15 +26,22 @@ const HeaderCore = (props) => {
       })}
     >
       <Toolbar>
-        <Typography
-          className={classes.brand}
-          variant="h6"
-          color="inherit"
-        >
+        <div className={classes.brand}>
           <Link to="/">
-            Sarabeth Belón
+            {isHome
+              ? <ReactSvg src={logo} svgClassName={classes.brandImage} />
+              : (
+                <Typography
+                  className={classes.brand}
+                  variant="h6"
+                  color="inherit"
+                >
+                  Sarabeth Belón
+                </Typography>
+              )
+            }
           </Link>
-        </Typography>
+        </div>
 
         <Hidden smDown>
           <Navigation
@@ -60,6 +69,7 @@ HeaderCore.propTypes = {
     pathname: PropTypes.string,
   }).isRequired,
   resume: PropTypes.string.isRequired,
+  logo: PropTypes.string.isRequired,
 };
 
 const styles = theme => ({
@@ -76,11 +86,13 @@ const styles = theme => ({
     flex: 1,
     alignItems: 'center',
     fontSize: '2rem',
-
     '& a': {
       textDecoration: 'none',
       color: 'inherit',
     },
+  },
+  brandImage: {
+    width: 50,
   },
 });
 
@@ -92,7 +104,12 @@ const HeaderWithData = ({ location }) => (
       query HeaderQuery {
         contentfulAbout{
           resume {
-            file{
+            file {
+              url
+            }
+          }
+          brandLogo {
+            file {
               url
             }
           }
@@ -103,6 +120,7 @@ const HeaderWithData = ({ location }) => (
       <Header
         location={location}
         resume={data.contentfulAbout.resume.file.url}
+        logo={data.contentfulAbout.brandLogo.file.url}
       />
     )}
   />

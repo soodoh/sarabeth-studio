@@ -28,7 +28,12 @@ export const AboutCore = (props) => {
         </Grid>
 
         <Grid item xs={12} sm={6} md={8} className={classes.bio}>
-          <Typography variant="h1" color="secondary" gutterBottom>
+          <Typography
+            variant="h1"
+            color="secondary"
+            className={classes.title}
+            gutterBottom
+          >
             {data.title}
           </Typography>
 
@@ -58,6 +63,9 @@ const styles = theme => ({
     [`@media (min-width: ${theme.breakpoints.values.md}px)`]: {
       padding: `${theme.spacing.unit * 2}px 10vw`,
     },
+  },
+  title: {
+    textTransform: 'uppercase',
   },
   bio: {
     paddingLeft: theme.spacing.unit * 2,
