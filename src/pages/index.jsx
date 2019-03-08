@@ -51,7 +51,7 @@ const HomePageCore = (props) => {
             className={classes.button}
             variant="outlined"
           >
-            Get Voice or Piano Lessons
+            Get Voice Lessons
           </Button>
         </div>
       </div>
