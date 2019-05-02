@@ -21,7 +21,7 @@ class LessonsCore extends React.Component {
       classes, location, contact, reviewLink, voiceLessons,
       pianoLessons, teachingResume, availability, mainDescription,
       aboutDescription, mainPhoto, aboutPhoto, photoGallery,
-      voiceLessonsSvg, pianoLessonsSvg,
+      voiceLessonsSvg, pianoLessonsSvg, phoneNumber,
     } = this.props;
 
     return (
@@ -46,6 +46,7 @@ class LessonsCore extends React.Component {
         <LessonsInfo
           mainDescription={mainDescription}
           availability={availability}
+          phoneNumber={phoneNumber}
           contact={contact}
           location={location}
           reviewLink={reviewLink}
@@ -89,9 +90,11 @@ LessonsCore.propTypes = {
     }),
   ).isRequired,
   reviewLink: PropTypes.string,
+  phoneNumber: PropTypes.string,
 };
 LessonsCore.defaultProps = {
   reviewLink: null,
+  phoneNumber: null,
 };
 
 const styles = theme => ({
@@ -109,6 +112,7 @@ export default () => (
         contentfulLessons {
           location
           contact
+          phoneNumber
           reviewLink
           voiceLessons {
             childMarkdownRemark {
@@ -180,6 +184,7 @@ export default () => (
     render={data => (
       <Lessons
         location={data.contentfulLessons.location}
+        phoneNumber={data.contentfulLessons.phoneNumber}
         contact={data.contentfulLessons.contact}
         reviewLink={data.contentfulLessons.reviewLink}
         voiceLessonsSvg={data.contentfulLessons.voiceLessonsImage.file.url}

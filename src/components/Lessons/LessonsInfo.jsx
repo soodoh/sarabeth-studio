@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 
 const LessonsInfo = (props) => {
   const {
-    classes, mainDescription, availability, reviewLink, contact, location,
+    classes, mainDescription, availability, reviewLink, contact, location, phoneNumber,
   } = props;
 
   return (
@@ -57,6 +57,12 @@ const LessonsInfo = (props) => {
         </Typography>
         <Typography variant="body1">
           {contact}
+          {phoneNumber && (
+            <>
+              <br />
+              {phoneNumber}
+            </>
+          )}
         </Typography>
 
         {reviewLink && (
@@ -88,9 +94,11 @@ LessonsInfo.propTypes = {
   contact: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
   reviewLink: PropTypes.string,
+  phoneNumber: PropTypes.string,
 };
 LessonsInfo.defaultProps = {
   reviewLink: null,
+  phoneNumber: null,
 };
 
 const styles = theme => ({
