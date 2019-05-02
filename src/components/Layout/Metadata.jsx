@@ -4,13 +4,14 @@ import { Helmet } from 'react-helmet';
 
 const Metadata = (props) => {
   const {
-    title, description, robots,
+    title, description, robots, keywords,
   } = props;
 
   return (
     <Helmet>
       <title>{title}</title>
       <meta name="google-site-verification" content="recDsrmbMWYOcfMC0vEE0asXttST_2d-4VZs1EVtSps" />
+      <meta name="keywords" content={keywords.join(',')} />
 
       {description
         && <meta name="description" content={description} />
@@ -25,10 +26,12 @@ Metadata.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string,
   robots: PropTypes.string,
+  keywords: PropTypes.arrayOf(PropTypes.string),
 };
 Metadata.defaultProps = {
   description: null,
   robots: 'index, follow',
+  keywords: [],
 };
 
 export default Metadata;

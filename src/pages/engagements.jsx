@@ -24,6 +24,7 @@ const EngagementsCore = (props) => {
       <Metadata
         title="Sarabeth's Engagements"
         description="View past and upcoming engagements where Sarabeth Belón will be performing. Location, venue, dates and the link to buy tickets is listed for each event."
+        keywords={['sarabeth belon engagements']}
       />
 
       <Grid container spacing={8} className={classes.container}>

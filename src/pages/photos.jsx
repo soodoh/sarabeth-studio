@@ -39,6 +39,10 @@ const PhotosCore = (props) => {
       <Metadata
         title="Sarabeth Photos"
         description="Sarabeth Belón's photo gallery. View pictures from past performances, professional headshots and more. Photo credits included when viewing higher resolution images."
+        keywords={[
+          'sarabeth belon media',
+          'sarabeth belon photos',
+        ]}
       />
 
       <Grid container spacing={8} className={classes.container}>

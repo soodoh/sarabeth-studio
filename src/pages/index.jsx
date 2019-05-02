@@ -15,6 +15,10 @@ const HomePageCore = (props) => {
       <Metadata
         title="Sarabeth Belón: Portfolio"
         description="Sarabeth Belón: Opera Singer in Los Angeles. See upcoming engagements, recordings, photos and contact for future gigs or for private voice & piano lessons."
+        keywords={[
+          'vocal coach los angeles',
+          'piano lessons los angeles',
+        ]}
       />
       <Background sizes={data.background.fluid} />
 

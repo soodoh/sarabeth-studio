@@ -16,6 +16,10 @@ export const AboutCore = (props) => {
       <Metadata
         title="About Sarabeth"
         description="Sarabeth Belón is a San Diego native and UCLA alumnus . Based in LA County, she is available for hire as a professional singer and voice & piano teacher."
+        keywords={[
+          'vocal lessons los angeles',
+          'piano teacher los angeles',
+        ]}
       />
 
       <Grid container spacing={40} className={classes.container}>

@@ -7,6 +7,7 @@ import Banner from '../components/Lessons/Banner';
 import About from '../components/Lessons/About';
 import LessonsInfo from '../components/Lessons/LessonsInfo';
 import StudioInfo from '../components/Lessons/StudioInfo';
+import Metadata from '../components/Layout/Metadata';
 
 class LessonsCore extends React.Component {
   constructor(props) {
@@ -26,6 +27,18 @@ class LessonsCore extends React.Component {
 
     return (
       <>
+        <Metadata
+          title="Lessons with Sarabeth"
+          description="Sarabeth is a voice and piano teacher located in Los Angeles, near Montebello. She specialized in classical technique. Book your lessons here!"
+          keywords={[
+            'singing lessons los angeles',
+            'piano lessons los angeles',
+            'voice lessons los angeles',
+            'singing coach los angeles',
+            'piano teacher los angeles',
+          ]}
+        />
+
         <Banner
           aboutRef={this.aboutRef}
           infoRef={this.infoRef}

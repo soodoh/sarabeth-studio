@@ -13,6 +13,10 @@ const MediaCore = (props) => {
       <Metadata
         title="Sarabeth's Recordings"
         description="Sarabeth Belón's media page: recordings and videos. Listen to recordings of her opera arias and art songs. Clips of her performances are also available."
+        keywords={[
+          'sarabeth belon media',
+          'sarabeth belon recordings',
+        ]}
       />
 
       <div className={classes.container}>
