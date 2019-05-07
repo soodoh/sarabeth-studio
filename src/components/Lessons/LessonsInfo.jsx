@@ -55,15 +55,22 @@ const LessonsInfo = (props) => {
         <Typography variant="h4">
           Contact
         </Typography>
-        <Typography variant="body1">
+        <Typography
+          variant="body1"
+          // component="a"
+          // href={`mailto:${contact}`}
+        >
           {contact}
-          {phoneNumber && (
-            <>
-              <br />
-              {phoneNumber}
-            </>
-          )}
         </Typography>
+        {phoneNumber && (
+          <Typography
+            variant="body1"
+            component="a"
+            href={`tel:${phoneNumber}`}
+          >
+            {phoneNumber}
+          </Typography>
+        )}
 
         {reviewLink && (
           <Button
