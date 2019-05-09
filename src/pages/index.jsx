@@ -16,6 +16,8 @@ const HomePageCore = (props) => {
         title="Sarabeth Belón: Portfolio"
         description="Sarabeth Belón: Opera Singer in Los Angeles. See upcoming engagements, recordings, photos and contact for future gigs or for private voice & piano lessons."
         keywords={[
+          'young female opera singer',
+          'opera singer los angeles',
           'vocal coach los angeles',
           'piano lessons los angeles',
         ]}
