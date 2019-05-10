@@ -57,8 +57,8 @@ const LessonsInfo = (props) => {
         </Typography>
         <Typography
           variant="body1"
-          // component="a"
-          // href={`mailto:${contact}`}
+          component="a"
+          href={`mailto:${contact}`}
         >
           {contact}
         </Typography>
