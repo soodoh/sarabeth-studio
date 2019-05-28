@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
 import Moment from 'moment';
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Metadata from '../components/Layout/Metadata';
 import Title from '../components/common/Title';
@@ -27,34 +26,30 @@ const EngagementsCore = (props) => {
         keywords={['sarabeth belon engagements']}
       />
 
-      <Grid container spacing={8} className={classes.container}>
+      <div className={classes.container}>
         {upcoming
         && (
-        <Grid item xs={12}>
-          <Grid item xs={12}>
+          <div className={classes.upcoming}>
             <Title>Upcoming</Title>
-          </Grid>
-          <Grid item xs={12}>
+
             <List data={upcoming} />
-          </Grid>
-        </Grid>
+          </div>
         )
       }
 
-        <Grid item xs={12}>
+        <div>
           <Title>Past</Title>
-        </Grid>
-        <Grid item xs={12}>
+
           {past
             ? <List data={past} />
             : (
               <Typography variant="h5" color="inherit" align="center">
-              There are currently no engagements
+                There are current no engagements
               </Typography>
             )
-        }
-        </Grid>
-      </Grid>
+          }
+        </div>
+      </div>
     </React.Fragment>
   );
 };
@@ -67,8 +62,11 @@ EngagementsCore.propTypes = {
 
 const styles = theme => ({
   container: {
-    width: '100%',
+    width: '100vw',
     padding: theme.spacing.unit * 4,
+  },
+  upcoming: {
+    paddingBottom: theme.spacing.unit * 8,
   },
 });
 

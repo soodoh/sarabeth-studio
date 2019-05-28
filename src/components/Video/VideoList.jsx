@@ -34,7 +34,6 @@ const VideoListCore = (props) => {
             height="100%"
           />
         </div>
-
       </Dialog>
 
       {Array.isArray(videos) && videos.map((video, index) => (
@@ -59,8 +58,9 @@ VideoListCore.propTypes = {
   ).isRequired,
 };
 
-const styles = {
+const styles = theme => ({
   container: {
+    paddingTop: theme.spacing.unit * 2,
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -76,6 +76,6 @@ const styles = {
     top: 0,
     left: 0,
   },
-};
+});
 
 export default withStyles(styles)(VideoListCore);

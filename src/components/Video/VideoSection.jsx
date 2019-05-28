@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import { StaticQuery, graphql } from 'gatsby';
-import Grid from '@material-ui/core/Grid';
 import Filters from '../common/Filters';
 import Title from '../common/Title';
 import VideoList from './VideoList';
 
-const VideoSection = (props) => {
-  const { videoGroups } = props;
+const VideoSectionCore = (props) => {
+  const { classes, videoGroups } = props;
   const [currentVideoGroup, setGroup] = useState('All');
 
   const getVideoGroups = () => {
@@ -33,10 +33,8 @@ const VideoSection = (props) => {
   };
 
   return (
-    <Grid container spacing={8}>
-      <Grid item xs={12}>
-        <Title>Video</Title>
-      </Grid>
+    <div className={classes.container}>
+      <Title>Video</Title>
 
       {videoGroups.length > 1
         && (
@@ -48,14 +46,13 @@ const VideoSection = (props) => {
         )
       }
 
-      <Grid item xs={12}>
-        <VideoList videos={getVideos()} />
-      </Grid>
-    </Grid>
+      <VideoList videos={getVideos()} />
+    </div>
   );
 };
 
-VideoSection.propTypes = {
+VideoSectionCore.propTypes = {
+  classes: PropTypes.shape({}).isRequired,
   videoGroups: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
@@ -65,6 +62,14 @@ VideoSection.propTypes = {
     }),
   ).isRequired,
 };
+
+const styles = theme => ({
+  container: {
+    paddingBottom: theme.spacing.unit * 8,
+  },
+});
+
+const VideoSection = withStyles(styles)(VideoSectionCore);
 
 export default () => (
   <StaticQuery
