@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
 import axios from 'axios';
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Validator from 'email-validator';
@@ -44,31 +43,39 @@ const ContactCore = (props) => {
   const submit = () => {
     const allValidations = validate();
 
-    if (!Object.values(allValidations).length
-      || Object.values(allValidations).some(val => !!val)) {
+    if (
+      !Object.values(allValidations).length
+      || Object.values(allValidations).some(val => !!val)
+    ) {
       setValidations(allValidations);
       return;
     }
     setLoading(true);
 
     const data = {
-      name, email, subject, message,
+      name,
+      email,
+      subject,
+      message,
     };
-    axios.post(submitUrl, JSON.stringify(data)).then((res) => {
-      setLoading(false);
-      setSuccess(res.status === 200);
-      setMessageOpen(true);
-      setName('');
-      setEmail('');
-      setSubject('');
-      setMessage('');
-    }).catch((err) => {
-      // eslint-disable-next-line no-console
-      console.error(err);
-      setLoading(false);
-      setSuccess(false);
-      setMessageOpen(true);
-    });
+    axios
+      .post(submitUrl, JSON.stringify(data))
+      .then((res) => {
+        setLoading(false);
+        setSuccess(res.status === 200);
+        setMessageOpen(true);
+        setName('');
+        setEmail('');
+        setSubject('');
+        setMessage('');
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.error(err);
+        setLoading(false);
+        setSuccess(false);
+        setMessageOpen(true);
+      });
   };
 
   const handleChange = key => (event) => {
@@ -100,33 +107,31 @@ const ContactCore = (props) => {
         description="Send an email to Sarabeth for any questions or to follow up with upcoming singing gigs. Feel free to reach out if interested in private voice or piano lessons."
       />
 
-      <Grid container spacing={8} className={classes.container}>
-        <Grid item xs={12}>
-          <Title>Contact Sarabeth</Title>
-        </Grid>
+      <div className={classes.container}>
+        <Title>Contact Sarabeth</Title>
 
         <Form
           values={{
-            name, email, subject, message,
+            name,
+            email,
+            subject,
+            message,
           }}
           validations={validations}
           onChange={handleChange}
         />
 
-        <Grid item xs={12}>
-          {loading
-            ? <CircularProgress color="secondary" className={classes.loading} />
-            : (
-              <Button
-                variant="outlined"
-                className={classes.button}
-                onClick={submit}
-              >
-              Submit
-              </Button>
-            )
-        }
-        </Grid>
+        {loading ? (
+          <CircularProgress color="secondary" className={classes.loading} />
+        ) : (
+          <Button
+            variant="outlined"
+            className={classes.button}
+            onClick={submit}
+          >
+            Submit
+          </Button>
+        )}
 
         <MessageStatus
           open={messageOpen}
@@ -136,7 +141,7 @@ const ContactCore = (props) => {
           }}
           success={submitSuccess}
         />
-      </Grid>
+      </div>
     </React.Fragment>
   );
 };
@@ -168,13 +173,11 @@ export default () => (
   <StaticQuery
     query={graphql`
       query ContactQuery {
-        contentfulContact{
+        contentfulContact {
           awsUrl
         }
       }
     `}
-    render={data => (
-      <Contact submitUrl={data.contentfulContact.awsUrl} />
-    )}
+    render={data => <Contact submitUrl={data.contentfulContact.awsUrl} />}
   />
 );

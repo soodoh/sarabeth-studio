@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { navigate } from 'gatsby';
 import Img from 'gatsby-image';
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -11,15 +10,13 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Lightbox from '../Photos/Lightbox';
 
 const StudioInfo = (props) => {
-  const {
-    classes, teachingResume, photoGallery,
-  } = props;
+  const { classes, teachingResume, photoGallery } = props;
   const [photosOpen, setOpen] = useState(false);
   const [currentPhoto, setPhoto] = useState(0);
 
   return (
-    <Grid container className={classes.container}>
-      <Grid item xs={12} sm={6} md={8} className={classes.gridItem}>
+    <div className={classes.container}>
+      <div className={classes.gridItem}>
         <Typography variant="h2" align="center">
           Teaching Resume
         </Typography>
@@ -38,10 +35,10 @@ const StudioInfo = (props) => {
             Book a Lesson
           </Button>
         </div>
-      </Grid>
+      </div>
 
       {photoGallery && photoGallery.length && (
-        <Grid item xs={12} sm={6} md={4} className={classes.gridItem}>
+        <div className={classes.gridItem}>
           <Typography variant="h2" align="center">
             Photos
           </Typography>
@@ -73,12 +70,12 @@ const StudioInfo = (props) => {
                 <Typography variant="subtitle1">
                   {"View Sarabeth's Studio"}
                 </Typography>
-              )}
+)}
             />
           </GridListTile>
-        </Grid>
+        </div>
       )}
-    </Grid>
+    </div>
   );
 };
 
@@ -97,11 +94,18 @@ StudioInfo.propTypes = {
 
 const styles = theme => ({
   container: {
-    paddingLeft: theme.spacing.unit * 2,
-    paddingRight: theme.spacing.unit * 2,
-    [`@media (min-width: ${theme.breakpoints.values.md}px)`]: {
-      paddingLeft: '10vw',
-      paddingRight: '10vw',
+    display: 'grid',
+    gridTemplateColumns: '1fr 30%',
+    paddingLeft: '10vw',
+    paddingRight: '10vw',
+
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: '50% 50%',
+      paddingLeft: theme.spacing.unit * 2,
+      paddingRight: theme.spacing.unit * 2,
+    },
+    [theme.breakpoints.down('xs')]: {
+      gridTemplateColumns: '100%',
     },
   },
   gridItem: {

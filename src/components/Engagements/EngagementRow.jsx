@@ -1,37 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Moment from 'moment';
+import moment from 'moment';
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 const EngagementCore = (props) => {
   const { classes, data } = props;
-  const isUpcoming = Moment(data.endDate).isAfter(Moment());
-  const startDate = Moment(data.startDate).format('MMMM Do');
-  const endDate = Moment(data.endDate).format('MMMM Do, YYYY');
+  const isUpcoming = moment(data.endDate).isAfter(moment());
+  const startDate = moment(data.startDate).format('MMMM Do');
+  const endDate = moment(data.endDate).format('MMMM Do, YYYY');
 
   return (
-    <Grid
-      container
-      spacing={8}
-      className={classes.container}
-    >
-      <Grid item xs={12} sm={4}>
-        <Typography
-          className={classes.prefix}
-          variant="h6"
-          color="inherit"
-        >
+    <div className={classes.container}>
+      <div className={classes.role}>
+        <Typography className={classes.prefix} variant="h6" color="inherit">
           Performing as
         </Typography>
         <Typography variant="h5" color="inherit">
           {data.role}
         </Typography>
-      </Grid>
+      </div>
 
-      <Grid item xs={12} sm={6}>
+      <div className={classes.info}>
         <Typography variant="h5" color="inherit">
           {data.label}
         </Typography>
@@ -43,17 +34,19 @@ const EngagementCore = (props) => {
         <Typography variant="body2" color="inherit">
           {`${startDate} - ${endDate}`}
         </Typography>
-      </Grid>
+      </div>
 
-      <Grid item xs={12} sm={2}>
+      <div>
         <Button
           variant="outlined"
-          onClick={() => { window.location.href = data.link; }}
+          onClick={() => {
+            window.location.href = data.link;
+          }}
         >
           {isUpcoming ? 'Buy Tickets' : 'Learn More'}
         </Button>
-      </Grid>
-    </Grid>
+      </div>
+    </div>
   );
 };
 
@@ -71,8 +64,27 @@ EngagementCore.propTypes = {
 
 const styles = theme => ({
   container: {
+    display: 'flex',
+    justifyContent: 'space-between',
     color: theme.palette.primary.contrastText,
     margin: theme.spacing.unit * 4,
+
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+  },
+  role: {},
+  info: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    flex: 1,
+
+    [theme.breakpoints.down('xs')]: {
+      margin: `${theme.spacing.unit * 2}px 0`,
+    },
   },
   prefix: {
     fontStyle: 'italic',

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import Metadata from '../components/Layout/Metadata';
 import Gallery from '../components/Photos/Gallery';
 import Title from '../components/common/Title';
@@ -39,40 +38,29 @@ const PhotosCore = (props) => {
       <Metadata
         title="Sarabeth Photos"
         description="Sarabeth Belón's photo gallery. View pictures from past performances, professional headshots and more. Photo credits included when viewing higher resolution images."
-        keywords={[
-          'sarabeth belon media',
-          'sarabeth belon photos',
-        ]}
+        keywords={['sarabeth belon media', 'sarabeth belon photos']}
       />
 
-      <Grid container spacing={8} className={classes.container}>
-        <Grid item xs={12}>
-          <Title>Photos</Title>
-        </Grid>
+      <div className={classes.container}>
+        <Title>Photos</Title>
 
-        {albums.length > 1
-        && (
+        {albums.length > 1 && (
           <Filters
             list={getAlbums()}
             activeItem={currentAlbum}
             onClick={album => setAlbum(album)}
           />
-        )
-      }
+        )}
 
-        <Grid item xs={12}>
-          <Gallery photos={getPhotos()} />
-        </Grid>
-      </Grid>
+        <Gallery photos={getPhotos()} />
+      </div>
     </React.Fragment>
   );
 };
 
 PhotosCore.propTypes = {
   classes: PropTypes.shape({}).isRequired,
-  albums: PropTypes.arrayOf(
-    PropTypes.object,
-  ).isRequired,
+  albums: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const styles = theme => ({
@@ -88,11 +76,11 @@ export default () => (
   <StaticQuery
     query={graphql`
       query PhotosQuery {
-        allContentfulPhotoAlbums(sort: {fields: [label], order: ASC}) {
-          edges{
-            node{
+        allContentfulPhotoAlbums(sort: { fields: [label], order: ASC }) {
+          edges {
+            node {
               label
-              photos{
+              photos {
                 title
                 description
                 fullSize: fluid(maxWidth: 1920) {
@@ -109,9 +97,7 @@ export default () => (
     `}
     render={data => (
       <Photos
-        albums={data.allContentfulPhotoAlbums.edges.map(item => (
-          item.node
-        ))}
+        albums={data.allContentfulPhotoAlbums.edges.map(item => item.node)}
       />
     )}
   />

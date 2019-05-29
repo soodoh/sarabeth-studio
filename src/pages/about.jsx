@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
 import Img from 'gatsby-image';
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Metadata from '../components/Layout/Metadata';
 
@@ -16,22 +15,20 @@ export const AboutCore = (props) => {
       <Metadata
         title="About Sarabeth"
         description="Sarabeth Belón is a San Diego native and UCLA alumnus . Based in LA County, she is available for hire as a professional singer and voice & piano teacher."
-        keywords={[
-          'vocal lessons los angeles',
-          'piano teacher los angeles',
-        ]}
+        keywords={['vocal lessons los angeles', 'piano teacher los angeles']}
       />
 
-      <Grid container spacing={40} className={classes.container}>
-        <Grid item xs={12} sm={6} md={4}>
+      <div className={classes.container}>
+        <div>
           <Img
+            className={classes.portrait}
             fluid={data.headshot.fluid}
             title="Sarabeth Portrait"
             alt="Sarabeth Belón Headshot"
           />
-        </Grid>
+        </div>
 
-        <Grid item xs={12} sm={6} md={8} className={classes.bio}>
+        <div>
           <Typography
             variant="h1"
             color="secondary"
@@ -46,8 +43,8 @@ export const AboutCore = (props) => {
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{ __html: bioHtml }}
           />
-        </Grid>
-      </Grid>
+        </div>
+      </div>
     </React.Fragment>
   );
 };
@@ -62,21 +59,36 @@ AboutCore.propTypes = {
 
 const styles = theme => ({
   container: {
-    padding: theme.spacing.unit * 2,
+    display: 'grid',
+    gridTemplateColumns: '33% 1fr',
+    gridTemplateRows: 'auto auto',
+    gridColumnGap: `${theme.spacing.unit * 4}px`,
+    padding: `${theme.spacing.unit * 2}px 10vw`,
     width: '100%',
-    [`@media (min-width: ${theme.breakpoints.values.md}px)`]: {
-      padding: `${theme.spacing.unit * 2}px 10vw`,
+
+    [theme.breakpoints.down('md')]: {
+      padding: theme.spacing.unit * 2,
+      gridTemplateColumns: '50% 1fr',
     },
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: '100%',
+    },
+  },
+  portrait: {
+    maxWidth: theme.spacing.unit * 50,
+    margin: 'auto',
+    marginBottom: theme.spacing.unit * 4,
   },
   title: {
     textTransform: 'uppercase',
   },
-  bio: {
-    paddingLeft: theme.spacing.unit * 2,
-  },
   bodyText: {
     ...theme.typography.body1,
     fontSize: '1.2rem',
+
+    [theme.breakpoints.down('md')]: {
+      paddingRight: theme.spacing.unit * 2,
+    },
   },
 });
 
@@ -87,12 +99,12 @@ export default () => (
     query={graphql`
       query AboutQuery {
         contentfulAbout {
-          title,
-          headshot{
-            fluid(maxWidth:1280){
+          title
+          headshot {
+            fluid(maxWidth: 1280) {
               ...GatsbyContentfulFluid_withWebp
-            },
-          },
+            }
+          }
           bio {
             childMarkdownRemark {
               html
@@ -101,8 +113,6 @@ export default () => (
         }
       }
     `}
-    render={data => (
-      <About data={data.contentfulAbout} />
-    )}
+    render={data => <About data={data.contentfulAbout} />}
   />
 );

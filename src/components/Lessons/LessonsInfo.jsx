@@ -3,71 +3,48 @@ import PropTypes from 'prop-types';
 import { navigate } from 'gatsby';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 const LessonsInfo = (props) => {
   const {
-    classes, mainDescription, availability, reviewLink, contact, location, phoneNumber,
+    classes,
+    mainDescription,
+    availability,
+    reviewLink,
+    contact,
+    location,
+    phoneNumber,
   } = props;
 
   return (
-    <Grid container className={classes.container}>
-      <Grid item xs={12}>
-        <Typography variant="h2" align="center">
-          {'Rates & Policies'}
-        </Typography>
-      </Grid>
+    <div className={classes.container}>
+      <Typography variant="h2" align="center" className={classes.title}>
+        {'Rates & Policies'}
+      </Typography>
 
-      <Grid
-        item
-        xs={12}
-        sm={6}
-        md={8}
-        className={classes.content}
+      <div
+        className={classes.markdown}
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: mainDescription }}
       />
 
-      <Grid
-        item
-        xs={12}
-        sm={6}
-        md={4}
-        className={classNames(classes.content, classes.verticalContent)}
-      >
-        <Typography variant="h4">
-          Location
-        </Typography>
-        <Typography variant="body1">
-          {location}
-        </Typography>
+      <div className={classNames(classes.markdown, classes.verticalContent)}>
+        <Typography variant="h4">Location</Typography>
+        <Typography variant="body1">{location}</Typography>
 
-        <Typography variant="h4">
-          Hours
-        </Typography>
+        <Typography variant="h4">Hours</Typography>
         <div
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: availability }}
         />
 
-        <Typography variant="h4">
-          Contact
-        </Typography>
-        <Typography
-          variant="body1"
-          component="a"
-          href={`mailto:${contact}`}
-        >
+        <Typography variant="h4">Contact</Typography>
+        <Typography variant="body1" component="a" href={`mailto:${contact}`}>
           {contact}
         </Typography>
         {phoneNumber && (
-          <Typography
-            variant="body1"
-            component="a"
-            href={`tel:${phoneNumber}`}
-          >
+          <Typography variant="body1" component="a" href={`tel:${phoneNumber}`}>
             {phoneNumber}
           </Typography>
         )}
@@ -89,8 +66,8 @@ const LessonsInfo = (props) => {
         >
           Book a Lesson
         </Button>
-      </Grid>
-    </Grid>
+      </div>
+    </div>
   );
 };
 
@@ -110,12 +87,23 @@ LessonsInfo.defaultProps = {
 
 const styles = theme => ({
   container: {
-    padding: `${theme.spacing.unit * 6}px 0`,
-    [`@media (min-width: ${theme.breakpoints.values.md}px)`]: {
-      padding: `${theme.spacing.unit * 6}px 10vw`,
+    display: 'grid',
+    gridTemplateRows: 'auto auto',
+    gridTemplateColumns: '1fr 30%',
+    padding: `${theme.spacing.unit * 6}px 10vw`,
+
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: '1fr 50%',
+      padding: `${theme.spacing.unit * 6}px 0`,
+    },
+    [theme.breakpoints.down('xs')]: {
+      gridTemplateColumns: '100%',
     },
   },
-  content: {
+  title: {
+    gridColumn: '1 / 3',
+  },
+  markdown: {
     ...theme.typography.body1,
     padding: `0 ${theme.spacing.unit * 3}px`,
     margin: 0,
