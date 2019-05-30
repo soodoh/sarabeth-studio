@@ -3,31 +3,31 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import PlayIcon from 'mdi-material-ui/Play';
+// import Img from 'gatsby-image';
+import Background from '../Layout/Background';
 
 const VideoThumbnailCore = (props) => {
   const {
-    classes, title, onClick,
+    classes, title, onClick, thumbnail,
   } = props;
 
   return (
-    <div className={classes.container}>
-      <div
-        role="button"
-        tabIndex={0}
-        className={classes.videoContainer}
-        onClick={onClick}
-        onKeyPress={(event) => {
-          if (event.charCode === 13) {
-            onClick();
-          }
-        }}
-      >
+    <div
+      className={classes.container}
+      role="button"
+      tabIndex={0}
+      onClick={onClick}
+      onKeyPress={(event) => {
+        if (event.charCode === 13) {
+          onClick();
+        }
+      }}
+    >
+      <Background sizes={thumbnail} />
+
+      <div className={classes.title}>
         <PlayIcon style={{ fontSize: '2.5rem' }} />
-        <Typography
-          variant="body2"
-          color="inherit"
-          className={classes.label}
-        >
+        <Typography variant="body2" color="inherit" className={classes.label}>
           {title}
         </Typography>
       </div>
@@ -38,16 +38,12 @@ const VideoThumbnailCore = (props) => {
 VideoThumbnailCore.propTypes = {
   classes: PropTypes.shape({}).isRequired,
   title: PropTypes.string.isRequired,
+  thumbnail: PropTypes.shape({}).isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
 const styles = theme => ({
-  thumbnail: {
-    width: '100%',
-    height: 'auto',
-    verticalAlign: 'top', // Removes bottom gutter for Masonry
-  },
-  videoContainer: {
+  container: {
     position: 'relative',
     cursor: 'pointer',
     overflow: 'hidden',
@@ -55,12 +51,15 @@ const styles = theme => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: theme.palette.grey[800],
     color: theme.palette.primary.contrastText,
 
     '&:hover': {
       color: theme.palette.secondary.main,
     },
+  },
+  thumbnail: {
+    width: '100%',
+    height: 'auto',
   },
   label: {
     width: '100%',
@@ -69,32 +68,17 @@ const styles = theme => ({
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
   },
-  // Breakpoints
-  [`@media (min-width: ${theme.breakpoints.values.xs}px)`]: {
-    container: {
-      width: '50%',
-    },
-    videoContainer: {
-      margin: theme.spacing.unit / 2,
-      height: '30vw',
-    },
-  },
-  [`@media (min-width: ${theme.breakpoints.values.md}px)`]: {
-    container: {
-      width: '33.33%',
-    },
-    videoContainer: {
-      margin: theme.spacing.unit * 2,
-      height: '20vw',
-    },
-  },
-  [`@media (min-width: ${theme.breakpoints.values.lg}px)`]: {
-    container: {
-      width: '25%',
-    },
-    videoContainer: {
-      height: '15vw',
-    },
+  title: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(0, 0, 0, .6)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
   },
 });
 

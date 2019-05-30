@@ -11,8 +11,7 @@ const VideoSectionCore = (props) => {
   const [currentVideoGroup, setGroup] = useState('All');
 
   const getVideoGroups = () => {
-    const newVideoGroups = videoGroups
-      .map(group => group.label);
+    const newVideoGroups = videoGroups.map(group => group.label);
 
     newVideoGroups.unshift('All');
     return newVideoGroups;
@@ -20,15 +19,14 @@ const VideoSectionCore = (props) => {
 
   const getVideos = () => {
     const videos = currentVideoGroup === 'All'
-      ? videoGroups.reduce((acc, group) => (
-        [...acc, ...group.videos]
-      ), [])
+      ? videoGroups.reduce((acc, group) => [...acc, ...group.videos], [])
       : videoGroups.find(videoGroup => videoGroup.label === currentVideoGroup)
         .videos;
 
     return videos.map(video => ({
       url: video.link,
       title: video.label,
+      thumbnail: video.thumbnail && video.thumbnail.fluid,
     }));
   };
 
@@ -36,15 +34,13 @@ const VideoSectionCore = (props) => {
     <div className={classes.container}>
       <Title>Video</Title>
 
-      {videoGroups.length > 1
-        && (
+      {videoGroups.length > 1 && (
         <Filters
           list={getVideoGroups()}
           activeItem={currentVideoGroup}
           onClick={videoGroup => setGroup(videoGroup)}
         />
-        )
-      }
+      )}
 
       <VideoList videos={getVideos()} />
     </div>
@@ -56,9 +52,7 @@ VideoSectionCore.propTypes = {
   videoGroups: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
-      videos: PropTypes.arrayOf(
-        PropTypes.object,
-      ).isRequired,
+      videos: PropTypes.arrayOf(PropTypes.object).isRequired,
     }),
   ).isRequired,
 };
@@ -75,13 +69,18 @@ export default () => (
   <StaticQuery
     query={graphql`
       query VideoQuery {
-        allContentfulVideoGroups(sort: {fields: [label], order: ASC}) {
-          edges{
-            node{
-              label,
-              videos{
-                label,
+        allContentfulVideoGroups(sort: { fields: [label], order: ASC }) {
+          edges {
+            node {
+              label
+              videos {
+                label
                 link
+                thumbnail {
+                  fluid(maxWidth: 800) {
+                    ...GatsbyContentfulFluid_withWebp
+                  }
+                }
               }
             }
           }
@@ -90,9 +89,7 @@ export default () => (
     `}
     render={data => (
       <VideoSection
-        videoGroups={data.allContentfulVideoGroups.edges.map(item => (
-          item.node
-        ))}
+        videoGroups={data.allContentfulVideoGroups.edges.map(item => item.node)}
       />
     )}
   />

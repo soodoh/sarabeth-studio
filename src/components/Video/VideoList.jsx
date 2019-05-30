@@ -36,26 +36,28 @@ const VideoListCore = (props) => {
         </div>
       </Dialog>
 
-      {Array.isArray(videos) && videos.map((video, index) => (
-        <VideoThumbnail
-          key={uid(video)}
-          index={index}
-          title={video.title}
-          onClick={() => {
-            setOpen(true);
-            setVideo(index);
-          }}
-        />
-      ))}
+      <div className={classes.videoList}>
+        {Array.isArray(videos)
+          && videos.map((video, index) => (
+            <VideoThumbnail
+              key={uid(video)}
+              index={index}
+              title={video.title}
+              thumbnail={video.thumbnail}
+              onClick={() => {
+                setOpen(true);
+                setVideo(index);
+              }}
+            />
+          ))}
+      </div>
     </div>
   );
 };
 
 VideoListCore.propTypes = {
   classes: PropTypes.shape({}).isRequired,
-  videos: PropTypes.arrayOf(
-    PropTypes.object,
-  ).isRequired,
+  videos: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const styles = theme => ({
@@ -64,6 +66,24 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
+  },
+  videoList: {
+    marginTop: theme.spacing.unit * 4,
+    display: 'grid',
+    width: '100%',
+    gridGap: `${theme.spacing.unit * 2}px`,
+    gridTemplateColumns: '1fr 1fr 1fr 1fr',
+    gridAutoRows: '15vw',
+
+    [theme.breakpoints.down('md')]: {
+      gridTemplateColumns: '1fr 1fr 1fr',
+      gridAutoRows: '20vw',
+    },
+    [theme.breakpoints.down('xs')]: {
+      gridTemplateColumns: '1fr 1fr',
+      gridGap: theme.spacing.unit / 2,
+      gridAutoRows: '25vw',
+    },
   },
   playerContainer: {
     position: 'relative',

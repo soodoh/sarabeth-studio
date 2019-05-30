@@ -131,7 +131,8 @@ const styles = theme => ({
     paddingRight: theme.spacing.unit * 2,
     paddingTop: theme.spacing.unit * 5,
     paddingBottom: theme.spacing.unit * 7,
-    [`@media (min-width: ${theme.breakpoints.values.md}px)`]: {
+
+    [theme.breakpoints.up('md')]: {
       paddingLeft: '10vw',
       paddingRight: '10vw',
     },

@@ -81,17 +81,17 @@ const styles = theme => ({
     margin: 0,
   },
   // Breakpoints
-  [`@media (min-width: ${theme.breakpoints.values.xs}px)`]: {
+  [theme.breakpoints.up('xs')]: {
     photoContainer: {
       width: '50%',
     },
   },
-  [`@media (min-width: ${theme.breakpoints.values.md}px)`]: {
+  [theme.breakpoints.up('md')]: {
     photoContainer: {
       width: '33.33%',
     },
   },
-  [`@media (min-width: ${theme.breakpoints.values.lg}px)`]: {
+  [theme.breakpoints.up('lg')]: {
     photoContainer: {
       width: '25%',
     },

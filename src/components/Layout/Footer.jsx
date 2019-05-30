@@ -60,7 +60,7 @@ const styles = theme => ({
     alignItems: 'center',
     padding: `0 ${theme.spacing.unit * 2}px`,
   },
-  [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
+  [theme.breakpoints.down('sm')]: {
     content: {
       flexDirection: 'column',
       alignItems: 'center',

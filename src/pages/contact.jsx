@@ -155,7 +155,7 @@ const styles = theme => ({
   container: {
     width: '100%',
     padding: theme.spacing.unit * 4,
-    [`@media (min-width: ${theme.breakpoints.values.md}px)`]: {
+    [theme.breakpoints.up('md')]: {
       padding: `${theme.spacing.unit * 4}px 20vw`,
     },
   },
