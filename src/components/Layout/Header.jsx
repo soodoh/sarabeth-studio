@@ -102,7 +102,7 @@ const HeaderWithData = ({ location }) => (
   <StaticQuery
     query={graphql`
       query HeaderQuery {
-        contentfulAbout{
+        contentfulAbout {
           resume {
             file {
               url
