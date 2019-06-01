@@ -22,7 +22,8 @@ const EngagementsCore = (props) => {
     <React.Fragment>
       <Metadata
         title="Sarabeth's Engagements"
-        description="View past and upcoming engagements where Sarabeth Belón will be performing. Location, venue, dates and the link to buy tickets is listed for each event."
+        description="Young and talented female opera singer, Sarabeth Belon, captivates audiences throughout the country. Learn more about her current and upcoming
+engagements!"
         keywords={['sarabeth belon engagements']}
       />
 

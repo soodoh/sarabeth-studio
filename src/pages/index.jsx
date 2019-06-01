@@ -14,7 +14,7 @@ const HomePageCore = (props) => {
     <React.Fragment>
       <Metadata
         title="Sarabeth Belón: Portfolio"
-        description="Sarabeth Belón: Opera Singer in Los Angeles. See upcoming engagements, recordings, photos and contact for future gigs or for private voice & piano lessons."
+        description="Sarabeth Belon, a young female opera singer, captivates audiences with her tessitura and repertoire versatility. Learn more about this artist!"
         keywords={[
           'young female opera singer',
           'opera singer los angeles',

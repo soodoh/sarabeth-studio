@@ -11,6 +11,10 @@ const Metadata = (props) => {
     <Helmet>
       <title>{title}</title>
       <meta name="google-site-verification" content="recDsrmbMWYOcfMC0vEE0asXttST_2d-4VZs1EVtSps" />
+      <meta name="GOOGLEBOT" content="index, follow" />
+      <meta name="ROBOTS" content="index, follow" />
+      <meta name="geo.region" content="US-CA" />
+      <meta name="geo.placename" content="Montebello" />
       <meta name="keywords" content={keywords.join(',')} />
 
       {description

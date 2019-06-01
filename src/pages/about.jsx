@@ -14,7 +14,7 @@ export const AboutCore = (props) => {
     <React.Fragment>
       <Metadata
         title="About Sarabeth"
-        description="Sarabeth Belón is a San Diego native and UCLA alumnus . Based in LA County, she is available for hire as a professional singer and voice & piano teacher."
+        description="Offering the very best private vocal lessons in Los Angeles. Refine your voice, achieve constant flow of breadth, and sing with ease."
         keywords={['vocal lessons los angeles', 'piano teacher los angeles']}
       />
 
