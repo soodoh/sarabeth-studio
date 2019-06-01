@@ -102,6 +102,10 @@ const styles = theme => ({
   },
   title: {
     gridColumn: '1 / 3',
+
+    [theme.breakpoints.down('xs')]: {
+      gridColumn: '1 / 2',
+    },
   },
   markdown: {
     ...theme.typography.body1,
