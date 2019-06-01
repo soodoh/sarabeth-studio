@@ -1,4 +1,4 @@
-// TODO probably move dotenv to devdependency as this only is run on build
+// eslint-disable-next-line import/no-extraneous-dependencies
 const dotenv = require('dotenv');
 const theme = require('./src/components/Layout/theme');
 
