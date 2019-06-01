@@ -13,7 +13,12 @@ if (!spaceId || !accessToken) {
   );
 }
 
+const siteUrl = 'https://sarabethbelon.com';
+
 module.exports = {
+  siteMetadata: {
+    siteUrl,
+  },
   plugins: [
     'gatsby-plugin-eslint',
     'gatsby-plugin-layout',
@@ -23,7 +28,16 @@ module.exports = {
     'gatsby-plugin-sharp',
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-remove-serviceworker',
+    'gatsby-plugin-sitemap',
     // 'gatsby-plugin-offline',
+    {
+      resolve: 'gatsby-plugin-robots-txt',
+      options: {
+        host: siteUrl,
+        sitemap: `${siteUrl}/sitemap.xml`,
+        policy: [{ userAgent: '*', allow: '/' }],
+      },
+    },
     {
       resolve: 'gatsby-plugin-web-font-loader',
       options: {
