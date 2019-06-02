@@ -58,6 +58,7 @@ const StudioInfo = (props) => {
           />
 
           <GridListTile
+            component="div"
             className={classes.photoGallery}
             onClick={() => setOpen(true)}
           >
