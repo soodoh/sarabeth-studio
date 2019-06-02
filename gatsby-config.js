@@ -47,10 +47,6 @@ module.exports = {
       },
     },
     {
-      resolve: '@wapps/gatsby-plugin-material-ui',
-      options: { theme },
-    },
-    {
       resolve: 'gatsby-plugin-manifest',
       options: {
         name: 'Sarabeth Belon Portfolio',

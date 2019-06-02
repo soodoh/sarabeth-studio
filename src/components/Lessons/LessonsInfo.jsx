@@ -2,13 +2,66 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { navigate } from 'gatsby';
 import classNames from 'classnames';
-import { withStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
+const useStyles = makeStyles(theme => ({
+  container: {
+    display: 'grid',
+    gridTemplateRows: 'auto auto',
+    gridTemplateColumns: '1fr 30%',
+    padding: `${theme.spacing(6)}px 10vw`,
+
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: '1fr 50%',
+      padding: theme.spacing(6, 0),
+    },
+    [theme.breakpoints.down('xs')]: {
+      gridTemplateColumns: '100%',
+    },
+  },
+  title: {
+    gridColumn: '1 / 3',
+
+    [theme.breakpoints.down('xs')]: {
+      gridColumn: '1 / 2',
+    },
+  },
+  markdown: {
+    ...theme.typography.body1,
+    padding: theme.spacing(0, 3),
+    margin: 0,
+    '& ul': {
+      marginLeft: theme.spacing(-4),
+      listStyleType: 'none',
+    },
+    '& ul li:before': {
+      content: '"\\2014"',
+      paddingRight: theme.spacing(1),
+    },
+    '& h1': {
+      ...theme.typography.h4,
+    },
+  },
+  button: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.secondary.contrastText,
+    border: 'none',
+    margin: theme.spacing(2),
+    '&:hover': {
+      backgroundColor: theme.palette.primary.light,
+    },
+  },
+  verticalContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+  },
+}));
+
 const LessonsInfo = (props) => {
   const {
-    classes,
     mainDescription,
     availability,
     reviewLink,
@@ -16,6 +69,7 @@ const LessonsInfo = (props) => {
     location,
     phoneNumber,
   } = props;
+  const classes = useStyles(props);
 
   return (
     <div className={classes.container}>
@@ -72,7 +126,6 @@ const LessonsInfo = (props) => {
 };
 
 LessonsInfo.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
   mainDescription: PropTypes.string.isRequired,
   availability: PropTypes.string.isRequired,
   contact: PropTypes.string.isRequired,
@@ -85,58 +138,4 @@ LessonsInfo.defaultProps = {
   phoneNumber: null,
 };
 
-const styles = theme => ({
-  container: {
-    display: 'grid',
-    gridTemplateRows: 'auto auto',
-    gridTemplateColumns: '1fr 30%',
-    padding: `${theme.spacing.unit * 6}px 10vw`,
-
-    [theme.breakpoints.down('sm')]: {
-      gridTemplateColumns: '1fr 50%',
-      padding: `${theme.spacing.unit * 6}px 0`,
-    },
-    [theme.breakpoints.down('xs')]: {
-      gridTemplateColumns: '100%',
-    },
-  },
-  title: {
-    gridColumn: '1 / 3',
-
-    [theme.breakpoints.down('xs')]: {
-      gridColumn: '1 / 2',
-    },
-  },
-  markdown: {
-    ...theme.typography.body1,
-    padding: `0 ${theme.spacing.unit * 3}px`,
-    margin: 0,
-    '& ul': {
-      marginLeft: theme.spacing.unit * -4,
-      listStyleType: 'none',
-    },
-    '& ul li:before': {
-      content: '"\\2014"',
-      paddingRight: theme.spacing.unit,
-    },
-    '& h1': {
-      ...theme.typography.h4,
-    },
-  },
-  button: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.secondary.contrastText,
-    border: 'none',
-    margin: theme.spacing.unit * 2,
-    '&:hover': {
-      backgroundColor: theme.palette.primary.light,
-    },
-  },
-  verticalContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-  },
-});
-
-export default withStyles(styles)(LessonsInfo);
+export default LessonsInfo;

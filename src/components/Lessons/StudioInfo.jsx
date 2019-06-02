@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import { navigate } from 'gatsby';
 import Img from 'gatsby-image';
 import Button from '@material-ui/core/Button';
@@ -9,8 +9,62 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Lightbox from '../Photos/Lightbox';
 
+const useStyles = makeStyles(theme => ({
+  container: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 30%',
+    paddingLeft: '10vw',
+    paddingRight: '10vw',
+
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: '50% 50%',
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+    },
+    [theme.breakpoints.down('xs')]: {
+      gridTemplateColumns: '100%',
+    },
+  },
+  gridItem: {
+    padding: theme.spacing(6, 4),
+  },
+  content: {
+    ...theme.typography.body1,
+    padding: 0,
+    margin: 0,
+    '& ul': {
+      marginLeft: theme.spacing(-4),
+      listStyleType: 'none',
+    },
+    '& ul li:before': {
+      content: '"\\2014"',
+      paddingRight: theme.spacing(1),
+    },
+    '& h1': {
+      ...theme.typography.h4,
+    },
+  },
+  button: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.secondary.contrastText,
+    border: 'none',
+    margin: theme.spacing(2),
+    '&:hover': {
+      backgroundColor: theme.palette.primary.light,
+    },
+  },
+  centerButton: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  photoGallery: {
+    cursor: 'pointer',
+  },
+}));
+
 const StudioInfo = (props) => {
-  const { classes, teachingResume, photoGallery } = props;
+  const { teachingResume, photoGallery } = props;
+  const classes = useStyles(props);
   const [photosOpen, setOpen] = useState(false);
   const [currentPhoto, setPhoto] = useState(0);
 
@@ -81,7 +135,6 @@ const StudioInfo = (props) => {
 };
 
 StudioInfo.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
   teachingResume: PropTypes.string.isRequired,
   photoGallery: PropTypes.arrayOf(
     PropTypes.shape({
@@ -93,57 +146,4 @@ StudioInfo.propTypes = {
   ).isRequired,
 };
 
-const styles = theme => ({
-  container: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 30%',
-    paddingLeft: '10vw',
-    paddingRight: '10vw',
-
-    [theme.breakpoints.down('sm')]: {
-      gridTemplateColumns: '50% 50%',
-      paddingLeft: theme.spacing.unit * 2,
-      paddingRight: theme.spacing.unit * 2,
-    },
-    [theme.breakpoints.down('xs')]: {
-      gridTemplateColumns: '100%',
-    },
-  },
-  gridItem: {
-    padding: `${theme.spacing.unit * 6}px ${theme.spacing.unit * 4}px`,
-  },
-  content: {
-    ...theme.typography.body1,
-    padding: 0,
-    margin: 0,
-    '& ul': {
-      marginLeft: theme.spacing.unit * -4,
-      listStyleType: 'none',
-    },
-    '& ul li:before': {
-      content: '"\\2014"',
-      paddingRight: theme.spacing.unit,
-    },
-    '& h1': {
-      ...theme.typography.h4,
-    },
-  },
-  button: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.secondary.contrastText,
-    border: 'none',
-    margin: theme.spacing.unit * 2,
-    '&:hover': {
-      backgroundColor: theme.palette.primary.light,
-    },
-  },
-  centerButton: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  photoGallery: {
-    cursor: 'pointer',
-  },
-});
-
-export default withStyles(styles)(StudioInfo);
+export default StudioInfo;

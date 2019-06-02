@@ -1,12 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import Background from '../Layout/Background';
+
+const useStyles = makeStyles(theme => ({
+  container: {
+    position: 'relative',
+    minHeight: '50vh',
+    padding: theme.spacing(6, 2),
+
+    [theme.breakpoints.up('md')]: {
+      padding: `${theme.spacing(6)} 10vw`,
+    },
+  },
+  background: {
+    filter: 'brightness(20%)',
+  },
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: theme.spacing(0, 2),
+
+    '& p': {
+      ...theme.typography.body1,
+      margin: 0,
+    },
+    '& h1': {
+      ...theme.typography.h2,
+      margin: 0,
+    },
+  },
+}));
 
 const About = (props) => {
   const {
-    classes, aboutPhoto, aboutDescription,
+    aboutPhoto, aboutDescription,
   } = props;
+  const classes = useStyles(props);
 
   return (
     <div className={classes.container}>
@@ -22,7 +53,6 @@ const About = (props) => {
 };
 
 About.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
   aboutPhoto: PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string,
@@ -31,34 +61,4 @@ About.propTypes = {
   aboutDescription: PropTypes.string.isRequired,
 };
 
-const styles = theme => ({
-  container: {
-    position: 'relative',
-    minHeight: '50vh',
-    padding: `${theme.spacing.unit * 6}px ${theme.spacing.unit * 2}px`,
-
-    [theme.breakpoints.up('md')]: {
-      padding: `${theme.spacing.unit * 6}px 10vw`,
-    },
-  },
-  background: {
-    filter: 'brightness(20%)',
-  },
-  content: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: `0 ${theme.spacing.unit * 2}px`,
-
-    '& p': {
-      ...theme.typography.body1,
-      margin: 0,
-    },
-    '& h1': {
-      ...theme.typography.h2,
-      margin: 0,
-    },
-  },
-});
-
-export default withStyles(styles)(About);
+export default About;

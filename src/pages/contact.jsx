@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
 import axios from 'axios';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Validator from 'email-validator';
@@ -11,8 +11,25 @@ import Title from '../components/common/Title';
 import Form from '../components/Contact/Form';
 import MessageStatus from '../components/Contact/MessageStatus';
 
-const ContactCore = (props) => {
-  const { classes, submitUrl } = props;
+const useStyles = makeStyles(theme => ({
+  container: {
+    width: '100%',
+    padding: theme.spacing(4),
+    [theme.breakpoints.up('md')]: {
+      padding: `${theme.spacing(4)}px 20vw`,
+    },
+  },
+  button: {
+    marginTop: theme.spacing(2),
+  },
+  loading: {
+    margin: theme.spacing(4),
+  },
+}));
+
+const Contact = (props) => {
+  const { submitUrl } = props;
+  const classes = useStyles(props);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
@@ -146,28 +163,9 @@ const ContactCore = (props) => {
   );
 };
 
-ContactCore.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
+Contact.propTypes = {
   submitUrl: PropTypes.string.isRequired,
 };
-
-const styles = theme => ({
-  container: {
-    width: '100%',
-    padding: theme.spacing.unit * 4,
-    [theme.breakpoints.up('md')]: {
-      padding: `${theme.spacing.unit * 4}px 20vw`,
-    },
-  },
-  button: {
-    marginTop: theme.spacing.unit * 2,
-  },
-  loading: {
-    margin: theme.spacing.unit * 4,
-  },
-});
-
-const Contact = withStyles(styles)(ContactCore);
 
 export default () => (
   <StaticQuery

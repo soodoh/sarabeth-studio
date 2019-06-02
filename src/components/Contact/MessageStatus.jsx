@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import green from '@material-ui/core/colors/green';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
@@ -10,10 +10,27 @@ import ErrorIcon from 'mdi-material-ui/AlertCircle';
 import SuccessIcon from 'mdi-material-ui/CheckCircle';
 import IconButton from '@material-ui/core/IconButton';
 
-const MessageCore = (props) => {
+const useStyles = makeStyles(theme => ({
+  message: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  icon: {
+    marginRight: theme.spacing(1),
+  },
+  success: {
+    backgroundColor: green[600],
+  },
+  error: {
+    backgroundColor: theme.palette.error.dark,
+  },
+}));
+
+const Message = (props) => {
   const {
-    classes, open, onClose, success,
+    open, onClose, success,
   } = props;
+  const classes = useStyles(props);
 
   return (
     <Snackbar
@@ -59,31 +76,14 @@ const MessageCore = (props) => {
     </Snackbar>
   );
 };
-MessageCore.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
+Message.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool,
   success: PropTypes.bool,
 };
-MessageCore.defaultProps = {
+Message.defaultProps = {
   open: false,
   success: false,
 };
 
-const styles = theme => ({
-  message: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  icon: {
-    marginRight: theme.spacing.unit,
-  },
-  success: {
-    backgroundColor: green[600],
-  },
-  error: {
-    backgroundColor: theme.palette.error.dark,
-  },
-});
-
-export default withStyles(styles)(MessageCore);
+export default Message;

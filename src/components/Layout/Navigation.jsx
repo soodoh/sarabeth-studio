@@ -1,12 +1,38 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import { Link } from 'gatsby';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
-const NavigationCore = (props) => {
-  const { classes, location, resume } = props;
+const useStyles = makeStyles(theme => ({
+  container: {
+    display: 'flex',
+  },
+  link: {
+    color: theme.palette.primary.contrastText,
+    textDecoration: 'none',
+    marginLeft: theme.spacing(4),
+    textTransform: 'uppercase',
+    fontFamily: theme.typography.fontFamily,
+    lineHeight: '1.5rem',
+  },
+  active: {
+    borderBottom: '1px solid',
+  },
+  menu: {
+    backgroundColor: theme.palette.primary.dark,
+    color: theme.palette.primary.contrastText,
+  },
+  menuLink: {
+    color: theme.palette.primary.contrastText,
+    textTransform: 'uppercase',
+  },
+}));
+
+const Navigation = (props) => {
+  const { location, resume } = props;
+  const classes = useStyles(props);
   const [menuAnchor, setAnchor] = useState(null);
 
   return (
@@ -103,40 +129,11 @@ const NavigationCore = (props) => {
   );
 };
 
-NavigationCore.propTypes = {
-  classes: PropTypes.shape({
-    container: PropTypes.string,
-    link: PropTypes.string,
-  }).isRequired,
+Navigation.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,
   resume: PropTypes.string.isRequired,
 };
 
-const styles = theme => ({
-  container: {
-    display: 'flex',
-  },
-  link: {
-    color: theme.palette.primary.contrastText,
-    textDecoration: 'none',
-    marginLeft: theme.spacing.unit * 4,
-    textTransform: 'uppercase',
-    fontFamily: theme.typography.fontFamily,
-    lineHeight: '1.5rem',
-  },
-  active: {
-    borderBottom: '1px solid',
-  },
-  menu: {
-    backgroundColor: theme.palette.primary.dark,
-    color: theme.palette.primary.contrastText,
-  },
-  menuLink: {
-    color: theme.palette.primary.contrastText,
-    textTransform: 'uppercase',
-  },
-});
-
-export default withStyles(styles)(NavigationCore);
+export default Navigation;

@@ -1,13 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import AudioPlayer from './AudioPlayer';
 
-const SongEntryCore = (props) => {
+const useStyles = makeStyles(theme => ({
+  container: {
+    marginTop: theme.spacing(2),
+  },
+  metadata: {
+    display: 'flex',
+  },
+  title: {
+    color: theme.palette.secondary.main,
+  },
+  subtitle: {
+    color: theme.palette.primary.contrastText,
+    marginLeft: theme.spacing(2),
+  },
+}));
+
+const SongEntry = (props) => {
   const {
-    classes, title, subtitle, url,
+    title, subtitle, url,
   } = props;
+  const classes = useStyles(props);
 
   return (
     <div className={classes.container}>
@@ -29,30 +46,13 @@ const SongEntryCore = (props) => {
   );
 };
 
-SongEntryCore.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
+SongEntry.propTypes = {
   title: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
   subtitle: PropTypes.string,
 };
-SongEntryCore.defaultProps = {
+SongEntry.defaultProps = {
   subtitle: '',
 };
 
-const styles = theme => ({
-  container: {
-    marginTop: theme.spacing.unit * 2,
-  },
-  metadata: {
-    display: 'flex',
-  },
-  title: {
-    color: theme.palette.secondary.main,
-  },
-  subtitle: {
-    color: theme.palette.primary.contrastText,
-    marginLeft: theme.spacing.unit * 2,
-  },
-});
-
-export default withStyles(styles)(SongEntryCore);
+export default SongEntry;

@@ -1,12 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-const EngagementCore = (props) => {
-  const { classes, data } = props;
+const useStyles = makeStyles(theme => ({
+  container: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    color: theme.palette.primary.contrastText,
+    margin: theme.spacing(4),
+
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+  },
+  role: {},
+  info: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    flex: 1,
+
+    [theme.breakpoints.down('xs')]: {
+      margin: theme.spacing(2, 0),
+    },
+  },
+  prefix: {
+    fontStyle: 'italic',
+    fontSize: '.8rem',
+  },
+}));
+
+const Engagement = (props) => {
+  const { data } = props;
+  const classes = useStyles(props);
   const isUpcoming = moment(data.endDate).isAfter(moment());
   const startDate = moment(data.startDate).format('MMMM Do');
   const endDate = moment(data.endDate).format('MMMM Do, YYYY');
@@ -50,8 +81,7 @@ const EngagementCore = (props) => {
   );
 };
 
-EngagementCore.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
+Engagement.propTypes = {
   data: PropTypes.shape({
     endDate: PropTypes.string.isRequired,
     startDate: PropTypes.string.isRequired,
@@ -62,34 +92,4 @@ EngagementCore.propTypes = {
   }).isRequired,
 };
 
-const styles = theme => ({
-  container: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    color: theme.palette.primary.contrastText,
-    margin: theme.spacing.unit * 4,
-
-    [theme.breakpoints.down('xs')]: {
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-  },
-  role: {},
-  info: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    flex: 1,
-
-    [theme.breakpoints.down('xs')]: {
-      margin: `${theme.spacing.unit * 2}px 0`,
-    },
-  },
-  prefix: {
-    fontStyle: 'italic',
-    fontSize: '.8rem',
-  },
-});
-
-export default withStyles(styles)(EngagementCore);
+export default Engagement;

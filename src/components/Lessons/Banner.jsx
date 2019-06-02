@@ -2,14 +2,89 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { navigate } from 'gatsby';
 import ReactSvg from 'react-svg';
-import { withStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import Background from '../Layout/Background';
 import Title from '../common/Title';
 
+const useStyles = makeStyles(theme => ({
+  container: {
+    display: 'grid',
+    gridTemplateRows: 'auto auto',
+    gridTemplateColumns: '50% 50%',
+
+    [theme.breakpoints.down('xs')]: {
+      gridTemplateColumns: '100%',
+    },
+  },
+  banner: {
+    height: '50vh',
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  bannerPhoto: {
+    filter: 'brightness(80%)',
+  },
+  buttonGroup: {
+    gridColumn: '1 / 3',
+    display: 'flex',
+    justifyContent: 'center',
+    margin: theme.spacing(2, 0),
+
+    [theme.breakpoints.down('xs')]: {
+      gridColumn: '1 / 2',
+    },
+  },
+  bannerButton: {
+    backgroundColor: theme.palette.secondary.dark,
+    color: theme.palette.secondary.light,
+    border: 'none',
+    margin: theme.spacing(2),
+  },
+  blurb: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    paddingTop: theme.spacing(5),
+    paddingBottom: theme.spacing(7),
+
+    [theme.breakpoints.up('md')]: {
+      paddingLeft: '10vw',
+      paddingRight: '10vw',
+    },
+  },
+  blurbContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    padding: theme.spacing(0, 2),
+
+    '& p': {
+      ...theme.typography.body1,
+      color: theme.palette.secondary.main,
+      margin: 0,
+    },
+    '& h1': {
+      ...theme.typography.h2,
+      fontSize: '1.5rem',
+      margin: 0,
+    },
+  },
+  svgImage: {
+    '& path': {
+      fill: theme.palette.secondary.light,
+    },
+  },
+}));
+
 const Banner = (props) => {
   const {
-    classes,
     mainPhoto,
     voiceLessonsSvg,
     voiceLessons,
@@ -18,6 +93,7 @@ const Banner = (props) => {
     aboutRef,
     infoRef,
   } = props;
+  const classes = useStyles(props);
 
   return (
     <React.Fragment>
@@ -52,7 +128,7 @@ const Banner = (props) => {
         </div>
 
         <div className={classes.blurb}>
-          <ReactSvg src={voiceLessonsSvg} svgClassName={classes.svgImage} />
+          <ReactSvg src={voiceLessonsSvg} className={classes.svgImage} />
           <div
             className={classes.blurbContent}
             // eslint-disable-next-line react/no-danger
@@ -61,7 +137,7 @@ const Banner = (props) => {
         </div>
 
         <div className={classes.blurb}>
-          <ReactSvg src={pianoLessonsSvg} svgClassName={classes.svgImage} />
+          <ReactSvg src={pianoLessonsSvg} className={classes.svgImage} />
           <div
             className={classes.blurbContent}
             // eslint-disable-next-line react/no-danger
@@ -74,7 +150,6 @@ const Banner = (props) => {
 };
 
 Banner.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
   mainPhoto: PropTypes.shape({
     fluid: PropTypes.object.isRequired,
   }).isRequired,
@@ -86,80 +161,4 @@ Banner.propTypes = {
   infoRef: PropTypes.shape({}).isRequired,
 };
 
-const styles = theme => ({
-  container: {
-    display: 'grid',
-    gridTemplateRows: 'auto auto',
-    gridTemplateColumns: '50% 50%',
-
-    [theme.breakpoints.down('xs')]: {
-      gridTemplateColumns: '100%',
-    },
-  },
-  banner: {
-    height: '50vh',
-    position: 'relative',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  bannerPhoto: {
-    filter: 'brightness(80%)',
-  },
-  buttonGroup: {
-    gridColumn: '1 / 3',
-    display: 'flex',
-    justifyContent: 'center',
-    margin: `${theme.spacing.unit * 2}px 0`,
-
-    [theme.breakpoints.down('xs')]: {
-      gridColumn: '1 / 2',
-    },
-  },
-  bannerButton: {
-    backgroundColor: theme.palette.secondary.dark,
-    color: theme.palette.secondary.light,
-    border: 'none',
-    margin: theme.spacing.unit * 2,
-  },
-  blurb: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    paddingLeft: theme.spacing.unit * 2,
-    paddingRight: theme.spacing.unit * 2,
-    paddingTop: theme.spacing.unit * 5,
-    paddingBottom: theme.spacing.unit * 7,
-
-    [theme.breakpoints.up('md')]: {
-      paddingLeft: '10vw',
-      paddingRight: '10vw',
-    },
-  },
-  blurbContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    padding: `0 ${theme.spacing.unit * 2}px`,
-
-    '& p': {
-      ...theme.typography.body1,
-      color: theme.palette.secondary.main,
-      margin: 0,
-    },
-    '& h1': {
-      ...theme.typography.h2,
-      fontSize: '1.5rem',
-      margin: 0,
-    },
-  },
-  svgImage: {
-    '& path': {
-      fill: theme.palette.secondary.light,
-    },
-  },
-});
-
-export default withStyles(styles)(Banner);
+export default Banner;

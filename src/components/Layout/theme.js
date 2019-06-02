@@ -24,7 +24,6 @@ const rawTheme = {
     },
   },
   typography: {
-    useNextVariants: true,
     fontFamily: '\'Muli\', sans-serif',
     h1: {
       color: primary.main,

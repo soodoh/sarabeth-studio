@@ -1,10 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withTheme } from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/styles';
 import Lightbox from 'react-images';
 
-const LightboxCore = (props) => {
-  const { theme, ...others } = props;
+const ThemedLightbox = (props) => {
+  const theme = useTheme();
   const themeProp = {
     container: {
       fontFamily: theme.typography.fontFamily,
@@ -27,16 +26,9 @@ const LightboxCore = (props) => {
     <Lightbox
       theme={themeProp}
       backdropClosesModal
-      {...others}
+      {...props}
     />
   );
 };
 
-LightboxCore.propTypes = {
-  theme: PropTypes.shape({
-    typography: PropTypes.object.isRequired,
-    palette: PropTypes.object.isRequired,
-  }).isRequired,
-};
-
-export default withTheme()(LightboxCore);
+export default ThemedLightbox;

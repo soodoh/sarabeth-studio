@@ -1,48 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import PlayIcon from 'mdi-material-ui/Play';
-// import Img from 'gatsby-image';
 import Background from '../Layout/Background';
 
-const VideoThumbnailCore = (props) => {
-  const {
-    classes, title, onClick, thumbnail,
-  } = props;
-
-  return (
-    <div
-      className={classes.container}
-      role="button"
-      tabIndex={0}
-      onClick={onClick}
-      onKeyPress={(event) => {
-        if (event.charCode === 13) {
-          onClick();
-        }
-      }}
-    >
-      <Background sizes={thumbnail} />
-
-      <div className={classes.title}>
-        <PlayIcon style={{ fontSize: '2.5rem' }} />
-        <Typography variant="body2" color="inherit" className={classes.label}>
-          {title}
-        </Typography>
-      </div>
-    </div>
-  );
-};
-
-VideoThumbnailCore.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
-  title: PropTypes.string.isRequired,
-  thumbnail: PropTypes.shape({}).isRequired,
-  onClick: PropTypes.func.isRequired,
-};
-
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   container: {
     position: 'relative',
     cursor: 'pointer',
@@ -80,6 +43,42 @@ const styles = theme => ({
     alignItems: 'center',
     flexDirection: 'column',
   },
-});
+}));
 
-export default withStyles(styles)(VideoThumbnailCore);
+const VideoThumbnailCore = (props) => {
+  const {
+    title, onClick, thumbnail,
+  } = props;
+  const classes = useStyles(props);
+
+  return (
+    <div
+      className={classes.container}
+      role="button"
+      tabIndex={0}
+      onClick={onClick}
+      onKeyPress={(event) => {
+        if (event.charCode === 13) {
+          onClick();
+        }
+      }}
+    >
+      <Background sizes={thumbnail} />
+
+      <div className={classes.title}>
+        <PlayIcon style={{ fontSize: '2.5rem' }} />
+        <Typography variant="body2" color="inherit" className={classes.label}>
+          {title}
+        </Typography>
+      </div>
+    </div>
+  );
+};
+
+VideoThumbnailCore.propTypes = {
+  title: PropTypes.string.isRequired,
+  thumbnail: PropTypes.shape({}).isRequired,
+  onClick: PropTypes.func.isRequired,
+};
+
+export default VideoThumbnailCore;

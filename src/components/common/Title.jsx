@@ -1,10 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 
-const TitleCore = (props) => {
-  const { classes, children } = props;
+const useStyles = makeStyles(theme => ({
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  title: {
+    display: 'inline-block',
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.secondary.contrastText,
+    padding: theme.spacing(1, 4),
+    fontSize: '2rem',
+  },
+}));
+
+const Title = (props) => {
+  const { children } = props;
+  const classes = useStyles(props);
 
   return (
     <div className={classes.container}>
@@ -14,23 +29,8 @@ const TitleCore = (props) => {
     </div>
   );
 };
-TitleCore.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
+Title.propTypes = {
   children: PropTypes.string.isRequired,
 };
 
-const styles = theme => ({
-  container: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  title: {
-    display: 'inline-block',
-    backgroundColor: theme.palette.secondary.main,
-    color: theme.palette.secondary.contrastText,
-    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 4}px`,
-    fontSize: '2rem',
-  },
-});
-
-export default withStyles(styles)(TitleCore);
+export default Title;

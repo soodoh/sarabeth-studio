@@ -1,12 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
+
+const useStyles = makeStyles(theme => ({
+  container: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    flexDirection: 'column',
+  },
+  halfWidth: {
+    width: '50%',
+
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
+  },
+  textInput: {
+    margin: theme.spacing(2, 0),
+  },
+}));
 
 const Form = (props) => {
   const {
-    classes, onChange, values, validations,
+    onChange, values, validations,
   } = props;
+  const classes = useStyles(props);
 
   return (
     <div className={classes.container}>
@@ -56,7 +75,6 @@ const Form = (props) => {
 };
 
 Form.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
   onChange: PropTypes.func.isRequired,
   values: PropTypes.shape({
     name: PropTypes.string,
@@ -72,22 +90,4 @@ Form.propTypes = {
   }).isRequired,
 };
 
-const styles = theme => ({
-  container: {
-    display: 'flex',
-    justifyContent: 'flex-start',
-    flexDirection: 'column',
-  },
-  halfWidth: {
-    width: '50%',
-
-    [theme.breakpoints.down('xs')]: {
-      width: '100%',
-    },
-  },
-  textInput: {
-    margin: `${theme.spacing.unit * 2}px 0`,
-  },
-});
-
-export default withStyles(styles)(Form);
+export default Form;

@@ -1,12 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import Metadata from '../components/Layout/Metadata';
 import VideoSection from '../components/Video/VideoSection';
 import AudioSection from '../components/Audio/AudioSection';
 
-const MediaCore = (props) => {
-  const { classes } = props;
+const useStyles = makeStyles(theme => ({
+  container: {
+    padding: theme.spacing(4),
+
+    [theme.breakpoints.up('md')]: {
+      padding: `${theme.spacing(4)}px 10vw`,
+    },
+  },
+}));
+
+const Media = () => {
+  const classes = useStyles();
 
   return (
     <React.Fragment>
@@ -26,18 +35,5 @@ const MediaCore = (props) => {
     </React.Fragment>
   );
 };
-MediaCore.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
-};
 
-const styles = theme => ({
-  container: {
-    padding: theme.spacing.unit * 4,
-
-    [theme.breakpoints.up('md')]: {
-      padding: `${theme.spacing.unit * 4}px 10vw`,
-    },
-  },
-});
-
-export default withStyles(styles)(MediaCore);
+export default Media;

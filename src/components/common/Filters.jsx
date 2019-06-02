@@ -2,13 +2,41 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { uid } from 'react-uid';
 import classNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 
-const FiltersCore = (props) => {
+const useStyles = makeStyles(theme => ({
+  buttonGroup: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    flexWrap: 'wrap',
+    marginTop: theme.spacing(4),
+    width: '100%',
+  },
+  button: {
+    backgroundColor: theme.palette.secondary.dark,
+    color: theme.palette.primary.contrastText,
+    borderRadius: 0,
+    margin: theme.spacing(1),
+
+    '&:hover': {
+      backgroundColor: 'transparent',
+    },
+  },
+  active: {
+    backgroundColor: theme.palette.primary.main,
+
+    '&:hover': {
+      backgroundColor: theme.palette.primary.light,
+    },
+  },
+}));
+
+const Filters = (props) => {
   const {
-    classes, list, activeItem, onClick,
+    list, activeItem, onClick,
   } = props;
+  const classes = useStyles(props);
 
   return (
     <div className={classes.buttonGroup}>
@@ -25,8 +53,8 @@ const FiltersCore = (props) => {
     </div>
   );
 };
-FiltersCore.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
+
+Filters.propTypes = {
   list: PropTypes.arrayOf(
     PropTypes.string,
   ).isRequired,
@@ -34,31 +62,4 @@ FiltersCore.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 
-const styles = theme => ({
-  buttonGroup: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    flexWrap: 'wrap',
-    marginTop: theme.spacing.unit * 4,
-    width: '100%',
-  },
-  button: {
-    backgroundColor: theme.palette.secondary.dark,
-    color: theme.palette.primary.contrastText,
-    borderRadius: 0,
-    margin: theme.spacing.unit,
-
-    '&:hover': {
-      backgroundColor: 'transparent',
-    },
-  },
-  active: {
-    backgroundColor: theme.palette.primary.main,
-
-    '&:hover': {
-      backgroundColor: theme.palette.primary.light,
-    },
-  },
-});
-
-export default withStyles(styles)(FiltersCore);
+export default Filters;

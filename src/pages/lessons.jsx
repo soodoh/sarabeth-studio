@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import { StaticQuery, graphql } from 'gatsby';
 import Divider from '@material-ui/core/Divider';
 import Banner from '../components/Lessons/Banner';
@@ -9,75 +9,74 @@ import LessonsInfo from '../components/Lessons/LessonsInfo';
 import StudioInfo from '../components/Lessons/StudioInfo';
 import Metadata from '../components/Layout/Metadata';
 
-class LessonsCore extends React.Component {
-  constructor(props) {
-    super(props);
+const useStyles = makeStyles(theme => ({
+  divider: {
+    margin: theme.spacing(0, 6),
+  },
+}));
 
-    this.aboutRef = React.createRef();
-    this.infoRef = React.createRef();
-  }
+const Lessons = (props) => {
+  const {
+    location, contact, reviewLink, voiceLessons,
+    pianoLessons, teachingResume, availability, mainDescription,
+    aboutDescription, mainPhoto, aboutPhoto, photoGallery,
+    voiceLessonsSvg, pianoLessonsSvg, phoneNumber,
+  } = props;
+  const classes = useStyles(props);
+  const aboutRef = useRef();
+  const infoRef = useRef();
 
-  render() {
-    const {
-      classes, location, contact, reviewLink, voiceLessons,
-      pianoLessons, teachingResume, availability, mainDescription,
-      aboutDescription, mainPhoto, aboutPhoto, photoGallery,
-      voiceLessonsSvg, pianoLessonsSvg, phoneNumber,
-    } = this.props;
+  return (
+    <React.Fragment>
+      <Metadata
+        title="Singing Lessons | Piano Lessons Los Angeles"
+        description="Offering the very best singing and piano lessons in Los Angeles. Refine your voice, sing with ease, and perfect your piano skills. Book your lesson now!"
+        keywords={[
+          'singing lessons los angeles',
+          'piano lessons los angeles',
+          'voice lessons los angeles',
+          'singing coach los angeles',
+          'piano teacher los angeles',
+        ]}
+      />
 
-    return (
-      <>
-        <Metadata
-          title="Singing Lessons | Piano Lessons Los Angeles"
-          description="Offering the very best singing and piano lessons in Los Angeles. Refine your voice, sing with ease, and perfect your piano skills. Book your lesson now!"
-          keywords={[
-            'singing lessons los angeles',
-            'piano lessons los angeles',
-            'voice lessons los angeles',
-            'singing coach los angeles',
-            'piano teacher los angeles',
-          ]}
-        />
+      <Banner
+        aboutRef={aboutRef}
+        infoRef={infoRef}
+        mainPhoto={mainPhoto}
+        voiceLessons={voiceLessons}
+        pianoLessons={pianoLessons}
+        voiceLessonsSvg={voiceLessonsSvg}
+        pianoLessonsSvg={pianoLessonsSvg}
+      />
 
-        <Banner
-          aboutRef={this.aboutRef}
-          infoRef={this.infoRef}
-          mainPhoto={mainPhoto}
-          voiceLessons={voiceLessons}
-          pianoLessons={pianoLessons}
-          voiceLessonsSvg={voiceLessonsSvg}
-          pianoLessonsSvg={pianoLessonsSvg}
-        />
+      <div ref={aboutRef} />
+      <About
+        aboutPhoto={aboutPhoto}
+        aboutDescription={aboutDescription}
+      />
 
-        <div ref={this.aboutRef} />
-        <About
-          aboutPhoto={aboutPhoto}
-          aboutDescription={aboutDescription}
-        />
+      <div ref={infoRef} />
+      <LessonsInfo
+        mainDescription={mainDescription}
+        availability={availability}
+        phoneNumber={phoneNumber}
+        contact={contact}
+        location={location}
+        reviewLink={reviewLink}
+      />
 
-        <div ref={this.infoRef} />
-        <LessonsInfo
-          mainDescription={mainDescription}
-          availability={availability}
-          phoneNumber={phoneNumber}
-          contact={contact}
-          location={location}
-          reviewLink={reviewLink}
-        />
+      <Divider className={classes.divider} />
 
-        <Divider className={classes.divider} />
+      <StudioInfo
+        teachingResume={teachingResume}
+        photoGallery={photoGallery}
+      />
+    </React.Fragment>
+  );
+};
 
-        <StudioInfo
-          teachingResume={teachingResume}
-          photoGallery={photoGallery}
-        />
-      </>
-    );
-  }
-}
-
-LessonsCore.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
+Lessons.propTypes = {
   location: PropTypes.string.isRequired,
   contact: PropTypes.string.isRequired,
   voiceLessonsSvg: PropTypes.string.isRequired,
@@ -105,18 +104,10 @@ LessonsCore.propTypes = {
   reviewLink: PropTypes.string,
   phoneNumber: PropTypes.string,
 };
-LessonsCore.defaultProps = {
+Lessons.defaultProps = {
   reviewLink: null,
   phoneNumber: null,
 };
-
-const styles = theme => ({
-  divider: {
-    margin: `0 ${theme.spacing.unit * 6}px`,
-  },
-});
-
-const Lessons = withStyles(styles)(LessonsCore);
 
 export default () => (
   <StaticQuery

@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import { StaticQuery, graphql } from 'gatsby';
 import Filters from '../common/Filters';
 import Title from '../common/Title';
 import VideoList from './VideoList';
 
-const VideoSectionCore = (props) => {
-  const { classes, videoGroups } = props;
+const useStyles = makeStyles(theme => ({
+  container: {
+    paddingBottom: theme.spacing(8),
+  },
+}));
+
+const VideoSection = (props) => {
+  const { videoGroups } = props;
+  const classes = useStyles(props);
   const [currentVideoGroup, setGroup] = useState('All');
 
   const getVideoGroups = () => {
@@ -47,8 +54,7 @@ const VideoSectionCore = (props) => {
   );
 };
 
-VideoSectionCore.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
+VideoSection.propTypes = {
   videoGroups: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
@@ -56,14 +62,6 @@ VideoSectionCore.propTypes = {
     }),
   ).isRequired,
 };
-
-const styles = theme => ({
-  container: {
-    paddingBottom: theme.spacing.unit * 8,
-  },
-});
-
-const VideoSection = withStyles(styles)(VideoSectionCore);
 
 export default () => (
   <StaticQuery

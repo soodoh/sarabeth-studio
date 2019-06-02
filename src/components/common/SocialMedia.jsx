@@ -2,7 +2,7 @@ import React from 'react';
 import { StaticQuery, graphql } from 'gatsby';
 import PropTypes from 'prop-types';
 import { uid } from 'react-uid';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import Fab from '@material-ui/core/Fab';
 import Instagram from 'mdi-material-ui/Instagram';
 import Facebook from 'mdi-material-ui/Facebook';
@@ -33,8 +33,15 @@ function renderIcon(icon) {
   }
 }
 
-const ButtonBase = (props) => {
-  const { classes, icon, url } = props;
+const buttonStyles = makeStyles(theme => ({
+  button: {
+    margin: theme.spacing(1),
+  },
+}));
+
+const SocialMediaButton = (props) => {
+  const { icon, url } = props;
+  const classes = buttonStyles();
 
   return (
     <a href={icon === 'Email' ? `mailto:${url}` : url} style={{ color: 'inherit' }}>
@@ -48,23 +55,22 @@ const ButtonBase = (props) => {
     </a>
   );
 };
-ButtonBase.propTypes = {
-  classes: PropTypes.shape({
-    button: PropTypes.string,
-  }).isRequired,
+SocialMediaButton.propTypes = {
   icon: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
 };
 
-const buttonStyles = theme => ({
-  button: {
-    margin: theme.spacing.unit,
+const coreStyles = makeStyles({
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
   },
 });
-const SocialMediaButton = withStyles(buttonStyles)(ButtonBase);
 
-const SocialMediaCore = (props) => {
-  const { classes, data } = props;
+const SocialMedia = (props) => {
+  const { data } = props;
+  const classes = coreStyles();
 
   return (
     <div className={classes.container}>
@@ -78,10 +84,7 @@ const SocialMediaCore = (props) => {
     </div>
   );
 };
-SocialMediaCore.propTypes = {
-  classes: PropTypes.shape({
-    container: PropTypes.string,
-  }).isRequired,
+SocialMedia.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       source: PropTypes.string.isRequired,
@@ -89,16 +92,6 @@ SocialMediaCore.propTypes = {
     }),
   ).isRequired,
 };
-
-const styles = {
-  container: {
-    display: 'flex',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-  },
-};
-
-const SocialMedia = withStyles(styles)(SocialMediaCore);
 
 export default () => (
   <StaticQuery

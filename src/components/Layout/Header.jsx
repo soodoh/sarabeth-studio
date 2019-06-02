@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StaticQuery, graphql, Link } from 'gatsby';
 import classNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 import AppBar from '@material-ui/core/AppBar';
@@ -11,10 +11,35 @@ import ReactSvg from 'react-svg';
 import Navigation from './Navigation';
 import MiniNavigation from './MiniNavigation';
 
-const HeaderCore = (props) => {
+const useStyles = makeStyles(theme => ({
+  appBar: {
+    backgroundColor: theme.palette.primary.main,
+    flexShrink: 0,
+  },
+  transparent: {
+    backgroundColor: 'transparent',
+    boxShadow: 'none',
+  },
+  brand: {
+    display: 'flex',
+    flex: 1,
+    alignItems: 'center',
+    fontSize: '2rem',
+    '& a': {
+      textDecoration: 'none',
+      color: 'inherit',
+    },
+  },
+  brandImage: {
+    width: 50,
+  },
+}));
+
+const Header = (props) => {
   const {
-    classes, logo, location, resume,
+    logo, location, resume,
   } = props;
+  const classes = useStyles(props);
   const isHome = location.pathname === '/';
 
   return (
@@ -29,7 +54,7 @@ const HeaderCore = (props) => {
         <div className={classes.brand}>
           <Link to="/">
             {isHome
-              ? <ReactSvg src={logo} svgClassName={classes.brandImage} />
+              ? <ReactSvg src={logo} className={classes.brandImage} />
               : (
                 <Typography
                   className={classes.brand}
@@ -60,43 +85,13 @@ const HeaderCore = (props) => {
   );
 };
 
-HeaderCore.propTypes = {
-  classes: PropTypes.shape({
-    appBar: PropTypes.string,
-    branch: PropTypes.string,
-  }).isRequired,
+Header.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }).isRequired,
   resume: PropTypes.string.isRequired,
   logo: PropTypes.string.isRequired,
 };
-
-const styles = theme => ({
-  appBar: {
-    backgroundColor: theme.palette.primary.main,
-    flexShrink: 0,
-  },
-  transparent: {
-    backgroundColor: 'transparent',
-    boxShadow: 'none',
-  },
-  brand: {
-    display: 'flex',
-    flex: 1,
-    alignItems: 'center',
-    fontSize: '2rem',
-    '& a': {
-      textDecoration: 'none',
-      color: 'inherit',
-    },
-  },
-  brandImage: {
-    width: 50,
-  },
-});
-
-const Header = withStyles(styles)(HeaderCore);
 
 const HeaderWithData = ({ location }) => (
   <StaticQuery

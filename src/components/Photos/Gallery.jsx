@@ -1,13 +1,42 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import Img from 'gatsby-image';
 import { uid } from 'react-uid';
 import Masonry from 'react-masonry-component';
 import Lightbox from './Lightbox';
 
-const GalleryCore = (props) => {
-  const { classes, photos, ...other } = props;
+const useStyles = makeStyles(theme => ({
+  photo: {
+    margin: theme.spacing(2),
+    cursor: 'pointer',
+  },
+  photoContainer: {
+    height: 'auto',
+    padding: 0,
+    margin: 0,
+  },
+  // Breakpoints
+  [theme.breakpoints.up('xs')]: {
+    photoContainer: {
+      width: '50%',
+    },
+  },
+  [theme.breakpoints.up('md')]: {
+    photoContainer: {
+      width: '33.33%',
+    },
+  },
+  [theme.breakpoints.up('lg')]: {
+    photoContainer: {
+      width: '25%',
+    },
+  },
+}));
+
+const Gallery = (props) => {
+  const { photos, ...other } = props;
+  const classes = useStyles(props);
   const [photoOpen, setOpen] = useState(false);
   const [currentPhoto, setPhoto] = useState(0);
 
@@ -58,8 +87,7 @@ const GalleryCore = (props) => {
   );
 };
 
-GalleryCore.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
+Gallery.propTypes = {
   photos: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
@@ -70,32 +98,4 @@ GalleryCore.propTypes = {
   ).isRequired,
 };
 
-const styles = theme => ({
-  photo: {
-    margin: theme.spacing.unit * 2,
-    cursor: 'pointer',
-  },
-  photoContainer: {
-    height: 'auto',
-    padding: 0,
-    margin: 0,
-  },
-  // Breakpoints
-  [theme.breakpoints.up('xs')]: {
-    photoContainer: {
-      width: '50%',
-    },
-  },
-  [theme.breakpoints.up('md')]: {
-    photoContainer: {
-      width: '33.33%',
-    },
-  },
-  [theme.breakpoints.up('lg')]: {
-    photoContainer: {
-      width: '25%',
-    },
-  },
-});
-
-export default withStyles(styles)(GalleryCore);
+export default Gallery;

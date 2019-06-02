@@ -1,14 +1,51 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StaticQuery, graphql, Link } from 'gatsby';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Metadata from '../components/Layout/Metadata';
 import Background from '../components/Layout/Background';
 
-const HomePageCore = (props) => {
-  const { classes, data } = props;
+const useStyles = makeStyles(theme => ({
+  container: {
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: theme.spacing(3),
+  },
+  callsToAction: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+  },
+  button: {
+    whiteSpace: 'nowrap',
+    margin: theme.spacing(2),
+    borderColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.secondary.light,
+    color: 'black',
+    '&:hover': {
+      color: theme.palette.secondary.light,
+    },
+  },
+  title: {
+    marginTop: '30vh',
+    color: theme.palette.primary.contrastText,
+    fontFamily: theme.typography.h3.fontFamily,
+    fontWeight: 'bold',
+  },
+  subtitle: {
+    fontSize: '2rem',
+    color: theme.palette.primary.contrastText,
+    fontFamily: theme.typography.h3.fontFamily,
+  },
+}));
+
+const HomePage = (props) => {
+  const { data } = props;
+  const classes = useStyles(props);
 
   return (
     <React.Fragment>
@@ -66,48 +103,9 @@ const HomePageCore = (props) => {
   );
 };
 
-HomePageCore.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
+HomePage.propTypes = {
   data: PropTypes.shape({}).isRequired,
 };
-
-const styles = theme => ({
-  container: {
-    position: 'relative',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: theme.spacing.unit * 3,
-  },
-  callsToAction: {
-    display: 'flex',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-  },
-  button: {
-    whiteSpace: 'nowrap',
-    margin: theme.spacing.unit * 2,
-    borderColor: theme.palette.secondary.light,
-    backgroundColor: theme.palette.secondary.light,
-    color: 'black',
-    '&:hover': {
-      color: theme.palette.secondary.light,
-    },
-  },
-  title: {
-    marginTop: '30vh',
-    color: theme.palette.primary.contrastText,
-    fontFamily: theme.typography.h3.fontFamily,
-    fontWeight: 'bold',
-  },
-  subtitle: {
-    fontSize: '2rem',
-    color: theme.palette.primary.contrastText,
-    fontFamily: theme.typography.h3.fontFamily,
-  },
-});
-
-const HomePage = withStyles(styles)(HomePageCore);
 
 export default () => (
   <StaticQuery

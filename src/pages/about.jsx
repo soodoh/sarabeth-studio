@@ -2,12 +2,48 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
 import Img from 'gatsby-image';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import Metadata from '../components/Layout/Metadata';
 
-export const AboutCore = (props) => {
-  const { classes, data } = props;
+const useStyles = makeStyles(theme => ({
+  container: {
+    display: 'grid',
+    gridTemplateColumns: '33% 1fr',
+    gridTemplateRows: 'auto auto',
+    gridColumnGap: theme.spacing(4),
+    padding: `${theme.spacing(2)}px 10vw`,
+    width: '100%',
+
+    [theme.breakpoints.down('md')]: {
+      padding: theme.spacing(2),
+      gridTemplateColumns: '50% 1fr',
+    },
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: '100%',
+    },
+  },
+  portrait: {
+    maxWidth: theme.spacing(50),
+    margin: 'auto',
+    marginBottom: theme.spacing(4),
+  },
+  title: {
+    textTransform: 'uppercase',
+  },
+  bodyText: {
+    ...theme.typography.body1,
+    fontSize: '1.2rem',
+
+    [theme.breakpoints.down('md')]: {
+      paddingRight: theme.spacing(2),
+    },
+  },
+}));
+
+export const About = (props) => {
+  const { data } = props;
+  const classes = useStyles(props);
   const bioHtml = data.bio.childMarkdownRemark.html;
 
   return (
@@ -48,51 +84,13 @@ export const AboutCore = (props) => {
     </React.Fragment>
   );
 };
-AboutCore.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
+About.propTypes = {
   data: PropTypes.shape({
     bio: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
     headshot: PropTypes.object.isRequired,
   }).isRequired,
 };
-
-const styles = theme => ({
-  container: {
-    display: 'grid',
-    gridTemplateColumns: '33% 1fr',
-    gridTemplateRows: 'auto auto',
-    gridColumnGap: `${theme.spacing.unit * 4}px`,
-    padding: `${theme.spacing.unit * 2}px 10vw`,
-    width: '100%',
-
-    [theme.breakpoints.down('md')]: {
-      padding: theme.spacing.unit * 2,
-      gridTemplateColumns: '50% 1fr',
-    },
-    [theme.breakpoints.down('sm')]: {
-      gridTemplateColumns: '100%',
-    },
-  },
-  portrait: {
-    maxWidth: theme.spacing.unit * 50,
-    margin: 'auto',
-    marginBottom: theme.spacing.unit * 4,
-  },
-  title: {
-    textTransform: 'uppercase',
-  },
-  bodyText: {
-    ...theme.typography.body1,
-    fontSize: '1.2rem',
-
-    [theme.breakpoints.down('md')]: {
-      paddingRight: theme.spacing.unit * 2,
-    },
-  },
-});
-
-const About = withStyles(styles)(AboutCore);
 
 export default () => (
   <StaticQuery

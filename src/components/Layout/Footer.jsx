@@ -1,17 +1,53 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import SocialMedia from '../common/SocialMedia';
 
-const FooterCore = (props) => {
-  const { classes, location } = props;
+const useStyles = makeStyles(theme => ({
+  footer: {
+    flexShrink: 0,
+    width: '100%',
+    height: 'auto',
+    zIndex: 1,
+    color: theme.palette.primary.contrastText,
+  },
+  content: {
+    display: 'flex',
+    height: '100%',
+    flex: 1,
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: theme.spacing(0, 2),
+
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexWrap: 'nowrap',
+    },
+  },
+  leftGroup: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  rightGroup: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+  },
+}));
+
+const Footer = (props) => {
+  const { location } = props;
+  const classes = useStyles(props);
 
   return (
     <footer className={classes.footer}>
       <section className={classes.content}>
-        <div>
+        <div className={classes.leftGroup}>
           {location && (
             <Typography variant="caption" color="inherit">
               {location}
@@ -30,7 +66,7 @@ const FooterCore = (props) => {
           <SocialMedia />
         </div>
 
-        <div>
+        <div className={classes.rightGroup}>
           <Typography variant="caption" color="inherit">
             Designed by Carolyn DiLoreto
 
@@ -44,45 +80,12 @@ const FooterCore = (props) => {
     </footer>
   );
 };
-FooterCore.propTypes = {
-  classes: PropTypes.shape({
-    footer: PropTypes.string,
-    content: PropTypes.string,
-  }).isRequired,
+Footer.propTypes = {
   location: PropTypes.string,
 };
-FooterCore.defaultProps = {
+Footer.defaultProps = {
   location: null,
 };
-
-const styles = theme => ({
-  footer: {
-    flexShrink: 0,
-    width: '100%',
-    height: 'auto',
-    zIndex: 1,
-    color: theme.palette.primary.contrastText,
-  },
-  content: {
-    display: 'flex',
-    height: '100%',
-    flex: 1,
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: `0 ${theme.spacing.unit * 2}px`,
-  },
-  [theme.breakpoints.down('sm')]: {
-    content: {
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexWrap: 'nowrap',
-    },
-  },
-});
-
-const Footer = withStyles(styles)(FooterCore);
 
 export default () => (
   <StaticQuery

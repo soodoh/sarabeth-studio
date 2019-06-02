@@ -1,10 +1,39 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Play from 'mdi-material-ui/Play';
 import Pause from 'mdi-material-ui/Pause';
+
+const useStyles = makeStyles(theme => ({
+  container: {
+    width: '100%',
+    backgroundColor: theme.palette.secondary.main,
+    padding: theme.spacing(1),
+    display: 'flex',
+    alignItems: 'center',
+  },
+  button: {
+    background: 'none',
+    border: 'none',
+    color: theme.palette.secondary.contrastText,
+  },
+  timecode: {
+    color: theme.palette.secondary.contrastText,
+    padding: theme.spacing(0, 2),
+  },
+  progress: {
+    flex: 1,
+    height: theme.spacing(1),
+    cursor: 'pointer',
+    marginRight: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.contrastText,
+  },
+  progressBar: {
+    backgroundColor: theme.palette.primary.contrastText,
+  },
+}));
 
 const formatTimecode = (time) => {
   const minutes = (Math.floor(time / 60) || 0)
@@ -15,8 +44,9 @@ const formatTimecode = (time) => {
   return `${minutes}:${seconds}`;
 };
 
-const AudioPlayerCore = (props) => {
-  const { classes, url, title } = props;
+const AudioPlayer = (props) => {
+  const { url, title } = props;
+  const classes = useStyles(props);
   const playerRef = useRef();
   const [currentTime, setTime] = useState(0);
   const [isPlaying, setPlayback] = useState(false);
@@ -80,39 +110,9 @@ const AudioPlayerCore = (props) => {
   );
 };
 
-AudioPlayerCore.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
+AudioPlayer.propTypes = {
   url: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 };
 
-const styles = theme => ({
-  container: {
-    width: '100%',
-    backgroundColor: theme.palette.secondary.main,
-    padding: theme.spacing.unit,
-    display: 'flex',
-    alignItems: 'center',
-  },
-  button: {
-    background: 'none',
-    border: 'none',
-    color: theme.palette.secondary.contrastText,
-  },
-  timecode: {
-    color: theme.palette.secondary.contrastText,
-    padding: `0 ${theme.spacing.unit * 2}px`,
-  },
-  progress: {
-    flex: 1,
-    height: theme.spacing.unit,
-    cursor: 'pointer',
-    marginRight: theme.spacing.unit,
-    backgroundColor: theme.palette.secondary.contrastText,
-  },
-  progressBar: {
-    backgroundColor: theme.palette.primary.contrastText,
-  },
-});
-
-export default withStyles(styles)(AudioPlayerCore);
+export default AudioPlayer;
