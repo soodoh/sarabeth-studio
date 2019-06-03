@@ -31,6 +31,14 @@ module.exports = {
     'gatsby-plugin-sitemap',
     // 'gatsby-plugin-offline',
     {
+      resolve: 'gatsby-plugin-google-analytics',
+      options: {
+        trackingId: 'UA-141372768-1',
+        head: true,
+        anonymize: true,
+      },
+    },
+    {
       resolve: 'gatsby-plugin-robots-txt',
       options: {
         host: siteUrl,
