@@ -1,6 +1,3 @@
-// Using Require because gatsby-config uses this file
-const grey = require('@material-ui/core/colors/grey');
-
 const primary = {
   light: '#E8C3B8',
   main: '#C66470',
@@ -62,20 +59,9 @@ const rawTheme = {
         zIndex: 1,
       },
     },
-    MuiInput: {
+    MuiOutlinedInput: {
       root: {
         color: primary.contrastText,
-      },
-      underline: {
-        '&:before': {
-          borderBottom: `1px solid ${primary.contrastText}`,
-        },
-        '&:hover:not($disabled):not($focused):not($error):before': {
-          borderBottom: `2px solid ${secondary.main}`,
-        },
-        '&$disabled': {
-          borderBottom: `1px dotted ${grey[200]}`,
-        },
       },
     },
     MuiInputLabel: {

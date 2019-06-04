@@ -19,6 +19,9 @@ const useStyles = makeStyles(theme => ({
   textInput: {
     margin: theme.spacing(2, 0),
   },
+  notchedOutline: {
+    borderColor: `${theme.palette.primary.contrastText}!important`,
+  },
 }));
 
 const Form = (props) => {
@@ -26,12 +29,15 @@ const Form = (props) => {
     onChange, values, validations,
   } = props;
   const classes = useStyles(props);
+  const outlineClasses = { notchedOutline: classes.notchedOutline };
 
   return (
     <div className={classes.container}>
       <TextField
         fullWidth
+        variant="outlined"
         className={`${classes.halfWidth} ${classes.textInput}`}
+        InputProps={{ classes: outlineClasses }}
         margin="normal"
         label="Name"
         value={values.name}
@@ -41,7 +47,9 @@ const Form = (props) => {
       />
       <TextField
         fullWidth
+        variant="outlined"
         className={`${classes.halfWidth} ${classes.textInput}`}
+        InputProps={{ classes: outlineClasses }}
         margin="normal"
         label="Email"
         value={values.email}
@@ -51,7 +59,9 @@ const Form = (props) => {
       />
       <TextField
         fullWidth
+        variant="outlined"
         className={classes.textInput}
+        InputProps={{ classes: outlineClasses }}
         margin="normal"
         label="Subject"
         value={values.subject}
@@ -61,8 +71,11 @@ const Form = (props) => {
       />
       <TextField
         fullWidth
+        variant="outlined"
         className={classes.textInput}
+        InputProps={{ classes: outlineClasses }}
         multiline
+        rows={5}
         margin="normal"
         label="Message"
         value={values.message}
