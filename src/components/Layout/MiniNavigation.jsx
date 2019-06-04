@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { navigate } from 'gatsby';
+import { Link } from 'gatsby';
 import { makeStyles } from '@material-ui/styles';
 import Fab from '@material-ui/core/Fab';
 import MenuIcon from 'mdi-material-ui/Menu';
@@ -58,8 +58,9 @@ const MiniNavigation = (props) => {
         <MenuItem
           onClick={() => {
             setAnchor(null);
-            navigate('/about');
           }}
+          component={Link}
+          to="/about"
           className={classes.menuLink}
           selected={location.pathname === '/about'}
         >
@@ -67,21 +68,19 @@ const MiniNavigation = (props) => {
         </MenuItem>
 
         <MenuItem
-          onClick={() => {
-            setAnchor(null);
-            navigate('/engagements');
-          }}
+          onClick={() => setAnchor(null)}
+          component={Link}
+          to="/engagements"
           className={classes.menuLink}
           selected={location.pathname === '/engagements'}
         >
-            Engagements
+          Engagements
         </MenuItem>
 
         <MenuItem
-          onClick={() => {
-            setAnchor(null);
-            navigate('/photos');
-          }}
+          onClick={() => setAnchor(null)}
+          component={Link}
+          to="/photos"
           className={classes.menuLink}
           selected={location.pathname === '/photos'}
         >
@@ -89,10 +88,9 @@ const MiniNavigation = (props) => {
         </MenuItem>
 
         <MenuItem
-          onClick={() => {
-            setAnchor(null);
-            navigate('/media');
-          }}
+          onClick={() => setAnchor(null)}
+          component={Link}
+          to="/media"
           className={classes.menuLink}
           selected={location.pathname === '/media'}
         >
@@ -100,31 +98,29 @@ const MiniNavigation = (props) => {
         </MenuItem>
 
         <MenuItem
-          onClick={() => {
-            setAnchor(null);
-            navigate('/lessons');
-          }}
+          onClick={() => setAnchor(null)}
+          component={Link}
+          to="/lessons"
           className={classes.menuLink}
           selected={location.pathname === '/lessons'}
         >
           Lessons
         </MenuItem>
 
-        <a href={resume} style={{ textDecoration: 'none' }}>
-          <MenuItem
-            onClick={() => setAnchor(null)}
-            className={classes.menuLink}
-            selected={location.pathname === '/resume'}
-          >
-            Resume
-          </MenuItem>
-        </a>
+        <MenuItem
+          onClick={() => setAnchor(null)}
+          component="a"
+          href={resume}
+          className={classes.menuLink}
+          selected={location.pathname === '/resume'}
+        >
+          Resume
+        </MenuItem>
 
         <MenuItem
-          onClick={() => {
-            setAnchor(null);
-            navigate('/contact');
-          }}
+          onClick={() => setAnchor(null)}
+          component={Link}
+          to="/contact"
           className={classes.menuLink}
           selected={location.pathname === '/contact'}
         >

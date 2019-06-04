@@ -48,12 +48,14 @@ const Lessons = (props) => {
         pianoLessons={pianoLessons}
         voiceLessonsSvg={voiceLessonsSvg}
         pianoLessonsSvg={pianoLessonsSvg}
+        reviewLink={reviewLink}
       />
 
       <div ref={aboutRef} />
       <About
         aboutPhoto={aboutPhoto}
         aboutDescription={aboutDescription}
+        reviewLink={reviewLink}
       />
 
       <div ref={infoRef} />
@@ -71,6 +73,7 @@ const Lessons = (props) => {
       <StudioInfo
         teachingResume={teachingResume}
         photoGallery={photoGallery}
+        reviewLink={reviewLink}
       />
     </React.Fragment>
   );

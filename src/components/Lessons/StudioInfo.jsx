@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { navigate } from 'gatsby';
 import Img from 'gatsby-image';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
+import LessonButtons from './LessonButtons';
 import Lightbox from '../Photos/Lightbox';
 
 const useStyles = makeStyles(theme => ({
@@ -15,18 +14,18 @@ const useStyles = makeStyles(theme => ({
     gridTemplateColumns: '1fr 30%',
     paddingLeft: '10vw',
     paddingRight: '10vw',
+    padding: `${theme.spacing(6)}px 10vw`,
 
     [theme.breakpoints.down('sm')]: {
       gridTemplateColumns: '50% 50%',
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
+      padding: theme.spacing(6, 2),
     },
     [theme.breakpoints.down('xs')]: {
       gridTemplateColumns: '100%',
     },
   },
   gridItem: {
-    padding: theme.spacing(6, 4),
+    padding: theme.spacing(0, 4),
   },
   content: {
     ...theme.typography.body1,
@@ -54,8 +53,15 @@ const useStyles = makeStyles(theme => ({
     },
   },
   centerButton: {
+    gridColumn: '1 / 3',
     display: 'flex',
-    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: theme.spacing(3),
+
+    [theme.breakpoints.down('xs')]: {
+      gridColumn: '1 / 2',
+    },
   },
   photoGallery: {
     cursor: 'pointer',
@@ -63,7 +69,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const StudioInfo = (props) => {
-  const { teachingResume, photoGallery } = props;
+  const { teachingResume, photoGallery, reviewLink } = props;
   const classes = useStyles(props);
   const [photosOpen, setOpen] = useState(false);
   const [currentPhoto, setPhoto] = useState(0);
@@ -80,15 +86,6 @@ const StudioInfo = (props) => {
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: teachingResume }}
         />
-        <div className={classes.centerButton}>
-          <Button
-            variant="outlined"
-            className={classes.button}
-            onClick={() => navigate('contact')}
-          >
-            Book a Lesson
-          </Button>
-        </div>
       </div>
 
       {photoGallery && photoGallery.length && (
@@ -125,16 +122,21 @@ const StudioInfo = (props) => {
                 <Typography variant="subtitle1">
                   {"View Sarabeth's Studio"}
                 </Typography>
-)}
+              )}
             />
           </GridListTile>
         </div>
       )}
+
+      <div className={classes.centerButton}>
+        <LessonButtons reviewLink={reviewLink} />
+      </div>
     </div>
   );
 };
 
 StudioInfo.propTypes = {
+  reviewLink: PropTypes.string,
   teachingResume: PropTypes.string.isRequired,
   photoGallery: PropTypes.arrayOf(
     PropTypes.shape({
@@ -144,6 +146,9 @@ StudioInfo.propTypes = {
       thumbnail: PropTypes.object.isRequired,
     }),
   ).isRequired,
+};
+StudioInfo.defaultProps = {
+  reviewLink: null,
 };
 
 export default StudioInfo;

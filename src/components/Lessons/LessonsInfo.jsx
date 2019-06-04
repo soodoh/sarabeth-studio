@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { navigate } from 'gatsby';
 import classNames from 'classnames';
 import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import LessonButtons from './LessonButtons';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -42,15 +41,6 @@ const useStyles = makeStyles(theme => ({
     },
     '& h1': {
       ...theme.typography.h4,
-    },
-  },
-  button: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.secondary.contrastText,
-    border: 'none',
-    margin: theme.spacing(2),
-    '&:hover': {
-      backgroundColor: theme.palette.primary.light,
     },
   },
   verticalContent: {
@@ -103,23 +93,7 @@ const LessonsInfo = (props) => {
           </Typography>
         )}
 
-        {reviewLink && (
-          <Button
-            variant="outlined"
-            className={classes.button}
-            onClick={() => window.open(reviewLink)}
-          >
-            View Yelp Reviews
-          </Button>
-        )}
-
-        <Button
-          variant="outlined"
-          className={classes.button}
-          onClick={() => navigate('contact')}
-        >
-          Book a Lesson
-        </Button>
+        <LessonButtons reviewLink={reviewLink} />
       </div>
     </div>
   );

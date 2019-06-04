@@ -1,17 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { navigate } from 'gatsby';
+import { Link } from 'gatsby';
 import ReactSvg from 'react-svg';
 import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import Background from '../Layout/Background';
 import Title from '../common/Title';
+// import LessonButtons from './LessonButtons';
 
 const useStyles = makeStyles(theme => ({
   container: {
     display: 'grid',
-    gridTemplateRows: 'auto auto',
     gridTemplateColumns: '50% 50%',
+    padding: theme.spacing(0, 0, 7, 0),
 
     [theme.breakpoints.down('xs')]: {
       gridTemplateColumns: '100%',
@@ -31,7 +32,7 @@ const useStyles = makeStyles(theme => ({
     gridColumn: '1 / 3',
     display: 'flex',
     justifyContent: 'center',
-    margin: theme.spacing(2, 0),
+    margin: theme.spacing(2, 0, 4, 0),
 
     [theme.breakpoints.down('xs')]: {
       gridColumn: '1 / 2',
@@ -48,10 +49,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    paddingTop: theme.spacing(5),
-    paddingBottom: theme.spacing(7),
+    padding: theme.spacing(0, 2),
 
     [theme.breakpoints.up('md')]: {
       paddingLeft: '10vw',
@@ -81,17 +79,28 @@ const useStyles = makeStyles(theme => ({
       fill: theme.palette.secondary.light,
     },
   },
+  lessonButtons: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gridColumn: '1 / 3',
+
+    [theme.breakpoints.down('xs')]: {
+      gridColumn: '1 / 2',
+    },
+  },
 }));
 
 const Banner = (props) => {
   const {
-    mainPhoto,
-    voiceLessonsSvg,
-    voiceLessons,
-    pianoLessonsSvg,
-    pianoLessons,
     aboutRef,
     infoRef,
+    mainPhoto,
+    pianoLessons,
+    pianoLessonsSvg,
+    // reviewLink,
+    voiceLessons,
+    voiceLessonsSvg,
   } = props;
   const classes = useStyles(props);
 
@@ -107,7 +116,8 @@ const Banner = (props) => {
           <Button
             variant="outlined"
             className={classes.bannerButton}
-            onClick={() => navigate('contact')}
+            component={Link}
+            to="/contact"
           >
             Book a Lesson
           </Button>
@@ -144,12 +154,19 @@ const Banner = (props) => {
             dangerouslySetInnerHTML={{ __html: pianoLessons }}
           />
         </div>
+
+        {
+          // <div className={classes.lessonButtons}>
+          //   <LessonButtons reviewLink={reviewLink} />
+          //   </div>
+        }
       </div>
     </React.Fragment>
   );
 };
 
 Banner.propTypes = {
+  // reviewLink: PropTypes.string,
   mainPhoto: PropTypes.shape({
     fluid: PropTypes.object.isRequired,
   }).isRequired,
@@ -159,6 +176,9 @@ Banner.propTypes = {
   pianoLessons: PropTypes.string.isRequired,
   aboutRef: PropTypes.shape({}).isRequired,
   infoRef: PropTypes.shape({}).isRequired,
+};
+Banner.defaultProps = {
+  // reviewLink: null,
 };
 
 export default Banner;
