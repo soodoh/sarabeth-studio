@@ -31,6 +31,9 @@ module.exports = {
     'gatsby-plugin-sitemap',
     // 'gatsby-plugin-offline',
     {
+      resolve: 'gatsby-plugin-material-ui',
+    },
+    {
       resolve: 'gatsby-plugin-google-analytics',
       options: {
         trackingId: 'UA-141372768-1',
