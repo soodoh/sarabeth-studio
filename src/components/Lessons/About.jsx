@@ -1,81 +1,120 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ReactSvg from 'react-svg';
 import { makeStyles } from '@material-ui/styles';
-import Background from '../Layout/Background';
-// import LessonButtons from './LessonButtons';
+import LessonButtons from './LessonButtons';
+
 
 const useStyles = makeStyles(theme => ({
   container: {
-    position: 'relative',
-    minHeight: '50vh',
-    padding: theme.spacing(6, 2),
+    display: 'grid',
+    gridTemplateColumns: '50% 50%',
+    padding: theme.spacing(0, 0, 7, 0),
 
-    [theme.breakpoints.up('md')]: {
-      padding: `${theme.spacing(6)}px 10vw`,
+    [theme.breakpoints.down('xs')]: {
+      gridTemplateColumns: '100%',
     },
   },
-  background: {
-    filter: 'brightness(20%)',
+  blurb: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    padding: theme.spacing(0, 2),
+
+    [theme.breakpoints.up('md')]: {
+      paddingLeft: '10vw',
+      paddingRight: '10vw',
+    },
+  },
+  blurbContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    padding: theme.spacing(0, 2),
+
+    '& p': {
+      ...theme.typography.body1,
+      color: theme.palette.secondary.main,
+      margin: 0,
+    },
+    '& h1': {
+      ...theme.typography.h2,
+      fontSize: '1.5rem',
+      margin: 0,
+    },
+  },
+  pianoSvg: {
+    gridRow: '1 / 2',
+    [theme.breakpoints.down('xs')]: {
+      gridRow: '3 / 4',
+    },
+  },
+  svgImage: {
+    '& path': {
+      fill: theme.palette.secondary.light,
+    },
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonGroup: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-  },
-  content: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: theme.spacing(0, 2),
+    gridColumn: '1 / 3',
 
-    '& p': {
-      ...theme.typography.body1,
-      margin: 0,
-    },
-    '& h1': {
-      ...theme.typography.h2,
-      margin: 0,
+    [theme.breakpoints.down('xs')]: {
+      gridColumn: '1 / 2',
     },
   },
 }));
 
 const About = (props) => {
   const {
-    aboutPhoto, aboutDescription,
-    // reviewLink,
+    reviewLink, voiceLessonsSvg, pianoLessonsSvg, voiceLessons, pianoLessons,
   } = props;
-  const classes = useStyles(props);
+  const classes = useStyles();
 
   return (
     <div className={classes.container}>
-      <Background sizes={aboutPhoto.fluid} className={classes.background} />
+      <ReactSvg src={voiceLessonsSvg} className={classes.svgImage} />
 
-      <div
-        className={classes.content}
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: aboutDescription }}
-      />
+      <div className={classes.blurb}>
+        <div
+          className={classes.blurbContent}
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: voiceLessons }}
+        />
+      </div>
 
-      {
-      // <div className={classes.buttonGroup}>
-      //   <LessonButtons reviewLink={reviewLink} />
-      // </div>
-      }
+      <ReactSvg src={pianoLessonsSvg} className={`${classes.svgImage} ${classes.pianoSvg}`} />
+
+      <div className={classes.blurb}>
+        <div
+          className={classes.blurbContent}
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: pianoLessons }}
+        />
+      </div>
+
+      <div className={classes.buttonGroup}>
+        <LessonButtons reviewLink={reviewLink} />
+      </div>
     </div>
   );
 };
 
 About.propTypes = {
-  // reviewLink: PropTypes.string,
-  aboutPhoto: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string,
-    fluid: PropTypes.object.isRequired,
-  }).isRequired,
-  aboutDescription: PropTypes.string.isRequired,
+  reviewLink: PropTypes.string,
+  voiceLessonsSvg: PropTypes.string.isRequired,
+  voiceLessons: PropTypes.string.isRequired,
+  pianoLessonsSvg: PropTypes.string.isRequired,
+  pianoLessons: PropTypes.string.isRequired,
 };
 About.defaultProps = {
-  // reviewLink: null,
+  reviewLink: null,
 };
 
 export default About;
