@@ -55,8 +55,6 @@ const HomePage = (props) => {
         keywords={[
           'young female opera singer',
           'opera singer los angeles',
-          'vocal coach los angeles',
-          'piano lessons los angeles',
         ]}
       />
       <Background sizes={data.background.fluid} />
