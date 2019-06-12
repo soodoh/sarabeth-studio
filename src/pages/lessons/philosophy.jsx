@@ -18,8 +18,6 @@ const Philosophy = (props) => {
         keywords={[
           'singing lessons los angeles',
           'piano lessons los angeles',
-          'voice lessons los angeles',
-          'singing coach los angeles',
           'piano teacher los angeles',
         ]}
       />

@@ -17,8 +17,6 @@ const TeachingResume = (props) => {
         title="Singing Lessons | Piano Lessons Los Angeles"
         description="Offering the very best singing and piano lessons in Los Angeles. Refine your voice, sing with ease, and perfect your piano skills. Book your lesson now!"
         keywords={[
-          'singing lessons los angeles',
-          'piano lessons los angeles',
           'voice lessons los angeles',
           'singing coach los angeles',
           'piano teacher los angeles',
