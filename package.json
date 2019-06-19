@@ -22,9 +22,10 @@
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1",
     "react-images": "^0.5.19",
-    "react-masonry-component": "^6.2.1",
+    "react-masonry-css": "^1.0.12",
     "react-player": "^1.11.0",
     "react-svg": "^10.0.6",
+    "react-transition-group": "^4.1.1",
     "react-uid": "^2.2.0"
   },
   "devDependencies": {

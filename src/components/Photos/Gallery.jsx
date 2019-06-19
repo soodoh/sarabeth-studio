@@ -1,47 +1,45 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles, useTheme } from '@material-ui/styles';
 import Img from 'gatsby-image';
 import { uid } from 'react-uid';
-import Masonry from 'react-masonry-component';
+import Masonry from 'react-masonry-css';
 import Lightbox from './Lightbox';
 
 const useStyles = makeStyles(theme => ({
-  photo: {
-    margin: theme.spacing(2),
-    cursor: 'pointer',
+  masonryContainer: {
+    display: 'flex',
+    marginTop: theme.spacing(1),
+    marginLeft: theme.spacing(-3),
+    width: 'auto',
+  },
+  column: {
+    paddingLeft: theme.spacing(3),
+    backgroundClip: 'padding-box',
   },
   photoContainer: {
-    height: 'auto',
-    padding: 0,
-    margin: 0,
+    marginBottom: theme.spacing(3),
   },
-  // Breakpoints
-  [theme.breakpoints.up('xs')]: {
-    photoContainer: {
-      width: '50%',
-    },
-  },
-  [theme.breakpoints.up('md')]: {
-    photoContainer: {
-      width: '33.33%',
-    },
-  },
-  [theme.breakpoints.up('lg')]: {
-    photoContainer: {
-      width: '25%',
-    },
+  photo: {
+    cursor: 'pointer',
   },
 }));
 
 const Gallery = (props) => {
-  const { photos, ...other } = props;
+  const { photos } = props;
   const classes = useStyles(props);
   const [photoOpen, setOpen] = useState(false);
   const [currentPhoto, setPhoto] = useState(0);
+  const theme = useTheme();
+  const breakpointColumns = {
+    default: 4,
+    [theme.breakpoints.values.lg]: 3,
+    [theme.breakpoints.values.md]: 2,
+    [theme.breakpoints.values.sm]: 1,
+  };
 
   return (
-    <Masonry {...other}>
+    <React.Fragment>
       <Lightbox
         images={photos.map(photo => ({
           src: photo.fullSize.src,
@@ -55,35 +53,40 @@ const Gallery = (props) => {
         onClickNext={() => setPhoto(currentPhoto + 1)}
         onClose={() => setOpen(false)}
       />
-
-      {Array.isArray(photos) && photos.map((photo, index) => {
-        const onClick = () => {
-          setOpen(true);
-          setPhoto(index);
-        };
-        return (
-          <div
-            key={uid(photo)}
-            role="button"
-            aria-label={`Open Photo #${index} "${photo.title}"`}
-            tabIndex={0}
-            className={classes.photoContainer}
-            onClick={onClick}
-            onKeyPress={(event) => {
-              if (event.charCode === 13) {
-                onClick();
-              }
-            }}
-          >
-            <Img
-              fluid={photo.thumbnail}
-              alt={`${photo.title} #${index} Thumbnail`}
-              className={classes.photo}
-            />
-          </div>
-        );
-      })}
-    </Masonry>
+      <Masonry
+        breakpointCols={breakpointColumns}
+        className={classes.masonryContainer}
+        columnClassName={classes.column}
+      >
+        {Array.isArray(photos) && photos.map((photo, index) => {
+          const onClick = () => {
+            setOpen(true);
+            setPhoto(index);
+          };
+          return (
+            <div
+              key={uid(photo)}
+              role="button"
+              aria-label={`Open Photo #${index} "${photo.title}"`}
+              tabIndex={0}
+              className={classes.photoContainer}
+              onClick={onClick}
+              onKeyPress={(event) => {
+                if (event.charCode === 13) {
+                  onClick();
+                }
+              }}
+            >
+              <Img
+                fluid={photo.thumbnail}
+                alt={`${photo.title} #${index} Thumbnail`}
+                className={classes.photo}
+              />
+            </div>
+          );
+        })}
+      </Masonry>
+    </React.Fragment>
   );
 };
 
