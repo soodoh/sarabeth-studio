@@ -8,6 +8,11 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
 const useStyles = makeStyles(theme => ({
+  buttonContainer: {
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
+  },
   button: {
     backgroundColor: 'transparent',
     border: `1px solid ${theme.palette.primary.contrastText}`,
@@ -34,7 +39,7 @@ const MiniNavigation = (props) => {
   const [menuAnchor, setAnchor] = useState(null);
 
   return (
-    <div>
+    <React.Fragment>
       <Fab
         size="small"
         aria-owns={menuAnchor ? 'Navigation' : null}
@@ -42,6 +47,7 @@ const MiniNavigation = (props) => {
         aria-label="Navigation Menu"
         color="secondary"
         classes={{ root: classes.button }}
+        className={classes.buttonContainer}
         onClick={event => setAnchor(event.currentTarget)}
       >
         <MenuIcon />
@@ -127,7 +133,7 @@ const MiniNavigation = (props) => {
             Contact
         </MenuItem>
       </Menu>
-    </div>
+    </React.Fragment>
   );
 };
 

@@ -4,7 +4,6 @@ import { StaticQuery, graphql, Link } from 'gatsby';
 import classNames from 'classnames';
 import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
-import Hidden from '@material-ui/core/Hidden';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import ReactSvg from 'react-svg';
@@ -71,18 +70,15 @@ const Header = (props) => {
           </Link>
         </div>
 
-        <Hidden smDown>
-          <Navigation
-            location={location}
-            resume={resume}
-          />
-        </Hidden>
-        <Hidden mdUp>
-          <MiniNavigation
-            location={location}
-            resume={resume}
-          />
-        </Hidden>
+        <Navigation
+          location={location}
+          resume={resume}
+        />
+
+        <MiniNavigation
+          location={location}
+          resume={resume}
+        />
       </Toolbar>
     </AppBar>
   );

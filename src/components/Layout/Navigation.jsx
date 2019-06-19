@@ -8,6 +8,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 const useStyles = makeStyles(theme => ({
   container: {
     display: 'flex',
+
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
   },
   link: {
     color: theme.palette.primary.contrastText,
