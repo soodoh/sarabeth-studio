@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
-import Moment from 'moment';
+import moment from 'moment';
 import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import Metadata from '../components/Layout/Metadata';
@@ -10,7 +10,7 @@ import List from '../components/Engagements/EngagementList';
 
 const useStyles = makeStyles(theme => ({
   container: {
-    width: '100vw',
+    width: '100%',
     padding: theme.spacing(4),
   },
   upcoming: {
@@ -23,10 +23,10 @@ const Engagements = (props) => {
   const classes = useStyles(props);
 
   const upcoming = data.filter(engagement => (
-    Moment(engagement.endDate).isAfter(Moment())
+    moment(engagement.endDate).isAfter(moment())
   )).reverse();
   const past = data.filter(engagement => (
-    Moment(engagement.endDate).isBefore(Moment())
+    moment(engagement.endDate).isBefore(moment())
   ));
 
   return (

@@ -41,16 +41,16 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Footer = (props) => {
-  const { location } = props;
+  const { geoLocation } = props;
   const classes = useStyles(props);
 
   return (
     <footer className={classes.footer}>
       <section className={classes.content}>
         <div className={classes.leftGroup}>
-          {location && (
+          {geoLocation && (
             <Typography variant="caption" color="inherit">
-              {location}
+              {geoLocation}
             </Typography>
           )}
           <Typography variant="caption" color="inherit">
@@ -81,10 +81,10 @@ const Footer = (props) => {
   );
 };
 Footer.propTypes = {
-  location: PropTypes.string,
+  geoLocation: PropTypes.string,
 };
 Footer.defaultProps = {
-  location: null,
+  geoLocation: null,
 };
 
 export default () => (
@@ -97,7 +97,7 @@ export default () => (
       }
     `}
     render={data => (
-      <Footer location={data.contentfulAbout.location} />
+      <Footer geoLocation={data.contentfulAbout.location} />
     )}
   />
 );
