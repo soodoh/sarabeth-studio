@@ -3,9 +3,13 @@ import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
 import { makeStyles } from '@material-ui/styles';
 import Fab from '@material-ui/core/Fab';
+import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from 'mdi-material-ui/Menu';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import ArrowRight from 'mdi-material-ui/ChevronRight';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
 const useStyles = makeStyles(theme => ({
   buttonContainer: {
@@ -23,116 +27,85 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: 'transparent',
     },
   },
-  menu: {
-    backgroundColor: theme.palette.primary.dark,
-    color: theme.palette.primary.contrastText,
+  list: {
+    width: theme.spacing(30),
   },
-  menuLink: {
-    color: theme.palette.primary.contrastText,
+  listText: {
+    color: theme.palette.secondary.dark,
     textTransform: 'uppercase',
+  },
+  drawerTop: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    padding: theme.spacing(0.5),
+  },
+  drawer: {
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.primary.main,
   },
 }));
 
 const MiniNavigation = (props) => {
   const { location, resume } = props;
   const classes = useStyles(props);
-  const [menuAnchor, setAnchor] = useState(null);
+  const [isActive, setActive] = useState(false);
+  const links = [
+    { label: 'About', url: '/about' },
+    { label: 'Engagements', url: '/engagements' },
+    { label: 'Photos', url: '/photos' },
+    { label: 'Recordings', url: '/media' },
+    { label: 'Resume', url: resume, component: 'a' },
+    { label: 'Contact', url: '/contact' },
+  ];
 
   return (
     <React.Fragment>
       <Fab
         size="small"
-        aria-owns={menuAnchor ? 'Navigation' : null}
-        aria-haspopup="true"
-        aria-label="Navigation Menu"
         color="secondary"
         classes={{ root: classes.button }}
         className={classes.buttonContainer}
-        onClick={event => setAnchor(event.currentTarget)}
+        onClick={() => setActive(true)}
       >
         <MenuIcon />
       </Fab>
 
-      <Menu
-        id="Navigation"
-        classes={{ paper: classes.menu }}
-        anchorEl={menuAnchor}
-        open={!!menuAnchor}
-        onEnter={() => document.activeElement.blur()}
-        onClose={() => setAnchor(null)}
+      <Drawer
+        anchor="right"
+        open={isActive}
+        classes={{ paper: classes.drawer }}
+        onClose={() => setActive(false)}
+        // ModalProps={{ disableRestoreFocus: true }}
       >
-        <MenuItem
-          onClick={() => {
-            setAnchor(null);
-          }}
-          component={Link}
-          to="/about"
-          className={classes.menuLink}
-          selected={location.pathname === '/about'}
-        >
-            About
-        </MenuItem>
+        <div className={classes.drawerTop}>
+          <IconButton
+            color="primary"
+            onClick={() => setActive(false)}
+          >
+            <ArrowRight />
+          </IconButton>
+        </div>
 
-        <MenuItem
-          onClick={() => setAnchor(null)}
-          component={Link}
-          to="/engagements"
-          className={classes.menuLink}
-          selected={location.pathname === '/engagements'}
-        >
-          Engagements
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => setAnchor(null)}
-          component={Link}
-          to="/photos"
-          className={classes.menuLink}
-          selected={location.pathname === '/photos'}
-        >
-            Photos
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => setAnchor(null)}
-          component={Link}
-          to="/media"
-          className={classes.menuLink}
-          selected={location.pathname === '/media'}
-        >
-            Recordings
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => setAnchor(null)}
-          component={Link}
-          to="/lessons"
-          className={classes.menuLink}
-          selected={location.pathname === '/lessons'}
-        >
-          Lessons
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => setAnchor(null)}
-          component="a"
-          href={resume}
-          className={classes.menuLink}
-          selected={location.pathname === '/resume'}
-        >
-          Resume
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => setAnchor(null)}
-          component={Link}
-          to="/contact"
-          className={classes.menuLink}
-          selected={location.pathname === '/contact'}
-        >
-            Contact
-        </MenuItem>
-      </Menu>
+        <List className={classes.list}>
+          {links.map(({ label, url, component }) => (
+            <ListItem
+              key={`mobile-${label}`}
+              button
+              divider
+              selected={location.pathname === url}
+              color="primary"
+              onClick={() => setActive(false)}
+              component={component || Link}
+              {...component ? { href: url } : { to: url }}
+            >
+              <ListItemText
+                primary={label}
+                classes={{ primary: classes.listText }}
+              />
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
     </React.Fragment>
   );
 };
