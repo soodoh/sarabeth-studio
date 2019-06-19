@@ -1,4 +1,4 @@
-const transitionDelay = 500;
+const { transitionDelay } = require('./src/components/Layout/PageTransition');
 
 exports.shouldUpdateScroll = (params) => {
   const {

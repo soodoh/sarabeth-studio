@@ -10,15 +10,18 @@ import Toolbar from '@material-ui/core/Toolbar';
 import ReactSvg from 'react-svg';
 import Navigation from './Navigation';
 import MiniNavigation from './MiniNavigation';
+import { transitionDelay } from './PageTransition';
 
 const useStyles = makeStyles(theme => ({
   appBar: {
     backgroundColor: theme.palette.primary.main,
     flexShrink: 0,
+    transition: `background-color ${transitionDelay}ms ease-in-out`,
   },
   transparent: {
     backgroundColor: 'transparent',
     boxShadow: 'none',
+    transition: `background-color ${transitionDelay}ms ease-in-out`,
   },
   brand: {
     display: 'flex',

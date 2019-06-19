@@ -5,7 +5,7 @@ import {
   Transition as ReactTransition,
 } from 'react-transition-group';
 
-export const timeout = 500;
+export const transitionDelay = 500;
 
 const getTransitionStyles = {
   entering: {
@@ -13,11 +13,11 @@ const getTransitionStyles = {
     opacity: 0,
   },
   entered: {
-    transition: `opacity ${timeout}ms ease-in-out`,
+    transition: `opacity ${transitionDelay}ms ease-in-out`,
     opacity: 1,
   },
   exiting: {
-    transition: `opacity ${timeout}ms ease-in-out`,
+    transition: `opacity ${transitionDelay}ms ease-in-out`,
     opacity: 0,
   },
 };
@@ -30,8 +30,8 @@ const PageTransition = (props) => {
       <ReactTransition
         key={location.pathname}
         timeout={{
-          enter: timeout,
-          exit: timeout,
+          enter: transitionDelay,
+          exit: transitionDelay,
         }}
       >
         {status => (
