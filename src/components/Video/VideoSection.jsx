@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { StaticQuery, graphql } from 'gatsby';
+import Fade from 'react-reveal/Fade';
 import Filters from '../common/Filters';
 import Title from '../common/Title';
 import VideoList from './VideoList';
@@ -39,7 +40,9 @@ const VideoSection = (props) => {
 
   return (
     <div className={classes.container}>
-      <Title>Video</Title>
+      <Fade top opposite>
+        <Title>Video</Title>
+      </Fade>
 
       {videoGroups.length > 1 && (
         <Filters

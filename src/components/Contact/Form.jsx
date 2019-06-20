@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
+import Fade from 'react-reveal/Fade';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -30,59 +31,38 @@ const Form = (props) => {
   } = props;
   const classes = useStyles(props);
   const outlineClasses = { notchedOutline: classes.notchedOutline };
+  const transitionDelay = 200;
+  const inputs = [
+    { label: 'Name', key: 'name', halfWidth: true },
+    { label: 'Email', key: 'email', halfWidth: true },
+    { label: 'Subject', key: 'subject' },
+    { label: 'Message', key: 'message', rows: 5 },
+  ];
 
   return (
     <div className={classes.container}>
-      <TextField
-        fullWidth
-        variant="outlined"
-        className={`${classes.halfWidth} ${classes.textInput}`}
-        InputProps={{ classes: outlineClasses }}
-        margin="normal"
-        label="Name"
-        value={values.name}
-        onChange={onChange('name')}
-        error={!!validations.name}
-        helperText={validations.name}
-      />
-      <TextField
-        fullWidth
-        variant="outlined"
-        className={`${classes.halfWidth} ${classes.textInput}`}
-        InputProps={{ classes: outlineClasses }}
-        margin="normal"
-        label="Email"
-        value={values.email}
-        onChange={onChange('email')}
-        error={!!validations.email}
-        helperText={validations.email}
-      />
-      <TextField
-        fullWidth
-        variant="outlined"
-        className={classes.textInput}
-        InputProps={{ classes: outlineClasses }}
-        margin="normal"
-        label="Subject"
-        value={values.subject}
-        onChange={onChange('subject')}
-        error={!!validations.subject}
-        helperText={validations.subject}
-      />
-      <TextField
-        fullWidth
-        variant="outlined"
-        className={classes.textInput}
-        InputProps={{ classes: outlineClasses }}
-        multiline
-        rows={5}
-        margin="normal"
-        label="Message"
-        value={values.message}
-        onChange={onChange('message')}
-        error={!!validations.message}
-        helperText={validations.message}
-      />
+      {inputs.map(({
+        label, key, halfWidth, rows,
+      }, index) => (
+        <Fade opposite delay={transitionDelay * (index + 1)}>
+          <TextField
+            fullWidth
+            variant="outlined"
+            className={`${halfWidth && classes.halfWidth} ${classes.textInput}`}
+            InputProps={{ classes: outlineClasses }}
+            margin="normal"
+            label={label}
+            value={values[key]}
+            onChange={onChange(key)}
+            error={!!validations[key]}
+            helperText={validations[key]}
+            {...rows && {
+              multiline: true,
+              rows,
+            }}
+          />
+        </Fade>
+      ))}
     </div>
   );
 };

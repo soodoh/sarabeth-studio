@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
 import { uid } from 'react-uid';
+import Fade from 'react-reveal/Fade';
 import Title from '../common/Title';
 import Filters from '../common/Filters';
 import Song from './SongEntry';
@@ -9,6 +10,7 @@ import Song from './SongEntry';
 const AudioSection = (props) => {
   const { audioGroups } = props;
   const [currentGroup, setGroup] = useState('All');
+  const transitionDelay = 200;
 
   const getAudioGroups = () => {
     const groups = audioGroups.map(group => group.label);
@@ -38,7 +40,9 @@ const AudioSection = (props) => {
 
   return (
     <React.Fragment>
-      <Title>Audio</Title>
+      <Fade top opposite>
+        <Title>Audio</Title>
+      </Fade>
 
       {audioGroups.length > 1 && (
         <Filters
@@ -48,13 +52,15 @@ const AudioSection = (props) => {
         />
       )}
 
-      {getAudioFiles().map(audio => (
-        <Song
-          key={uid(audio)}
-          title={audio.title}
-          subtitle={audio.subtitle}
-          url={audio.audio.file.url}
-        />
+      {getAudioFiles().map((audio, index) => (
+        <Fade opposite delay={transitionDelay * (index + 1)}>
+          <Song
+            key={uid(audio)}
+            title={audio.title}
+            subtitle={audio.subtitle}
+            url={audio.audio.file.url}
+          />
+        </Fade>
       ))}
     </React.Fragment>
   );

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import PlayIcon from 'mdi-material-ui/Play';
+import Fade from 'react-reveal/Fade';
 import Background from '../Layout/Background';
 
 const useStyles = makeStyles(theme => ({
@@ -47,9 +48,10 @@ const useStyles = makeStyles(theme => ({
 
 const VideoThumbnailCore = (props) => {
   const {
-    title, onClick, thumbnail,
+    title, onClick, thumbnail, index,
   } = props;
   const classes = useStyles(props);
+  const transitionDelay = 200;
 
   return (
     <div
@@ -63,14 +65,16 @@ const VideoThumbnailCore = (props) => {
         }
       }}
     >
-      <Background sizes={thumbnail} />
+      <Fade opposite delay={transitionDelay * (index + 1)}>
+        <Background sizes={thumbnail} />
 
-      <div className={classes.title}>
-        <PlayIcon style={{ fontSize: '2.5rem' }} />
-        <Typography variant="body2" color="inherit" className={classes.label}>
-          {title}
-        </Typography>
-      </div>
+        <div className={classes.title}>
+          <PlayIcon style={{ fontSize: '2.5rem' }} />
+          <Typography variant="body2" color="inherit" className={classes.label}>
+            {title}
+          </Typography>
+        </div>
+      </Fade>
     </div>
   );
 };
@@ -79,6 +83,7 @@ VideoThumbnailCore.propTypes = {
   title: PropTypes.string.isRequired,
   thumbnail: PropTypes.shape({}).isRequired,
   onClick: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
 };
 
 export default VideoThumbnailCore;

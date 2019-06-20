@@ -4,6 +4,7 @@ import { StaticQuery, graphql } from 'gatsby';
 import moment from 'moment';
 import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
+import Fade from 'react-reveal/Fade';
 import Metadata from '../components/Layout/Metadata';
 import Title from '../components/common/Title';
 import List from '../components/Engagements/EngagementList';
@@ -42,7 +43,9 @@ engagements!"
         {upcoming
         && (
           <div className={classes.upcoming}>
-            <Title>Upcoming</Title>
+            <Fade top opposite>
+              <Title>Upcoming</Title>
+            </Fade>
 
             <List data={upcoming} />
           </div>
@@ -50,7 +53,9 @@ engagements!"
       }
 
         <div>
-          <Title>Past</Title>
+          <Fade top opposite delay={500}>
+            <Title>Past</Title>
+          </Fade>
 
           {past
             ? <List data={past} />

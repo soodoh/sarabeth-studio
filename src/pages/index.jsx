@@ -4,6 +4,7 @@ import { StaticQuery, graphql, Link } from 'gatsby';
 import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Fade from 'react-reveal/Fade';
 import Metadata from '../components/Layout/Metadata';
 import Background from '../components/Layout/Background';
 
@@ -46,6 +47,7 @@ const useStyles = makeStyles(theme => ({
 const HomePage = (props) => {
   const { data } = props;
   const classes = useStyles(props);
+  const transitionDelay = 500;
 
   return (
     <React.Fragment>
@@ -60,40 +62,46 @@ const HomePage = (props) => {
       <Background sizes={data.background.fluid} />
 
       <div className={classes.container}>
-        <Typography
-          variant="h1"
-          align="center"
-          className={classes.title}
-          gutterBottom
-        >
-          {data.title}
-        </Typography>
-        <Typography
-          variant="h3"
-          align="center"
-          className={classes.subtitle}
-          gutterBottom
-        >
-          {data.subtitle}
-        </Typography>
+        <Fade top opposite>
+          <Typography
+            variant="h1"
+            align="center"
+            className={classes.title}
+            gutterBottom
+          >
+            {data.title}
+          </Typography>
+          <Typography
+            variant="h3"
+            align="center"
+            className={classes.subtitle}
+            gutterBottom
+          >
+            {data.subtitle}
+          </Typography>
+        </Fade>
 
         <div className={classes.callsToAction}>
-          <Button
-            component={Link}
-            to="/media"
-            className={classes.button}
-            variant="outlined"
-          >
-            Have a Listen!
-          </Button>
-          <Button
-            component={Link}
-            to="/lessons"
-            className={classes.button}
-            variant="outlined"
-          >
-            Get Voice Lessons
-          </Button>
+          <Fade left opposite delay={transitionDelay}>
+            <Button
+              component={Link}
+              to="/media"
+              className={classes.button}
+              variant="outlined"
+            >
+              Have a Listen!
+            </Button>
+          </Fade>
+          <Fade right opposite delay={transitionDelay * 2}>
+            <Button
+              component={Link}
+              to="/lessons"
+              className={classes.button}
+              variant="outlined"
+            >
+              Get Voice Lessons
+            </Button>
+          </Fade>
         </div>
       </div>
     </React.Fragment>

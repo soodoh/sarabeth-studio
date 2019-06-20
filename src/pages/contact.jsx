@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Validator from 'email-validator';
+import Fade from 'react-reveal/Fade';
 import Metadata from '../components/Layout/Metadata';
 import Title from '../components/common/Title';
 import Form from '../components/Contact/Form';
@@ -125,7 +126,9 @@ const Contact = (props) => {
       />
 
       <div className={classes.container}>
-        <Title>Contact Sarabeth</Title>
+        <Fade top>
+          <Title>Contact Sarabeth</Title>
+        </Fade>
 
         <Form
           values={{
@@ -141,13 +144,15 @@ const Contact = (props) => {
         {loading ? (
           <CircularProgress color="secondary" className={classes.loading} />
         ) : (
-          <Button
-            variant="outlined"
-            className={classes.button}
-            onClick={submit}
-          >
-            Submit
-          </Button>
+          <Fade left opposite delay={1000}>
+            <Button
+              variant="outlined"
+              className={classes.button}
+              onClick={submit}
+            >
+              Submit
+            </Button>
+          </Fade>
         )}
 
         <MessageStatus

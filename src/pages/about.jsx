@@ -4,6 +4,7 @@ import { StaticQuery, graphql } from 'gatsby';
 import Img from 'gatsby-image';
 import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
+import Fade from 'react-reveal/Fade';
 import Metadata from '../components/Layout/Metadata';
 
 const useStyles = makeStyles(theme => ({
@@ -45,6 +46,7 @@ export const About = (props) => {
   const { data } = props;
   const classes = useStyles(props);
   const bioHtml = data.bio.childMarkdownRemark.html;
+  const transitionDelay = 500;
 
   return (
     <React.Fragment>
@@ -55,31 +57,35 @@ export const About = (props) => {
       />
 
       <div className={classes.container}>
-        <div>
+        <Fade left opposite>
           <Img
             className={classes.portrait}
             fluid={data.headshot.fluid}
             title="Sarabeth Portrait"
             alt="Sarabeth Belón Headshot"
           />
-        </div>
+        </Fade>
 
-        <div>
-          <Typography
-            variant="h1"
-            color="secondary"
-            className={classes.title}
-            gutterBottom
-          >
-            {data.title}
-          </Typography>
+        <section>
+          <Fade top opposite delay={transitionDelay}>
+            <Typography
+              variant="h1"
+              color="secondary"
+              className={classes.title}
+              gutterBottom
+            >
+              {data.title}
+            </Typography>
+          </Fade>
 
-          <div
-            className={classes.bodyText}
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{ __html: bioHtml }}
-          />
-        </div>
+          <Fade right opposite delay={transitionDelay * 2}>
+            <div
+              className={classes.bodyText}
+              // eslint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{ __html: bioHtml }}
+            />
+          </Fade>
+        </section>
       </div>
     </React.Fragment>
   );
