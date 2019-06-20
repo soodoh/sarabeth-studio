@@ -5,6 +5,7 @@ import Img from 'gatsby-image';
 import Typography from '@material-ui/core/Typography';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
+import Fade from 'react-reveal/Fade';
 import LessonButtons from './LessonButtons';
 import Lightbox from '../Photos/Lightbox';
 
@@ -73,58 +74,65 @@ const StudioInfo = (props) => {
   const classes = useStyles(props);
   const [photosOpen, setOpen] = useState(false);
   const [currentPhoto, setPhoto] = useState(0);
+  const transitionDelay = 500;
 
   return (
     <div className={classes.container}>
       <div className={classes.gridItem}>
         <Typography variant="h2" align="center">
-          Teaching Resume
+          <Fade top opposite>
+            Teaching Resume
+          </Fade>
         </Typography>
 
-        <div
-          className={classes.content}
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: teachingResume }}
-        />
+        <Fade left opposite delay={transitionDelay}>
+          <div
+            className={classes.content}
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{ __html: teachingResume }}
+          />
+        </Fade>
       </div>
 
       {photoGallery && photoGallery.length && (
         <div className={classes.gridItem}>
-          <Typography variant="h2" align="center">
-            Photos
-          </Typography>
+          <Fade right opposite delay={transitionDelay * 2}>
+            <Typography variant="h2" align="center">
+              Photos
+            </Typography>
 
-          <Lightbox
-            images={photoGallery.map(photo => ({
-              src: photo.fullSize.src,
-              srcSet: photo.fullSize.srcSet,
-              caption: photo.description,
-              alt: `${photo.title} (Full Resolution)`,
-            }))}
-            isOpen={photosOpen}
-            currentImage={currentPhoto}
-            onClickPrev={() => setPhoto(currentPhoto - 1)}
-            onClickNext={() => setPhoto(currentPhoto + 1)}
-            onClose={() => setOpen(false)}
-          />
+            <Lightbox
+              images={photoGallery.map(photo => ({
+                src: photo.fullSize.src,
+                srcSet: photo.fullSize.srcSet,
+                caption: photo.description,
+                alt: `${photo.title} (Full Resolution)`,
+              }))}
+              isOpen={photosOpen}
+              currentImage={currentPhoto}
+              onClickPrev={() => setPhoto(currentPhoto - 1)}
+              onClickNext={() => setPhoto(currentPhoto + 1)}
+              onClose={() => setOpen(false)}
+            />
 
-          <GridListTile
-            component="div"
-            className={classes.photoGallery}
-            onClick={() => setOpen(true)}
-          >
-            <Img
-              fluid={photoGallery[0].thumbnail}
-              alt={photoGallery[0].title}
-            />
-            <GridListTileBar
-              title={(
-                <Typography variant="subtitle1">
-                  {"View Sarabeth's Studio"}
-                </Typography>
-              )}
-            />
-          </GridListTile>
+            <GridListTile
+              component="div"
+              className={classes.photoGallery}
+              onClick={() => setOpen(true)}
+            >
+              <Img
+                fluid={photoGallery[0].thumbnail}
+                alt={photoGallery[0].title}
+              />
+              <GridListTileBar
+                title={(
+                  <Typography variant="subtitle1">
+                    {"View Sarabeth's Studio"}
+                  </Typography>
+          )}
+              />
+            </GridListTile>
+          </Fade>
         </div>
       )}
 

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactSvg from 'react-svg';
 import { makeStyles } from '@material-ui/styles';
+import Fade from 'react-reveal/Fade';
 import LessonButtons from './LessonButtons';
 
 
@@ -45,7 +46,12 @@ const useStyles = makeStyles(theme => ({
       margin: 0,
     },
   },
-  pianoSvg: {
+  svgContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  pianoSvgContainer: {
     gridRow: '1 / 2',
     [theme.breakpoints.down('xs')]: {
       gridRow: '3 / 4',
@@ -55,9 +61,6 @@ const useStyles = makeStyles(theme => ({
     '& path': {
       fill: theme.palette.secondary.light,
     },
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   buttonGroup: {
     display: 'flex',
@@ -76,27 +79,40 @@ const About = (props) => {
     reviewLink, voiceLessonsSvg, pianoLessonsSvg, voiceLessons, pianoLessons,
   } = props;
   const classes = useStyles();
+  const transitionDelay = 500;
 
   return (
     <div className={classes.container}>
-      <ReactSvg src={voiceLessonsSvg} className={classes.svgImage} />
-
-      <div className={classes.blurb}>
-        <div
-          className={classes.blurbContent}
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: voiceLessons }}
-        />
+      <div className={classes.svgContainer}>
+        <Fade left opposite delay={transitionDelay}>
+          <ReactSvg src={voiceLessonsSvg} className={classes.svgImage} />
+        </Fade>
       </div>
 
-      <ReactSvg src={pianoLessonsSvg} className={`${classes.svgImage} ${classes.pianoSvg}`} />
+      <div className={classes.blurb}>
+        <Fade left opposite delay={transitionDelay * 2}>
+          <div
+            className={classes.blurbContent}
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{ __html: voiceLessons }}
+          />
+        </Fade>
+      </div>
+
+      <div className={`${classes.svgContainer} ${classes.pianoSvgContainer}`}>
+        <Fade right opposite delay={transitionDelay}>
+          <ReactSvg src={pianoLessonsSvg} className={classes.svgImage} />
+        </Fade>
+      </div>
 
       <div className={classes.blurb}>
-        <div
-          className={classes.blurbContent}
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: pianoLessons }}
-        />
+        <Fade right opposite delay={transitionDelay * 2}>
+          <div
+            className={classes.blurbContent}
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{ __html: pianoLessons }}
+          />
+        </Fade>
       </div>
 
       <div className={classes.buttonGroup}>

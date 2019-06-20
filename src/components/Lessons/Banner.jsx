@@ -4,6 +4,7 @@ import { Link } from 'gatsby';
 import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import classNames from 'classnames';
+import Fade from 'react-reveal/Fade';
 import Background from '../Layout/Background';
 import Title from '../common/Title';
 
@@ -47,6 +48,7 @@ const Banner = (props) => {
     { route: '/lessons/rates', label: 'View Rates' },
     { route: '/lessons/resume', label: 'Teaching Resume' },
   ];
+  const transitionDelay = 300;
 
   return (
     <React.Fragment>
@@ -57,19 +59,21 @@ const Banner = (props) => {
 
       <div className={classes.container}>
         <div className={classes.buttonGroup}>
-          {routes.map(({ route, label }) => (
-            <Button
-              key={`${route}-${label}`}
-              variant="outlined"
-              className={classNames({
-                [classes.bannerButton]: true,
-                [classes.currentRoute]: currentRoute === route,
-              })}
-              component={Link}
-              to={route}
-            >
-              {label}
-            </Button>
+          {routes.map(({ route, label }, index) => (
+            <Fade top opposite delay={transitionDelay * (index + 1)}>
+              <Button
+                key={`${route}-${label}`}
+                variant="outlined"
+                className={classNames({
+                  [classes.bannerButton]: true,
+                  [classes.currentRoute]: currentRoute === route,
+                })}
+                component={Link}
+                to={route}
+              >
+                {label}
+              </Button>
+            </Fade>
           ))}
         </div>
 

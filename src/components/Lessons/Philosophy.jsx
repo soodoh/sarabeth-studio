@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
+import Fade from 'react-reveal/Fade';
 import LessonButtons from './LessonButtons';
 
 const useStyles = makeStyles(theme => ({
@@ -46,11 +47,13 @@ const Philosophy = (props) => {
 
   return (
     <div className={classes.container}>
-      <div
-        className={classes.content}
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: aboutDescription }}
-      />
+      <Fade bottom opposite delay={500}>
+        <div
+          className={classes.content}
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: aboutDescription }}
+        />
+      </Fade>
 
       <div className={classes.buttonGroup}>
         <LessonButtons reviewLink={reviewLink} />

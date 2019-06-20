@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
+import Fade from 'react-reveal/Fade';
 import LessonButtons from './LessonButtons';
 
 const useStyles = makeStyles(theme => ({
@@ -48,6 +49,9 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'flex-start',
   },
+  contact: {
+    marginBottom: theme.spacing(2),
+  },
 }));
 
 const LessonsInfo = (props) => {
@@ -60,38 +64,51 @@ const LessonsInfo = (props) => {
     phoneNumber,
   } = props;
   const classes = useStyles(props);
+  const transitionDelay = 500;
 
   return (
     <div className={classes.container}>
       <Typography variant="h2" align="center" className={classes.title}>
-        {'Rates & Policies'}
+        <Fade bottom opposite delay={transitionDelay}>
+          {'Rates & Policies'}
+        </Fade>
       </Typography>
 
-      <div
-        className={classes.markdown}
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: mainDescription }}
-      />
+      <Fade left opposite delay={transitionDelay}>
+        <div
+          className={classes.markdown}
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: mainDescription }}
+        />
+      </Fade>
 
       <div className={classNames(classes.markdown, classes.verticalContent)}>
-        <Typography variant="h4">Location</Typography>
-        <Typography variant="body1">{location}</Typography>
+        <Fade right opposite delay={transitionDelay}>
+          <Typography variant="h4">Location</Typography>
+          <Typography variant="body1">{location}</Typography>
+        </Fade>
 
-        <Typography variant="h4">Hours</Typography>
-        <div
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: availability }}
-        />
+        <Fade right opposite delay={transitionDelay * 2}>
+          <Typography variant="h4">Hours</Typography>
+          <div
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{ __html: availability }}
+          />
+        </Fade>
 
-        <Typography variant="h4">Contact</Typography>
-        <Typography variant="body1" component="a" href={`mailto:${contact}`}>
-          {contact}
-        </Typography>
-        {phoneNumber && (
-          <Typography variant="body1" component="a" href={`tel:${phoneNumber}`}>
-            {phoneNumber}
-          </Typography>
-        )}
+        <Fade right opposite delay={transitionDelay}>
+          <div className={classes.contact}>
+            <Typography variant="h4">Contact</Typography>
+            <Typography variant="body1" component="a" href={`mailto:${contact}`}>
+              {contact}
+            </Typography>
+            {phoneNumber && (
+            <Typography variant="body1" component="a" href={`tel:${phoneNumber}`}>
+              {phoneNumber}
+            </Typography>
+            )}
+          </div>
+        </Fade>
 
         <LessonButtons reviewLink={reviewLink} />
       </div>

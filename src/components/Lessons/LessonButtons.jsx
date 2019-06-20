@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
 import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
+import Fade from 'react-reveal/Fade';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -21,27 +22,32 @@ const useStyles = makeStyles(theme => ({
 const LessonButtons = (props) => {
   const { reviewLink } = props;
   const classes = useStyles();
+  const transitionDelay = 500;
 
   return (
     <React.Fragment>
       {reviewLink && (
-      <Button
-        variant="outlined"
-        className={classes.button}
-        onClick={() => window.open(reviewLink)}
-      >
+        <Fade left opposite delay={transitionDelay}>
+          <Button
+            variant="outlined"
+            className={classes.button}
+            onClick={() => window.open(reviewLink)}
+          >
             View Yelp Reviews
-      </Button>
+          </Button>
+        </Fade>
       )}
 
-      <Button
-        variant="outlined"
-        className={classes.button}
-        component={Link}
-        to="/contact"
-      >
+      <Fade right opposite delay={transitionDelay * 2}>
+        <Button
+          variant="outlined"
+          className={classes.button}
+          component={Link}
+          to="/contact"
+        >
           Book a Lesson
-      </Button>
+        </Button>
+      </Fade>
     </React.Fragment>
   );
 };
