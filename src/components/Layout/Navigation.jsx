@@ -89,7 +89,7 @@ const Navigation = (props) => {
             <MenuItem
               onClick={() => setAnchor(null)}
               className={classes.menuLink}
-              selected={location.path === '/photos'}
+              selected={location.pathname === '/photos'}
             >
               Photos
             </MenuItem>
@@ -102,7 +102,7 @@ const Navigation = (props) => {
             <MenuItem
               onClick={() => setAnchor(null)}
               className={classes.menuLink}
-              selected={location.path === '/media'}
+              selected={location.pathname === '/media'}
             >
               Recordings
             </MenuItem>

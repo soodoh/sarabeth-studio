@@ -110,7 +110,11 @@ const HomePage = (props) => {
 };
 
 HomePage.propTypes = {
-  data: PropTypes.shape({}).isRequired,
+  data: PropTypes.shape({
+    background: PropTypes.shape({ fluid: PropTypes.object }).isRequired,
+    title: PropTypes.string.isRequired,
+    subtitle: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default () => (

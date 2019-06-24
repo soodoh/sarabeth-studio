@@ -44,7 +44,11 @@ const Form = (props) => {
       {inputs.map(({
         label, key, halfWidth, rows,
       }, index) => (
-        <Fade opposite delay={transitionDelay * (index + 1)}>
+        <Fade
+          key={label}
+          opposite
+          delay={transitionDelay * (index + 1)}
+        >
           <TextField
             fullWidth
             variant="outlined"
