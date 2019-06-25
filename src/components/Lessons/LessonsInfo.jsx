@@ -50,7 +50,12 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'flex-start',
   },
   contact: {
+    display: 'flex',
+    flexDirection: 'column',
     marginBottom: theme.spacing(2),
+  },
+  email: {
+    paddingBottom: theme.spacing(0.5),
   },
 }));
 
@@ -99,7 +104,12 @@ const LessonsInfo = (props) => {
         <Fade right opposite delay={transitionDelay}>
           <div className={classes.contact}>
             <Typography variant="h4">Contact</Typography>
-            <Typography variant="body1" component="a" href={`mailto:${contact}`}>
+            <Typography
+              className={classes.email}
+              variant="body1"
+              component="a"
+              href={`mailto:${contact}`}
+            >
               {contact}
             </Typography>
             {phoneNumber && (

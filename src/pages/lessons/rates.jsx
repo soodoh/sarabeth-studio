@@ -27,9 +27,9 @@ const Rates = (props) => {
           mainDescription={mainDescription}
           availability={availability}
           contact={contact}
+          phoneNumber={phoneNumber}
           location={location}
           reviewLink={reviewLink}
-          phoneNumber={phoneNumber}
         />
       </Banner>
     </React.Fragment>
@@ -93,6 +93,7 @@ const RatesWithData = ({ location }) => (
         currentRoute={location.pathname}
         location={data.contentfulLessons.location}
         contact={data.contentfulLessons.contact}
+        phoneNumber={data.contentfulLessons.phoneNumber}
         reviewLink={data.contentfulLessons.reviewLink}
         availability={data.contentfulLessons.availability.childMarkdownRemark.html}
         mainDescription={data.contentfulLessons.mainDescription.childMarkdownRemark.html}
