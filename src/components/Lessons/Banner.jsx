@@ -60,9 +60,13 @@ const Banner = (props) => {
       <div className={classes.container}>
         <div className={classes.buttonGroup}>
           {routes.map(({ route, label }, index) => (
-            <Fade top opposite delay={transitionDelay * (index + 1)}>
+            <Fade
+              top
+              key={`${route}-${label}`}
+              opposite
+              delay={transitionDelay * (index + 1)}
+            >
               <Button
-                key={`${route}-${label}`}
                 variant="outlined"
                 className={classNames({
                   [classes.bannerButton]: true,
