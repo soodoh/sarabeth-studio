@@ -52,6 +52,7 @@ const MiniNavigation = (props) => {
   const links = [
     { label: 'About', url: '/about' },
     { label: 'Engagements', url: '/engagements' },
+    { label: 'Lessons', url: '/lessons' },
     { label: 'Photos', url: '/photos' },
     { label: 'Recordings', url: '/media' },
     { label: 'Resume', url: resume, component: 'a' },
