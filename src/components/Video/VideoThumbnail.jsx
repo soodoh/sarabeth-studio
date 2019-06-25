@@ -65,10 +65,14 @@ const VideoThumbnailCore = (props) => {
         }
       }}
     >
-      <Fade opposite delay={transitionDelay * (index + 1)}>
-        <Background sizes={thumbnail} />
-
+      <Fade
+        opposite
+        delay={transitionDelay * (index + 1)}
+        style={{ position: 'relative' }}
+      >
         <div className={classes.title}>
+          <Background sizes={thumbnail} />
+
           <PlayIcon style={{ fontSize: '2.5rem' }} />
           <Typography variant="body2" color="inherit" className={classes.label}>
             {title}
