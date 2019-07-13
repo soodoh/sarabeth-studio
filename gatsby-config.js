@@ -27,7 +27,6 @@ module.exports = {
     'gatsby-plugin-sharp',
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-remove-serviceworker',
-    'gatsby-plugin-sitemap',
     // 'gatsby-plugin-offline',
     {
       resolve: 'gatsby-plugin-material-ui',
@@ -38,6 +37,34 @@ module.exports = {
         trackingId: 'UA-141372768-1',
         head: true,
         anonymize: true,
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-sitemap',
+      options: {
+        serialize: ({ site, allSitePage }) => {
+          const pathRegex = /\/(.[^/])+/g;
+
+          return allSitePage.edges
+            .sort((a, b) => {
+              const aMatch = a.node.path.match(pathRegex);
+              const aCount = aMatch ? aMatch.length : 0;
+              const bMatch = b.node.path.match(pathRegex);
+              const bCount = bMatch ? bMatch.length : 0;
+              return aCount - bCount;
+            })
+            .map((edge) => {
+              const slashCount = edge.node.path.match(pathRegex);
+              const priorityIndex = slashCount ? slashCount.length : 0;
+
+              return {
+                url: site.siteMetadata.siteUrl + edge.node.path,
+                lastmod: new Date(),
+                changefreq: 'daily',
+                priority: 1.0 - (0.2 * priorityIndex),
+              };
+            });
+        },
       },
     },
     {
