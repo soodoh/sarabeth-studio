@@ -70,7 +70,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const StudioInfo = (props) => {
-  const { teachingResume, photoGallery, reviewLink } = props;
+  const {
+    contact,
+    phoneNumber,
+    photoGallery,
+    reviewLink,
+    teachingResume,
+  } = props;
   const classes = useStyles(props);
   const [photosOpen, setOpen] = useState(false);
   const [currentPhoto, setPhoto] = useState(0);
@@ -103,10 +109,10 @@ const StudioInfo = (props) => {
 
             <Lightbox
               images={photoGallery.map(photo => ({
+                alt: `${photo.title} (Full Resolution)`,
+                caption: photo.description,
                 src: photo.fullSize.src,
                 srcSet: photo.fullSize.srcSet,
-                caption: photo.description,
-                alt: `${photo.title} (Full Resolution)`,
               }))}
               isOpen={photosOpen}
               currentImage={currentPhoto}
@@ -137,15 +143,19 @@ const StudioInfo = (props) => {
       )}
 
       <div className={classes.centerButton}>
-        <LessonButtons reviewLink={reviewLink} />
+        <LessonButtons
+          contact={contact}
+          phoneNumber={phoneNumber}
+          reviewLink={reviewLink}
+        />
       </div>
     </div>
   );
 };
 
 StudioInfo.propTypes = {
-  reviewLink: PropTypes.string,
-  teachingResume: PropTypes.string.isRequired,
+  contact: PropTypes.string.isRequired,
+  phoneNumber: PropTypes.string,
   photoGallery: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
@@ -154,8 +164,11 @@ StudioInfo.propTypes = {
       thumbnail: PropTypes.object.isRequired,
     }),
   ).isRequired,
+  reviewLink: PropTypes.string,
+  teachingResume: PropTypes.string.isRequired,
 };
 StudioInfo.defaultProps = {
+  phoneNumber: null,
   reviewLink: null,
 };
 

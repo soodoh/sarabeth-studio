@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
 import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import Fade from 'react-reveal/Fade';
 
 const useStyles = makeStyles(theme => ({
@@ -17,15 +18,43 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: theme.palette.primary.main,
     },
   },
+  contact: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginBottom: theme.spacing(2),
+
+    '& a': {
+      paddingBottom: theme.spacing(0.5),
+    },
+  },
 }));
 
 const LessonButtons = (props) => {
-  const { reviewLink } = props;
+  const { reviewLink, contact, phoneNumber } = props;
   const classes = useStyles();
   const transitionDelay = 500;
 
   return (
     <React.Fragment>
+      <Fade right opposite delay={transitionDelay}>
+        <div className={classes.contact}>
+          <Typography variant="h4">Contact</Typography>
+          <Typography
+            className={classes.email}
+            variant="body1"
+            component="a"
+            href={`mailto:${contact}`}
+          >
+            {contact}
+          </Typography>
+          {phoneNumber && (
+            <Typography variant="body1" component="a" href={`tel:${phoneNumber}`}>
+              {phoneNumber}
+            </Typography>
+          )}
+        </div>
+      </Fade>
+
       {reviewLink && (
         <Fade left opposite delay={transitionDelay}>
           <Button
@@ -54,9 +83,12 @@ const LessonButtons = (props) => {
 
 LessonButtons.propTypes = {
   reviewLink: PropTypes.string,
+  phoneNumber: PropTypes.string,
+  contact: PropTypes.string.isRequired,
 };
 LessonButtons.defaultProps = {
   reviewLink: null,
+  phoneNumber: null,
 };
 
 export default LessonButtons;

@@ -7,8 +7,15 @@ import About from '../../components/Lessons/About';
 
 const Lessons = (props) => {
   const {
-    currentRoute, voiceLessons, pianoLessons, reviewLink,
-    mainPhoto, voiceLessonsSvg, pianoLessonsSvg,
+    contact,
+    currentRoute,
+    mainPhoto,
+    phoneNumber,
+    pianoLessons,
+    pianoLessonsSvg,
+    reviewLink,
+    voiceLessons,
+    voiceLessonsSvg,
   } = props;
 
   return (
@@ -24,11 +31,13 @@ const Lessons = (props) => {
 
       <Banner mainPhoto={mainPhoto} currentRoute={currentRoute}>
         <About
-          voiceLessons={voiceLessons}
+          contact={contact}
+          phoneNumber={phoneNumber}
           pianoLessons={pianoLessons}
-          voiceLessonsSvg={voiceLessonsSvg}
           pianoLessonsSvg={pianoLessonsSvg}
           reviewLink={reviewLink}
+          voiceLessons={voiceLessons}
+          voiceLessonsSvg={voiceLessonsSvg}
         />
       </Banner>
     </React.Fragment>
@@ -36,18 +45,21 @@ const Lessons = (props) => {
 };
 
 Lessons.propTypes = {
+  contact: PropTypes.string.isRequired,
   currentRoute: PropTypes.string.isRequired,
-  voiceLessonsSvg: PropTypes.string.isRequired,
-  voiceLessons: PropTypes.string.isRequired,
-  pianoLessonsSvg: PropTypes.string.isRequired,
-  pianoLessons: PropTypes.string.isRequired,
   mainPhoto: PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
   }).isRequired,
+  phoneNumber: PropTypes.string,
+  pianoLessons: PropTypes.string.isRequired,
+  pianoLessonsSvg: PropTypes.string.isRequired,
   reviewLink: PropTypes.string,
+  voiceLessons: PropTypes.string.isRequired,
+  voiceLessonsSvg: PropTypes.string.isRequired,
 };
 Lessons.defaultProps = {
+  phoneNumber: null,
   reviewLink: null,
 };
 
@@ -57,6 +69,8 @@ const LessonsWithData = ({ location }) => (
       query AboutLessonsQuery {
         contentfulLessons {
           reviewLink
+          contact
+          phoneNumber
           mainPhoto {
             title
             description
@@ -89,13 +103,15 @@ const LessonsWithData = ({ location }) => (
     `}
     render={data => (
       <Lessons
+        contact={data.contentfulLessons.contact}
         currentRoute={location.pathname}
-        reviewLink={data.contentfulLessons.reviewLink}
-        voiceLessonsSvg={data.contentfulLessons.voiceLessonsImage.file.url}
-        voiceLessons={data.contentfulLessons.voiceLessons.childMarkdownRemark.html}
-        pianoLessonsSvg={data.contentfulLessons.pianoLessonsImage.file.url}
-        pianoLessons={data.contentfulLessons.pianoLessons.childMarkdownRemark.html}
         mainPhoto={data.contentfulLessons.mainPhoto}
+        phoneNumber={data.contentfulLessons.phoneNumber}
+        pianoLessons={data.contentfulLessons.pianoLessons.childMarkdownRemark.html}
+        pianoLessonsSvg={data.contentfulLessons.pianoLessonsImage.file.url}
+        reviewLink={data.contentfulLessons.reviewLink}
+        voiceLessons={data.contentfulLessons.voiceLessons.childMarkdownRemark.html}
+        voiceLessonsSvg={data.contentfulLessons.voiceLessonsImage.file.url}
       />
     )}
   />

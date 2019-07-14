@@ -76,7 +76,13 @@ const useStyles = makeStyles(theme => ({
 
 const About = (props) => {
   const {
-    reviewLink, voiceLessonsSvg, pianoLessonsSvg, voiceLessons, pianoLessons,
+    contact,
+    phoneNumber,
+    pianoLessons,
+    pianoLessonsSvg,
+    reviewLink,
+    voiceLessons,
+    voiceLessonsSvg,
   } = props;
   const classes = useStyles();
   const transitionDelay = 500;
@@ -116,20 +122,27 @@ const About = (props) => {
       </div>
 
       <div className={classes.buttonGroup}>
-        <LessonButtons reviewLink={reviewLink} />
+        <LessonButtons
+          contact={contact}
+          phoneNumber={phoneNumber}
+          reviewLink={reviewLink}
+        />
       </div>
     </div>
   );
 };
 
 About.propTypes = {
-  reviewLink: PropTypes.string,
-  voiceLessonsSvg: PropTypes.string.isRequired,
-  voiceLessons: PropTypes.string.isRequired,
-  pianoLessonsSvg: PropTypes.string.isRequired,
+  contact: PropTypes.string.isRequired,
+  phoneNumber: PropTypes.string,
   pianoLessons: PropTypes.string.isRequired,
+  pianoLessonsSvg: PropTypes.string.isRequired,
+  reviewLink: PropTypes.string,
+  voiceLessons: PropTypes.string.isRequired,
+  voiceLessonsSvg: PropTypes.string.isRequired,
 };
 About.defaultProps = {
+  phoneNumber: null,
   reviewLink: null,
 };
 

@@ -49,11 +49,6 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'flex-start',
   },
-  contact: {
-    display: 'flex',
-    flexDirection: 'column',
-    marginBottom: theme.spacing(2),
-  },
   email: {
     paddingBottom: theme.spacing(0.5),
   },
@@ -61,12 +56,12 @@ const useStyles = makeStyles(theme => ({
 
 const LessonsInfo = (props) => {
   const {
-    mainDescription,
     availability,
-    reviewLink,
     contact,
     location,
+    mainDescription,
     phoneNumber,
+    reviewLink,
   } = props;
   const classes = useStyles(props);
   const transitionDelay = 500;
@@ -101,42 +96,27 @@ const LessonsInfo = (props) => {
           />
         </Fade>
 
-        <Fade right opposite delay={transitionDelay}>
-          <div className={classes.contact}>
-            <Typography variant="h4">Contact</Typography>
-            <Typography
-              className={classes.email}
-              variant="body1"
-              component="a"
-              href={`mailto:${contact}`}
-            >
-              {contact}
-            </Typography>
-            {phoneNumber && (
-            <Typography variant="body1" component="a" href={`tel:${phoneNumber}`}>
-              {phoneNumber}
-            </Typography>
-            )}
-          </div>
-        </Fade>
-
-        <LessonButtons reviewLink={reviewLink} />
+        <LessonButtons
+          contact={contact}
+          phoneNumber={phoneNumber}
+          reviewLink={reviewLink}
+        />
       </div>
     </div>
   );
 };
 
 LessonsInfo.propTypes = {
-  mainDescription: PropTypes.string.isRequired,
   availability: PropTypes.string.isRequired,
   contact: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
-  reviewLink: PropTypes.string,
+  mainDescription: PropTypes.string.isRequired,
   phoneNumber: PropTypes.string,
+  reviewLink: PropTypes.string,
 };
 LessonsInfo.defaultProps = {
-  reviewLink: null,
   phoneNumber: null,
+  reviewLink: null,
 };
 
 export default LessonsInfo;

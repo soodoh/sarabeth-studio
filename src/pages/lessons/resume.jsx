@@ -7,8 +7,13 @@ import StudioInfo from '../../components/Lessons/StudioInfo';
 
 const TeachingResume = (props) => {
   const {
-    currentRoute, mainPhoto, reviewLink,
-    teachingResume, photoGallery,
+    contact,
+    currentRoute,
+    mainPhoto,
+    phoneNumber,
+    photoGallery,
+    reviewLink,
+    teachingResume,
   } = props;
 
   return (
@@ -25,9 +30,11 @@ const TeachingResume = (props) => {
 
       <Banner mainPhoto={mainPhoto} currentRoute={currentRoute}>
         <StudioInfo
+          contact={contact}
+          phoneNumber={phoneNumber}
+          photoGallery={photoGallery}
           reviewLink={reviewLink}
           teachingResume={teachingResume}
-          photoGallery={photoGallery}
         />
       </Banner>
     </React.Fragment>
@@ -35,18 +42,21 @@ const TeachingResume = (props) => {
 };
 
 TeachingResume.propTypes = {
+  contact: PropTypes.string.isRequired,
   currentRoute: PropTypes.string.isRequired,
   mainPhoto: PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
   }).isRequired,
-  reviewLink: PropTypes.string,
-  teachingResume: PropTypes.string.isRequired,
+  phoneNumber: PropTypes.string,
   photoGallery: PropTypes.arrayOf(
     PropTypes.object,
   ).isRequired,
+  reviewLink: PropTypes.string,
+  teachingResume: PropTypes.string.isRequired,
 };
 TeachingResume.defaultProps = {
+  phoneNumber: null,
   reviewLink: null,
 };
 
@@ -56,6 +66,8 @@ const TeachingResumeWithData = ({ location }) => (
       query TeachingResumeQuery {
         contentfulLessons {
           reviewLink
+          contact
+          phoneNumber
           teachingResume {
             childMarkdownRemark {
               html
@@ -83,11 +95,13 @@ const TeachingResumeWithData = ({ location }) => (
     `}
     render={data => (
       <TeachingResume
+        contact={data.contentfulLessons.contact}
         currentRoute={location.pathname}
+        mainPhoto={data.contentfulLessons.mainPhoto}
+        phoneNumber={data.contentfulLessons.phoneNumber}
+        photoGallery={data.contentfulLessons.photoGallery}
         reviewLink={data.contentfulLessons.reviewLink}
         teachingResume={data.contentfulLessons.teachingResume.childMarkdownRemark.html}
-        mainPhoto={data.contentfulLessons.mainPhoto}
-        photoGallery={data.contentfulLessons.photoGallery}
       />
     )}
   />

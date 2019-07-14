@@ -41,7 +41,10 @@ const useStyles = makeStyles(theme => ({
 
 const Philosophy = (props) => {
   const {
-    aboutDescription, reviewLink,
+    aboutDescription,
+    contact,
+    phoneNumber,
+    reviewLink,
   } = props;
   const classes = useStyles(props);
 
@@ -56,17 +59,24 @@ const Philosophy = (props) => {
       </Fade>
 
       <div className={classes.buttonGroup}>
-        <LessonButtons reviewLink={reviewLink} />
+        <LessonButtons
+          contact={contact}
+          phoneNumber={phoneNumber}
+          reviewLink={reviewLink}
+        />
       </div>
     </div>
   );
 };
 
 Philosophy.propTypes = {
-  reviewLink: PropTypes.string,
   aboutDescription: PropTypes.string.isRequired,
+  contact: PropTypes.string.isRequired,
+  phoneNumber: PropTypes.string,
+  reviewLink: PropTypes.string,
 };
 Philosophy.defaultProps = {
+  phoneNumber: null,
   reviewLink: null,
 };
 

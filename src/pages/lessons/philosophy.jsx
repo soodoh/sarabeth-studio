@@ -7,7 +7,12 @@ import PhilosophySection from '../../components/Lessons/Philosophy';
 
 const Philosophy = (props) => {
   const {
-    aboutDescription, mainPhoto, reviewLink, currentRoute,
+    aboutDescription,
+    contact,
+    currentRoute,
+    mainPhoto,
+    phoneNumber,
+    reviewLink,
   } = props;
 
   return (
@@ -25,6 +30,8 @@ const Philosophy = (props) => {
       <Banner mainPhoto={mainPhoto} currentRoute={currentRoute}>
         <PhilosophySection
           aboutDescription={aboutDescription}
+          contact={contact}
+          phoneNumber={phoneNumber}
           reviewLink={reviewLink}
         />
       </Banner>
@@ -33,15 +40,18 @@ const Philosophy = (props) => {
 };
 
 Philosophy.propTypes = {
-  reviewLink: PropTypes.string,
-  currentRoute: PropTypes.string.isRequired,
   aboutDescription: PropTypes.string.isRequired,
+  contact: PropTypes.string.isRequired,
+  currentRoute: PropTypes.string.isRequired,
   mainPhoto: PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
   }).isRequired,
+  phoneNumber: PropTypes.string,
+  reviewLink: PropTypes.string,
 };
 Philosophy.defaultProps = {
+  phoneNumber: null,
   reviewLink: null,
 };
 
@@ -51,6 +61,8 @@ const PhilosophyWithData = ({ location }) => (
       query LessonsQuery {
         contentfulLessons {
           reviewLink
+          contact
+          phoneNumber
           mainDescription {
             childMarkdownRemark {
               html
@@ -73,10 +85,12 @@ const PhilosophyWithData = ({ location }) => (
     `}
     render={data => (
       <Philosophy
-        currentRoute={location.pathname}
-        reviewLink={data.contentfulLessons.reviewLink}
         aboutDescription={data.contentfulLessons.aboutDescription.childMarkdownRemark.html}
+        contact={data.contentfulLessons.contact}
+        currentRoute={location.pathname}
         mainPhoto={data.contentfulLessons.mainPhoto}
+        phoneNumber={data.contentfulLessons.phoneNumber}
+        reviewLink={data.contentfulLessons.reviewLink}
       />
     )}
   />
