@@ -26,27 +26,32 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flex: 1,
     alignItems: 'center',
-    fontSize: '1.8rem',
+    fontSize: '2rem',
     fontFamily: theme.typography.h3.fontFamily,
 
     [theme.breakpoints.down('xs')]: {
       fontSize: '1.5rem',
     },
+    [theme.breakpoints.down('sm')]: {
+      position: 'absolute',
+      left: 0,
+      width: '100%',
+      justifyContent: 'center',
+      zIndex: -1,
+    },
   },
   brandContainer: {
     flex: 1,
-
-    '& a': {
-      display: 'flex',
-      alignItems: 'center',
-      textDecoration: 'none',
-      color: 'inherit',
-    },
+    display: 'flex',
+    alignItems: 'center',
+    textDecoration: 'none',
+    color: 'inherit',
   },
   logoSvg: {
     width: 100,
     height: '100%',
     marginRight: theme.spacing(1),
+
     '& path': {
       fill: theme.palette.primary.contrastText,
     },
@@ -76,25 +81,25 @@ const Header = (props) => {
     >
       <Toolbar>
         <div className={classes.brandContainer}>
-          <Link to="/">
-            {!isHome && (
+          {!isHome && (
+            <Link to="/">
               <ReactSvg
                 src={logo}
                 beforeInjection={(svg) => {
                   svg.classList.add(classes.logoSvg);
                 }}
               />
-            )}
-            {!isHome && (
-              <Typography
-                className={classes.brandText}
-                variant="h6"
-                color="inherit"
-              >
-                Sarabeth Belón
-              </Typography>
-            )}
-          </Link>
+            </Link>
+          )}
+          {!isHome && (
+          <Typography
+            className={classes.brandText}
+            variant="h6"
+            color="inherit"
+          >
+            Sarabeth Belón
+          </Typography>
+          )}
         </div>
 
         <Navigation

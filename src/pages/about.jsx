@@ -31,6 +31,10 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     textTransform: 'uppercase',
+
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '3rem',
+    },
   },
   bodyText: {
     ...theme.typography.body1,
