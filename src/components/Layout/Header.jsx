@@ -26,8 +26,12 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flex: 1,
     alignItems: 'center',
-    fontSize: '2rem',
+    fontSize: '1.8rem',
     fontFamily: theme.typography.h3.fontFamily,
+
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '1.5rem',
+    },
   },
   brandContainer: {
     flex: 1,
@@ -45,6 +49,10 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1),
     '& path': {
       fill: theme.palette.primary.contrastText,
+    },
+
+    [theme.breakpoints.down('xs')]: {
+      width: 60,
     },
   },
 }));
@@ -69,12 +77,14 @@ const Header = (props) => {
       <Toolbar>
         <div className={classes.brandContainer}>
           <Link to="/">
-            <ReactSvg
-              src={logo}
-              beforeInjection={(svg) => {
-                svg.classList.add(classes.logoSvg);
-              }}
-            />
+            {!isHome && (
+              <ReactSvg
+                src={logo}
+                beforeInjection={(svg) => {
+                  svg.classList.add(classes.logoSvg);
+                }}
+              />
+            )}
             {!isHome && (
               <Typography
                 className={classes.brandText}
