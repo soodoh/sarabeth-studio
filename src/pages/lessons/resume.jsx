@@ -9,6 +9,7 @@ const TeachingResume = (props) => {
   const {
     contact,
     currentRoute,
+    mainLogo,
     mainPhoto,
     phoneNumber,
     photoGallery,
@@ -28,7 +29,11 @@ const TeachingResume = (props) => {
         ]}
       />
 
-      <Banner mainPhoto={mainPhoto} currentRoute={currentRoute}>
+      <Banner
+        currentRoute={currentRoute}
+        mainLogo={mainLogo}
+        mainPhoto={mainPhoto}
+      >
         <StudioInfo
           contact={contact}
           phoneNumber={phoneNumber}
@@ -44,6 +49,7 @@ const TeachingResume = (props) => {
 TeachingResume.propTypes = {
   contact: PropTypes.string.isRequired,
   currentRoute: PropTypes.string.isRequired,
+  mainLogo: PropTypes.string,
   mainPhoto: PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
@@ -56,6 +62,7 @@ TeachingResume.propTypes = {
   teachingResume: PropTypes.string.isRequired,
 };
 TeachingResume.defaultProps = {
+  mainLogo: null,
   phoneNumber: null,
   reviewLink: null,
 };
@@ -80,6 +87,11 @@ const TeachingResumeWithData = ({ location }) => (
               ...GatsbyContentfulFluid_withWebp
             }
           }
+          mainLogo {
+            file {
+              url
+            }
+          }
           photoGallery {
             title
             description
@@ -97,6 +109,7 @@ const TeachingResumeWithData = ({ location }) => (
       <TeachingResume
         contact={data.contentfulLessons.contact}
         currentRoute={location.pathname}
+        mainLogo={data.contentfulLessons.mainLogo.file.url}
         mainPhoto={data.contentfulLessons.mainPhoto}
         phoneNumber={data.contentfulLessons.phoneNumber}
         photoGallery={data.contentfulLessons.photoGallery}

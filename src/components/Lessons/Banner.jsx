@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import classNames from 'classnames';
 import Fade from 'react-reveal/Fade';
+import ReactSvg from 'react-svg';
 import Background from '../Layout/Background';
 import Title from '../common/Title';
 
@@ -18,6 +19,14 @@ const useStyles = makeStyles(theme => ({
   },
   bannerPhoto: {
     filter: 'brightness(80%)',
+  },
+  bannerSvg: {
+    width: 250,
+    height: '100%',
+
+    '& path': {
+      fill: theme.palette.primary.main,
+    },
   },
   bannerButton: {
     backgroundColor: theme.palette.secondary.dark,
@@ -40,7 +49,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Banner = (props) => {
-  const { children, mainPhoto, currentRoute } = props;
+  const {
+    children,
+    currentRoute,
+    mainLogo,
+    mainPhoto,
+  } = props;
   const classes = useStyles(props);
   const routes = [
     { route: '/lessons', label: 'About' },
@@ -54,7 +68,19 @@ const Banner = (props) => {
     <React.Fragment>
       <div className={classes.banner}>
         <Background sizes={mainPhoto.fluid} className={classes.bannerPhoto} />
-        <Title>Sarabeth&apos;s Studio</Title>
+        <Title>
+          {mainLogo
+            ? (
+              <ReactSvg
+                src={mainLogo}
+                beforeInjection={(svg) => {
+                  svg.classList.add(classes.bannerSvg);
+                }}
+              />
+            )
+            : 'Sarabeth\'s Studio'
+          }
+        </Title>
       </div>
 
       <div className={classes.container}>
@@ -88,14 +114,18 @@ const Banner = (props) => {
 };
 
 Banner.propTypes = {
-  currentRoute: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.element),
     PropTypes.element,
   ]).isRequired,
+  currentRoute: PropTypes.string.isRequired,
+  mainLogo: PropTypes.string,
   mainPhoto: PropTypes.shape({
     fluid: PropTypes.object.isRequired,
   }).isRequired,
+};
+Banner.defaultProps = {
+  mainLogo: null,
 };
 
 export default Banner;

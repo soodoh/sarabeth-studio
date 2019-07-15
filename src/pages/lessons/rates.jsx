@@ -7,8 +7,15 @@ import LessonsInfo from '../../components/Lessons/LessonsInfo';
 
 const Rates = (props) => {
   const {
-    location, currentRoute, mainDescription, availability,
-    contact, reviewLink, phoneNumber, mainPhoto,
+    availability,
+    contact,
+    currentRoute,
+    location,
+    mainDescription,
+    mainLogo,
+    mainPhoto,
+    phoneNumber,
+    reviewLink,
   } = props;
 
   return (
@@ -22,7 +29,11 @@ const Rates = (props) => {
         ]}
       />
 
-      <Banner mainPhoto={mainPhoto} currentRoute={currentRoute}>
+      <Banner
+        currentRoute={currentRoute}
+        mainLogo={mainLogo}
+        mainPhoto={mainPhoto}
+      >
         <LessonsInfo
           mainDescription={mainDescription}
           availability={availability}
@@ -48,10 +59,12 @@ Rates.propTypes = {
   }).isRequired,
   reviewLink: PropTypes.string,
   phoneNumber: PropTypes.string,
+  mainLogo: PropTypes.string,
 };
 Rates.defaultProps = {
-  reviewLink: null,
+  mainLogo: null,
   phoneNumber: null,
+  reviewLink: null,
 };
 
 const RatesWithData = ({ location }) => (
@@ -78,6 +91,11 @@ const RatesWithData = ({ location }) => (
               html
             }
           }
+          mainLogo {
+            file {
+              url
+            }
+          }
           mainPhoto {
             title
             description
@@ -90,14 +108,15 @@ const RatesWithData = ({ location }) => (
     `}
     render={data => (
       <Rates
+        availability={data.contentfulLessons.availability.childMarkdownRemark.html}
+        contact={data.contentfulLessons.contact}
         currentRoute={location.pathname}
         location={data.contentfulLessons.location}
-        contact={data.contentfulLessons.contact}
+        mainDescription={data.contentfulLessons.mainDescription.childMarkdownRemark.html}
+        mainLogo={data.contentfulLessons.mainLogo.file.url}
+        mainPhoto={data.contentfulLessons.mainPhoto}
         phoneNumber={data.contentfulLessons.phoneNumber}
         reviewLink={data.contentfulLessons.reviewLink}
-        availability={data.contentfulLessons.availability.childMarkdownRemark.html}
-        mainDescription={data.contentfulLessons.mainDescription.childMarkdownRemark.html}
-        mainPhoto={data.contentfulLessons.mainPhoto}
       />
     )}
   />

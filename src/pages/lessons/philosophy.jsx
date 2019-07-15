@@ -10,6 +10,7 @@ const Philosophy = (props) => {
     aboutDescription,
     contact,
     currentRoute,
+    mainLogo,
     mainPhoto,
     phoneNumber,
     reviewLink,
@@ -27,7 +28,11 @@ const Philosophy = (props) => {
         ]}
       />
 
-      <Banner mainPhoto={mainPhoto} currentRoute={currentRoute}>
+      <Banner
+        currentRoute={currentRoute}
+        mainLogo={mainLogo}
+        mainPhoto={mainPhoto}
+      >
         <PhilosophySection
           aboutDescription={aboutDescription}
           contact={contact}
@@ -43,6 +48,7 @@ Philosophy.propTypes = {
   aboutDescription: PropTypes.string.isRequired,
   contact: PropTypes.string.isRequired,
   currentRoute: PropTypes.string.isRequired,
+  mainLogo: PropTypes.string,
   mainPhoto: PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
@@ -51,6 +57,7 @@ Philosophy.propTypes = {
   reviewLink: PropTypes.string,
 };
 Philosophy.defaultProps = {
+  mainLogo: null,
   phoneNumber: null,
   reviewLink: null,
 };
@@ -73,6 +80,11 @@ const PhilosophyWithData = ({ location }) => (
               html
             }
           }
+          mainLogo {
+            file {
+              url
+            }
+          }
           mainPhoto {
             title
             description
@@ -88,6 +100,7 @@ const PhilosophyWithData = ({ location }) => (
         aboutDescription={data.contentfulLessons.aboutDescription.childMarkdownRemark.html}
         contact={data.contentfulLessons.contact}
         currentRoute={location.pathname}
+        mainLogo={data.contentfulLessons.mainLogo.file.url}
         mainPhoto={data.contentfulLessons.mainPhoto}
         phoneNumber={data.contentfulLessons.phoneNumber}
         reviewLink={data.contentfulLessons.reviewLink}

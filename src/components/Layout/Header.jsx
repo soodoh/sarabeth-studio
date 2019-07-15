@@ -22,24 +22,38 @@ const useStyles = makeStyles(theme => ({
     boxShadow: 'none',
     transition: `background-color ${transitionDelay}ms ease-in-out`,
   },
-  brand: {
+  brandText: {
     display: 'flex',
     flex: 1,
     alignItems: 'center',
     fontSize: '2rem',
+    fontFamily: theme.typography.h3.fontFamily,
+  },
+  brandContainer: {
+    flex: 1,
+
     '& a': {
+      display: 'flex',
+      alignItems: 'center',
       textDecoration: 'none',
       color: 'inherit',
     },
   },
-  brandImage: {
-    width: 50,
+  logoSvg: {
+    width: 100,
+    height: '100%',
+    marginRight: theme.spacing(1),
+    '& path': {
+      fill: theme.palette.primary.contrastText,
+    },
   },
 }));
 
 const Header = (props) => {
   const {
-    logo, location, resume,
+    location,
+    logo,
+    resume,
   } = props;
   const classes = useStyles(props);
   const isHome = location.pathname === '/';
@@ -53,20 +67,23 @@ const Header = (props) => {
       })}
     >
       <Toolbar>
-        <div className={classes.brand}>
+        <div className={classes.brandContainer}>
           <Link to="/">
-            {isHome
-              ? <ReactSvg src={logo} className={classes.brandImage} />
-              : (
-                <Typography
-                  className={classes.brand}
-                  variant="h6"
-                  color="inherit"
-                >
-                  Sarabeth Belón
-                </Typography>
-              )
-            }
+            <ReactSvg
+              src={logo}
+              beforeInjection={(svg) => {
+                svg.classList.add(classes.logoSvg);
+              }}
+            />
+            {!isHome && (
+              <Typography
+                className={classes.brandText}
+                variant="h6"
+                color="inherit"
+              >
+                Sarabeth Belón
+              </Typography>
+            )}
           </Link>
         </div>
 
@@ -88,8 +105,8 @@ Header.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }).isRequired,
-  resume: PropTypes.string.isRequired,
   logo: PropTypes.string.isRequired,
+  resume: PropTypes.string.isRequired,
 };
 
 const HeaderWithData = ({ location }) => (
@@ -113,8 +130,8 @@ const HeaderWithData = ({ location }) => (
     render={data => (
       <Header
         location={location}
-        resume={data.contentfulAbout.resume.file.url}
         logo={data.contentfulAbout.brandLogo.file.url}
+        resume={data.contentfulAbout.resume.file.url}
       />
     )}
   />

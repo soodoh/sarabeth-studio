@@ -9,6 +9,7 @@ const Lessons = (props) => {
   const {
     contact,
     currentRoute,
+    mainLogo,
     mainPhoto,
     phoneNumber,
     pianoLessons,
@@ -29,7 +30,11 @@ const Lessons = (props) => {
         ]}
       />
 
-      <Banner mainPhoto={mainPhoto} currentRoute={currentRoute}>
+      <Banner
+        currentRoute={currentRoute}
+        mainLogo={mainLogo}
+        mainPhoto={mainPhoto}
+      >
         <About
           contact={contact}
           phoneNumber={phoneNumber}
@@ -47,6 +52,7 @@ const Lessons = (props) => {
 Lessons.propTypes = {
   contact: PropTypes.string.isRequired,
   currentRoute: PropTypes.string.isRequired,
+  mainLogo: PropTypes.string,
   mainPhoto: PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
@@ -59,6 +65,7 @@ Lessons.propTypes = {
   voiceLessonsSvg: PropTypes.string.isRequired,
 };
 Lessons.defaultProps = {
+  mainLogo: null,
   phoneNumber: null,
   reviewLink: null,
 };
@@ -88,6 +95,11 @@ const LessonsWithData = ({ location }) => (
               html
             }
           }
+          mainLogo {
+            file {
+              url
+            }
+          }
           voiceLessonsImage {
             file {
               url
@@ -105,6 +117,7 @@ const LessonsWithData = ({ location }) => (
       <Lessons
         contact={data.contentfulLessons.contact}
         currentRoute={location.pathname}
+        mainLogo={data.contentfulLessons.mainLogo.file.url}
         mainPhoto={data.contentfulLessons.mainPhoto}
         phoneNumber={data.contentfulLessons.phoneNumber}
         pianoLessons={data.contentfulLessons.pianoLessons.childMarkdownRemark.html}
