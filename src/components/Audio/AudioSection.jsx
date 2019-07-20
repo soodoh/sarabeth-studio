@@ -53,9 +53,12 @@ const AudioSection = (props) => {
       )}
 
       {getAudioFiles().map((audio, index) => (
-        <Fade opposite delay={transitionDelay * (index + 1)}>
+        <Fade
+          key={uid(audio)}
+          opposite
+          delay={transitionDelay * (index + 1)}
+        >
           <Song
-            key={uid(audio)}
             title={audio.title}
             subtitle={audio.subtitle}
             url={audio.audio.file.url}
