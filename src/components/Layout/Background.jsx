@@ -6,12 +6,12 @@ import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
   container: {
-    position: 'absolute',
+    position: ({ fullscreen }) => (fullscreen ? 'fixed' : 'absolute'),
     top: 0,
     right: 0,
-    bottom: 0,
     left: 0,
     zIndex: -1,
+    height: ({ fullscreen }) => (fullscreen ? '100vh' : '100%'),
   },
   background: {
     width: '100%',
@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 
 const Background = (props) => {
   const {
-    sizes, className, ...others
+    sizes, fullscreen, className, ...others
   } = props;
   const classes = useStyles(props);
 
@@ -41,9 +41,11 @@ const Background = (props) => {
 Background.propTypes = {
   sizes: PropTypes.shape({}).isRequired,
   className: PropTypes.string,
+  fullscreen: PropTypes.bool,
 };
 Background.defaultProps = {
   className: null,
+  fullscreen: false,
 };
 
 export default Background;

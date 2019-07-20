@@ -59,7 +59,7 @@ const HomePage = (props) => {
           'opera singer los angeles',
         ]}
       />
-      <Background sizes={data.background.fluid} />
+      <Background sizes={data.background.fluid} fullscreen />
 
       <div className={classes.container}>
         <Fade top opposite>
