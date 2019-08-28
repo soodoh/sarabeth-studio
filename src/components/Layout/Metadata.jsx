@@ -12,8 +12,7 @@ const Metadata = (props) => {
       <title>{title}</title>
 
       {description
-        && <meta name="description" content={description} />
-      }
+        && <meta name="description" content={description} />}
       {keywords && keywords.length > 0
         && <meta name="keywords" content={keywords.join(',')} />}
       <meta name="GOOGLEBOT" content="index, follow" />

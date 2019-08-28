@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   buttonGroup: {
     display: 'flex',
     justifyContent: 'space-around',
@@ -40,7 +40,7 @@ const Filters = (props) => {
 
   return (
     <div className={classes.buttonGroup}>
-      {list.map(item => (
+      {list.map((item) => (
         <Button
           key={uid(item)}
           variant="contained"

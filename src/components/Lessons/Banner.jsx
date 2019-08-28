@@ -9,7 +9,7 @@ import ReactSvg from 'react-svg';
 import Background from '../Layout/Background';
 import Title from '../common/Title';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   banner: {
     height: '50vh',
     position: 'relative',
@@ -65,7 +65,7 @@ const Banner = (props) => {
   const transitionDelay = 300;
 
   return (
-    <React.Fragment>
+    <>
       <div className={classes.banner}>
         <Background sizes={mainPhoto.fluid} className={classes.bannerPhoto} />
         <Title>
@@ -78,8 +78,7 @@ const Banner = (props) => {
                 }}
               />
             )
-            : 'Sarabeth\'s Studio'
-          }
+            : 'Sarabeth\'s Studio'}
         </Title>
       </div>
 
@@ -109,7 +108,7 @@ const Banner = (props) => {
 
         {children}
       </div>
-    </React.Fragment>
+    </>
   );
 };
 

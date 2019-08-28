@@ -9,7 +9,7 @@ import Metadata from '../components/Layout/Metadata';
 import Title from '../components/common/Title';
 import List from '../components/Engagements/EngagementList';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     width: '100%',
     padding: theme.spacing(4),
@@ -23,15 +23,15 @@ const Engagements = (props) => {
   const { data } = props;
   const classes = useStyles(props);
 
-  const upcoming = data.filter(engagement => (
+  const upcoming = data.filter((engagement) => (
     moment(engagement.endDate).isAfter(moment())
   )).reverse();
-  const past = data.filter(engagement => (
+  const past = data.filter((engagement) => (
     moment(engagement.endDate).isBefore(moment())
   ));
 
   return (
-    <React.Fragment>
+    <>
       <Metadata
         title="Sarabeth's Engagements"
         description="Young and talented female opera singer, Sarabeth Belon, captivates audiences throughout the country. Learn more about her current and upcoming
@@ -49,8 +49,7 @@ engagements!"
 
             <List data={upcoming} />
           </div>
-        )
-      }
+        )}
 
         <div>
           <Fade top opposite delay={500}>
@@ -63,11 +62,10 @@ engagements!"
               <Typography variant="h5" color="inherit" align="center">
                 There are current no engagements
               </Typography>
-            )
-          }
+            )}
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
 };
 Engagements.propTypes = {
@@ -94,9 +92,9 @@ export default () => (
         }
       }
     `}
-    render={data => (
+    render={(data) => (
       <Engagements
-        data={data.allContentfulEngagements.edges.map(item => (
+        data={data.allContentfulEngagements.edges.map((item) => (
           item.node
         ))}
       />

@@ -11,7 +11,7 @@ import Navigation from './Navigation';
 import MiniNavigation from './MiniNavigation';
 import { transitionDelay } from './PageTransition';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   appBar: {
     backgroundColor: theme.palette.primary.main,
     flexShrink: 0,
@@ -142,7 +142,7 @@ const HeaderWithData = ({ location }) => (
         }
       }
     `}
-    render={data => (
+    render={(data) => (
       <Header
         location={location}
         logo={data.contentfulAbout.brandLogo.file.url}

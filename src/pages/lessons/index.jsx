@@ -20,7 +20,7 @@ const Lessons = (props) => {
   } = props;
 
   return (
-    <React.Fragment>
+    <>
       <Metadata
         title="Singing Lessons | Piano Lessons Los Angeles"
         description="Offering the very best singing and piano lessons in Los Angeles. Refine your voice, sing with ease, and perfect your piano skills. Book your lesson now!"
@@ -45,7 +45,7 @@ const Lessons = (props) => {
           voiceLessonsSvg={voiceLessonsSvg}
         />
       </Banner>
-    </React.Fragment>
+    </>
   );
 };
 
@@ -113,7 +113,7 @@ const LessonsWithData = ({ location }) => (
         }
       }
     `}
-    render={data => (
+    render={(data) => (
       <Lessons
         contact={data.contentfulLessons.contact}
         currentRoute={location.pathname}

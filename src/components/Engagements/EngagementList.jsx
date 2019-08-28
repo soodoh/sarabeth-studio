@@ -10,17 +10,17 @@ const List = (props) => {
   const transitionDelay = 200;
 
   return (
-    <React.Fragment>
+    <>
       {data.map((engagement, index) => (
-        <Fade opposite delay={transitionDelay}>
-          <React.Fragment key={uid(engagement)}>
+        <Fade opposite delay={transitionDelay} key={uid(engagement)}>
+          <>
             <Engagement data={engagement} />
 
             {index < data.length - 1 && <Divider />}
-          </React.Fragment>
+          </>
         </Fade>
       ))}
-    </React.Fragment>
+    </>
   );
 };
 

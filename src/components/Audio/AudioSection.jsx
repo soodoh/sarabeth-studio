@@ -13,7 +13,7 @@ const AudioSection = (props) => {
   const transitionDelay = 200;
 
   const getAudioGroups = () => {
-    const groups = audioGroups.map(group => group.label);
+    const groups = audioGroups.map((group) => group.label);
 
     groups.unshift('All');
     return groups;
@@ -28,18 +28,18 @@ const AudioSection = (props) => {
       });
     } else {
       const audioGroup = audioGroups.find(
-        group => group.label === currentGroup,
+        (group) => group.label === currentGroup,
       );
       files = audioGroup.audioFiles;
     }
 
     return files.filter(
-      audioFile => audioFile && audioFile.title && audioFile.audio.file.url,
+      (audioFile) => audioFile && audioFile.title && audioFile.audio.file.url,
     );
   };
 
   return (
-    <React.Fragment>
+    <>
       <Fade top opposite>
         <Title>Audio</Title>
       </Fade>
@@ -48,7 +48,7 @@ const AudioSection = (props) => {
         <Filters
           list={getAudioGroups()}
           activeItem={currentGroup}
-          onClick={item => setGroup(item)}
+          onClick={(item) => setGroup(item)}
         />
       )}
 
@@ -65,7 +65,7 @@ const AudioSection = (props) => {
           />
         </Fade>
       ))}
-    </React.Fragment>
+    </>
   );
 };
 
@@ -97,9 +97,9 @@ export default () => (
         }
       }
     `}
-    render={data => (
+    render={(data) => (
       <AudioSection
-        audioGroups={data.allContentfulAudioGroups.edges.map(item => item.node)}
+        audioGroups={data.allContentfulAudioGroups.edges.map((item) => item.node)}
       />
     )}
   />

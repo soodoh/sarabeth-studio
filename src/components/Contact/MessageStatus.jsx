@@ -10,7 +10,7 @@ import ErrorIcon from 'mdi-material-ui/AlertCircle';
 import SuccessIcon from 'mdi-material-ui/CheckCircle';
 import IconButton from '@material-ui/core/IconButton';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   message: {
     display: 'flex',
     alignItems: 'center',
@@ -60,8 +60,7 @@ const Message = (props) => {
               <ErrorIcon className={classes.icon} />
                 Email Failed
             </span>
-          )
-        }
+          )}
         action={[
           <IconButton
             key="close"

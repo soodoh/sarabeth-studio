@@ -11,7 +11,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   buttonContainer: {
     [theme.breakpoints.up('md')]: {
       display: 'none',
@@ -60,7 +60,7 @@ const MiniNavigation = (props) => {
   ];
 
   return (
-    <React.Fragment>
+    <>
       <Fab
         size="small"
         color="secondary"
@@ -97,7 +97,8 @@ const MiniNavigation = (props) => {
               color="primary"
               onClick={() => setActive(false)}
               component={component || Link}
-              {...component ? { href: url } : { to: url }}
+              href={url}
+              to={url}
             >
               <ListItemText
                 primary={label}
@@ -107,7 +108,7 @@ const MiniNavigation = (props) => {
           ))}
         </List>
       </Drawer>
-    </React.Fragment>
+    </>
   );
 };
 

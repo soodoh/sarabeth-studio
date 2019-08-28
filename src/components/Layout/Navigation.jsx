@@ -5,7 +5,7 @@ import { Link } from 'gatsby';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
 
@@ -67,7 +67,7 @@ const Navigation = (props) => {
           role="button"
           tabIndex={-1}
           className={classes.link}
-          onClick={event => setAnchor(event.currentTarget)}
+          onClick={(event) => setAnchor(event.currentTarget)}
           onKeyPress={(event) => {
             if (event.charCode === 13) {
               setAnchor(event.currentTarget);

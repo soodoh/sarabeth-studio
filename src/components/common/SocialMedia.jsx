@@ -33,7 +33,7 @@ function renderIcon(icon) {
   }
 }
 
-const buttonStyles = makeStyles(theme => ({
+const buttonStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
   },
@@ -74,7 +74,7 @@ const SocialMedia = (props) => {
 
   return (
     <div className={classes.container}>
-      {data.map(item => (
+      {data.map((item) => (
         <SocialMediaButton
           key={uid(item)}
           url={item.link}
@@ -107,10 +107,10 @@ export default () => (
         }
       }
     `}
-    render={data => (
+    render={(data) => (
       <SocialMedia
         data={
-          data.allContentfulSocialMedia.edges.map(item => item.node)
+          data.allContentfulSocialMedia.edges.map((item) => item.node)
         }
       />
     )}

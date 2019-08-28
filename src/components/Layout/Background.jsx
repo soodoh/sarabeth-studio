@@ -21,14 +21,13 @@ const useStyles = makeStyles({
 
 const Background = (props) => {
   const {
-    sizes, fullscreen, className, ...others
+    sizes, fullscreen, className,
   } = props;
-  const classes = useStyles(props);
+  const classes = useStyles({ fullscreen });
 
   return (
     <div
       className={classNames(classes.container, className)}
-      {...others}
     >
       <Img
         fluid={sizes}

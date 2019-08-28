@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import SocialMedia from '../common/SocialMedia';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   footer: {
     flexShrink: 0,
     width: '100%',
@@ -96,7 +96,7 @@ export default () => (
         }
       }
     `}
-    render={data => (
+    render={(data) => (
       <Footer geoLocation={data.contentfulAbout.location} />
     )}
   />

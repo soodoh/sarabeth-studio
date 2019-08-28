@@ -6,7 +6,7 @@ import PlayIcon from 'mdi-material-ui/Play';
 import Fade from 'react-reveal/Fade';
 import Background from '../Layout/Background';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     position: 'relative',
     cursor: 'pointer',

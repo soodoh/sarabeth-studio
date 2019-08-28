@@ -9,7 +9,7 @@ import Fade from 'react-reveal/Fade';
 import LessonButtons from './LessonButtons';
 import Lightbox from '../Photos/Lightbox';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     display: 'grid',
     gridTemplateColumns: '1fr 30%',
@@ -108,7 +108,7 @@ const StudioInfo = (props) => {
             </Typography>
 
             <Lightbox
-              images={photoGallery.map(photo => ({
+              images={photoGallery.map((photo) => ({
                 alt: `${photo.title} (Full Resolution)`,
                 caption: photo.description,
                 src: photo.fullSize.src,

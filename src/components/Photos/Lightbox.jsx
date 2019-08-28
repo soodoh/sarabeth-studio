@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useTheme } from '@material-ui/styles';
 import Lightbox from 'react-images';
 
@@ -21,14 +22,39 @@ const ThemedLightbox = (props) => {
       fill: theme.palette.primary.light,
     },
   };
+  const {
+    images,
+    isOpen,
+    currentImage,
+    onClickPrev,
+    onClickNext,
+    onClose,
+  } = props;
 
   return (
     <Lightbox
       theme={themeProp}
       backdropClosesModal
-      {...props}
+      images={images}
+      isOpen={isOpen}
+      currentImage={currentImage}
+      onClickPrev={onClickPrev}
+      onClickNext={onClickNext}
+      onClose={onClose}
     />
   );
+};
+
+ThemedLightbox.propTypes = {
+  images: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isOpen: PropTypes.bool,
+  currentImage: PropTypes.number.isRequired,
+  onClickPrev: PropTypes.func.isRequired,
+  onClickNext: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
+ThemedLightbox.defaultProps = {
+  isOpen: false,
 };
 
 export default ThemedLightbox;

@@ -7,7 +7,7 @@ import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 import VideoThumbnail from './VideoThumbnail';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     paddingTop: theme.spacing(2),
     display: 'flex',
@@ -45,10 +45,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Transition = React.forwardRef((props, ref) => (
-  <Slide direction="up" {...props} ref={ref} />
-));
-
 const VideoList = (props) => {
   const { videos } = props;
   const classes = useStyles(props);
@@ -62,7 +58,7 @@ const VideoList = (props) => {
         maxWidth="md"
         fullWidth
         onClose={() => setOpen(false)}
-        TransitionComponent={Transition}
+        TransitionComponent={Slide}
       >
         <div className={classes.playerContainer}>
           <Player

@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Fade from 'react-reveal/Fade';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   button: {
     backgroundColor: theme.palette.primary.light,
     color: theme.palette.secondary.contrastText,
@@ -35,7 +35,7 @@ const LessonButtons = (props) => {
   const transitionDelay = 500;
 
   return (
-    <React.Fragment>
+    <>
       <Fade right opposite delay={transitionDelay}>
         <div className={classes.contact}>
           <Typography variant="h4">Contact</Typography>
@@ -77,7 +77,7 @@ const LessonButtons = (props) => {
           Book a Lesson
         </Button>
       </Fade>
-    </React.Fragment>
+    </>
   );
 };
 

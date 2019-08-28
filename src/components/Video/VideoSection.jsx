@@ -7,7 +7,7 @@ import Filters from '../common/Filters';
 import Title from '../common/Title';
 import VideoList from './VideoList';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     paddingBottom: theme.spacing(8),
   },
@@ -19,7 +19,7 @@ const VideoSection = (props) => {
   const [currentVideoGroup, setGroup] = useState('All');
 
   const getVideoGroups = () => {
-    const newVideoGroups = videoGroups.map(group => group.label);
+    const newVideoGroups = videoGroups.map((group) => group.label);
 
     newVideoGroups.unshift('All');
     return newVideoGroups;
@@ -28,10 +28,10 @@ const VideoSection = (props) => {
   const getVideos = () => {
     const videos = currentVideoGroup === 'All'
       ? videoGroups.reduce((acc, group) => [...acc, ...group.videos], [])
-      : videoGroups.find(videoGroup => videoGroup.label === currentVideoGroup)
+      : videoGroups.find((videoGroup) => videoGroup.label === currentVideoGroup)
         .videos;
 
-    return videos.map(video => ({
+    return videos.map((video) => ({
       url: video.link,
       title: video.label,
       thumbnail: video.thumbnail && video.thumbnail.fluid,
@@ -48,7 +48,7 @@ const VideoSection = (props) => {
         <Filters
           list={getVideoGroups()}
           activeItem={currentVideoGroup}
-          onClick={videoGroup => setGroup(videoGroup)}
+          onClick={(videoGroup) => setGroup(videoGroup)}
         />
       )}
 
@@ -88,9 +88,9 @@ export default () => (
         }
       }
     `}
-    render={data => (
+    render={(data) => (
       <VideoSection
-        videoGroups={data.allContentfulVideoGroups.edges.map(item => item.node)}
+        videoGroups={data.allContentfulVideoGroups.edges.map((item) => item.node)}
       />
     )}
   />

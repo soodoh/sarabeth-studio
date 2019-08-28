@@ -6,7 +6,7 @@ import { uid } from 'react-uid';
 import Masonry from 'react-masonry-css';
 import Lightbox from './Lightbox';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   masonryContainer: {
     display: 'flex',
     marginTop: theme.spacing(1),
@@ -39,9 +39,9 @@ const Gallery = (props) => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <Lightbox
-        images={photos.map(photo => ({
+        images={photos.map((photo) => ({
           src: photo.fullSize.src,
           srcSet: photo.fullSize.srcSet,
           caption: photo.description,
@@ -86,7 +86,7 @@ const Gallery = (props) => {
           );
         })}
       </Masonry>
-    </React.Fragment>
+    </>
   );
 };
 

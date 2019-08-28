@@ -6,7 +6,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Play from 'mdi-material-ui/Play';
 import Pause from 'mdi-material-ui/Pause';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     width: '100%',
     backgroundColor: theme.palette.secondary.main,
@@ -91,8 +91,7 @@ const AudioPlayer = (props) => {
         }}
       >
         {isPlaying
-          ? <Pause /> : <Play />
-        }
+          ? <Pause /> : <Play />}
       </button>
 
       <Typography variant="body1" color="inherit" className={classes.timecode}>
@@ -104,7 +103,7 @@ const AudioPlayer = (props) => {
         onClick={seekTime}
         variant="determinate"
         color="primary"
-        value={currentTime / duration * 100}
+        value={(currentTime / duration) * 100}
       />
     </div>
   );

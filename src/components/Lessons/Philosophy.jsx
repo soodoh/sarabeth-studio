@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 import Fade from 'react-reveal/Fade';
 import LessonButtons from './LessonButtons';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     position: 'relative',
     minHeight: '50vh',

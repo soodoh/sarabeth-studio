@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Fade from 'react-reveal/Fade';
 import LessonButtons from './LessonButtons';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     display: 'grid',
     gridTemplateRows: 'auto auto',

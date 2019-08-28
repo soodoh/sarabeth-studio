@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
 import Fade from 'react-reveal/Fade';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
     justifyContent: 'flex-start',
@@ -60,10 +60,8 @@ const Form = (props) => {
             onChange={onChange(key)}
             error={!!validations[key]}
             helperText={validations[key]}
-            {...rows && {
-              multiline: true,
-              rows,
-            }}
+            rows={rows}
+            multiline={!!rows}
           />
         </Fade>
       ))}

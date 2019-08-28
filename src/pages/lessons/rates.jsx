@@ -19,7 +19,7 @@ const Rates = (props) => {
   } = props;
 
   return (
-    <React.Fragment>
+    <>
       <Metadata
         title="Singing Lessons | Piano Lessons Los Angeles"
         description="Offering the very best singing and piano lessons in Los Angeles. Refine your voice, sing with ease, and perfect your piano skills. Book your lesson now!"
@@ -43,7 +43,7 @@ const Rates = (props) => {
           reviewLink={reviewLink}
         />
       </Banner>
-    </React.Fragment>
+    </>
   );
 };
 
@@ -106,7 +106,7 @@ const RatesWithData = ({ location }) => (
         }
       }
     `}
-    render={data => (
+    render={(data) => (
       <Rates
         availability={data.contentfulLessons.availability.childMarkdownRemark.html}
         contact={data.contentfulLessons.contact}

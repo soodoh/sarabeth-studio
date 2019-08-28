@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import AudioPlayer from './AudioPlayer';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: theme.spacing(2),
   },

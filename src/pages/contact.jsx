@@ -12,7 +12,7 @@ import Title from '../components/common/Title';
 import Form from '../components/Contact/Form';
 import MessageStatus from '../components/Contact/MessageStatus';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     width: '100%',
     padding: theme.spacing(4),
@@ -63,7 +63,7 @@ const Contact = (props) => {
 
     if (
       !Object.values(allValidations).length
-      || Object.values(allValidations).some(val => !!val)
+      || Object.values(allValidations).some((val) => !!val)
     ) {
       setValidations(allValidations);
       return;
@@ -96,7 +96,7 @@ const Contact = (props) => {
       });
   };
 
-  const handleChange = key => (event) => {
+  const handleChange = (key) => (event) => {
     const newValidation = validate(key, event.target.value);
     setValidations(newValidation);
 
@@ -119,7 +119,7 @@ const Contact = (props) => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <Metadata
         title="Contact Sarabeth"
         description="Send an email to Sarabeth for any questions or to follow up with upcoming singing gigs. Feel free to reach out if interested in private voice or piano lessons."
@@ -164,7 +164,7 @@ const Contact = (props) => {
           success={submitSuccess}
         />
       </div>
-    </React.Fragment>
+    </>
   );
 };
 
@@ -181,6 +181,6 @@ export default () => (
         }
       }
     `}
-    render={data => <Contact submitUrl={data.contentfulContact.awsUrl} />}
+    render={(data) => <Contact submitUrl={data.contentfulContact.awsUrl} />}
   />
 );

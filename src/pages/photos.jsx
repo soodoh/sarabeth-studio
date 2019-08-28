@@ -7,7 +7,7 @@ import Gallery from '../components/Photos/Gallery';
 import Title from '../components/common/Title';
 import Filters from '../components/common/Filters';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     width: '100%',
     padding: theme.spacing(4),
@@ -20,7 +20,7 @@ const Photos = (props) => {
   const [currentAlbum, setAlbum] = useState('All');
 
   const getAlbums = () => {
-    const albumNames = albums.map(group => group.label);
+    const albumNames = albums.map((group) => group.label);
     albumNames.unshift('All');
 
     return albumNames;
@@ -34,7 +34,7 @@ const Photos = (props) => {
         photos = [...photos, ...album.photos];
       });
     } else {
-      const albumPhotos = albums.find(album => album.label === currentAlbum);
+      const albumPhotos = albums.find((album) => album.label === currentAlbum);
       ({ photos } = albumPhotos);
     }
 
@@ -42,7 +42,7 @@ const Photos = (props) => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <Metadata
         title="Sarabeth Photos"
         description="Sarabeth Belón's photo gallery. View pictures from past performances, professional headshots and more. Photo credits included when viewing higher resolution images."
@@ -56,13 +56,13 @@ const Photos = (props) => {
           <Filters
             list={getAlbums()}
             activeItem={currentAlbum}
-            onClick={album => setAlbum(album)}
+            onClick={(album) => setAlbum(album)}
           />
         )}
 
         <Gallery photos={getPhotos()} />
       </div>
-    </React.Fragment>
+    </>
   );
 };
 
@@ -93,9 +93,9 @@ export default () => (
         }
       }
     `}
-    render={data => (
+    render={(data) => (
       <Photos
-        albums={data.allContentfulPhotoAlbums.edges.map(item => item.node)}
+        albums={data.allContentfulPhotoAlbums.edges.map((item) => item.node)}
       />
     )}
   />

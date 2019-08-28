@@ -8,7 +8,7 @@ import Fade from 'react-reveal/Fade';
 import Metadata from '../components/Layout/Metadata';
 import Background from '../components/Layout/Background';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     position: 'relative',
     display: 'flex',
@@ -50,7 +50,7 @@ const HomePage = (props) => {
   const transitionDelay = 500;
 
   return (
-    <React.Fragment>
+    <>
       <Metadata
         title="Sarabeth Belón: Portfolio"
         description="Sarabeth Belon, a young female opera singer, captivates audiences with her tessitura and repertoire versatility. Learn more about this artist!"
@@ -104,7 +104,7 @@ const HomePage = (props) => {
           </Fade>
         </div>
       </div>
-    </React.Fragment>
+    </>
 
   );
 };
@@ -132,7 +132,7 @@ export default () => (
         }
       }
     `}
-    render={data => (
+    render={(data) => (
       <HomePage data={data.contentfulHomePage} />
     )}
   />

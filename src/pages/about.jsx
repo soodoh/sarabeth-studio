@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Fade from 'react-reveal/Fade';
 import Metadata from '../components/Layout/Metadata';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     display: 'grid',
     gridTemplateColumns: '33% 1fr',
@@ -53,7 +53,7 @@ export const About = (props) => {
   const transitionDelay = 500;
 
   return (
-    <React.Fragment>
+    <>
       <Metadata
         title="About Sarabeth"
         description="Offering the very best private vocal lessons in Los Angeles. Refine your voice, achieve constant flow of breadth, and sing with ease."
@@ -91,7 +91,7 @@ export const About = (props) => {
           </Fade>
         </section>
       </div>
-    </React.Fragment>
+    </>
   );
 };
 About.propTypes = {
@@ -121,6 +121,6 @@ export default () => (
         }
       }
     `}
-    render={data => <About data={data.contentfulAbout} />}
+    render={(data) => <About data={data.contentfulAbout} />}
   />
 );
