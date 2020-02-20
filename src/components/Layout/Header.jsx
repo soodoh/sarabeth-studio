@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import ReactSvg from 'react-svg';
+import { ReactSVG } from 'react-svg';
 import Navigation from './Navigation';
 import MiniNavigation from './MiniNavigation';
 import { transitionDelay } from './PageTransition';
@@ -83,7 +83,7 @@ const Header = (props) => {
         <div className={classes.brandContainer}>
           {!isHome && (
             <Link to="/">
-              <ReactSvg
+              <ReactSVG
                 src={logo}
                 beforeInjection={(svg) => {
                   svg.classList.add(classes.logoSvg);

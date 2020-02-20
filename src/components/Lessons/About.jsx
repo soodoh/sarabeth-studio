@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactSvg from 'react-svg';
+import { ReactSVG } from 'react-svg';
 import { makeStyles } from '@material-ui/styles';
 import Fade from 'react-reveal/Fade';
 import LessonButtons from './LessonButtons';
@@ -91,7 +91,7 @@ const About = (props) => {
     <div className={classes.container}>
       <div className={classes.svgContainer}>
         <Fade left opposite delay={transitionDelay}>
-          <ReactSvg src={voiceLessonsSvg} className={classes.svgImage} />
+          <ReactSVG src={voiceLessonsSvg} className={classes.svgImage} />
         </Fade>
       </div>
 
@@ -107,7 +107,7 @@ const About = (props) => {
 
       <div className={`${classes.svgContainer} ${classes.pianoSvgContainer}`}>
         <Fade right opposite delay={transitionDelay}>
-          <ReactSvg src={pianoLessonsSvg} className={classes.svgImage} />
+          <ReactSVG src={pianoLessonsSvg} className={classes.svgImage} />
         </Fade>
       </div>
 

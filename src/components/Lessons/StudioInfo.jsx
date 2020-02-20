@@ -133,7 +133,7 @@ const StudioInfo = (props) => {
               <GridListTileBar
                 title={(
                   <Typography variant="subtitle1">
-                    {"View Sarabeth's Studio"}
+                    View Sarabeth&apos;s Studio
                   </Typography>
           )}
               />

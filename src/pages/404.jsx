@@ -15,7 +15,7 @@ const NotFound = () => (
       align="center"
       style={{ marginTop: '2rem' }}
     >
-    404 Not Found
+      404 Not Found
     </Typography>
   </>
 );

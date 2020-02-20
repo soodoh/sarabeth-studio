@@ -52,13 +52,13 @@ const Message = (props) => {
           ? (
             <span id="success-message" className={classes.message}>
               <SuccessIcon className={classes.icon} />
-                Email Submitted
+              Email Submitted
             </span>
           )
           : (
             <span id="error-message" className={classes.message}>
               <ErrorIcon className={classes.icon} />
-                Email Failed
+              Email Failed
             </span>
           )}
         action={[

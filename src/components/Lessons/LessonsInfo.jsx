@@ -70,7 +70,7 @@ const LessonsInfo = (props) => {
     <div className={classes.container}>
       <Typography variant="h2" align="center" className={classes.title}>
         <Fade bottom opposite delay={transitionDelay}>
-          {'Rates & Policies'}
+          Rates &amp; Policies
         </Fade>
       </Typography>
 

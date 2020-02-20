@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import classNames from 'classnames';
 import Fade from 'react-reveal/Fade';
-import ReactSvg from 'react-svg';
+import { ReactSVG } from 'react-svg';
 import Background from '../Layout/Background';
 import Title from '../common/Title';
 
@@ -71,7 +71,7 @@ const Banner = (props) => {
         <Title>
           {mainLogo
             ? (
-              <ReactSvg
+              <ReactSVG
                 src={mainLogo}
                 beforeInjection={(svg) => {
                   svg.classList.add(classes.bannerSvg);
