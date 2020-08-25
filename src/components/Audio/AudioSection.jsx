@@ -7,13 +7,13 @@ import Title from '../common/Title';
 import Filters from '../common/Filters';
 import Song from './SongEntry';
 
-const AudioSection = (props) => {
+const AudioSection = props => {
   const { audioGroups } = props;
   const [currentGroup, setGroup] = useState('All');
   const transitionDelay = 200;
 
   const getAudioGroups = () => {
-    const groups = audioGroups.map((group) => group.label);
+    const groups = audioGroups.map(group => group.label);
 
     groups.unshift('All');
     return groups;
@@ -23,19 +23,15 @@ const AudioSection = (props) => {
     let files = [];
 
     if (currentGroup === 'All') {
-      audioGroups.forEach((group) => {
+      audioGroups.forEach(group => {
         files = [...files, ...group.audioFiles];
       });
     } else {
-      const audioGroup = audioGroups.find(
-        (group) => group.label === currentGroup,
-      );
+      const audioGroup = audioGroups.find(group => group.label === currentGroup);
       files = audioGroup.audioFiles;
     }
 
-    return files.filter(
-      (audioFile) => audioFile && audioFile.title && audioFile.audio.file.url,
-    );
+    return files.filter(audioFile => audioFile && audioFile.title && audioFile.audio.file.url);
   };
 
   return (
@@ -44,25 +40,11 @@ const AudioSection = (props) => {
         <Title>Audio</Title>
       </Fade>
 
-      {audioGroups.length > 1 && (
-        <Filters
-          list={getAudioGroups()}
-          activeItem={currentGroup}
-          onClick={(item) => setGroup(item)}
-        />
-      )}
+      {audioGroups.length > 1 && <Filters list={getAudioGroups()} activeItem={currentGroup} onClick={item => setGroup(item)} />}
 
       {getAudioFiles().map((audio, index) => (
-        <Fade
-          key={uid(audio)}
-          opposite
-          delay={transitionDelay * (index + 1)}
-        >
-          <Song
-            title={audio.title}
-            subtitle={audio.subtitle}
-            url={audio.audio.file.url}
-          />
+        <Fade key={uid(audio)} opposite delay={transitionDelay * (index + 1)}>
+          <Song title={audio.title} subtitle={audio.subtitle} url={audio.audio.file.url} />
         </Fade>
       ))}
     </>
@@ -97,10 +79,6 @@ export default () => (
         }
       }
     `}
-    render={(data) => (
-      <AudioSection
-        audioGroups={data.allContentfulAudioGroups.edges.map((item) => item.node)}
-      />
-    )}
+    render={data => <AudioSection audioGroups={data.allContentfulAudioGroups.edges.map(item => item.node)} />}
   />
 );

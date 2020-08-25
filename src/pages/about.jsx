@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Fade from 'react-reveal/Fade';
 import Metadata from '../components/Layout/Metadata';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
     display: 'grid',
     gridTemplateColumns: '33% 1fr',
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const About = (props) => {
+export const About = props => {
   const { data } = props;
   const classes = useStyles(props);
   const bioHtml = data.bio.childMarkdownRemark.html;
@@ -62,22 +62,12 @@ export const About = (props) => {
 
       <div className={classes.container}>
         <Fade left opposite>
-          <Img
-            className={classes.portrait}
-            fluid={data.headshot.fluid}
-            title="Sarabeth Portrait"
-            alt="Sarabeth Belón Headshot"
-          />
+          <Img className={classes.portrait} fluid={data.headshot.fluid} title="Sarabeth Portrait" alt="Sarabeth Belón Headshot" />
         </Fade>
 
         <section>
           <Fade top opposite delay={transitionDelay}>
-            <Typography
-              variant="h1"
-              color="secondary"
-              className={classes.title}
-              gutterBottom
-            >
+            <Typography variant="h1" color="secondary" className={classes.title} gutterBottom>
               {data.title}
             </Typography>
           </Fade>
@@ -121,6 +111,6 @@ export default () => (
         }
       }
     `}
-    render={(data) => <About data={data.contentfulAbout} />}
+    render={data => <About data={data.contentfulAbout} />}
   />
 );

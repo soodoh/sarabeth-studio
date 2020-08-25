@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 import Fade from 'react-reveal/Fade';
 import LessonButtons from './LessonButtons';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
     position: 'relative',
     minHeight: '50vh',
@@ -39,13 +39,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Philosophy = (props) => {
-  const {
-    aboutDescription,
-    contact,
-    phoneNumber,
-    reviewLink,
-  } = props;
+const Philosophy = props => {
+  const { aboutDescription, contact, phoneNumber, reviewLink } = props;
   const classes = useStyles(props);
 
   return (
@@ -59,11 +54,7 @@ const Philosophy = (props) => {
       </Fade>
 
       <div className={classes.buttonGroup}>
-        <LessonButtons
-          contact={contact}
-          phoneNumber={phoneNumber}
-          reviewLink={reviewLink}
-        />
+        <LessonButtons contact={contact} phoneNumber={phoneNumber} reviewLink={reviewLink} />
       </div>
     </div>
   );

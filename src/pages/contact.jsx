@@ -12,7 +12,7 @@ import Title from '../components/common/Title';
 import Form from '../components/Contact/Form';
 import MessageStatus from '../components/Contact/MessageStatus';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
     width: '100%',
     padding: theme.spacing(4),
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Contact = (props) => {
+const Contact = props => {
   const { submitUrl } = props;
   const classes = useStyles(props);
   const [name, setName] = useState('');
@@ -61,10 +61,7 @@ const Contact = (props) => {
   const submit = () => {
     const allValidations = validate();
 
-    if (
-      !Object.values(allValidations).length
-      || Object.values(allValidations).some((val) => !!val)
-    ) {
+    if (!Object.values(allValidations).length || Object.values(allValidations).some(val => !!val)) {
       setValidations(allValidations);
       return;
     }
@@ -78,7 +75,7 @@ const Contact = (props) => {
     };
     axios
       .post(submitUrl, JSON.stringify(data))
-      .then((res) => {
+      .then(res => {
         setLoading(false);
         setSuccess(res.status === 200);
         setMessageOpen(true);
@@ -87,7 +84,7 @@ const Contact = (props) => {
         setSubject('');
         setMessage('');
       })
-      .catch((err) => {
+      .catch(err => {
         // eslint-disable-next-line no-console
         console.error(err);
         setLoading(false);
@@ -96,7 +93,7 @@ const Contact = (props) => {
       });
   };
 
-  const handleChange = (key) => (event) => {
+  const handleChange = key => event => {
     const newValidation = validate(key, event.target.value);
     setValidations(newValidation);
 
@@ -145,11 +142,7 @@ const Contact = (props) => {
           <CircularProgress color="secondary" className={classes.loading} />
         ) : (
           <Fade left opposite delay={1000}>
-            <Button
-              variant="outlined"
-              className={classes.button}
-              onClick={submit}
-            >
+            <Button variant="outlined" className={classes.button} onClick={submit}>
               Submit
             </Button>
           </Fade>
@@ -181,6 +174,6 @@ export default () => (
         }
       }
     `}
-    render={(data) => <Contact submitUrl={data.contentfulContact.awsUrl} />}
+    render={data => <Contact submitUrl={data.contentfulContact.awsUrl} />}
   />
 );

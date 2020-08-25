@@ -7,20 +7,20 @@ import Gallery from '../components/Photos/Gallery';
 import Title from '../components/common/Title';
 import Filters from '../components/common/Filters';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
     width: '100%',
     padding: theme.spacing(4),
   },
 }));
 
-const Photos = (props) => {
+const Photos = props => {
   const { albums } = props;
   const classes = useStyles(props);
   const [currentAlbum, setAlbum] = useState('All');
 
   const getAlbums = () => {
-    const albumNames = albums.map((group) => group.label);
+    const albumNames = albums.map(group => group.label);
     albumNames.unshift('All');
 
     return albumNames;
@@ -30,11 +30,11 @@ const Photos = (props) => {
     let photos = [];
 
     if (currentAlbum === 'All') {
-      albums.forEach((album) => {
+      albums.forEach(album => {
         photos = [...photos, ...album.photos];
       });
     } else {
-      const albumPhotos = albums.find((album) => album.label === currentAlbum);
+      const albumPhotos = albums.find(album => album.label === currentAlbum);
       ({ photos } = albumPhotos);
     }
 
@@ -52,13 +52,7 @@ const Photos = (props) => {
       <div className={classes.container}>
         <Title>Photos</Title>
 
-        {albums.length > 1 && (
-          <Filters
-            list={getAlbums()}
-            activeItem={currentAlbum}
-            onClick={(album) => setAlbum(album)}
-          />
-        )}
+        {albums.length > 1 && <Filters list={getAlbums()} activeItem={currentAlbum} onClick={album => setAlbum(album)} />}
 
         <Gallery photos={getPhotos()} />
       </div>
@@ -93,10 +87,6 @@ export default () => (
         }
       }
     `}
-    render={(data) => (
-      <Photos
-        albums={data.allContentfulPhotoAlbums.edges.map((item) => item.node)}
-      />
-    )}
+    render={data => <Photos albums={data.allContentfulPhotoAlbums.edges.map(item => item.node)} />}
   />
 );

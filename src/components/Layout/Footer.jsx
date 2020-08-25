@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import SocialMedia from '../common/SocialMedia';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   footer: {
     flexShrink: 0,
     width: '100%',
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Footer = (props) => {
+const Footer = props => {
   const { geoLocation } = props;
   const classes = useStyles(props);
 
@@ -54,11 +54,7 @@ const Footer = (props) => {
             </Typography>
           )}
           <Typography variant="caption" color="inherit">
-            Copyright &copy;
-            {' '}
-            {new Date().getFullYear()}
-            {' '}
-            Sarabeth Belon
+            Copyright &copy; {new Date().getFullYear()} Sarabeth Belon
           </Typography>
         </div>
 
@@ -69,11 +65,9 @@ const Footer = (props) => {
         <div className={classes.rightGroup}>
           <Typography variant="caption" color="inherit">
             Designed by Carolyn DiLoreto
-
           </Typography>
           <Typography variant="caption" color="inherit">
             Developed by Paul DiLoreto
-
           </Typography>
         </div>
       </section>
@@ -96,8 +90,6 @@ export default () => (
         }
       }
     `}
-    render={(data) => (
-      <Footer geoLocation={data.contentfulAbout.location} />
-    )}
+    render={data => <Footer geoLocation={data.contentfulAbout.location} />}
   />
 );

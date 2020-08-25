@@ -33,23 +33,19 @@ function renderIcon(icon) {
   }
 }
 
-const buttonStyles = makeStyles((theme) => ({
+const buttonStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
   },
 }));
 
-const SocialMediaButton = (props) => {
+const SocialMediaButton = props => {
   const { icon, url } = props;
   const classes = buttonStyles();
 
   return (
     <a href={icon === 'Email' ? `mailto:${url}` : url} style={{ color: 'inherit' }}>
-      <Fab
-        size="small"
-        aria-label={icon}
-        className={classes.button}
-      >
+      <Fab size="small" aria-label={icon} className={classes.button}>
         {renderIcon(icon)}
       </Fab>
     </a>
@@ -68,18 +64,14 @@ const coreStyles = makeStyles({
   },
 });
 
-const SocialMedia = (props) => {
+const SocialMedia = props => {
   const { data } = props;
   const classes = coreStyles();
 
   return (
     <div className={classes.container}>
-      {data.map((item) => (
-        <SocialMediaButton
-          key={uid(item)}
-          url={item.link}
-          icon={item.source}
-        />
+      {data.map(item => (
+        <SocialMediaButton key={uid(item)} url={item.link} icon={item.source} />
       ))}
     </div>
   );
@@ -97,22 +89,16 @@ export default () => (
   <StaticQuery
     query={graphql`
       query SocialMediaQuery {
-        allContentfulSocialMedia(sort: {fields: [order], order: ASC}) {
-          edges{
-            node{
-              source,
+        allContentfulSocialMedia(sort: { fields: [order], order: ASC }) {
+          edges {
+            node {
+              source
               link
             }
           }
         }
       }
     `}
-    render={(data) => (
-      <SocialMedia
-        data={
-          data.allContentfulSocialMedia.edges.map((item) => item.node)
-        }
-      />
-    )}
+    render={data => <SocialMedia data={data.allContentfulSocialMedia.edges.map(item => item.node)} />}
   />
 );

@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Fade from 'react-reveal/Fade';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   button: {
     backgroundColor: theme.palette.primary.light,
     color: theme.palette.secondary.contrastText,
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LessonButtons = (props) => {
+const LessonButtons = props => {
   const { reviewLink, contact, phoneNumber } = props;
   const classes = useStyles();
   const transitionDelay = 500;
@@ -39,12 +39,7 @@ const LessonButtons = (props) => {
       <Fade right opposite delay={transitionDelay}>
         <div className={classes.contact}>
           <Typography variant="h4">Contact</Typography>
-          <Typography
-            className={classes.email}
-            variant="body1"
-            component="a"
-            href={`mailto:${contact}`}
-          >
+          <Typography className={classes.email} variant="body1" component="a" href={`mailto:${contact}`}>
             {contact}
           </Typography>
           {phoneNumber && (
@@ -57,23 +52,14 @@ const LessonButtons = (props) => {
 
       {reviewLink && (
         <Fade left opposite delay={transitionDelay}>
-          <Button
-            variant="outlined"
-            className={classes.button}
-            onClick={() => window.open(reviewLink)}
-          >
+          <Button variant="outlined" className={classes.button} onClick={() => window.open(reviewLink)}>
             View Yelp Reviews
           </Button>
         </Fade>
       )}
 
       <Fade right opposite delay={transitionDelay * 2}>
-        <Button
-          variant="outlined"
-          className={classes.button}
-          component={Link}
-          to="/contact"
-        >
+        <Button variant="outlined" className={classes.button} component={Link} to="/contact">
           Book a Lesson
         </Button>
       </Fade>

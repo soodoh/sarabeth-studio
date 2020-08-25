@@ -7,9 +7,7 @@ const spaceId = process.env.CONTENTFUL_SPACE_ID;
 const accessToken = process.env.CONTENTFUL_DELIVERY_TOKEN;
 
 if (!spaceId || !accessToken) {
-  throw new Error(
-    'Contentful spaceId and the delivery token need to be provided.',
-  );
+  throw new Error('Contentful spaceId and the delivery token need to be provided.');
 }
 
 const siteUrl = 'https://sarabethbelon.com';
@@ -19,18 +17,14 @@ module.exports = {
     siteUrl,
   },
   plugins: [
-    'gatsby-plugin-eslint',
+    'gatsby-plugin-typescript',
     'gatsby-plugin-layout',
     'gatsby-plugin-remove-trailing-slashes',
     'gatsby-transformer-remark',
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
     'gatsby-plugin-react-helmet',
-    'gatsby-plugin-remove-serviceworker',
-    // 'gatsby-plugin-offline',
-    {
-      resolve: 'gatsby-plugin-material-ui',
-    },
+    'gatsby-plugin-material-ui',
     {
       resolve: 'gatsby-plugin-google-analytics',
       options: {
@@ -53,7 +47,7 @@ module.exports = {
               const bCount = bMatch ? bMatch.length : 0;
               return aCount - bCount;
             })
-            .map((edge) => {
+            .map(edge => {
               const slashCount = edge.node.path.match(pathRegex);
               const priorityIndex = slashCount ? slashCount.length : 0;
 
@@ -61,7 +55,7 @@ module.exports = {
                 url: site.siteMetadata.siteUrl + edge.node.path,
                 lastmod: new Date(),
                 changefreq: 'daily',
-                priority: 1.0 - (0.2 * priorityIndex),
+                priority: 1.0 - 0.2 * priorityIndex,
               };
             });
         },

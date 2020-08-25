@@ -5,8 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import Fade from 'react-reveal/Fade';
 import LessonButtons from './LessonButtons';
 
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
     display: 'grid',
     gridTemplateColumns: '50% 50%',
@@ -74,16 +73,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const About = (props) => {
-  const {
-    contact,
-    phoneNumber,
-    pianoLessons,
-    pianoLessonsSvg,
-    reviewLink,
-    voiceLessons,
-    voiceLessonsSvg,
-  } = props;
+const About = props => {
+  const { contact, phoneNumber, pianoLessons, pianoLessonsSvg, reviewLink, voiceLessons, voiceLessonsSvg } = props;
   const classes = useStyles();
   const transitionDelay = 500;
 
@@ -122,11 +113,7 @@ const About = (props) => {
       </div>
 
       <div className={classes.buttonGroup}>
-        <LessonButtons
-          contact={contact}
-          phoneNumber={phoneNumber}
-          reviewLink={reviewLink}
-        />
+        <LessonButtons contact={contact} phoneNumber={phoneNumber} reviewLink={reviewLink} />
       </div>
     </div>
   );

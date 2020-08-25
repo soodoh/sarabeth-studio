@@ -9,7 +9,7 @@ import Metadata from '../components/Layout/Metadata';
 import Title from '../components/common/Title';
 import List from '../components/Engagements/EngagementList';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
     width: '100%',
     padding: theme.spacing(4),
@@ -19,16 +19,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Engagements = (props) => {
+const Engagements = props => {
   const { data } = props;
   const classes = useStyles(props);
 
-  const upcoming = data.filter((engagement) => (
-    moment(engagement.endDate).isAfter(moment())
-  )).reverse();
-  const past = data.filter((engagement) => (
-    moment(engagement.endDate).isBefore(moment())
-  ));
+  const upcoming = data.filter(engagement => moment(engagement.endDate).isAfter(moment())).reverse();
+  const past = data.filter(engagement => moment(engagement.endDate).isBefore(moment()));
 
   return (
     <>
@@ -40,8 +36,7 @@ engagements!"
       />
 
       <div className={classes.container}>
-        {upcoming
-        && (
+        {upcoming && (
           <div className={classes.upcoming}>
             <Fade top opposite>
               <Title>Upcoming</Title>
@@ -56,29 +51,27 @@ engagements!"
             <Title>Past</Title>
           </Fade>
 
-          {past
-            ? <List data={past} />
-            : (
-              <Typography variant="h5" color="inherit" align="center">
-                There are current no engagements
-              </Typography>
-            )}
+          {past ? (
+            <List data={past} />
+          ) : (
+            <Typography variant="h5" color="inherit" align="center">
+              There are current no engagements
+            </Typography>
+          )}
         </div>
       </div>
     </>
   );
 };
 Engagements.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.object,
-  ).isRequired,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default () => (
   <StaticQuery
     query={graphql`
       query EngagementQuery {
-        allContentfulEngagements(sort: {fields: [endDate], order: DESC}) {
+        allContentfulEngagements(sort: { fields: [endDate], order: DESC }) {
           edges {
             node {
               endDate
@@ -92,12 +85,6 @@ export default () => (
         }
       }
     `}
-    render={(data) => (
-      <Engagements
-        data={data.allContentfulEngagements.edges.map((item) => (
-          item.node
-        ))}
-      />
-    )}
+    render={data => <Engagements data={data.allContentfulEngagements.edges.map(item => item.node)} />}
   />
 );

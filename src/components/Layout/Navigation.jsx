@@ -5,7 +5,7 @@ import { Link } from 'gatsby';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
     display: 'flex',
 
@@ -34,41 +34,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Navigation = (props) => {
+const Navigation = props => {
   const { location, resume } = props;
   const classes = useStyles(props);
   const [menuAnchor, setAnchor] = useState(null);
 
   return (
     <div className={classes.container}>
-      <Link
-        to="/about"
-        className={classes.link}
-        activeClassName={classes.active}
-      >
+      <Link to="/about" className={classes.link} activeClassName={classes.active}>
         About
       </Link>
 
-      <Link
-        to="/engagements"
-        className={classes.link}
-        activeClassName={classes.active}
-      >
+      <Link to="/engagements" className={classes.link} activeClassName={classes.active}>
         Engagements
       </Link>
 
-      <div
-        aria-owns={menuAnchor ? 'Media-Menu' : null}
-        aria-haspopup="true"
-        aria-label="Media Menu"
-        style={{ cursor: 'pointer' }}
-      >
+      <div aria-owns={menuAnchor ? 'Media-Menu' : null} aria-haspopup="true" aria-label="Media Menu" style={{ cursor: 'pointer' }}>
         <div
           role="button"
           tabIndex={-1}
           className={classes.link}
-          onClick={(event) => setAnchor(event.currentTarget)}
-          onKeyPress={(event) => {
+          onClick={event => setAnchor(event.currentTarget)}
+          onKeyPress={event => {
             if (event.charCode === 13) {
               setAnchor(event.currentTarget);
             }
@@ -86,35 +73,20 @@ const Navigation = (props) => {
           value={0}
         >
           <Link to="/photos" style={{ textDecoration: 'none' }}>
-            <MenuItem
-              onClick={() => setAnchor(null)}
-              className={classes.menuLink}
-              selected={location.pathname === '/photos'}
-            >
+            <MenuItem onClick={() => setAnchor(null)} className={classes.menuLink} selected={location.pathname === '/photos'}>
               Photos
             </MenuItem>
           </Link>
 
-          <Link
-            to="/media"
-            style={{ textDecoration: 'none' }}
-          >
-            <MenuItem
-              onClick={() => setAnchor(null)}
-              className={classes.menuLink}
-              selected={location.pathname === '/media'}
-            >
+          <Link to="/media" style={{ textDecoration: 'none' }}>
+            <MenuItem onClick={() => setAnchor(null)} className={classes.menuLink} selected={location.pathname === '/media'}>
               Recordings
             </MenuItem>
           </Link>
         </Menu>
       </div>
 
-      <Link
-        to="/lessons"
-        className={classes.link}
-        activeClassName={classes.active}
-      >
+      <Link to="/lessons" className={classes.link} activeClassName={classes.active}>
         Lessons
       </Link>
 
@@ -122,11 +94,7 @@ const Navigation = (props) => {
         Resume
       </a>
 
-      <Link
-        to="/contact"
-        className={classes.link}
-        activeClassName={classes.active}
-      >
+      <Link to="/contact" className={classes.link} activeClassName={classes.active}>
         Contact
       </Link>
     </div>

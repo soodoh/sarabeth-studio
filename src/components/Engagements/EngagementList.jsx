@@ -5,7 +5,7 @@ import Divider from '@material-ui/core/Divider';
 import Fade from 'react-reveal/Fade';
 import Engagement from './EngagementRow';
 
-const List = (props) => {
+const List = props => {
   const { data } = props;
   const transitionDelay = 200;
 
@@ -25,9 +25,7 @@ const List = (props) => {
 };
 
 List.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.object,
-  ).isRequired,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default List;

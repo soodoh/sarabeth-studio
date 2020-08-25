@@ -1,8 +1,10 @@
 const { transitionDelay } = require('./src/components/Layout/PageTransition');
 
-exports.shouldUpdateScroll = (params) => {
+exports.shouldUpdateScroll = params => {
   const {
-    prevRouterProps: { location: { pathname: prevPath } },
+    prevRouterProps: {
+      location: { pathname: prevPath },
+    },
     routerProps: { location },
     getSavedScrollPosition,
   } = params;
@@ -17,10 +19,7 @@ exports.shouldUpdateScroll = (params) => {
     window.setTimeout(() => window.scrollTo(0, 0), transitionDelay);
   } else {
     const savedPosition = getSavedScrollPosition(location);
-    window.setTimeout(
-      () => window.scrollTo(...(savedPosition || [0, 0])),
-      transitionDelay,
-    );
+    window.setTimeout(() => window.scrollTo(...(savedPosition || [0, 0])), transitionDelay);
   }
   return false;
 };

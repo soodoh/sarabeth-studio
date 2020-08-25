@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
 import Fade from 'react-reveal/Fade';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
     display: 'flex',
     justifyContent: 'flex-start',
@@ -25,10 +25,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Form = (props) => {
-  const {
-    onChange, values, validations,
-  } = props;
+const Form = props => {
+  const { onChange, values, validations } = props;
   const classes = useStyles(props);
   const outlineClasses = { notchedOutline: classes.notchedOutline };
   const transitionDelay = 200;
@@ -41,14 +39,8 @@ const Form = (props) => {
 
   return (
     <div className={classes.container}>
-      {inputs.map(({
-        label, key, halfWidth, rows,
-      }, index) => (
-        <Fade
-          key={label}
-          opposite
-          delay={transitionDelay * (index + 1)}
-        >
+      {inputs.map(({ label, key, halfWidth, rows }, index) => (
+        <Fade key={label} opposite delay={transitionDelay * (index + 1)}>
           <TextField
             fullWidth
             variant="outlined"

@@ -9,7 +9,7 @@ import { ReactSVG } from 'react-svg';
 import Background from '../Layout/Background';
 import Title from '../common/Title';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   banner: {
     height: '50vh',
     position: 'relative',
@@ -48,13 +48,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Banner = (props) => {
-  const {
-    children,
-    currentRoute,
-    mainLogo,
-    mainPhoto,
-  } = props;
+const Banner = props => {
+  const { children, currentRoute, mainLogo, mainPhoto } = props;
   const classes = useStyles(props);
   const routes = [
     { route: '/lessons', label: 'About' },
@@ -69,28 +64,23 @@ const Banner = (props) => {
       <div className={classes.banner}>
         <Background sizes={mainPhoto.fluid} className={classes.bannerPhoto} />
         <Title>
-          {mainLogo
-            ? (
-              <ReactSVG
-                src={mainLogo}
-                beforeInjection={(svg) => {
-                  svg.classList.add(classes.bannerSvg);
-                }}
-              />
-            )
-            : 'Sarabeth\'s Studio'}
+          {mainLogo ? (
+            <ReactSVG
+              src={mainLogo}
+              beforeInjection={svg => {
+                svg.classList.add(classes.bannerSvg);
+              }}
+            />
+          ) : (
+            "Sarabeth's Studio"
+          )}
         </Title>
       </div>
 
       <div className={classes.container}>
         <div className={classes.buttonGroup}>
           {routes.map(({ route, label }, index) => (
-            <Fade
-              top
-              key={`${route}-${label}`}
-              opposite
-              delay={transitionDelay * (index + 1)}
-            >
+            <Fade top key={`${route}-${label}`} opposite delay={transitionDelay * (index + 1)}>
               <Button
                 variant="outlined"
                 className={classNames({
@@ -113,10 +103,7 @@ const Banner = (props) => {
 };
 
 Banner.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.element),
-    PropTypes.element,
-  ]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]).isRequired,
   currentRoute: PropTypes.string.isRequired,
   mainLogo: PropTypes.string,
   mainPhoto: PropTypes.shape({

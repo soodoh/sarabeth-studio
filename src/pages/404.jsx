@@ -4,17 +4,9 @@ import Metadata from '../components/Layout/Metadata';
 
 const NotFound = () => (
   <>
-    <Metadata
-      title="Page Not Found"
-      robots="noindex, nofollow"
-    />
+    <Metadata title="Page Not Found" robots="noindex, nofollow" />
 
-    <Typography
-      variant="h6"
-      color="primary"
-      align="center"
-      style={{ marginTop: '2rem' }}
-    >
+    <Typography variant="h6" color="primary" align="center" style={{ marginTop: '2rem' }}>
       404 Not Found
     </Typography>
   </>

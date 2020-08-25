@@ -6,7 +6,7 @@ import { uid } from 'react-uid';
 import Masonry from 'react-masonry-css';
 import Lightbox from './Lightbox';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   masonryContainer: {
     display: 'flex',
     marginTop: theme.spacing(1),
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Gallery = (props) => {
+const Gallery = props => {
   const { photos } = props;
   const classes = useStyles(props);
   const [photoOpen, setOpen] = useState(false);
@@ -41,7 +41,7 @@ const Gallery = (props) => {
   return (
     <>
       <Lightbox
-        images={photos.map((photo) => ({
+        images={photos.map(photo => ({
           src: photo.fullSize.src,
           srcSet: photo.fullSize.srcSet,
           caption: photo.description,
@@ -53,38 +53,31 @@ const Gallery = (props) => {
         onClickNext={() => setPhoto(currentPhoto + 1)}
         onClose={() => setOpen(false)}
       />
-      <Masonry
-        breakpointCols={breakpointColumns}
-        className={classes.masonryContainer}
-        columnClassName={classes.column}
-      >
-        {Array.isArray(photos) && photos.map((photo, index) => {
-          const onClick = () => {
-            setOpen(true);
-            setPhoto(index);
-          };
-          return (
-            <div
-              key={uid(photo)}
-              role="button"
-              aria-label={`Open Photo #${index} "${photo.title}"`}
-              tabIndex={0}
-              className={classes.photoContainer}
-              onClick={onClick}
-              onKeyPress={(event) => {
-                if (event.charCode === 13) {
-                  onClick();
-                }
-              }}
-            >
-              <Img
-                fluid={photo.thumbnail}
-                alt={`${photo.title} #${index} Thumbnail`}
-                className={classes.photo}
-              />
-            </div>
-          );
-        })}
+      <Masonry breakpointCols={breakpointColumns} className={classes.masonryContainer} columnClassName={classes.column}>
+        {Array.isArray(photos) &&
+          photos.map((photo, index) => {
+            const onClick = () => {
+              setOpen(true);
+              setPhoto(index);
+            };
+            return (
+              <div
+                key={uid(photo)}
+                role="button"
+                aria-label={`Open Photo #${index} "${photo.title}"`}
+                tabIndex={0}
+                className={classes.photoContainer}
+                onClick={onClick}
+                onKeyPress={event => {
+                  if (event.charCode === 13) {
+                    onClick();
+                  }
+                }}
+              >
+                <Img fluid={photo.thumbnail} alt={`${photo.title} #${index} Thumbnail`} className={classes.photo} />
+              </div>
+            );
+          })}
       </Masonry>
     </>
   );

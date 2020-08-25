@@ -7,7 +7,7 @@ import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 import VideoThumbnail from './VideoThumbnail';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
     paddingTop: theme.spacing(2),
     display: 'flex',
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const VideoList = (props) => {
+const VideoList = props => {
   const { videos } = props;
   const classes = useStyles(props);
   const [videoOpen, setOpen] = useState(false);
@@ -53,27 +53,15 @@ const VideoList = (props) => {
 
   return (
     <div className={classes.container}>
-      <Dialog
-        open={videoOpen}
-        maxWidth="md"
-        fullWidth
-        onClose={() => setOpen(false)}
-        TransitionComponent={Slide}
-      >
+      <Dialog open={videoOpen} maxWidth="md" fullWidth onClose={() => setOpen(false)} TransitionComponent={Slide}>
         <div className={classes.playerContainer}>
-          <Player
-            url={videos[currentVideo].url}
-            controls
-            className={classes.player}
-            width="100%"
-            height="100%"
-          />
+          <Player url={videos[currentVideo].url} controls className={classes.player} width="100%" height="100%" />
         </div>
       </Dialog>
 
       <div className={classes.videoList}>
-        {Array.isArray(videos)
-          && videos.map((video, index) => (
+        {Array.isArray(videos) &&
+          videos.map((video, index) => (
             <VideoThumbnail
               key={uid(video)}
               index={index}

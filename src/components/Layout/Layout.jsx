@@ -21,7 +21,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Layout = (props) => {
+const Layout = props => {
   const { children, location } = props;
   const classes = useStyles(props);
 
@@ -36,9 +36,7 @@ const Layout = (props) => {
         <Header location={location} />
 
         <div className={classes.content}>
-          <PageTransition location={location}>
-            {children}
-          </PageTransition>
+          <PageTransition location={location}>{children}</PageTransition>
         </div>
 
         <Footer />

@@ -5,40 +5,19 @@ import Metadata from '../../components/Layout/Metadata';
 import Banner from '../../components/Lessons/Banner';
 import PhilosophySection from '../../components/Lessons/Philosophy';
 
-const Philosophy = (props) => {
-  const {
-    aboutDescription,
-    contact,
-    currentRoute,
-    mainLogo,
-    mainPhoto,
-    phoneNumber,
-    reviewLink,
-  } = props;
+const Philosophy = props => {
+  const { aboutDescription, contact, currentRoute, mainLogo, mainPhoto, phoneNumber, reviewLink } = props;
 
   return (
     <>
       <Metadata
         title="Singing Lessons | Piano Lessons Los Angeles"
         description="Offering the very best singing and piano lessons in Los Angeles. Refine your voice, sing with ease, and perfect your piano skills. Book your lesson now!"
-        keywords={[
-          'singing lessons los angeles',
-          'piano lessons los angeles',
-          'piano teacher los angeles',
-        ]}
+        keywords={['singing lessons los angeles', 'piano lessons los angeles', 'piano teacher los angeles']}
       />
 
-      <Banner
-        currentRoute={currentRoute}
-        mainLogo={mainLogo}
-        mainPhoto={mainPhoto}
-      >
-        <PhilosophySection
-          aboutDescription={aboutDescription}
-          contact={contact}
-          phoneNumber={phoneNumber}
-          reviewLink={reviewLink}
-        />
+      <Banner currentRoute={currentRoute} mainLogo={mainLogo} mainPhoto={mainPhoto}>
+        <PhilosophySection aboutDescription={aboutDescription} contact={contact} phoneNumber={phoneNumber} reviewLink={reviewLink} />
       </Banner>
     </>
   );
@@ -95,7 +74,7 @@ const PhilosophyWithData = ({ location }) => (
         }
       }
     `}
-    render={(data) => (
+    render={data => (
       <Philosophy
         aboutDescription={data.contentfulLessons.aboutDescription.childMarkdownRemark.html}
         contact={data.contentfulLessons.contact}

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useTheme } from '@material-ui/styles';
 import Lightbox from 'react-images';
 
-const ThemedLightbox = (props) => {
+const ThemedLightbox = props => {
   const theme = useTheme();
   const themeProp = {
     container: {
@@ -22,14 +22,7 @@ const ThemedLightbox = (props) => {
       fill: theme.palette.primary.light,
     },
   };
-  const {
-    images,
-    isOpen,
-    currentImage,
-    onClickPrev,
-    onClickNext,
-    onClose,
-  } = props;
+  const { images, isOpen, currentImage, onClickPrev, onClickNext, onClose } = props;
 
   return (
     <Lightbox

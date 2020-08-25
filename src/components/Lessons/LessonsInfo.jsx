@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Fade from 'react-reveal/Fade';
 import LessonButtons from './LessonButtons';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
     display: 'grid',
     gridTemplateRows: 'auto auto',
@@ -54,15 +54,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LessonsInfo = (props) => {
-  const {
-    availability,
-    contact,
-    location,
-    mainDescription,
-    phoneNumber,
-    reviewLink,
-  } = props;
+const LessonsInfo = props => {
+  const { availability, contact, location, mainDescription, phoneNumber, reviewLink } = props;
   const classes = useStyles(props);
   const transitionDelay = 500;
 
@@ -96,11 +89,7 @@ const LessonsInfo = (props) => {
           />
         </Fade>
 
-        <LessonButtons
-          contact={contact}
-          phoneNumber={phoneNumber}
-          reviewLink={reviewLink}
-        />
+        <LessonButtons contact={contact} phoneNumber={phoneNumber} reviewLink={reviewLink} />
       </div>
     </div>
   );

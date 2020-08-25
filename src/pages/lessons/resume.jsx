@@ -5,35 +5,18 @@ import Metadata from '../../components/Layout/Metadata';
 import Banner from '../../components/Lessons/Banner';
 import StudioInfo from '../../components/Lessons/StudioInfo';
 
-const TeachingResume = (props) => {
-  const {
-    contact,
-    currentRoute,
-    mainLogo,
-    mainPhoto,
-    phoneNumber,
-    photoGallery,
-    reviewLink,
-    teachingResume,
-  } = props;
+const TeachingResume = props => {
+  const { contact, currentRoute, mainLogo, mainPhoto, phoneNumber, photoGallery, reviewLink, teachingResume } = props;
 
   return (
     <>
       <Metadata
         title="Singing Lessons | Piano Lessons Los Angeles"
         description="Offering the very best singing and piano lessons in Los Angeles. Refine your voice, sing with ease, and perfect your piano skills. Book your lesson now!"
-        keywords={[
-          'voice lessons los angeles',
-          'singing coach los angeles',
-          'piano teacher los angeles',
-        ]}
+        keywords={['voice lessons los angeles', 'singing coach los angeles', 'piano teacher los angeles']}
       />
 
-      <Banner
-        currentRoute={currentRoute}
-        mainLogo={mainLogo}
-        mainPhoto={mainPhoto}
-      >
+      <Banner currentRoute={currentRoute} mainLogo={mainLogo} mainPhoto={mainPhoto}>
         <StudioInfo
           contact={contact}
           phoneNumber={phoneNumber}
@@ -55,9 +38,7 @@ TeachingResume.propTypes = {
     description: PropTypes.string.isRequired,
   }).isRequired,
   phoneNumber: PropTypes.string,
-  photoGallery: PropTypes.arrayOf(
-    PropTypes.object,
-  ).isRequired,
+  photoGallery: PropTypes.arrayOf(PropTypes.object).isRequired,
   reviewLink: PropTypes.string,
   teachingResume: PropTypes.string.isRequired,
 };
@@ -105,7 +86,7 @@ const TeachingResumeWithData = ({ location }) => (
         }
       }
     `}
-    render={(data) => (
+    render={data => (
       <TeachingResume
         contact={data.contentfulLessons.contact}
         currentRoute={location.pathname}

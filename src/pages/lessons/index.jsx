@@ -5,7 +5,7 @@ import Metadata from '../../components/Layout/Metadata';
 import Banner from '../../components/Lessons/Banner';
 import About from '../../components/Lessons/About';
 
-const Lessons = (props) => {
+const Lessons = props => {
   const {
     contact,
     currentRoute,
@@ -24,17 +24,10 @@ const Lessons = (props) => {
       <Metadata
         title="Singing Lessons | Piano Lessons Los Angeles"
         description="Offering the very best singing and piano lessons in Los Angeles. Refine your voice, sing with ease, and perfect your piano skills. Book your lesson now!"
-        keywords={[
-          'singing lessons los angeles',
-          'piano lessons los angeles',
-        ]}
+        keywords={['singing lessons los angeles', 'piano lessons los angeles']}
       />
 
-      <Banner
-        currentRoute={currentRoute}
-        mainLogo={mainLogo}
-        mainPhoto={mainPhoto}
-      >
+      <Banner currentRoute={currentRoute} mainLogo={mainLogo} mainPhoto={mainPhoto}>
         <About
           contact={contact}
           phoneNumber={phoneNumber}
@@ -113,7 +106,7 @@ const LessonsWithData = ({ location }) => (
         }
       }
     `}
-    render={(data) => (
+    render={data => (
       <Lessons
         contact={data.contentfulLessons.contact}
         currentRoute={location.pathname}

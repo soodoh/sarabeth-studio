@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Engagement = (props) => {
+const Engagement = props => {
   const { data } = props;
   const classes = useStyles(props);
   const isUpcoming = moment(data.endDate).isAfter(moment());

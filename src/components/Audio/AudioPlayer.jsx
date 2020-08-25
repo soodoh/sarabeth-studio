@@ -6,7 +6,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Play from 'mdi-material-ui/Play';
 import Pause from 'mdi-material-ui/Pause';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
     width: '100%',
     backgroundColor: theme.palette.secondary.main,
@@ -35,16 +35,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const formatTimecode = (time) => {
-  const minutes = (Math.floor(time / 60) || 0)
-    .toString().padStart(2, '0');
-  const seconds = (Math.floor(time % 60) || 0)
-    .toString().padStart(2, '0');
+const formatTimecode = time => {
+  const minutes = (Math.floor(time / 60) || 0).toString().padStart(2, '0');
+  const seconds = (Math.floor(time % 60) || 0).toString().padStart(2, '0');
 
   return `${minutes}:${seconds}`;
 };
 
-const AudioPlayer = (props) => {
+const AudioPlayer = props => {
   const { url, title } = props;
   const classes = useStyles(props);
   const playerRef = useRef();
@@ -52,7 +50,7 @@ const AudioPlayer = (props) => {
   const [isPlaying, setPlayback] = useState(false);
   const duration = playerRef.current ? playerRef.current.duration : 1;
 
-  const seekTime = (event) => {
+  const seekTime = event => {
     // Page X calculations
     const mouseX = event.pageX;
     const parentX = event.currentTarget.offsetLeft;
@@ -69,10 +67,7 @@ const AudioPlayer = (props) => {
   return (
     <div className={classes.container}>
       <div>
-        <audio
-          ref={playerRef}
-          onTimeUpdate={() => setTime(playerRef.current.currentTime)}
-        >
+        <audio ref={playerRef} onTimeUpdate={() => setTime(playerRef.current.currentTime)}>
           <source src={url} type="audio/mp3" />
           <track kind="captions" label={title} />
         </audio>
@@ -90,8 +85,7 @@ const AudioPlayer = (props) => {
           setPlayback(!isPlaying);
         }}
       >
-        {isPlaying
-          ? <Pause /> : <Play />}
+        {isPlaying ? <Pause /> : <Play />}
       </button>
 
       <Typography variant="body1" color="inherit" className={classes.timecode}>

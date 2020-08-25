@@ -11,7 +11,7 @@ import Navigation from './Navigation';
 import MiniNavigation from './MiniNavigation';
 import { transitionDelay } from './PageTransition';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   appBar: {
     backgroundColor: theme.palette.primary.main,
     flexShrink: 0,
@@ -62,12 +62,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = (props) => {
-  const {
-    location,
-    logo,
-    resume,
-  } = props;
+const Header = props => {
+  const { location, logo, resume } = props;
   const classes = useStyles(props);
   const isHome = location.pathname === '/';
 
@@ -85,32 +81,22 @@ const Header = (props) => {
             <Link to="/">
               <ReactSVG
                 src={logo}
-                beforeInjection={(svg) => {
+                beforeInjection={svg => {
                   svg.classList.add(classes.logoSvg);
                 }}
               />
             </Link>
           )}
           {!isHome && (
-          <Typography
-            className={classes.brandText}
-            variant="h6"
-            color="inherit"
-          >
-            Sarabeth Belón
-          </Typography>
+            <Typography className={classes.brandText} variant="h6" color="inherit">
+              Sarabeth Belón
+            </Typography>
           )}
         </div>
 
-        <Navigation
-          location={location}
-          resume={resume}
-        />
+        <Navigation location={location} resume={resume} />
 
-        <MiniNavigation
-          location={location}
-          resume={resume}
-        />
+        <MiniNavigation location={location} resume={resume} />
       </Toolbar>
     </AppBar>
   );
@@ -142,12 +128,8 @@ const HeaderWithData = ({ location }) => (
         }
       }
     `}
-    render={(data) => (
-      <Header
-        location={location}
-        logo={data.contentfulAbout.brandLogo.file.url}
-        resume={data.contentfulAbout.resume.file.url}
-      />
+    render={data => (
+      <Header location={location} logo={data.contentfulAbout.brandLogo.file.url} resume={data.contentfulAbout.resume.file.url} />
     )}
   />
 );

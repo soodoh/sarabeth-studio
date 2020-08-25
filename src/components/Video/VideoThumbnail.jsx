@@ -6,7 +6,7 @@ import PlayIcon from 'mdi-material-ui/Play';
 import Fade from 'react-reveal/Fade';
 import Background from '../Layout/Background';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
     position: 'relative',
     cursor: 'pointer',
@@ -46,10 +46,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const VideoThumbnailCore = (props) => {
-  const {
-    title, onClick, thumbnail, index,
-  } = props;
+const VideoThumbnailCore = props => {
+  const { title, onClick, thumbnail, index } = props;
   const classes = useStyles(props);
   const transitionDelay = 200;
 
@@ -59,17 +57,13 @@ const VideoThumbnailCore = (props) => {
       role="button"
       tabIndex={0}
       onClick={onClick}
-      onKeyPress={(event) => {
+      onKeyPress={event => {
         if (event.charCode === 13) {
           onClick();
         }
       }}
     >
-      <Fade
-        opposite
-        delay={transitionDelay * (index + 1)}
-        style={{ position: 'relative' }}
-      >
+      <Fade opposite delay={transitionDelay * (index + 1)} style={{ position: 'relative' }}>
         <div className={classes.title}>
           <Background sizes={thumbnail} />
 

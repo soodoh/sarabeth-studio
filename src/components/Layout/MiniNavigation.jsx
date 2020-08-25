@@ -11,7 +11,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   buttonContainer: {
     [theme.breakpoints.up('md')]: {
       display: 'none',
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MiniNavigation = (props) => {
+const MiniNavigation = props => {
   const { location, resume } = props;
   const classes = useStyles(props);
   const [isActive, setActive] = useState(false);
@@ -79,10 +79,7 @@ const MiniNavigation = (props) => {
         // ModalProps={{ disableRestoreFocus: true }}
       >
         <div className={classes.drawerTop}>
-          <IconButton
-            color="primary"
-            onClick={() => setActive(false)}
-          >
+          <IconButton color="primary" onClick={() => setActive(false)}>
             <ArrowRight />
           </IconButton>
         </div>
@@ -100,10 +97,7 @@ const MiniNavigation = (props) => {
               href={url}
               to={url}
             >
-              <ListItemText
-                primary={label}
-                classes={{ primary: classes.listText }}
-              />
+              <ListItemText primary={label} classes={{ primary: classes.listText }} />
             </ListItem>
           ))}
         </List>

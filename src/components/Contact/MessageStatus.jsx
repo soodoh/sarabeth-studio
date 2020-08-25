@@ -10,7 +10,7 @@ import ErrorIcon from 'mdi-material-ui/AlertCircle';
 import SuccessIcon from 'mdi-material-ui/CheckCircle';
 import IconButton from '@material-ui/core/IconButton';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   message: {
     display: 'flex',
     alignItems: 'center',
@@ -26,10 +26,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Message = (props) => {
-  const {
-    open, onClose, success,
-  } = props;
+const Message = props => {
+  const { open, onClose, success } = props;
   const classes = useStyles(props);
 
   return (
@@ -43,31 +41,23 @@ const Message = (props) => {
       onClose={onClose}
     >
       <SnackbarContent
-        className={classNames(
-          classes.container,
-          { [classes.success]: success, [classes.error]: !success },
-        )}
+        className={classNames(classes.container, { [classes.success]: success, [classes.error]: !success })}
         aria-describedby={`${success ? 'success' : 'error'}-message`}
-        message={success
-          ? (
+        message={
+          success ? (
             <span id="success-message" className={classes.message}>
               <SuccessIcon className={classes.icon} />
               Email Submitted
             </span>
-          )
-          : (
+          ) : (
             <span id="error-message" className={classes.message}>
               <ErrorIcon className={classes.icon} />
               Email Failed
             </span>
-          )}
+          )
+        }
         action={[
-          <IconButton
-            key="close"
-            aria-label="Close"
-            color="inherit"
-            onClick={onClose}
-          >
+          <IconButton key="close" aria-label="Close" color="inherit" onClick={onClose}>
             <CloseIcon />
           </IconButton>,
         ]}

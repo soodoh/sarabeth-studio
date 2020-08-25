@@ -8,7 +8,7 @@ import Fade from 'react-reveal/Fade';
 import Metadata from '../components/Layout/Metadata';
 import Background from '../components/Layout/Background';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
     position: 'relative',
     display: 'flex',
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HomePage = (props) => {
+const HomePage = props => {
   const { data } = props;
   const classes = useStyles(props);
   const transitionDelay = 500;
@@ -54,58 +54,34 @@ const HomePage = (props) => {
       <Metadata
         title="Sarabeth Belón: Portfolio"
         description="Sarabeth Belon, a young female opera singer, captivates audiences with her tessitura and repertoire versatility. Learn more about this artist!"
-        keywords={[
-          'young female opera singer',
-          'opera singer los angeles',
-        ]}
+        keywords={['young female opera singer', 'opera singer los angeles']}
       />
       <Background sizes={data.background.fluid} fullscreen />
 
       <div className={classes.container}>
         <Fade top opposite>
-          <Typography
-            variant="h1"
-            align="center"
-            className={classes.title}
-            gutterBottom
-          >
+          <Typography variant="h1" align="center" className={classes.title} gutterBottom>
             {data.title}
           </Typography>
-          <Typography
-            variant="h3"
-            align="center"
-            className={classes.subtitle}
-            gutterBottom
-          >
+          <Typography variant="h3" align="center" className={classes.subtitle} gutterBottom>
             {data.subtitle}
           </Typography>
         </Fade>
 
         <div className={classes.callsToAction}>
           <Fade left opposite delay={transitionDelay}>
-            <Button
-              component={Link}
-              to="/media"
-              className={classes.button}
-              variant="outlined"
-            >
+            <Button component={Link} to="/media" className={classes.button} variant="outlined">
               Have a Listen!
             </Button>
           </Fade>
           <Fade right opposite delay={transitionDelay * 2}>
-            <Button
-              component={Link}
-              to="/lessons"
-              className={classes.button}
-              variant="outlined"
-            >
+            <Button component={Link} to="/lessons" className={classes.button} variant="outlined">
               Get Voice Lessons
             </Button>
           </Fade>
         </div>
       </div>
     </>
-
   );
 };
 
@@ -122,18 +98,16 @@ export default () => (
     query={graphql`
       query HomePageQuery {
         contentfulHomePage {
-          title,
-          subtitle,
+          title
+          subtitle
           background {
-            fluid(maxWidth:1920) {
+            fluid(maxWidth: 1920) {
               ...GatsbyContentfulFluid_withWebp
             }
-          },
+          }
         }
       }
     `}
-    render={(data) => (
-      <HomePage data={data.contentfulHomePage} />
-    )}
+    render={data => <HomePage data={data.contentfulHomePage} />}
   />
 );

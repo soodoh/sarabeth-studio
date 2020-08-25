@@ -2,19 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
-const Metadata = (props) => {
-  const {
-    title, description, robots, keywords,
-  } = props;
+const Metadata = props => {
+  const { title, description, robots, keywords } = props;
 
   return (
     <Helmet>
       <title>{title}</title>
 
-      {description
-        && <meta name="description" content={description} />}
-      {keywords && keywords.length > 0
-        && <meta name="keywords" content={keywords.join(',')} />}
+      {description && <meta name="description" content={description} />}
+      {keywords && keywords.length > 0 && <meta name="keywords" content={keywords.join(',')} />}
       <meta name="GOOGLEBOT" content="index, follow" />
       <meta name="ROBOTS" content="index, follow" />
       <meta name="geo.region" content="US-CA" />

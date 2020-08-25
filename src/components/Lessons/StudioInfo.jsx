@@ -9,7 +9,7 @@ import Fade from 'react-reveal/Fade';
 import LessonButtons from './LessonButtons';
 import Lightbox from '../Photos/Lightbox';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
     display: 'grid',
     gridTemplateColumns: '1fr 30%',
@@ -69,14 +69,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const StudioInfo = (props) => {
-  const {
-    contact,
-    phoneNumber,
-    photoGallery,
-    reviewLink,
-    teachingResume,
-  } = props;
+const StudioInfo = props => {
+  const { contact, phoneNumber, photoGallery, reviewLink, teachingResume } = props;
   const classes = useStyles(props);
   const [photosOpen, setOpen] = useState(false);
   const [currentPhoto, setPhoto] = useState(0);
@@ -108,7 +102,7 @@ const StudioInfo = (props) => {
             </Typography>
 
             <Lightbox
-              images={photoGallery.map((photo) => ({
+              images={photoGallery.map(photo => ({
                 alt: `${photo.title} (Full Resolution)`,
                 caption: photo.description,
                 src: photo.fullSize.src,
@@ -121,33 +115,16 @@ const StudioInfo = (props) => {
               onClose={() => setOpen(false)}
             />
 
-            <GridListTile
-              component="div"
-              className={classes.photoGallery}
-              onClick={() => setOpen(true)}
-            >
-              <Img
-                fluid={photoGallery[0].thumbnail}
-                alt={photoGallery[0].title}
-              />
-              <GridListTileBar
-                title={(
-                  <Typography variant="subtitle1">
-                    View Sarabeth&apos;s Studio
-                  </Typography>
-          )}
-              />
+            <GridListTile component="div" className={classes.photoGallery} onClick={() => setOpen(true)}>
+              <Img fluid={photoGallery[0].thumbnail} alt={photoGallery[0].title} />
+              <GridListTileBar title={<Typography variant="subtitle1">View Sarabeth&apos;s Studio</Typography>} />
             </GridListTile>
           </Fade>
         </div>
       )}
 
       <div className={classes.centerButton}>
-        <LessonButtons
-          contact={contact}
-          phoneNumber={phoneNumber}
-          reviewLink={reviewLink}
-        />
+        <LessonButtons contact={contact} phoneNumber={phoneNumber} reviewLink={reviewLink} />
       </div>
     </div>
   );

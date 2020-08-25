@@ -4,7 +4,7 @@ import Metadata from '../components/Layout/Metadata';
 import VideoSection from '../components/Video/VideoSection';
 import AudioSection from '../components/Audio/AudioSection';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
     padding: theme.spacing(4),
 
@@ -22,10 +22,7 @@ const Media = () => {
       <Metadata
         title="Sarabeth's Recordings"
         description="Sarabeth Belón's media page: recordings and videos. Listen to recordings of her opera arias and art songs. Clips of her performances are also available."
-        keywords={[
-          'sarabeth belon media',
-          'sarabeth belon recordings',
-        ]}
+        keywords={['sarabeth belon media', 'sarabeth belon recordings']}
       />
 
       <div className={classes.container}>

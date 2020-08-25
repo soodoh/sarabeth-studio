@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import AudioPlayer from './AudioPlayer';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
     marginTop: theme.spacing(2),
   },
@@ -20,10 +20,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SongEntry = (props) => {
-  const {
-    title, subtitle, url,
-  } = props;
+const SongEntry = props => {
+  const { title, subtitle, url } = props;
   const classes = useStyles(props);
 
   return (
@@ -38,10 +36,7 @@ const SongEntry = (props) => {
         </Typography>
       </div>
 
-      <AudioPlayer
-        title={title}
-        url={url}
-      />
+      <AudioPlayer title={title} url={url} />
     </div>
   );
 };
