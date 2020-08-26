@@ -21,6 +21,12 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     width: '100%',
     alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  bottomRow: {
+    display: 'flex',
+    width: '100%',
+    alignItems: 'center',
     justifyContent: 'space-between',
   },
   imageContainer: {
@@ -91,7 +97,6 @@ const ImageModal = (props: ModalProps): ReactElement => {
         </IconButton>
         <div className={classes.imageContainer}>
           <div className={classes.topRow} style={{ width }}>
-            <Typography variant="subtitle1" color="secondary">{`${photoIndex + 1} / ${images.length}`}</Typography>
             <IconButton color="secondary" onClick={onClose}>
               <Close />
             </IconButton>
@@ -99,9 +104,12 @@ const ImageModal = (props: ModalProps): ReactElement => {
           <div style={{ width }} onClick={event => event.stopPropagation()}>
             {currentPhoto && <Img fluid={currentPhoto?.fullSize} />}
           </div>
-          <Typography variant="subtitle1" align="center" color="secondary" style={{ width }}>
-            {currentPhoto?.description}
-          </Typography>
+          <div className={classes.bottomRow} style={{ width }}>
+            <Typography variant="subtitle1" color="secondary">
+              {currentPhoto?.description}
+            </Typography>
+            <Typography variant="subtitle1" color="secondary">{`${photoIndex + 1} / ${images.length}`}</Typography>
+          </div>
         </div>
         <IconButton
           color="secondary"
