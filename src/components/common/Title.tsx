@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactChildren } from 'react';
+import React, { ReactElement, ReactText } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 
@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface TitleProps {
-  children: ReactChildren;
+  children: ReactText;
 }
 
 const Title = (props: TitleProps): ReactElement => {

@@ -52,7 +52,7 @@
     "gatsby-source-contentful": "^2.3.38",
     "gatsby-transformer-remark": "^2.8.29",
     "gatsby-transformer-sharp": "^2.5.13",
-    "prettier": "^2.1.0",
+    "prettier": "^2.1.1",
     "prettier-eslint": "^11.0.0"
   },
   "homepage": "https://sarabethbelon.com",

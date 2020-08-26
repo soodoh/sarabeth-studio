@@ -4,12 +4,12 @@ import axios from 'axios';
 import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import TextField from '@material-ui/core/TextField';
 import Validator from 'email-validator';
 import Fade from 'react-reveal/Fade';
 import Metadata from '../components/Layout/Metadata';
 import Title from '../components/common/Title';
-import Form from '../components/Contact/Form';
-import MessageStatus from '../components/Contact/MessageStatus';
+import MessageStatus from '../components/common/MessageStatus';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -25,6 +25,24 @@ const useStyles = makeStyles(theme => ({
   loading: {
     margin: theme.spacing(4),
   },
+  form: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    flexDirection: 'column',
+  },
+  halfWidth: {
+    width: '50%',
+
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
+  },
+  textInput: {
+    margin: theme.spacing(2, 0),
+  },
+  notchedOutline: {
+    borderColor: `${theme.palette.primary.contrastText}!important`,
+  },
 }));
 
 interface ContactProps {
@@ -38,36 +56,15 @@ const Contact = (props: ContactProps): ReactElement => {
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
-  const [validations, setValidations] = useState({});
   const [messageOpen, setMessageOpen] = useState(false);
   const [submitSuccess, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const validate = (key?: string, newValue?: string) => {
-    const newValidations: any = { ...validations };
-
-    if (!key) {
-      // If not specified, run all validations
-      newValidations.name = !name && 'Required Field';
-      newValidations.email = !Validator.validate(email) && 'Enter a valid Email';
-      newValidations.subject = !subject && 'Required Field';
-      newValidations.message = !message && 'Required Field';
-    } else if (key === 'email') {
-      newValidations.email = !Validator.validate(newValue) && 'Enter a valid Email';
-    } else {
-      newValidations[key] = !newValue && 'Required Field';
-    }
-
-    return newValidations;
-  };
+  const [showErrors, setShowErrors] = useState(false);
+  const hasErrors = !name || !email || !Validator.validate(email) || !subject || !message;
 
   const submit = () => {
-    const allValidations = validate();
-
-    if (!Object.values(allValidations).length || Object.values(allValidations).some(val => !!val)) {
-      setValidations(allValidations);
-      return;
-    }
+    setShowErrors(true);
+    if (hasErrors) return;
     setLoading(true);
 
     const data = {
@@ -82,6 +79,7 @@ const Contact = (props: ContactProps): ReactElement => {
         setLoading(false);
         setSuccess(res.status === 200);
         setMessageOpen(true);
+        setShowErrors(false);
         setName('');
         setEmail('');
         setSubject('');
@@ -96,28 +94,8 @@ const Contact = (props: ContactProps): ReactElement => {
       });
   };
 
-  const handleChange = (key: string) => (event: InputEvent) => {
-    const newValidation = validate(key, event.target.value);
-    setValidations(newValidation);
-
-    switch (key) {
-      case 'name':
-        setName(event.target.value);
-        break;
-      case 'email':
-        setEmail(event.target.value);
-        break;
-      case 'subject':
-        setSubject(event.target.value);
-        break;
-      case 'message':
-        setMessage(event.target.value);
-        break;
-      default:
-        break;
-    }
-  };
-
+  const outlineClasses = { notchedOutline: classes.notchedOutline };
+  const transitionDelay = 200;
   return (
     <>
       <Metadata
@@ -130,16 +108,66 @@ const Contact = (props: ContactProps): ReactElement => {
           <Title>Contact Sarabeth</Title>
         </Fade>
 
-        <Form
-          values={{
-            name,
-            email,
-            subject,
-            message,
-          }}
-          validations={validations}
-          onChange={handleChange}
-        />
+        <div className={classes.form}>
+          <Fade opposite delay={transitionDelay}>
+            <TextField
+              fullWidth
+              variant="outlined"
+              className={`${classes.halfWidth} ${classes.textInput}`}
+              InputProps={{ classes: outlineClasses }}
+              margin="normal"
+              label="Name"
+              value={name}
+              onChange={(event: any) => setName(event.target.value)}
+              error={showErrors && !name}
+              helperText={showErrors && 'Required field'}
+            />
+          </Fade>
+          <Fade opposite delay={transitionDelay * 2}>
+            <TextField
+              fullWidth
+              variant="outlined"
+              className={`${classes.halfWidth} ${classes.textInput}`}
+              InputProps={{ classes: outlineClasses }}
+              margin="normal"
+              label="Email"
+              value={email}
+              onChange={(event: any) => setEmail(event.target.value)}
+              error={showErrors && (!email || !Validator.validate(email))}
+              helperText={showErrors && 'Enter a valid email'}
+            />
+          </Fade>
+          <Fade opposite delay={transitionDelay * 3}>
+            <TextField
+              fullWidth
+              variant="outlined"
+              className={classes.textInput}
+              InputProps={{ classes: outlineClasses }}
+              margin="normal"
+              label="Subject"
+              value={subject}
+              onChange={(event: any) => setSubject(event.target.value)}
+              error={showErrors && !subject}
+              helperText={showErrors && 'Required field'}
+            />
+          </Fade>
+          <Fade opposite delay={transitionDelay * 4}>
+            <TextField
+              fullWidth
+              variant="outlined"
+              className={classes.textInput}
+              InputProps={{ classes: outlineClasses }}
+              margin="normal"
+              label="Message"
+              value={message}
+              onChange={(event: any) => setMessage(event.target.value)}
+              error={showErrors && !message}
+              helperText={showErrors && 'Required field'}
+              rows={5}
+              multiline
+            />
+          </Fade>
+        </div>
 
         {loading ? (
           <CircularProgress color="secondary" className={classes.loading} />
@@ -151,14 +179,7 @@ const Contact = (props: ContactProps): ReactElement => {
           </Fade>
         )}
 
-        <MessageStatus
-          open={messageOpen}
-          onClose={(_event, reason) => {
-            if (reason === 'clickaway') return;
-            setMessageOpen(false);
-          }}
-          success={submitSuccess}
-        />
+        <MessageStatus open={messageOpen} onClose={() => setMessageOpen(false)} success={submitSuccess} />
       </div>
     </>
   );
