@@ -80,61 +80,51 @@ interface StudioInfoProps {
 const StudioInfo = (props: StudioInfoProps): ReactElement => {
   const { contact, phoneNumber, photoGallery, reviewLink, teachingResume } = props;
   const classes = useStyles(props);
-  const [photosOpen, setOpen] = useState(false);
-  const [currentPhoto, setPhoto] = useState(0);
+  const [currentPhoto, setPhoto] = useState(null);
   const transitionDelay = 500;
 
   return (
-    <div className={classes.container}>
-      <div className={classes.gridItem}>
-        <Typography variant="h2" align="center">
-          <Fade top opposite>
-            Teaching Resume
-          </Fade>
-        </Typography>
-
-        <Fade left opposite delay={transitionDelay}>
-          <div
-            className={classes.content}
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{ __html: teachingResume }}
-          />
-        </Fade>
-      </div>
-
-      {photoGallery && photoGallery.length && (
+    <>
+      {photoGallery?.length > 0 && (
+        <Lightbox images={photoGallery} onClose={() => setPhoto(null)} photoIndex={currentPhoto} onChange={setPhoto} />
+      )}
+      <div className={classes.container}>
         <div className={classes.gridItem}>
-          <Fade right opposite delay={transitionDelay * 2}>
-            <Typography variant="h2" align="center">
-              Photos
-            </Typography>
+          <Typography variant="h2" align="center">
+            <Fade top opposite>
+              Teaching Resume
+            </Fade>
+          </Typography>
 
-            <Lightbox
-              images={photoGallery.map(photo => ({
-                alt: `${photo.title} (Full Resolution)`,
-                caption: photo.description,
-                src: photo.fullSize.src,
-                srcSet: photo.fullSize.srcSet,
-              }))}
-              isOpen={photosOpen}
-              currentImage={currentPhoto}
-              onClickPrev={() => setPhoto(currentPhoto - 1)}
-              onClickNext={() => setPhoto(currentPhoto + 1)}
-              onClose={() => setOpen(false)}
+          <Fade left opposite delay={transitionDelay}>
+            <div
+              className={classes.content}
+              // eslint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{ __html: teachingResume }}
             />
-
-            <GridListTile component="div" className={classes.photoGallery} onClick={() => setOpen(true)}>
-              <Img fluid={photoGallery[0].thumbnail} alt={photoGallery[0].title} />
-              <GridListTileBar title={<Typography variant="subtitle1">View Sarabeth&apos;s Studio</Typography>} />
-            </GridListTile>
           </Fade>
         </div>
-      )}
 
-      <div className={classes.centerButton}>
-        <LessonButtons contact={contact} phoneNumber={phoneNumber} reviewLink={reviewLink} />
+        {photoGallery?.length > 0 && (
+          <div className={classes.gridItem}>
+            <Fade right opposite delay={transitionDelay * 2}>
+              <Typography variant="h2" align="center">
+                Photos
+              </Typography>
+
+              <GridListTile component="div" className={classes.photoGallery} onClick={() => setPhoto(0)}>
+                <Img fluid={photoGallery[0].thumbnail} alt={photoGallery[0].title} />
+                <GridListTileBar title={<Typography variant="subtitle1">View Sarabeth&apos;s Studio</Typography>} />
+              </GridListTile>
+            </Fade>
+          </div>
+        )}
+
+        <div className={classes.centerButton}>
+          <LessonButtons contact={contact} phoneNumber={phoneNumber} reviewLink={reviewLink} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

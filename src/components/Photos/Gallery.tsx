@@ -18,6 +18,9 @@ const useStyles = makeStyles(theme => ({
   },
   photoContainer: {
     marginBottom: theme.spacing(3),
+    width: '100%',
+    border: 'none',
+    background: 'none',
   },
   photo: {
     cursor: 'pointer',
@@ -31,8 +34,7 @@ interface GalleryProps {
 const Gallery = (props: GalleryProps): ReactElement => {
   const { photos } = props;
   const classes = useStyles(props);
-  const [photoOpen, setOpen] = useState(false);
-  const [currentPhoto, setPhoto] = useState(0);
+  const [currentPhoto, setPhoto] = useState(null);
   const theme = useTheme();
   const breakpointColumns = {
     default: 4,
@@ -43,42 +45,14 @@ const Gallery = (props: GalleryProps): ReactElement => {
 
   return (
     <>
-      <Lightbox
-        images={photos.map(photo => ({
-          src: photo.fullSize.src,
-          srcSet: photo.fullSize.srcSet,
-          caption: photo.description,
-          alt: `${photo.title} (Full Resolution)`,
-        }))}
-        isOpen={photoOpen}
-        currentImage={currentPhoto}
-        onClickPrev={() => setPhoto(currentPhoto - 1)}
-        onClickNext={() => setPhoto(currentPhoto + 1)}
-        onClose={() => setOpen(false)}
-      />
+      <Lightbox images={photos} photoIndex={currentPhoto} onChange={setPhoto} onClose={() => setPhoto(null)} />
       <Masonry breakpointCols={breakpointColumns} className={classes.masonryContainer} columnClassName={classes.column}>
         {Array.isArray(photos) &&
           photos.map((photo, index) => {
-            const onClick = () => {
-              setOpen(true);
-              setPhoto(index);
-            };
             return (
-              <div
-                key={photo.id}
-                role="button"
-                aria-label={`Open Photo #${index} "${photo.title}"`}
-                tabIndex={0}
-                className={classes.photoContainer}
-                onClick={onClick}
-                onKeyPress={event => {
-                  if (event.charCode === 13) {
-                    onClick();
-                  }
-                }}
-              >
+              <button key={photo.id} className={classes.photoContainer} onClick={() => setPhoto(index)}>
                 <Img fluid={photo.thumbnail} alt={`${photo.title} #${index} Thumbnail`} className={classes.photo} />
-              </div>
+              </button>
             );
           })}
       </Masonry>

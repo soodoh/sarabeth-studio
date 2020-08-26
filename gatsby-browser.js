@@ -1,14 +1,9 @@
 const { transitionDelay } = require('./src/components/Layout/PageTransition');
 
 exports.shouldUpdateScroll = params => {
-  const {
-    prevRouterProps: {
-      location: { pathname: prevPath },
-    },
-    routerProps: { location },
-    getSavedScrollPosition,
-  } = params;
-  const { pathname: path } = location;
+  const prevPath = params?.prevRouterProps?.location?.pathname;
+  const path = params?.routerProps?.location?.pathname;
+  const { getSavedScrollPosition } = params;
 
   // Lessons pages should never change scroll
   const isLessons = !/lessons/gi.test(prevPath) || !/lessons/gi.test(path);

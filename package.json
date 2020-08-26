@@ -18,7 +18,6 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.1.0",
-    "react-images": "^0.5.19",
     "react-masonry-css": "^1.0.14",
     "react-player": "^2.6.1",
     "react-reveal": "^1.2.2",
