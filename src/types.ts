@@ -17,11 +17,11 @@ export interface Photo {
 
 export interface Video {
   id: string;
-  title: string;
+  label: string;
   thumbnail: {
     fluid: FluidObject;
   };
-  url: string;
+  link: string;
 }
 
 export interface VideoGroup {

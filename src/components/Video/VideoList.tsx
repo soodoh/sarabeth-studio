@@ -58,7 +58,7 @@ const VideoList = (props: VideoProps): ReactElement => {
     <div className={classes.container}>
       <Dialog open={videoOpen} maxWidth="md" fullWidth onClose={() => setOpen(false)} TransitionComponent={Slide}>
         <div className={classes.playerContainer}>
-          <Player url={videos[currentVideo].url} controls className={classes.player} width="100%" height="100%" />
+          <Player url={videos[currentVideo].link} controls className={classes.player} width="100%" height="100%" />
         </div>
       </Dialog>
 
@@ -68,7 +68,7 @@ const VideoList = (props: VideoProps): ReactElement => {
             <VideoThumbnail
               key={video.id}
               index={index}
-              title={video.title}
+              title={video.label}
               thumbnail={video.thumbnail}
               onClick={() => {
                 setOpen(true);
