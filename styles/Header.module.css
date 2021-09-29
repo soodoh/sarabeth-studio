@@ -1,0 +1,45 @@
+.container {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: var(--lighter-theme-color);
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  padding: 0 2.5rem;
+  margin: 1rem 0;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+
+}
+
+.logoText {
+  font-family: var(--header-font);
+  font-size: 2.2rem;
+  font-weight: 900;
+  margin-right: 1rem;
+}
+
+.logoSvg {
+  width: 6rem;
+}
+.logoSvg path {
+  fill: var(--dark-theme-color);
+}
+
+.linkContainer {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+.link {
+  font-size: 1rem;
+  margin: 1.3rem;
+  text-transform: uppercase;
+}
+.activeLink {
+  font-weight: 900;
+}

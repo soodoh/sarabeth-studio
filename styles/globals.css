@@ -1,9 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant&family=Montserrat&display=swap');
+
+:root {
+  --lighter-theme-color: #F5E7DD;
+  --light-theme-color: #EFDCD3;
+  --dark-theme-color: #BC5957;
+  --font-color: #1E1D1D;
+  --header-font: 'Cormorant', serif;
+  --body-font: 'Montserrat', sans-serif;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: var(--body-font);
+  background-color: var(--lighter-theme-color);
+  color: var(--font-color);
 }
 
 a {
