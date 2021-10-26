@@ -1,4 +1,16 @@
-import { createClient, ContentfulClientApi } from 'contentful';
+import {
+  createClient,
+  ContentfulClientApi,
+  EntryCollection,
+  Entry,
+} from "contentful";
+import { Document } from "@contentful/rich-text-types";
+import {
+  Image,
+  CommonData,
+  SocialMediaLink,
+  HomeData,
+} from "./contentful-types";
 
 const space = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID as string;
 const accessToken = process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN as string;
@@ -14,46 +26,64 @@ export function getClient() {
   return _client;
 }
 
-export interface SocialMediaLink {
-  source: string;
-  link: string;
-}
-
-export interface CommonData {
-  location: string;
-  brandName: string;
-  socialMediaLinks: SocialMediaLink[];
-}
+export const formatImage = (image: any): Image => ({
+  id: image?.sys?.id,
+  url: `https:${image?.fields?.file?.url}`,
+  title: image?.fields?.title,
+  description: image?.fields?.description,
+  width: image?.fields?.file?.details?.image?.width,
+  height: image?.fields?.file?.details?.image?.height,
+});
 
 export const getCommonData: () => Promise<CommonData> = async () => {
-  const aboutResponse: any = (await getClient().getEntries({ content_type: 'about' }))?.items?.[0]?.fields;
-  const socialResponse: any = (await getClient().getEntries({
-    content_type: 'socialMedia',
-    order: 'fields.order',
-  }))?.items;
-  const socialMediaLinks = socialResponse?.map(({ fields }: any): SocialMediaLink => ({
-    source: fields?.source || '',
-    link: fields?.link || '',
-  })) || [];
+  const aboutResponse: any = (
+    await getClient().getEntries({ content_type: "about" })
+  )?.items?.[0]?.fields;
+  const socialResponse: any = (
+    await getClient().getEntries({
+      content_type: "socialMedia",
+      order: "fields.order",
+    })
+  )?.items;
+  const socialMediaLinks =
+    socialResponse?.map(
+      ({ fields }: any): SocialMediaLink => ({
+        source: fields?.source || "",
+        link: fields?.link || "",
+      })
+    ) || [];
 
   return {
     socialMediaLinks,
-    location: aboutResponse?.location || '',
-    brandName: aboutResponse?.title || 'Sarabeth Belon',
+    location: aboutResponse?.location || "",
+    brandName: aboutResponse?.title || "Sarabeth Belón",
   };
 };
 
-export const getAboutData = async () => {
+export const getHomeData: () => Promise<HomeData[]> = async () => {
+  const response = await getClient().getEntries({
+    content_type: "home",
+    order: "fields.order",
+  });
+  const formattedResponse = response.items.map((entry: Entry<any>) => ({
+    id: entry.sys.id,
+    mainSection: !!entry.fields.mainSection,
+    title: entry.fields.title || null,
+    subtitle: entry.fields.subtitle || null,
+    description: entry.fields.description,
+    buttonText: entry.fields.buttonText || null,
+    buttonLink: entry.fields.buttonLink || null,
+    images: entry.fields?.images?.map(formatImage),
+  }));
+  return formattedResponse;
 };
 
-export const getEngagementsData = async () => {
-};
+export const getAboutData = async () => {};
 
-export const getMediaData = async () => {
-};
+export const getEngagementsData = async () => {};
 
-export const getLessonsData = async () => {
-};
+export const getMediaData = async () => {};
 
-export const getContactData = async () => {
-};
+export const getLessonsData = async () => {};
+
+export const getContactData = async () => {};

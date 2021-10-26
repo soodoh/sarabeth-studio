@@ -1,12 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant&family=Montserrat&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cormorant&family=Montserrat&display=swap");
 
 :root {
-  --lighter-theme-color: #F5E7DD;
-  --light-theme-color: #EFDCD3;
-  --dark-theme-color: #BC5957;
-  --font-color: #1E1D1D;
-  --header-font: 'Cormorant', serif;
-  --body-font: 'Montserrat', sans-serif;
+  --lighter-theme-color: #f5e7dd;
+  --light-theme-color: #efdcd3;
+  --dark-theme-color: #bc5957;
+  --font-color: #1e1d1d;
+  --header-font: "Cormorant", serif;
+  --body-font: "Montserrat", sans-serif;
+  --margin: 2.5rem;
 }
 
 html,

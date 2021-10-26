@@ -1,3 +1,12 @@
 .container {
+  padding: 0 var(--margin);
+}
 
+.homeRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+}
+.homeRow:nth-child(2n) {
+  grid-column-start: 2;
 }
