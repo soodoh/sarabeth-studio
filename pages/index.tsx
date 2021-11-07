@@ -5,7 +5,7 @@ import styles from "../styles/Home.module.css";
 import PageLayout from "../components/PageLayout";
 import { getCommonData, getHomeData, getClient } from "../util/contentful-util";
 import { CommonData, HomeData } from "../util/contentful-types";
-import ArrowSvg from "../public/arrow.svg";
+import Button from "../components/Button";
 import LogoSvg from "../public/logo.svg";
 
 interface Props {
@@ -85,12 +85,7 @@ const Home = (props: Props) => {
                 {documentToReactComponents(homeRow.description)}
               </div>
               {homeRow.buttonLink && (
-                <a className={styles.buttonContainer} href={homeRow.buttonLink}>
-                  <div className={styles.buttonText}>
-                    {homeRow.buttonText || "Click Here"}
-                  </div>
-                  <ArrowSvg className={styles.arrowSvg} />
-                </a>
+                <Button label={homeRow.buttonText} url={homeRow.buttonLink} />
               )}
             </div>
           </div>

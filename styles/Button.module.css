@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  align-items: center;
+}
+.buttonText {
+  position: relative;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: bold;
+  z-index: 1;
+}
+.buttonText::before {
+  content: "";
+  position: absolute;
+  height: 80%;
+  width: 100%;
+  bottom: -0.2rem;
+  left: -0.5rem;
+  z-index: -1;
+  background-color: var(--lighter-theme-color);
+}
+.arrowSvg {
+  margin-left: 1rem;
+  fill: var(--font-color);
+}
