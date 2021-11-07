@@ -6,6 +6,7 @@ import PageLayout from "../components/PageLayout";
 import { getCommonData, getHomeData, getClient } from "../util/contentful-util";
 import { CommonData, HomeData } from "../util/contentful-types";
 import ArrowSvg from "../public/arrow.svg";
+import LogoSvg from "../public/logo.svg";
 
 interface Props {
   commonData: CommonData;
@@ -22,11 +23,9 @@ const Home = (props: Props) => {
     height: number
   ) => {
     const isPortrait = width < height;
-    const classes: string[] = [];
-    if (totalImageNum <= 1) return classes;
-    if (width < height) classes.push(styles.portraitImage);
-    classes.push(styles.landscapeImage);
-    return classes;
+    if (totalImageNum <= 1) return "";
+    if (isPortrait) return styles.portraitImage;
+    return styles.landscapeImage;
   };
 
   return (
@@ -42,21 +41,26 @@ const Home = (props: Props) => {
       <div className={styles.container}>
         {props.homeData.map((homeRow) => (
           <div key={homeRow.id} className={styles.homeRow}>
-            <div className={styles.rowImages}>
+            <div
+              className={
+                isTeachingSection(homeRow.title)
+                  ? styles.teachingImages
+                  : styles.rowImages
+              }
+            >
               {homeRow.images.map((image) => (
-                <div key={image.id} className={styles.image}>
-                  <div
-                    className={getImageClasses(
-                      homeRow.images.length,
-                      image.width,
-                      image.height
-                    ).join(" ")}
-                  >
-                    <StyledImage
-                      type={image.width > image.height ? "left" : "right"}
-                      image={image}
-                    />
-                  </div>
+                <div
+                  key={image.id}
+                  className={getImageClasses(
+                    homeRow.images.length,
+                    image.width,
+                    image.height
+                  )}
+                >
+                  <StyledImage
+                    type={image.width > image.height ? "left" : "right"}
+                    image={image}
+                  />
                 </div>
               ))}
             </div>
@@ -67,6 +71,9 @@ const Home = (props: Props) => {
                   : styles.textSection
               } ${isTeachingSection(homeRow.title) && styles.teachingSection}`}
             >
+              {isTeachingSection(homeRow.title) && (
+                <LogoSvg className={styles.logoSvg} />
+              )}
               {!homeRow.mainSection && (
                 <>
                   <h1 className={styles.title}>{homeRow.title}</h1>

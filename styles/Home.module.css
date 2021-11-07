@@ -32,8 +32,15 @@
   margin-right: var(--row-padding);
 }
 
+.teachingImages {
+  flex-grow: 1;
+  margin-top: 6rem;
+}
 .rowImages {
   flex-grow: 1;
+}
+.teachingSection .rowImages {
+  margin-top: 5rem;
 }
 
 .title {
@@ -52,11 +59,22 @@
   background-color: var(--font-color);
 }
 
-.fullWidthImage {
-  width: 100%;
+.landscapeImage:not(:first-child) {
+  margin-top: -40%;
+  margin-left: -40%;
+  margin-right: 40%;
+  position: relative;
+  z-index: 0;
 }
 .portraitImage {
-  width: 75%;
+  position: relative;
+  width: 60%;
+  z-index: 2;
+  margin: auto;
+}
+.portraitImage:not(:first-child) {
+  margin-top: -10%;
+  margin-left: 30%;
 }
 
 .buttonContainer {
@@ -68,6 +86,7 @@
   text-transform: uppercase;
   text-decoration: none;
   font-weight: bold;
+  z-index: 1;
 }
 .buttonText::before {
   content: "";
@@ -82,4 +101,9 @@
 .arrowSvg {
   margin-left: 1rem;
   fill: var(--font-color);
+}
+.logoSvg {
+  margin-left: 3rem;
+  width: 15rem;
+  fill: var(--dark-theme-color);
 }
