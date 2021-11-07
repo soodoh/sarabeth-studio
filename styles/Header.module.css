@@ -2,7 +2,7 @@
   position: sticky;
   top: 0;
   width: 100%;
-  background-color: var(--lighter-theme-color);
+  background-color: var(--background-color);
   height: 5rem;
   display: flex;
   align-items: center;

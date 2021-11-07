@@ -1,0 +1,22 @@
+.container {
+  position: relative;
+  --offset: -2rem;
+}
+
+.left {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--lighter-theme-color);
+  bottom: var(--offset);
+  left: var(--offset);
+}
+.right {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--lighter-theme-color);
+  bottom: var(--offset);
+  right: var(--offset);
+}

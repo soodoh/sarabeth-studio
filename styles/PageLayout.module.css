@@ -4,3 +4,8 @@
   display: grid;
   grid-template-rows: auto 1fr auto;
 }
+
+.mainContent {
+  max-width: 1200px;
+  margin: auto;
+}

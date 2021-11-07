@@ -1,6 +1,5 @@
 .container {
   width: 100%;
-  background-color: var(--lighter-theme-color);
   display: flex;
   align-items: center;
   padding: 1.5rem var(--margin);

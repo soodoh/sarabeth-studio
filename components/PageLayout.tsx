@@ -48,7 +48,7 @@ const PageLayout = (props: Props) => {
 
       <Header brandName={props.commonData.brandName} />
 
-      <main>{props.children}</main>
+      <main className={styles.mainContent}>{props.children}</main>
 
       <Footer
         location={props.commonData.location}
