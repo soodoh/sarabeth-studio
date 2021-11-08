@@ -82,3 +82,19 @@
   width: 15rem;
   fill: var(--dark-theme-color);
 }
+
+@media (max-width: 700px) {
+  .homeRow,
+  .homeRow:nth-child(2n) {
+    flex-direction: column;
+  }
+  .rowImages,
+  .teachingImages {
+    margin-bottom: 5rem;
+  }
+  .landscapeImage:not(:first-child) {
+    margin-top: -4%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
