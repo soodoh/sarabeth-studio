@@ -1,5 +1,5 @@
 import React from "react";
-import { getClient, SocialMediaLink } from "../util/contentful-util";
+import { SocialMediaLink } from "../util/contentful-types";
 import { SocialIcon } from "../components/SocialIcon";
 import styles from "../styles/Footer.module.css";
 

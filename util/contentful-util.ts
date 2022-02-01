@@ -1,10 +1,4 @@
-import {
-  createClient,
-  ContentfulClientApi,
-  EntryCollection,
-  Entry,
-} from "contentful";
-import { Document } from "@contentful/rich-text-types";
+import { createClient, ContentfulClientApi, Entry } from "contentful";
 import {
   Image,
   CommonData,
