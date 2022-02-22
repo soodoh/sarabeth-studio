@@ -1,19 +1,19 @@
-import React from 'react';
-import type { GetStaticProps } from 'next';
-import PageLayout from '../components/PageLayout';
-import { getCommonData, CommonData } from '../util/contentful-util';
+import React from "react";
+import type { GetStaticProps } from "next";
+import PageLayout from "../components/PageLayout";
+import { getCommonData } from "../util/contentful-util";
+import { PageProps } from "../util/contentful-types";
 
-interface Props {
-  commonData: CommonData,
-}
+interface Props extends PageProps {}
 
 const Engagements = (props: Props) => {
   return (
     <PageLayout
       metadata={{
         title: "Sarabeth's Engagements",
-        description: "Young and talented female opera singer, Sarabeth Belon, captivates audiences throughout the country. Learn more about her current and upcoming engagements!",
-        keywords: ['sarabeth belon engagements'],
+        description:
+          "Young and talented female opera singer, Sarabeth Belon, captivates audiences throughout the country. Learn more about her current and upcoming engagements!",
+        keywords: ["sarabeth belon engagements"],
       }}
       commonData={props.commonData}
     >

@@ -1,15 +1,15 @@
-import type { NextPage, GetStaticProps } from "next";
+import type { GetStaticProps } from "next";
 import StyledImage from "../components/StyledImage";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import styles from "../styles/Home.module.css";
 import PageLayout from "../components/PageLayout";
-import { getCommonData, getHomeData, getClient } from "../util/contentful-util";
-import { CommonData, HomeData } from "../util/contentful-types";
+import { getCommonData, getHomeData } from "../util/contentful-util";
+import { HomeData } from "../util/contentful-types";
 import Button from "../components/Button";
 import LogoSvg from "../public/logo.svg";
+import { PageProps } from "../util/contentful-types";
 
-interface Props {
-  commonData: CommonData;
+interface Props extends PageProps {
   homeData: HomeData[];
 }
 

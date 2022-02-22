@@ -72,7 +72,11 @@ export const getHomeData: () => Promise<HomeData[]> = async () => {
   return formattedResponse;
 };
 
-export const getAboutData = async () => {};
+export const getAboutData = async () => {
+  const response = await getClient().getEntries({
+    content_type: "about",
+  });
+};
 
 export const getEngagementsData = async () => {};
 

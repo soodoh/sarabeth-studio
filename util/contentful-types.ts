@@ -1,5 +1,9 @@
 import { Document } from "@contentful/rich-text-types";
 
+export interface PageProps {
+  commonData: CommonData;
+}
+
 export interface Image {
   id: string;
   url: string;
