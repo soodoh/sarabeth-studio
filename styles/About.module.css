@@ -1,0 +1,10 @@
+.container {
+  --row-padding: 4rem;
+  padding: 0 var(--margin);
+}
+
+.headshot {
+}
+
+.bio {
+}

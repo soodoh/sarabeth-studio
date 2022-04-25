@@ -1,9 +1,10 @@
 import { createClient, ContentfulClientApi, Entry } from "contentful";
 import {
-  Image,
+  AboutData,
   CommonData,
-  SocialMediaLink,
   HomeData,
+  Image,
+  SocialMediaLink,
 } from "./contentful-types";
 
 const space = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID as string;
@@ -20,16 +21,18 @@ export function getClient() {
   return _client;
 }
 
+export const formatUrl = (url?: string) => `https:${url}`;
+
 export const formatImage = (image: any): Image => ({
   id: image?.sys?.id,
-  url: `https:${image?.fields?.file?.url}`,
+  url: formatUrl(image?.fields?.file?.url),
   title: image?.fields?.title,
-  description: image?.fields?.description,
+  description: image?.fields?.description || "Alt text",
   width: image?.fields?.file?.details?.image?.width,
   height: image?.fields?.file?.details?.image?.height,
 });
 
-export const getCommonData: () => Promise<CommonData> = async () => {
+export const getCommonData = async (): Promise<CommonData> => {
   const aboutResponse: any = (
     await getClient().getEntries({ content_type: "about" })
   )?.items?.[0]?.fields;
@@ -72,10 +75,17 @@ export const getHomeData: () => Promise<HomeData[]> = async () => {
   return formattedResponse;
 };
 
-export const getAboutData = async () => {
-  const response = await getClient().getEntries({
-    content_type: "about",
-  });
+export const getAboutData = async (): Promise<AboutData> => {
+  const aboutResponse: any = (
+    await getClient().getEntries({ content_type: "about" })
+  )?.items?.[0]?.fields;
+  return {
+    title: aboutResponse?.title || "Sarabeth Belón",
+    headshot: formatImage(aboutResponse?.headshot),
+    bio: aboutResponse?.bio || "Description",
+    resume: formatUrl(aboutResponse?.resume?.fields?.file?.url),
+    location: aboutResponse?.location || "California",
+  };
 };
 
 export const getEngagementsData = async () => {};

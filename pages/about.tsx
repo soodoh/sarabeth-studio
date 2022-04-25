@@ -1,10 +1,12 @@
 import React from "react";
-import type { GetStaticProps } from "next";
+import { GetStaticProps } from "next";
 import PageLayout from "../components/PageLayout";
-import { getCommonData } from "../util/contentful-util";
-import { PageProps } from "../util/contentful-types";
+import { getCommonData, getAboutData } from "../util/contentful-util";
+import { AboutData, PageProps } from "../util/contentful-types";
+import { StyledImage } from "../components/StyledImage";
+import styles from "../styles/About.module.css";
 
-interface Props extends PageProps {}
+interface Props extends PageProps, AboutData {}
 
 const About = (props: Props) => {
   return (
@@ -17,14 +19,17 @@ const About = (props: Props) => {
       }}
       commonData={props.commonData}
     >
-      some stuff
+      <div className={styles.container}>blah</div>
     </PageLayout>
   );
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const commonData = await getCommonData();
-  return { props: { commonData } };
+  const [commonData, aboutData] = await Promise.all([
+    getCommonData(),
+    getAboutData(),
+  ]);
+  return { props: { commonData, ...aboutData } };
 };
 
 export default About;

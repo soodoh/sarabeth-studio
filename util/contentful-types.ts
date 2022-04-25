@@ -34,3 +34,11 @@ export interface HomeData {
   buttonLink?: string;
   images: Image[];
 }
+
+export interface AboutData {
+  title: string;
+  headshot?: Image;
+  bio: string;
+  resume: string;
+  location: string;
+}

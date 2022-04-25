@@ -1,5 +1,5 @@
 import React from "react";
-import type { GetStaticProps } from "next";
+import { GetStaticProps } from "next";
 import PageLayout from "../components/PageLayout";
 import { getCommonData } from "../util/contentful-util";
 import { PageProps } from "../util/contentful-types";

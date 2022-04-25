@@ -1,4 +1,4 @@
-import type { GetStaticProps } from "next";
+import { GetStaticProps } from "next";
 import StyledImage from "../components/StyledImage";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import styles from "../styles/Home.module.css";
