@@ -18,7 +18,8 @@
     "contentful": "^9.1.24",
     "next": "^12.1.5",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "react-markdown": "^8.0.3"
   },
   "devDependencies": {
     "@svgr/webpack": "^6.2.1",

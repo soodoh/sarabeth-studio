@@ -4,11 +4,13 @@ import PageLayout from "../components/PageLayout";
 import { getCommonData, getAboutData } from "../util/contentful-util";
 import { AboutData, PageProps } from "../util/contentful-types";
 import { StyledImage } from "../components/StyledImage";
+import ReactMarkdown from "react-markdown";
 import styles from "../styles/About.module.css";
 
 interface Props extends PageProps, AboutData {}
 
 const About = (props: Props) => {
+  console.log(props.headshot);
   return (
     <PageLayout
       metadata={{
@@ -19,7 +21,17 @@ const About = (props: Props) => {
       }}
       commonData={props.commonData}
     >
-      <div className={styles.container}>blah</div>
+      <div className={styles.container}>
+        <div className={styles.headshot}>
+          {props.headshot && (
+            <StyledImage type="right" image={props.headshot} />
+          )}
+        </div>
+        <div className={styles.bio}>
+          <h1>{props.title}</h1>
+          <ReactMarkdown>{props.bio}</ReactMarkdown>
+        </div>
+      </div>
     </PageLayout>
   );
 };

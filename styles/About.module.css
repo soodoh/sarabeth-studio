@@ -1,10 +1,14 @@
 .container {
-  --row-padding: 4rem;
+  width: 100%;
   padding: 0 var(--margin);
-}
-
-.headshot {
+  display: grid;
+  grid-template-columns: 30% 1fr;
+  grid-gap: 4rem;
 }
 
 .bio {
+  line-height: 1.75rem;
+}
+.bio p {
+  margin-bottom: 2rem;
 }
