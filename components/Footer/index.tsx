@@ -1,6 +1,6 @@
 import React from "react";
-import { SocialMediaLink } from "../../utils/contentful-types";
-import { SocialIcon } from "../../components/SocialIcon";
+import SocialIcon from "../../components/SocialIcon";
+import type { SocialMediaLink } from "../../utils/fetchers/common";
 import styles from "./Footer.module.scss";
 
 interface Props {

@@ -1,5 +1,5 @@
-import React from "react";
 import ArrowSvg from "../../public/arrow.svg";
+import React from "react";
 import styles from "./Button.module.scss";
 
 interface Props {

@@ -1,8 +1,8 @@
-import React from "react";
 import { GetStaticProps } from "next";
 import PageLayout from "../../components/PageLayout";
-import { getCommonData } from "../../utils/contentful-util";
-import { PageProps } from "../../utils/contentful-types";
+import type { PageProps } from "../../utils/fetchers/common";
+import React from "react";
+import getCommonData from "../../utils/fetchers/common";
 
 interface Props extends PageProps {}
 

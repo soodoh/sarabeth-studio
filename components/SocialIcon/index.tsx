@@ -1,8 +1,8 @@
-import React from "react";
 import EmailSvg from "../../public/email.svg";
 import FacebookSvg from "../../public/facebook.svg";
 import InstgramSvg from "../../public/instagram.svg";
 import LinkedinSvg from "../../public/linkedin.svg";
+import React from "react";
 import TwitterSvg from "../../public/twitter.svg";
 import YoutubeSvg from "../../public/youtube.svg";
 
@@ -11,7 +11,7 @@ interface Props {
   className: string;
 }
 
-export const SocialIcon = (props: Props) => {
+const SocialIcon = (props: Props) => {
   if (/facebook/gi.test(props.source)) {
     return <FacebookSvg className={props.className} />;
   }
