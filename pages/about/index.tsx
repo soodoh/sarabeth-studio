@@ -1,11 +1,11 @@
 import React from "react";
 import { GetStaticProps } from "next";
-import PageLayout from "../components/PageLayout";
-import { getCommonData, getAboutData } from "../util/contentful-util";
-import { AboutData, PageProps } from "../util/contentful-types";
-import { StyledImage } from "../components/StyledImage";
+import PageLayout from "../../components/PageLayout";
+import { getCommonData, getAboutData } from "../../utils/contentful-util";
+import { AboutData, PageProps } from "../../utils/contentful-types";
+import { StyledImage } from "../../components/StyledImage";
 import ReactMarkdown from "react-markdown";
-import styles from "../styles/About.module.css";
+import styles from "./styles.module.scss";
 
 interface Props extends PageProps, AboutData {}
 

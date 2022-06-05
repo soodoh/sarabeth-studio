@@ -1,9 +1,9 @@
 import React, { ReactNode } from "react";
 import Head from "next/head";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import { CommonData } from "../util/contentful-types";
-import styles from "../styles/PageLayout.module.css";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
+import { CommonData } from "../../utils/contentful-types";
+import styles from "./PageLayout.module.scss";
 
 interface Props {
   metadata: {

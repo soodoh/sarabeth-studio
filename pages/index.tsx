@@ -1,13 +1,13 @@
 import { GetStaticProps } from "next";
 import StyledImage from "../components/StyledImage";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import styles from "../styles/Home.module.css";
+import styles from "../styles/Home.module.scss";
 import PageLayout from "../components/PageLayout";
-import { getCommonData, getHomeData } from "../util/contentful-util";
-import { HomeData } from "../util/contentful-types";
+import { getCommonData, getHomeData } from "../../utils/contentful-util";
+import { HomeData } from "../utils/contentful-types";
 import Button from "../components/Button";
 import LogoSvg from "../public/logo.svg";
-import { PageProps } from "../util/contentful-types";
+import { PageProps } from "../utils/contentful-types";
 
 interface Props extends PageProps {
   homeData: HomeData[];

@@ -1,3 +1,5 @@
+@import "../styles/variables.scss";
+
 .container {
   --row-padding: 4rem;
   padding: 0 var(--margin);
@@ -83,7 +85,7 @@
   fill: var(--dark-theme-color);
 }
 
-@media (max-width: 700px) {
+@media (max-width: $small) {
   .homeRow,
   .homeRow:nth-child(2n) {
     flex-direction: column;

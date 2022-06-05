@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import LogoSvg from "../public/logo.svg";
-import styles from "../styles/Header.module.css";
+import LogoSvg from "../../public/logo.svg";
+import styles from "./Header.module.scss";
 
 interface Props {
   brandName: string;
