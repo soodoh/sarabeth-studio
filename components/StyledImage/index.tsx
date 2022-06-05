@@ -6,13 +6,14 @@ import styles from "./StyledImage.module.scss";
 interface Props {
   type: "left" | "right";
   image: ImageType;
+  priority?: boolean;
 }
 
 const StyledImage = (props: Props) => (
   <div className={styles.container}>
     <div className={styles[props.type]} />
     <NextImage
-      priority
+      priority={props.priority}
       alt={props.image.description}
       src={props.image.url}
       layout="responsive"

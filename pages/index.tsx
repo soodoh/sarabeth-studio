@@ -40,7 +40,7 @@ const Home = (props: Props) => {
       commonData={props.commonData}
     >
       <div className={styles.container}>
-        {props.homeData.map((homeRow) => (
+        {props.homeData.map((homeRow, rowIndex) => (
           <div key={homeRow.id} className={styles.homeRow}>
             <div
               className={
@@ -59,6 +59,7 @@ const Home = (props: Props) => {
                   )}
                 >
                   <StyledImage
+                    priority={rowIndex < 2}
                     type={image.width > image.height ? "left" : "right"}
                     image={image}
                   />
