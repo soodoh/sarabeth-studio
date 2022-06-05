@@ -10,7 +10,6 @@ import styles from "./styles.module.scss";
 interface Props extends PageProps, AboutData {}
 
 const About = (props: Props) => {
-  console.log(props.headshot);
   return (
     <PageLayout
       metadata={{
