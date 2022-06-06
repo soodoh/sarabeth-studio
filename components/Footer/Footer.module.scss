@@ -1,7 +1,10 @@
+@import "../../styles/variables.scss";
+
 .container {
-  width: 100%;
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-gap: 0.5rem;
+  justify-content: center;
+  grid-template-columns: auto 1fr auto;
   padding: 1.5rem var(--margin);
   font-size: 0.8rem;
 }
@@ -12,6 +15,7 @@
 .left {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 
 .socialLinkContainer {
@@ -38,4 +42,20 @@
 .right {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
+}
+
+@media (max-width: $small) {
+  .container {
+    grid-gap: 1rem;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto auto;
+  }
+  .socialLinkContainer {
+    grid-row: 1;
+  }
+  .left,
+  .right {
+    align-items: center;
+  }
 }
