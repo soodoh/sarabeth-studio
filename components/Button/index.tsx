@@ -7,9 +7,9 @@ interface Props {
   url: string;
 }
 
-const Button = (props: Props) => (
-  <a className={styles.container} href={props.url}>
-    <div className={styles.buttonText}>{props.label || "Click Here"}</div>
+const Button = ({ label, url }: Props) => (
+  <a className={styles.container} href={url}>
+    <div className={styles.buttonText}>{label || "Click Here"}</div>
     <ArrowSvg className={styles.arrowSvg} />
   </a>
 );

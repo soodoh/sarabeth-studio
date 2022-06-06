@@ -1,7 +1,7 @@
 import NextImage from "next/image";
 import React from "react";
 import type { Image as ImageType } from "../../utils/contentful";
-import styles from "./StyledImage.module.scss";
+import Overlay from "../Overlay";
 
 interface Props {
   type: "left" | "right";
@@ -9,18 +9,17 @@ interface Props {
   priority?: boolean;
 }
 
-const StyledImage = (props: Props) => (
-  <div className={styles.container}>
-    <div className={styles[props.type]} />
+const StyledImage = ({ type, priority, image }: Props) => (
+  <Overlay type={type}>
     <NextImage
-      priority={props.priority}
-      alt={props.image.description}
-      src={props.image.url}
+      priority={priority}
+      alt={image.description}
+      src={image.url}
       layout="responsive"
-      width={props.image.width}
-      height={props.image.height}
+      width={image.width}
+      height={image.height}
     />
-  </div>
+  </Overlay>
 );
 
 export default StyledImage;

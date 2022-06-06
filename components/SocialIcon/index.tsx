@@ -11,23 +11,23 @@ interface Props {
   className: string;
 }
 
-const SocialIcon = (props: Props) => {
-  if (/facebook/gi.test(props.source)) {
-    return <FacebookSvg className={props.className} />;
+const SocialIcon = ({ source, className }: Props) => {
+  if (/facebook/gi.test(source)) {
+    return <FacebookSvg className={className} />;
   }
-  if (/instagram/gi.test(props.source)) {
-    return <InstgramSvg className={props.className} />;
+  if (/instagram/gi.test(source)) {
+    return <InstgramSvg className={className} />;
   }
-  if (/linkedin/gi.test(props.source)) {
-    return <LinkedinSvg className={props.className} />;
+  if (/linkedin/gi.test(source)) {
+    return <LinkedinSvg className={className} />;
   }
-  if (/twitter/gi.test(props.source)) {
-    return <TwitterSvg className={props.className} />;
+  if (/twitter/gi.test(source)) {
+    return <TwitterSvg className={className} />;
   }
-  if (/youtube/gi.test(props.source)) {
-    return <YoutubeSvg className={props.className} />;
+  if (/youtube/gi.test(source)) {
+    return <YoutubeSvg className={className} />;
   }
-  return <EmailSvg className={props.className} />;
+  return <EmailSvg className={className} />;
 };
 
 export default SocialIcon;

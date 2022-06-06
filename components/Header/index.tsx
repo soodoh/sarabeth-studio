@@ -8,7 +8,7 @@ interface Props {
   brandName: string;
 }
 
-const Header = (props: Props) => {
+const Header = ({ brandName }: Props) => {
   const links: { label: string; url: string }[] = [
     { label: "About", url: "/about" },
     { label: "Engagements", url: "/engagements" },
@@ -23,7 +23,7 @@ const Header = (props: Props) => {
     <header className={styles.container}>
       <Link href="/">
         <a className={styles.logoContainer}>
-          <span className={styles.logoText}>{props.brandName}</span>
+          <span className={styles.logoText}>{brandName}</span>
           <LogoSvg className={styles.logoSvg} />
         </a>
       </Link>

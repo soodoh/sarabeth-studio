@@ -16,17 +16,17 @@ interface Props {
   children: ReactNode;
 }
 
-const PageLayout = (props: Props) => {
+const PageLayout = ({ metadata, commonData, children }: Props) => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>{props.metadata.title}</title>
+        <title>{metadata.title}</title>
 
-        {props.metadata.description && (
-          <meta name="description" content={props.metadata.description} />
+        {metadata.description && (
+          <meta name="description" content={metadata.description} />
         )}
-        {!!props.metadata.keywords?.length && (
-          <meta name="keywords" content={props.metadata.keywords.join(",")} />
+        {!!metadata.keywords?.length && (
+          <meta name="keywords" content={metadata.keywords.join(",")} />
         )}
         <meta name="geo.region" content="US-CA" />
         <meta name="geo.placename" content="Montebello" />
@@ -36,23 +36,17 @@ const PageLayout = (props: Props) => {
         />
 
         <meta name="GOOGLEBOT" content="index, follow" />
-        <meta
-          name="ROBOTS"
-          content={props.metadata.robots || "index, follow"}
-        />
-        <meta
-          name="robots"
-          content={props.metadata.robots || "index, follow"}
-        />
+        <meta name="ROBOTS" content={metadata.robots || "index, follow"} />
+        <meta name="robots" content={metadata.robots || "index, follow"} />
       </Head>
 
-      <Header brandName={props.commonData.brandName} />
+      <Header brandName={commonData.brandName} />
 
-      <main className={styles.mainContent}>{props.children}</main>
+      <main className={styles.mainContent}>{children}</main>
 
       <Footer
-        location={props.commonData.location}
-        socialMediaLinks={props.commonData.socialMediaLinks}
+        location={commonData.location}
+        socialMediaLinks={commonData.socialMediaLinks}
       />
     </div>
   );

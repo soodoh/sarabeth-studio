@@ -8,15 +8,15 @@ interface Props {
   location: string;
 }
 
-const Footer = (props: Props) => {
+const Footer = ({ location, socialMediaLinks }: Props) => {
   return (
     <footer className={styles.container}>
       <div className={styles.left}>
-        <span>{props.location}</span>
+        <span>{location}</span>
         <span>Copyright ©{new Date().getFullYear()} Sarabeth Belón</span>
       </div>
       <div className={styles.socialLinkContainer}>
-        {props.socialMediaLinks.map((socialLink) => (
+        {socialMediaLinks.map((socialLink) => (
           <a
             key={`footer-link-${socialLink.source}`}
             className={styles.socialLink}

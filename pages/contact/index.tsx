@@ -6,7 +6,7 @@ import getCommonData from "../../utils/fetchers/common";
 
 interface Props extends PageProps {}
 
-const Contact = (props: Props) => {
+const Contact = ({ commonData }: Props) => {
   return (
     <PageLayout
       metadata={{
@@ -14,7 +14,7 @@ const Contact = (props: Props) => {
         description:
           "Send an email to Sarabeth for any questions or to follow up with upcoming singing gigs. Feel free to reach out if interested in private voice or piano lessons.",
       }}
-      commonData={props.commonData}
+      commonData={commonData}
     >
       some stuff
     </PageLayout>

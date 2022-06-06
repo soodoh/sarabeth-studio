@@ -14,21 +14,26 @@ interface Props extends PageProps {
   homeData: HomeData[];
 }
 
-const Home = (props: Props) => {
-  const isTeachingSection = (name: string) => {
-    return /sarabeth'?s\s*studio/gi.test(name);
-  };
-  const getImageClasses = (
-    totalImageNum: number,
-    width: number,
-    height: number
-  ) => {
-    const isPortrait = width < height;
-    if (totalImageNum <= 1) return "";
-    if (isPortrait) return styles.portraitImage;
-    return styles.landscapeImage;
-  };
+const getImageClasses = (
+  totalImageNum: number,
+  width: number,
+  height: number
+) => {
+  const isPortrait = width < height;
+  if (totalImageNum <= 1) return "";
+  if (isPortrait) return styles.portraitImage;
+  return styles.landscapeImage;
+};
 
+const isTeachingSection = (name: string) => {
+  return /sarabeth'?s\s*studio/gi.test(name);
+};
+
+const makeRelativeUrl = (url: string) => {
+  return url.replace(/^https?:\/\/(.+\.)?sarabethbelon\.com/, "");
+};
+
+const Home = ({ commonData, homeData }: Props) => {
   return (
     <PageLayout
       metadata={{
@@ -37,10 +42,10 @@ const Home = (props: Props) => {
           "Sarabeth Belon, a young female opera singer, captivates audiences with her tessitura and repertoire versatility. Learn more about this artist!",
         keywords: ["young female opera singer", "opera singer los angeles"],
       }}
-      commonData={props.commonData}
+      commonData={commonData}
     >
       <div className={styles.container}>
-        {props.homeData.map((homeRow, rowIndex) => (
+        {homeData.map((homeRow, rowIndex) => (
           <div key={homeRow.id} className={styles.homeRow}>
             <div
               className={
@@ -87,7 +92,10 @@ const Home = (props: Props) => {
                 {documentToReactComponents(homeRow.description)}
               </div>
               {homeRow.buttonLink && (
-                <Button label={homeRow.buttonText} url={homeRow.buttonLink} />
+                <Button
+                  label={homeRow.buttonText}
+                  url={makeRelativeUrl(homeRow.buttonLink)}
+                />
               )}
             </div>
           </div>

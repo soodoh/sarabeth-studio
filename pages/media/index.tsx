@@ -6,7 +6,7 @@ import getCommonData from "../../utils/fetchers/common";
 
 interface Props extends PageProps {}
 
-const Media = (props: Props) => {
+const Media = ({ commonData }: Props) => {
   return (
     <PageLayout
       metadata={{
@@ -19,7 +19,7 @@ const Media = (props: Props) => {
           "sarabeth belon photos",
         ],
       }}
-      commonData={props.commonData}
+      commonData={commonData}
     >
       some stuff
     </PageLayout>
