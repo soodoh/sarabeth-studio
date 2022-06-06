@@ -3,11 +3,11 @@ import React from "react";
 import type { Image as ImageType } from "../../utils/contentful";
 import Overlay from "../Overlay";
 
-interface Props {
+type Props = {
   type: "left" | "right";
   image: ImageType;
   priority?: boolean;
-}
+};
 
 const StyledImage = ({ type, priority, image }: Props) => (
   <Overlay type={type}>

@@ -1,13 +1,13 @@
 import { formatImage, formatUrl, getClient } from "../contentful";
 import type { Image } from "../contentful";
 
-export interface AboutData {
+export type AboutData = {
   title: string;
   headshot?: Image;
   bio: string;
   resume: string;
   location: string;
-}
+};
 
 const getAboutData = async (): Promise<AboutData> => {
   const aboutResponse: any = (

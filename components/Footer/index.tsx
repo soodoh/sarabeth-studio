@@ -3,10 +3,10 @@ import SocialIcon from "../../components/SocialIcon";
 import type { SocialMediaLink } from "../../utils/fetchers/common";
 import styles from "./Footer.module.scss";
 
-interface Props {
+type Props = {
   socialMediaLinks: SocialMediaLink[];
   location: string;
-}
+};
 
 const Footer = ({ location, socialMediaLinks }: Props) => {
   return (

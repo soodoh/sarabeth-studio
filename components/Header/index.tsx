@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import LogoSvg from "../../public/logo.svg";
 import styles from "./Header.module.scss";
 
-interface Props {
+type Props = {
   brandName: string;
-}
+};
 
 const Header = ({ brandName }: Props) => {
   const links: { label: string; url: string }[] = [

@@ -5,7 +5,7 @@ import Header from "../../components/Header";
 import type { CommonData } from "../../utils/fetchers/common";
 import styles from "./PageLayout.module.scss";
 
-interface Props {
+type Props = {
   metadata: {
     title: string;
     description?: string;
@@ -14,7 +14,7 @@ interface Props {
   };
   commonData: CommonData;
   children: ReactNode;
-}
+};
 
 const PageLayout = ({ metadata, commonData, children }: Props) => {
   return (

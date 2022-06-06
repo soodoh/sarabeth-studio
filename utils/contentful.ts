@@ -16,14 +16,14 @@ export function getClient() {
 
 export const formatUrl = (url?: string) => `https:${url}`;
 
-export interface Image {
+export type Image = {
   id: string;
   url: string;
   title: string;
   description: string;
   width: number;
   height: number;
-}
+};
 
 export const formatImage = (image: any): Image => ({
   id: image?.sys?.id,

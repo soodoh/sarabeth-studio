@@ -4,9 +4,7 @@ import PageLayout from "../../components/PageLayout";
 import type { PageProps } from "../../utils/fetchers/common";
 import getCommonData from "../../utils/fetchers/common";
 
-interface Props extends PageProps {}
-
-const Contact = ({ commonData }: Props) => {
+const Contact = ({ commonData }: PageProps) => {
   return (
     <PageLayout
       metadata={{

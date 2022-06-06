@@ -9,9 +9,7 @@ import getCommonData from "../../utils/fetchers/common";
 import type { PageProps } from "../../utils/fetchers/common";
 import styles from "./About.module.scss";
 
-interface Props extends PageProps, AboutData {}
-
-const About = ({ headshot, bio, title, commonData }: Props) => {
+const About = ({ headshot, bio, title, commonData }: PageProps & AboutData) => {
   return (
     <PageLayout
       metadata={{

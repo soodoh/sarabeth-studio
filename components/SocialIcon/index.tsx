@@ -6,10 +6,10 @@ import LinkedinSvg from "../../public/linkedin.svg";
 import TwitterSvg from "../../public/twitter.svg";
 import YoutubeSvg from "../../public/youtube.svg";
 
-interface Props {
+type Props = {
   source: string;
   className: string;
-}
+};
 
 const SocialIcon = ({ source, className }: Props) => {
   if (/facebook/gi.test(source)) {

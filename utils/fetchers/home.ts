@@ -3,7 +3,7 @@ import { Entry } from "contentful";
 import { formatImage, getClient } from "../contentful";
 import type { Image } from "../contentful";
 
-export interface HomeData {
+export type HomeData = {
   id: string;
   mainSection: boolean;
   title: string;
@@ -12,7 +12,7 @@ export interface HomeData {
   buttonText?: string;
   buttonLink?: string;
   images: Image[];
-}
+};
 
 const getHomeData: () => Promise<HomeData[]> = async () => {
   const response = await getClient().getEntries({

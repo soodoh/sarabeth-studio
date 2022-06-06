@@ -2,10 +2,10 @@ import React from "react";
 import ArrowSvg from "../../public/arrow.svg";
 import styles from "./Button.module.scss";
 
-interface Props {
+type Props = {
   label?: string;
   url: string;
-}
+};
 
 const Button = ({ label, url }: Props) => (
   <a className={styles.container} href={url}>

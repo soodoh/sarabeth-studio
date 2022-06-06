@@ -10,9 +10,9 @@ import getCommonData from "../utils/fetchers/common";
 import getHomeData from "../utils/fetchers/home";
 import type { HomeData } from "../utils/fetchers/home";
 
-interface Props extends PageProps {
+type Props = {
   homeData: HomeData[];
-}
+} & PageProps;
 
 const getImageClasses = (
   totalImageNum: number,

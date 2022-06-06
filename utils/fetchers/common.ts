@@ -1,31 +1,27 @@
 import { getClient } from "../contentful";
 
-export interface SocialMediaLink {
+export type SocialMediaLink = {
   source: string;
   link: string;
-}
-export interface CommonData {
+};
+export type CommonData = {
   location: string;
   brandName: string;
   socialMediaLinks: SocialMediaLink[];
-}
+};
 
-export interface PageProps {
+export type PageProps = {
   commonData: CommonData;
-}
+};
 
 const getCommonData = async (): Promise<CommonData> => {
-  const aboutResponse: any = (
-    await getClient().getEntries({ content_type: "about" })
-  )?.items?.[0]?.fields;
-  const socialResponse: any = (
-    await getClient().getEntries({
-      content_type: "socialMedia",
-      order: "fields.order",
-    })
-  )?.items;
+  const client = getClient();
+  const [aboutResponse, socialResponse]: any[] = await Promise.all([
+    client.getEntries({ content_type: "about" }),
+    client.getEntries({ content_type: "socialMedia", order: "fields.order" }),
+  ]);
   const socialMediaLinks =
-    socialResponse?.map(
+    socialResponse?.items?.map(
       ({ fields }: any): SocialMediaLink => ({
         source: fields?.source || "",
         link: fields?.link || "",
@@ -34,8 +30,8 @@ const getCommonData = async (): Promise<CommonData> => {
 
   return {
     socialMediaLinks,
-    location: aboutResponse?.location || "",
-    brandName: aboutResponse?.title || "Sarabeth Belón",
+    location: aboutResponse?.items?.[0]?.fields?.location || "",
+    brandName: aboutResponse?.items?.[0]?.fields?.title || "Sarabeth Belón",
   };
 };
 
