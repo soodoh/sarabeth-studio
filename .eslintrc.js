@@ -1,5 +1,6 @@
 module.exports = {
-  extends: ["next/core-web-vitals", "plugin:import/recommended"],
+  extends: ["next/core-web-vitals", "prettier"],
+  plugins: ["import", "prettier"],
   rules: {
     "sort-imports": [
       "error",
