@@ -1,6 +1,8 @@
 import NextImage from "next/image";
 import React from "react";
+
 import Overlay from "../Overlay";
+
 import type { Image as ImageType } from "../../utils/contentful";
 
 type Props = {

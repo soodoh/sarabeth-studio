@@ -1,8 +1,10 @@
 import Head from "next/head";
 import React, { ReactNode } from "react";
+
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 import styles from "./PageLayout.module.scss";
+
 import type { CommonData } from "../../utils/fetchers/common";
 
 type Props = {

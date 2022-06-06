@@ -1,4 +1,5 @@
 import { formatImage, formatUrl, getClient } from "../contentful";
+
 import type { Image } from "../contentful";
 
 export type AboutData = {

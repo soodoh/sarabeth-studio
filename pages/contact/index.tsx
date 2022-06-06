@@ -1,7 +1,9 @@
 import { GetStaticProps } from "next";
 import React from "react";
+
 import PageLayout from "../../components/PageLayout";
 import getCommonData from "../../utils/fetchers/common";
+
 import type { PageProps } from "../../utils/fetchers/common";
 
 const Contact = ({ commonData }: PageProps) => {

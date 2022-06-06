@@ -1,5 +1,6 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { GetStaticProps } from "next";
+
 import Button from "../components/Button";
 import PageLayout from "../components/PageLayout";
 import StyledImage from "../components/StyledImage";
@@ -7,6 +8,7 @@ import LogoSvg from "../public/logo.svg";
 import styles from "../styles/Home.module.scss";
 import getCommonData from "../utils/fetchers/common";
 import getHomeData from "../utils/fetchers/home";
+
 import type { PageProps } from "../utils/fetchers/common";
 import type { HomeData } from "../utils/fetchers/home";
 

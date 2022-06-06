@@ -13,16 +13,12 @@ module.exports = {
       1,
       {
         groups: [
-          "builtin",
-          "external",
-          "internal",
-          "parent",
-          "index",
-          "sibling",
+          ["builtin", "external", "internal"],
+          ["parent", "index", "sibling"],
           "object",
-          "type"
+          "type",
         ],
-        "newlines-between": "never",
+        "newlines-between": "always",
         alphabetize: { order: "asc", caseInsensitive: true },
       },
     ],

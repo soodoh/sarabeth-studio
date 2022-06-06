@@ -1,6 +1,8 @@
 import { Document } from "@contentful/rich-text-types";
 import { Entry } from "contentful";
+
 import { formatImage, getClient } from "../contentful";
+
 import type { Image } from "../contentful";
 
 export type HomeData = {

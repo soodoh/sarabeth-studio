@@ -1,11 +1,13 @@
 import { GetStaticProps } from "next";
 import React from "react";
 import ReactMarkdown from "react-markdown";
+
 import PageLayout from "../../components/PageLayout";
 import StyledImage from "../../components/StyledImage";
 import getAboutData from "../../utils/fetchers/about";
 import getCommonData from "../../utils/fetchers/common";
 import styles from "./About.module.scss";
+
 import type { AboutData } from "../../utils/fetchers/about";
 import type { PageProps } from "../../utils/fetchers/common";
 
