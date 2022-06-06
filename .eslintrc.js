@@ -19,6 +19,8 @@ module.exports = {
           "parent",
           "index",
           "sibling",
+          "object",
+          "type"
         ],
         "newlines-between": "never",
         alphabetize: { order: "asc", caseInsensitive: true },

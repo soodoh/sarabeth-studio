@@ -1,8 +1,8 @@
 import { GetStaticProps } from "next";
 import React from "react";
 import PageLayout from "../../components/PageLayout";
-import type { PageProps } from "../../utils/fetchers/common";
 import getCommonData from "../../utils/fetchers/common";
+import type { PageProps } from "../../utils/fetchers/common";
 
 const Lessons = ({ commonData }: PageProps) => {
   return (
