@@ -1,7 +1,7 @@
 import { GetStaticProps } from "next";
+import React from "react";
 import PageLayout from "../../components/PageLayout";
 import type { PageProps } from "../../utils/fetchers/common";
-import React from "react";
 import getCommonData from "../../utils/fetchers/common";
 
 interface Props extends PageProps {}

@@ -1,4 +1,5 @@
-import { type Image, formatImage, formatUrl, getClient } from "../contentful";
+import { formatImage, formatUrl, getClient } from "../contentful";
+import type { Image } from "../contentful";
 
 export interface AboutData {
   title: string;

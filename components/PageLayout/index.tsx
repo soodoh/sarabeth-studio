@@ -1,8 +1,8 @@
-import React, { ReactNode } from "react";
-import type { CommonData } from "../../utils/fetchers/common";
-import Footer from "../../components/Footer";
 import Head from "next/head";
+import React, { ReactNode } from "react";
+import Footer from "../../components/Footer";
 import Header from "../../components/Header";
+import type { CommonData } from "../../utils/fetchers/common";
 import styles from "./PageLayout.module.scss";
 
 interface Props {

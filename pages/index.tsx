@@ -1,14 +1,14 @@
-import Button from "../components/Button";
-import { GetStaticProps } from "next";
-import type { HomeData } from "../utils/fetchers/home";
-import LogoSvg from "../public/logo.svg";
-import PageLayout from "../components/PageLayout";
-import type { PageProps } from "../utils/fetchers/common";
-import StyledImage from "../components/StyledImage";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { GetStaticProps } from "next";
+import Button from "../components/Button";
+import PageLayout from "../components/PageLayout";
+import StyledImage from "../components/StyledImage";
+import LogoSvg from "../public/logo.svg";
+import styles from "../styles/Home.module.scss";
+import type { PageProps } from "../utils/fetchers/common";
 import getCommonData from "../utils/fetchers/common";
 import getHomeData from "../utils/fetchers/home";
-import styles from "../styles/Home.module.scss";
+import type { HomeData } from "../utils/fetchers/home";
 
 interface Props extends PageProps {
   homeData: HomeData[];

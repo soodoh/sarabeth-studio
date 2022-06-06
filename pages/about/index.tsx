@@ -1,10 +1,12 @@
-import getAboutData, { type AboutData } from "../../utils/fetchers/about";
-import getCommonData, { type PageProps } from "../../utils/fetchers/common";
 import { GetStaticProps } from "next";
-import PageLayout from "../../components/PageLayout";
 import React from "react";
 import ReactMarkdown from "react-markdown";
+import PageLayout from "../../components/PageLayout";
 import StyledImage from "../../components/StyledImage";
+import getAboutData from "../../utils/fetchers/about";
+import type { AboutData } from "../../utils/fetchers/about";
+import getCommonData from "../../utils/fetchers/common";
+import type { PageProps } from "../../utils/fetchers/common";
 import styles from "./styles.module.scss";
 
 interface Props extends PageProps, AboutData {}

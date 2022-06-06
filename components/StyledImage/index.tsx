@@ -1,6 +1,6 @@
-import type { Image as ImageType } from "../../utils/contentful";
 import NextImage from "next/image";
 import React from "react";
+import type { Image as ImageType } from "../../utils/contentful";
 import styles from "./StyledImage.module.scss";
 
 interface Props {
