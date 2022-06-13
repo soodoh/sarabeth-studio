@@ -18,7 +18,7 @@ module.exports = {
           "object",
           "type",
         ],
-        "newlines-between": "always",
+        "newlines-between": "never",
         alphabetize: { order: "asc", caseInsensitive: true },
       },
     ],
