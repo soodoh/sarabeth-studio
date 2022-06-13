@@ -1,5 +1,4 @@
 import React from "react";
-
 import EmailSvg from "../../public/email.svg";
 import FacebookSvg from "../../public/facebook.svg";
 import InstgramSvg from "../../public/instagram.svg";

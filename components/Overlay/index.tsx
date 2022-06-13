@@ -1,5 +1,4 @@
 import React from "react";
-
 import styles from "./Overlay.module.scss";
 
 type Props = {

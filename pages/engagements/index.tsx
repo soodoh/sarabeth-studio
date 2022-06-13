@@ -1,11 +1,9 @@
 import { GetStaticProps } from "next";
 import React from "react";
-
 import PageLayout from "../../components/PageLayout";
 import getCommonData from "../../utils/fetchers/common";
 import getEngagementData from "../../utils/fetchers/engagements";
 import styles from "./Engagements.module.scss";
-
 import type { PageProps } from "../../utils/fetchers/common";
 import type { EngagementData } from "../../utils/fetchers/engagements";
 

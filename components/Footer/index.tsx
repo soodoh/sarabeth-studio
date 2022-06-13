@@ -1,8 +1,6 @@
 import React from "react";
-
 import SocialIcon from "../../components/SocialIcon";
 import styles from "./Footer.module.scss";
-
 import type { SocialMediaLink } from "../../utils/fetchers/common";
 
 type Props = {
