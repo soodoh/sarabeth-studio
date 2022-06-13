@@ -3,7 +3,7 @@ import type { Image } from "../contentful";
 
 export type EngagementData = {
   title: string;
-  banner: Image;
+  bannerImage: Image;
   engagements: Engagement[];
 };
 
@@ -12,8 +12,8 @@ export type Engagement = {
   role: string;
   company: string;
   link: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
 };
 
 const getEngagementsData = async (): Promise<EngagementData> => {
@@ -28,13 +28,13 @@ const getEngagementsData = async (): Promise<EngagementData> => {
       role: engagement?.fields?.role,
       company: engagement?.fields?.company,
       link: engagement?.fields?.link,
-      startDate: new Date(engagement?.fields?.startDate),
-      endDate: new Date(engagement?.fields?.endDate),
+      startDate: engagement?.fields?.startDate,
+      endDate: engagement?.fields?.endDate,
     })
   );
   const engagementData = {
     title: pageResponse?.items?.[0]?.fields?.title || "",
-    banner: formatImage(pageResponse?.items?.[0]?.fields?.banner),
+    bannerImage: formatImage(pageResponse?.items?.[0]?.fields?.banner),
     engagements,
   };
   return engagementData;

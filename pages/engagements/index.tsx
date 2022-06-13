@@ -1,5 +1,6 @@
 import { GetStaticProps } from "next";
 import React from "react";
+import BannerImage from "../../components/BannerImage";
 import PageLayout from "../../components/PageLayout";
 import getCommonData from "../../utils/fetchers/common";
 import getEngagementData from "../../utils/fetchers/engagements";
@@ -12,6 +13,7 @@ type Props = {
 } & PageProps;
 
 const Engagements = ({ commonData, engagementData }: Props) => {
+  console.log(engagementData);
   return (
     <PageLayout
       metadata={{
@@ -22,7 +24,10 @@ const Engagements = ({ commonData, engagementData }: Props) => {
       }}
       commonData={commonData}
     >
-      <div className={styles.bannerContainer}>image</div>
+      <BannerImage
+        image={engagementData.bannerImage}
+        title={engagementData.title}
+      />
       <div className={styles.container}>some stuff</div>
     </PageLayout>
   );
