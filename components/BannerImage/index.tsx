@@ -1,4 +1,3 @@
-import NextImage from "next/image";
 import React from "react";
 import { Image } from "../../utils/contentful";
 import Overlay from "../Overlay";
@@ -11,14 +10,10 @@ type Props = {
 
 const BannerImage = ({ title, image }: Props) => {
   return (
-    <div className={styles.container}>
-      <NextImage
-        alt={image.description}
-        src={image.url}
-        layout="fill"
-        width={image.width}
-        height={image.height}
-      />
+    <div
+      className={styles.container}
+      style={{ backgroundImage: `url("${image.url}")` }}
+    >
       <Overlay type="left">{title}</Overlay>
     </div>
   );

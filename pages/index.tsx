@@ -3,6 +3,7 @@ import { GetStaticProps } from "next";
 import Button from "../components/Button";
 import PageLayout from "../components/PageLayout";
 import StyledImage from "../components/StyledImage";
+import WidthContainer from "../components/WidthContainer";
 import LogoSvg from "../public/logo.svg";
 import styles from "../styles/Home.module.scss";
 import getCommonData from "../utils/fetchers/common";
@@ -44,7 +45,7 @@ const Home = ({ commonData, homeData }: Props) => {
       }}
       commonData={commonData}
     >
-      <div className={styles.container}>
+      <WidthContainer className={styles.container}>
         {homeData.map((homeRow, rowIndex) => (
           <div key={homeRow.id} className={styles.homeRow}>
             <div
@@ -100,7 +101,7 @@ const Home = ({ commonData, homeData }: Props) => {
             </div>
           </div>
         ))}
-      </div>
+      </WidthContainer>
     </PageLayout>
   );
 };

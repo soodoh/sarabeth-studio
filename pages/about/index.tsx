@@ -3,6 +3,7 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 import PageLayout from "../../components/PageLayout";
 import StyledImage from "../../components/StyledImage";
+import WidthContainer from "../../components/WidthContainer";
 import getAboutData from "../../utils/fetchers/about";
 import getCommonData from "../../utils/fetchers/common";
 import styles from "./About.module.scss";
@@ -20,7 +21,7 @@ const About = ({ headshot, bio, title, commonData }: PageProps & AboutData) => {
       }}
       commonData={commonData}
     >
-      <div className={styles.container}>
+      <WidthContainer className={styles.container}>
         <div className={styles.headshot}>
           {headshot && <StyledImage type="right" image={headshot} />}
         </div>
@@ -28,7 +29,7 @@ const About = ({ headshot, bio, title, commonData }: PageProps & AboutData) => {
           <h1>{title}</h1>
           <ReactMarkdown>{bio}</ReactMarkdown>
         </div>
-      </div>
+      </WidthContainer>
     </PageLayout>
   );
 };
