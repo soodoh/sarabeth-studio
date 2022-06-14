@@ -66,7 +66,9 @@ const Home = ({ commonData, homeData }: Props) => {
                 >
                   <StyledImage
                     priority={rowIndex < 2}
-                    type={image.width > image.height ? "left" : "right"}
+                    overlayDirection={
+                      image.width > image.height ? "left" : "right"
+                    }
                     image={image}
                   />
                 </div>

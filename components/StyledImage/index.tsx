@@ -4,13 +4,13 @@ import Overlay from "../Overlay";
 import type { Image as ImageType } from "../../utils/contentful";
 
 type Props = {
-  type: "left" | "right";
+  overlayDirection: "left" | "right";
   image: ImageType;
   priority?: boolean;
 };
 
-const StyledImage = ({ type, priority, image }: Props) => (
-  <Overlay type={type}>
+const StyledImage = ({ overlayDirection, priority, image }: Props) => (
+  <Overlay direction={overlayDirection} type="image">
     <NextImage
       priority={priority}
       alt={image.description}

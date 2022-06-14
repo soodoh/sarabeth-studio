@@ -23,7 +23,9 @@ const About = ({ headshot, bio, title, commonData }: PageProps & AboutData) => {
     >
       <WidthContainer className={styles.container}>
         <div className={styles.headshot}>
-          {headshot && <StyledImage type="right" image={headshot} />}
+          {headshot && (
+            <StyledImage overlayDirection="right" image={headshot} />
+          )}
         </div>
         <div className={styles.bio}>
           <h1>{title}</h1>

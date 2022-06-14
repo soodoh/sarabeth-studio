@@ -4,23 +4,38 @@
   --offset: -0.8rem;
 }
 
-.left {
+.overlay {
   position: absolute;
   width: 100%;
   height: 100%;
   background-color: var(--lighter-theme-color);
-  bottom: var(--offset);
-  left: var(--offset);
+}
+
+// Types of Overlays
+.bannerTitle {
+  --offset-top: -0.8rem;
+  --offset-side: -0.8rem;
+}
+.image {
+  --offset-top: -2rem;
+  --offset-side: -2rem;
+}
+.heading {
+  --offset-top: 0.2rem;
+  --offset-side: -0.5rem;
+  height: 25%;
+}
+
+// Overlay direction
+.left {
+  bottom: var(--offset-top);
+  left: var(--offset-side);
 }
 .right {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: var(--lighter-theme-color);
-  bottom: var(--offset);
-  right: var(--offset);
+  bottom: var(--offset-top);
+  right: var(--offset-side);
 }
+// Keeps content on top of overlay
 .content {
   position: relative;
 }

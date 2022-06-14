@@ -14,7 +14,7 @@ const BannerImage = ({ title, image }: Props) => {
       className={styles.container}
       style={{ backgroundImage: `url("${image.url}")` }}
     >
-      <Overlay type="left">
+      <Overlay type="bannerTitle" direction="left">
         <h1 className={styles.text}>{title}</h1>
       </Overlay>
     </div>
