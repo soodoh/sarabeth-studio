@@ -2,6 +2,7 @@ import { GetStaticProps } from "next";
 import React from "react";
 import BannerImage from "../../components/BannerImage";
 import PageLayout from "../../components/PageLayout";
+import WidthContainer from "../../components/WidthContainer";
 import getCommonData from "../../utils/fetchers/common";
 import getEngagementData from "../../utils/fetchers/engagements";
 import styles from "./Engagements.module.scss";
@@ -28,7 +29,7 @@ const Engagements = ({ commonData, engagementData }: Props) => {
         image={engagementData.bannerImage}
         title={engagementData.title}
       />
-      <div className={styles.container}>some stuff</div>
+      <WidthContainer className={styles.container}>some stuff</WidthContainer>
     </PageLayout>
   );
 };

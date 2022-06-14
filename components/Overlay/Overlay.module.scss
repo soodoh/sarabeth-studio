@@ -1,7 +1,7 @@
 .container {
   position: relative;
   width: auto;
-  --offset: -2rem;
+  --offset: -0.8rem;
 }
 
 .left {
@@ -20,4 +20,7 @@
   background-color: var(--lighter-theme-color);
   bottom: var(--offset);
   right: var(--offset);
+}
+.content {
+  position: relative;
 }

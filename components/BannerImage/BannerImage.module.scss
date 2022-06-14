@@ -1,6 +1,32 @@
+@import "../../styles/variables.scss";
+
 .container {
   width: 100vw;
-  height: 350px;
+  height: 500px;
   background-position: center;
   background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text {
+  width: auto;
+  height: auto;
+  background-color: var(--dark-theme-color);
+  margin: 0;
+  z-index: 2;
+  text-transform: uppercase;
+  font-family: var(--body-font);
+  font-size: 1.7rem;
+  font-weight: 100;
+  letter-spacing: 0.1rem;
+  color: var(--lighter-theme-color);
+  padding: 1.5rem 5rem;
+}
+
+@media (max-width: $small) {
+  .text {
+    font-size: 1rem;
+  }
 }
