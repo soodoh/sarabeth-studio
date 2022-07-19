@@ -8,6 +8,7 @@ export type EngagementData = {
 };
 
 export type Engagement = {
+  id: string;
   title: string;
   role: string;
   company: string;
@@ -24,6 +25,7 @@ const getEngagementsData = async (): Promise<EngagementData> => {
   ]);
   const engagements: Engagement[] = engagementsResponse?.items.map(
     (engagement: any) => ({
+      id: engagement?.sys?.id,
       title: engagement?.fields?.label,
       role: engagement?.fields?.role,
       company: engagement?.fields?.company,

@@ -1,6 +1,7 @@
 import { GetStaticProps } from "next";
 import React from "react";
 import BannerImage from "../../components/BannerImage";
+import EngagementsTable from "../../components/EngagementsTable";
 import PageLayout from "../../components/PageLayout";
 import TextHeading from "../../components/TextHeading";
 import WidthContainer from "../../components/WidthContainer";
@@ -9,14 +10,15 @@ import getEngagementData from "../../utils/fetchers/engagements";
 import styles from "./Engagements.module.scss";
 import type { PageProps } from "../../utils/fetchers/common";
 import type { EngagementData } from "../../utils/fetchers/engagements";
+import type { Engagement } from "../../utils/fetchers/engagements";
 
 type Props = {
   engagementData: EngagementData;
 } & PageProps;
 
 const Engagements = ({ commonData, engagementData }: Props) => {
-  const upcoming = [];
-  const past = [];
+  const upcoming: Engagement[] = [];
+  const past: Engagement[] = [];
   const today = new Date();
   today.setUTCHours(24, 0, 0, 0);
   for (const engagement of engagementData.engagements) {
@@ -28,7 +30,6 @@ const Engagements = ({ commonData, engagementData }: Props) => {
       past.push(engagement);
     }
   }
-  console.log({ upcoming, past });
 
   return (
     <PageLayout
@@ -45,8 +46,12 @@ const Engagements = ({ commonData, engagementData }: Props) => {
         title={engagementData.title}
       />
       <WidthContainer className={styles.container}>
-        {upcoming.length > 0 && <TextHeading text="Upcoming" />}
-        {past.length > 0 && <TextHeading text="Past" />}
+        {upcoming.length > 0 && (
+          <EngagementsTable engagements={upcoming} label="Upcoming" />
+        )}
+        {past.length > 0 && (
+          <EngagementsTable engagements={past} label="Past" />
+        )}
       </WidthContainer>
     </PageLayout>
   );
