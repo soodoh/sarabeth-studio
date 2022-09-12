@@ -4,10 +4,25 @@ import BannerImage from "../../components/BannerImage";
 import PageLayout from "../../components/PageLayout";
 import WidthContainer from "../../components/WidthContainer";
 import getCommonData from "../../utils/fetchers/common";
+import getLessonsData from "../../utils/fetchers/lessons";
 import styles from "./Lessons.module.scss";
 import type { PageProps } from "../../utils/fetchers/common";
+import type { LessonsData } from "../../utils/fetchers/lessons";
 
-const Lessons = ({ commonData }: PageProps) => {
+const Lessons = ({
+  commonData,
+  title,
+  bannerImage,
+  infoDescription,
+  ratesDescription,
+  socialMediaImage,
+  socialMediaDescription,
+  teachingResume,
+  followLink,
+  email,
+  phoneNumber,
+  reviewLink,
+}: PageProps & LessonsData) => {
   const [section, setSection] = useState("about");
   return (
     <PageLayout
@@ -23,9 +38,10 @@ const Lessons = ({ commonData }: PageProps) => {
       }}
       commonData={commonData}
     >
-      <BannerImage image={""} title="Voice Lessons" />
+      <BannerImage image={bannerImage} title="Voice Lessons" />
       <div className={styles.navigation}>
         <a onClick={() => setSection("about")}>About</a>
+        <a onClick={() => setSection("rates")}>View Rates</a>
         <a onClick={() => setSection("resume")}>Teaching Resume</a>
       </div>
       <WidthContainer className={styles.container}>
@@ -38,8 +54,11 @@ const Lessons = ({ commonData }: PageProps) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const [commonData] = await Promise.all([getCommonData()]);
-  return { props: { commonData } };
+  const [commonData, lessonsData] = await Promise.all([
+    getCommonData(),
+    getLessonsData(),
+  ]);
+  return { props: { commonData, ...lessonsData } };
 };
 
 export default Lessons;
