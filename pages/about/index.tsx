@@ -1,6 +1,7 @@
 import { GetStaticProps } from "next";
 import React from "react";
 import ReactMarkdown from "react-markdown";
+import Button from "../../components/Button";
 import PageLayout from "../../components/PageLayout";
 import StyledImage from "../../components/StyledImage";
 import WidthContainer from "../../components/WidthContainer";
@@ -10,7 +11,13 @@ import styles from "./About.module.scss";
 import type { AboutData } from "../../utils/fetchers/about";
 import type { PageProps } from "../../utils/fetchers/common";
 
-const About = ({ headshot, bio, title, commonData }: PageProps & AboutData) => {
+const About = ({
+  headshot,
+  bio,
+  title,
+  resume,
+  commonData,
+}: PageProps & AboutData) => {
   return (
     <PageLayout
       metadata={{
@@ -30,6 +37,7 @@ const About = ({ headshot, bio, title, commonData }: PageProps & AboutData) => {
         <div className={styles.bio}>
           <h1>{title}</h1>
           <ReactMarkdown>{bio}</ReactMarkdown>
+          <Button url={resume} label="View Resume" />
         </div>
       </WidthContainer>
     </PageLayout>
