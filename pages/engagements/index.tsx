@@ -3,7 +3,6 @@ import React from "react";
 import BannerImage from "../../components/BannerImage";
 import EngagementsTable from "../../components/EngagementsTable";
 import PageLayout from "../../components/PageLayout";
-import TextHeading from "../../components/TextHeading";
 import WidthContainer from "../../components/WidthContainer";
 import getCommonData from "../../utils/fetchers/common";
 import getEngagementData from "../../utils/fetchers/engagements";

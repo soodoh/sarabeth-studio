@@ -1,10 +1,14 @@
 import { GetStaticProps } from "next";
-import React from "react";
+import React, { useState } from "react";
+import BannerImage from "../../components/BannerImage";
 import PageLayout from "../../components/PageLayout";
+import WidthContainer from "../../components/WidthContainer";
 import getCommonData from "../../utils/fetchers/common";
+import styles from "./Lessons.module.scss";
 import type { PageProps } from "../../utils/fetchers/common";
 
 const Lessons = ({ commonData }: PageProps) => {
+  const [section, setSection] = useState("about");
   return (
     <PageLayout
       metadata={{
@@ -19,13 +23,22 @@ const Lessons = ({ commonData }: PageProps) => {
       }}
       commonData={commonData}
     >
-      some stuff
+      <BannerImage image={""} title="Voice Lessons" />
+      <div className={styles.navigation}>
+        <a onClick={() => setSection("about")}>About</a>
+        <a onClick={() => setSection("resume")}>Teaching Resume</a>
+      </div>
+      <WidthContainer className={styles.container}>
+        <div className={styles.info}>info</div>
+        <div className={styles.socialMedia}>social media</div>
+        <div className={styles.contact}>contact</div>
+      </WidthContainer>
     </PageLayout>
   );
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const commonData = await getCommonData();
+  const [commonData] = await Promise.all([getCommonData()]);
   return { props: { commonData } };
 };
 
