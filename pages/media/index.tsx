@@ -1,7 +1,9 @@
 import { GetStaticProps } from "next";
 import React from "react";
 import PageLayout from "../../components/PageLayout";
+import WidthContainer from "../../components/WidthContainer";
 import getCommonData from "../../utils/fetchers/common";
+import styles from "./Media.module.scss";
 import type { PageProps } from "../../utils/fetchers/common";
 
 const Media = ({ commonData }: PageProps) => {
@@ -19,7 +21,9 @@ const Media = ({ commonData }: PageProps) => {
       }}
       commonData={commonData}
     >
-      some stuff
+      <WidthContainer className={styles.container}>
+        <h1>Coming Soon!</h1>
+      </WidthContainer>
     </PageLayout>
   );
 };
