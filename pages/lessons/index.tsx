@@ -83,9 +83,12 @@ const Lessons = ({
             <a href={`mailto:${email}`}>{email}</a>
             <a href={`tel:${phoneNumber.replace(/\D+/g, "")}`}>{phoneNumber}</a>
           </div>
-          <Link href="/contact">
-            <Button className={styles.button} label="Book a Lesson" />
-          </Link>
+          <Button
+            url="/contact"
+            isInternal
+            className={styles.button}
+            label="Book a Lesson"
+          />
           <Button
             className={styles.button}
             label="View Reviews"
