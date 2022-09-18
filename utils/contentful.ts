@@ -1,4 +1,5 @@
 import { ContentfulClientApi, createClient } from "contentful";
+import type { ImageLoaderProps } from "next/image";
 
 const space = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID as string;
 const accessToken = process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN as string;
@@ -33,3 +34,17 @@ export const formatImage = (image: any): Image => ({
   width: image?.fields?.file?.details?.image?.width,
   height: image?.fields?.file?.details?.image?.height,
 });
+
+export const imageLoader = ({
+  src,
+  width,
+  quality = 100,
+}: ImageLoaderProps) => {
+  const searchParams = new URLSearchParams({
+    w: `${width}`,
+    q: `${quality}`,
+    fm: "webp",
+  });
+  console.log(src, width, quality);
+  return `${src}?${searchParams.toString()}`;
+};

@@ -3,6 +3,7 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 import ArrowButton from "../../components/ArrowButton";
 import { LessonsPages } from "../../pages/lessons";
+import { imageLoader } from "../../utils/contentful";
 import styles from "./LessonsPageContent.module.scss";
 import type { Image } from "../../utils/contentful";
 
@@ -57,6 +58,7 @@ const LessonsPageContent = ({
           <div className={styles.socialMediaContainer}>
             <div className={styles.imageContainer}>
               <NextImage
+                loader={imageLoader}
                 alt={aboutData.socialMediaImage.description}
                 src={aboutData.socialMediaImage.url}
                 layout="responsive"

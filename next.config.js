@@ -2,7 +2,7 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    unoptimized: true,
+    loader: "custom",
     domains: ["images.ctfassets.net"],
   },
   webpack(config) {
