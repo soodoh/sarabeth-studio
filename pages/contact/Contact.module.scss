@@ -4,8 +4,15 @@
   display: flex;
   flex-direction: column;
 }
+.container h1 {
+  margin: 4rem auto;
+}
+
 .inputContainer {
   width: 60%;
+  margin: 1rem 0;
+}
+.textareaContainer {
   margin: 1rem 0;
 }
 

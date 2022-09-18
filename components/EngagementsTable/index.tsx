@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "../../components/Button";
 import TextHeading from "../../components/TextHeading";
+import buttonStyles from "../../styles/Button.module.scss";
 import styles from "./EngagementsTable.module.scss";
 import type { Engagement } from "../../utils/fetchers/engagements";
 
@@ -45,10 +46,9 @@ const EngagementRow = ({ engagements, label }: Props) => {
                 </span>
               </div>
               <div className={styles.buttonContainer}>
-                <Button
-                  url={link}
-                  label={label === "Upcoming" ? "Buy Tickets" : "Learn More"}
-                />
+                <a href={link} className={buttonStyles.container}>
+                  {label === "Upcoming" ? "Buy Tickets" : "Learn More"}
+                </a>
               </div>
             </div>
           )

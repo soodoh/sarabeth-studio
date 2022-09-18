@@ -44,9 +44,6 @@
   width: 10rem;
   fill: var(--dark-theme-color);
 }
-.button {
-  padding: 0.5rem 2rem;
+.contact a:not(.contactLinks a) {
   margin: 0.5rem 0rem;
-  background-color: var(--lighter-theme-color);
-  font-weight: bolder;
 }

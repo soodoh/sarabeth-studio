@@ -6,7 +6,7 @@ type Props = {
   value: string;
   placeholder?: string;
   errorMessage?: string;
-  hasError?: boolean;
+  showError?: boolean;
   onChange: (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
@@ -18,13 +18,13 @@ const TextInput = ({
   label,
   value,
   placeholder = "",
-  hasError = false,
+  showError = false,
   onChange,
   type = "text",
 }: Props) => {
   const id = label.replace(/\W+/g, "");
   return (
-    <div className={`${styles.container} ${hasError ? styles.showError : ""}`}>
+    <div className={`${styles.container} ${showError ? styles.showError : ""}`}>
       {type === "text" ? (
         <input
           className={styles.input}
@@ -57,7 +57,7 @@ const TextInput = ({
       <label htmlFor={id}>{label}</label>
       {
         <p role="alert" id={`${id}-error`} className={styles.errorMessage}>
-          {hasError ? errorMessage || `"${label}" is a required field` : ""}
+          {showError ? errorMessage || `"${label}" is a required field` : ""}
         </p>
       }
     </div>

@@ -7,6 +7,7 @@ import LessonsPageContent from "../../components/LessonsPageContent";
 import PageLayout from "../../components/PageLayout";
 import WidthContainer from "../../components/WidthContainer";
 import LogoSvg from "../../public/logo.svg";
+import buttonStyles from "../../styles/Button.module.scss";
 import getCommonData from "../../utils/fetchers/common";
 import getLessonsData from "../../utils/fetchers/lessons";
 import styles from "./Lessons.module.scss";
@@ -83,17 +84,12 @@ const Lessons = ({
             <a href={`mailto:${email}`}>{email}</a>
             <a href={`tel:${phoneNumber.replace(/\D+/g, "")}`}>{phoneNumber}</a>
           </div>
-          <Button
-            url="/contact"
-            isInternal
-            className={styles.button}
-            label="Book a Lesson"
-          />
-          <Button
-            className={styles.button}
-            label="View Reviews"
-            url={reviewLink}
-          />
+          <Link href="/contact">
+            <a className={buttonStyles.container}>Book a Lesson</a>
+          </Link>
+          <a href={reviewLink} className={buttonStyles.container}>
+            View Reviews
+          </a>
         </div>
       </WidthContainer>
     </PageLayout>
