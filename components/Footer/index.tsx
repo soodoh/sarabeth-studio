@@ -21,6 +21,7 @@ const Footer = ({ location, socialMediaLinks }: Props) => {
             key={`footer-link-${socialLink.source}`}
             className={styles.socialLink}
             href={socialLink.link}
+            aria-label={`Link to Sarabeth's ${socialLink.source}`}
           >
             <SocialIcon
               source={socialLink.source}

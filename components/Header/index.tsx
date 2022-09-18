@@ -51,6 +51,7 @@ const Header = ({ brandName }: Props) => {
       <button
         className={styles.mobileNavButton}
         onClick={() => setMobileNav(!mobileNavOpen)}
+        aria-label="Open Navigation"
       >
         <div
           className={`${styles.hamburgerIcon} ${
