@@ -1,10 +1,13 @@
 import { GetStaticProps } from "next";
-import React from "react";
+import React, { useState } from "react";
 import PageLayout from "../../components/PageLayout";
+import TextInput from "../../components/TextInput";
+import WidthContainer from "../../components/WidthContainer";
 import getCommonData from "../../utils/fetchers/common";
 import type { PageProps } from "../../utils/fetchers/common";
 
 const Contact = ({ commonData }: PageProps) => {
+  const [value, setValue] = useState("");
   return (
     <PageLayout
       metadata={{
@@ -14,7 +17,13 @@ const Contact = ({ commonData }: PageProps) => {
       }}
       commonData={commonData}
     >
-      some stuff
+      <WidthContainer>
+        <TextInput
+          label="Name"
+          value={value}
+          onChange={(event) => setValue(event.target.value)}
+        />
+      </WidthContainer>
     </PageLayout>
   );
 };

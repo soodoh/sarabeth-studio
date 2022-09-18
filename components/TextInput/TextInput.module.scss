@@ -1,0 +1,39 @@
+.container {
+  position: relative;
+}
+.container label {
+  position: absolute;
+  font-size: 1rem;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--light-theme-color);
+  color: var(--dark-theme-color);
+  padding: 0 0.3rem;
+  margin: 0 0.5rem;
+  transition: 0.1s ease-out;
+  transform-origin: left top;
+  pointer-events: none;
+}
+.container input {
+  background-color: transparent;
+  font-size: 1rem;
+  outline: none;
+  border: 1px solid var(--dark-theme-color);
+  border-radius: 5px;
+  padding: 1rem 0.7rem;
+  color: var(--font-color);
+  transition: 0.1s ease-out;
+}
+.container input:focus {
+  border-color: var(--font-color);
+}
+.container input:focus + label {
+  color: var(--font-color);
+  top: 0;
+  transform: translateY(-50%) scale(0.9);
+}
+.container input:not(:placeholder-shown) + label {
+  top: 0;
+  transform: translateY(-50%) scale(0.9);
+}
