@@ -1,8 +1,52 @@
 .container {
-  display: grid;
+  display: flex;
+  flex-direction: column;
 }
 
 .navigation {
   display: flex;
-  flex-direction: center;
+  justify-content: center;
+  background-color: var(--lighter-theme-color);
+}
+.navigation a {
+  cursor: pointer;
+  text-transform: uppercase;
+  padding: 1.5rem 1rem;
+  font-weight: bolder;
+}
+.link:hover {
+  color: var(--dark-theme-color);
+}
+.activeLink {
+  background-color: var(--dark-theme-color);
+  color: var(--lighter-theme-color);
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.contact h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+.contactLinks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem 0;
+}
+.contactLinks a {
+  margin: 0.1rem 0;
+}
+.contactImage {
+  width: 10rem;
+  fill: var(--dark-theme-color);
+}
+.button {
+  padding: 0.5rem 2rem;
+  margin: 0.5rem 0rem;
+  background-color: var(--lighter-theme-color);
+  font-weight: bolder;
 }

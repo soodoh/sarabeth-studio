@@ -1,0 +1,30 @@
+.verticalSeparator {
+  background-color: var(--dark-theme-color);
+  width: 1px;
+  height: 50%;
+  margin: auto;
+}
+
+.twoColumns {
+  display: grid;
+  grid-gap: 4rem;
+  grid-template-columns: 1fr auto 1fr;
+  margin: 3rem 0;
+}
+.markdown {
+  line-height: 1.75rem;
+}
+.markdown h1 {
+  font-size: 2rem;
+}
+.markdown p {
+  margin-bottom: 2rem;
+}
+
+.imageContainer {
+  width: 50%;
+}
+
+.resumeContainer {
+  margin: 3rem 0;
+}

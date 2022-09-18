@@ -5,10 +5,12 @@ export type LessonsData = {
   title: string;
   bannerImage: Image;
   followLink: string;
-  infoDescription: string;
-  ratesDescription: string;
+  aboutDescription: string;
+  teachingPhilosophy: string;
+  studioExpectations: string;
   socialMediaDescription: string;
   socialMediaImage: Image;
+  teachingResume: string;
   email: string;
   phoneNumber: string;
   reviewLink: string;
@@ -16,24 +18,24 @@ export type LessonsData = {
 
 const getLessonsData = async (): Promise<LessonsData> => {
   const client = getClient();
-  const pageResponse: any = await client.getEntries({
-    content_type: "lessons",
-  });
+  const lessonsResponse: any = (
+    await client.getEntries({
+      content_type: "lessons",
+    })
+  )?.items?.[0]?.fields;
   const lessonsData = {
-    title: pageResponse?.items?.[0]?.fields?.title || "",
-    bannerImage: formatImage(pageResponse?.items?.[0]?.fields?.bannerImage),
-    infoDescription: pageResponse?.items?.[0]?.fields?.infoDescription || "",
-    ratesDescription: pageResponse?.items?.[0]?.fields?.ratesDescription || "",
-    socialMediaDescription:
-      pageResponse?.items?.[0]?.fields?.socialMediaDescription || "",
-    socialMediaImage: formatImage(
-      pageResponse?.items?.[0]?.fields?.socialMediaImage
-    ),
-    teachingResume: pageResponse?.items?.[0]?.fields?.teachingResume || "",
-    reviewLink: pageResponse?.items?.[0]?.fields?.reviewLink,
-    phoneNumber: pageResponse?.items?.[0]?.fields?.phoneNumber,
-    email: pageResponse?.items?.[0]?.fields?.email,
-    followLink: pageResponse?.items?.[0]?.fields?.followLink,
+    title: lessonsResponse?.title || "",
+    bannerImage: formatImage(lessonsResponse?.bannerImage),
+    aboutDescription: lessonsResponse?.aboutDescription || "",
+    teachingPhilosophy: lessonsResponse?.teachingPhilosophy || "",
+    studioExpectations: lessonsResponse?.studioExpectations || "",
+    socialMediaDescription: lessonsResponse?.socialMediaDescription || "",
+    socialMediaImage: formatImage(lessonsResponse?.socialMediaImage),
+    teachingResume: lessonsResponse?.teachingResume || "",
+    reviewLink: lessonsResponse?.reviewLink,
+    phoneNumber: lessonsResponse?.phoneNumber,
+    email: lessonsResponse?.email,
+    followLink: lessonsResponse?.followLink,
   };
   return lessonsData;
 };
