@@ -30,6 +30,11 @@
   transition: 0.1s ease-out;
   font-family: var(--body-font);
 }
+.input:disabled,
+.input:disabled + label {
+  border-color: gray;
+  color: gray;
+}
 .input:focus {
   border-color: var(--font-color);
 }

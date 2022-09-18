@@ -11,16 +11,18 @@ type Props = {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
   type?: "text" | "textarea";
+  disabled?: boolean;
 };
 
 const TextInput = ({
   errorMessage,
   label,
   value,
+  onChange,
   placeholder = "",
   showError = false,
-  onChange,
   type = "text",
+  disabled = false,
 }: Props) => {
   const id = label.replace(/\W+/g, "");
   return (
@@ -30,6 +32,7 @@ const TextInput = ({
           className={styles.input}
           name={id}
           id={id}
+          disabled={disabled}
           onChange={onChange}
           placeholder={placeholder || label}
           type="text"
@@ -44,6 +47,7 @@ const TextInput = ({
           className={styles.input}
           name={id}
           id={id}
+          disabled={disabled}
           onChange={onChange}
           placeholder={placeholder || label}
           value={value}

@@ -1,6 +1,7 @@
 import { GetStaticProps } from "next";
 import React, { useState } from "react";
 import BannerImage from "../../components/BannerImage";
+import LoadingCircle from "../../components/LoadingCircle";
 import PageLayout from "../../components/PageLayout";
 import TextInput from "../../components/TextInput";
 import WidthContainer from "../../components/WidthContainer";
@@ -55,17 +56,21 @@ const Contact = ({
       mode: "cors",
       body: JSON.stringify(data),
     })
-      .then((res) => res.json())
-      .then((_res) => {
-        setShowErrors(false);
-        setName("");
-        setEmail("");
-        setSubject("");
-        setMessage("");
-        setSendState("success");
+      .then((res) => {
+        if (res.status === 200) {
+          setShowErrors(false);
+          setName("");
+          setEmail("");
+          setSubject("");
+          setMessage("");
+          setSendState("success");
+        } else {
+          throw new Error(
+            `Non-200 response: ${res.status} - ${res.statusText}`
+          );
+        }
       })
       .catch((_err) => {
-        setShowErrors(true);
         setSendState("fail");
       })
       .finally(() => {
@@ -96,6 +101,7 @@ const Contact = ({
                   setName(event.target.value);
                 }}
                 showError={showErrors && isInvalid({ name })}
+                disabled={loading}
               />
             </div>
             <div className={styles.inputContainer}>
@@ -107,6 +113,7 @@ const Contact = ({
                 }}
                 errorMessage="Please enter a valid email"
                 showError={showErrors && isInvalid({ email })}
+                disabled={loading}
               />
             </div>
             <div className={styles.inputContainer}>
@@ -117,6 +124,7 @@ const Contact = ({
                   setSubject(event.target.value);
                 }}
                 showError={showErrors && isInvalid({ subject })}
+                disabled={loading}
               />
             </div>
             <div className={styles.textareaContainer}>
@@ -128,11 +136,12 @@ const Contact = ({
                   setMessage(event.target.value);
                 }}
                 showError={showErrors && isInvalid({ message })}
+                disabled={loading}
               />
             </div>
             <div className={styles.inputContainer}>
               {loading ? (
-                "loading"
+                <LoadingCircle />
               ) : (
                 <button type="submit" className={buttonStyles.container}>
                   Submit
