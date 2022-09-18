@@ -87,7 +87,7 @@ const Home = ({ commonData, homeData }: Props) => {
               {!homeRow.mainSection && (
                 <>
                   <h1 className={styles.title}>{homeRow.title}</h1>
-                  <h3 className={styles.subtitle}>{homeRow.subtitle}</h3>
+                  <h2 className={styles.subtitle}>{homeRow.subtitle}</h2>
                   <div className={styles.divider} />
                 </>
               )}
