@@ -34,7 +34,7 @@ const LessonsPageContent = ({
           <div className={styles.markdown}>
             <ReactMarkdown>{studioData.teachingPhilosophy}</ReactMarkdown>
           </div>
-          <div className={styles.verticalSeparator} />
+          <div className={styles.separator} />
           <div className={styles.markdown}>
             <ReactMarkdown>{studioData.studioExpectations}</ReactMarkdown>
           </div>
@@ -53,7 +53,7 @@ const LessonsPageContent = ({
           <div className={styles.markdown}>
             <ReactMarkdown>{aboutData.aboutDescription}</ReactMarkdown>
           </div>
-          <div className={styles.verticalSeparator} />
+          <div className={styles.separator} />
           <div className={styles.socialMediaContainer}>
             <div className={styles.imageContainer}>
               <NextImage

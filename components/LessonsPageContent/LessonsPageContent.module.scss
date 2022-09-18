@@ -1,4 +1,6 @@
-.verticalSeparator {
+@import "../../styles/variables.scss";
+
+.separator {
   background-color: var(--dark-theme-color);
   width: 1px;
   height: 50%;
@@ -27,4 +29,14 @@
 
 .resumeContainer {
   margin: 3rem 0;
+}
+
+@media (max-width: $small) {
+  .twoColumns {
+    grid-template-columns: 1fr;
+  }
+  .separator {
+    height: 1px;
+    width: 50%;
+  }
 }
