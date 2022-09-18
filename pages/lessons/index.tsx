@@ -52,13 +52,13 @@ const Lessons = ({
       <BannerImage image={bannerImage} title={title} />
       <div className={styles.navigation}>
         {Object.values(LessonsPages).map((page) => (
-          <a
+          <button
             onClick={() => setSection(page)}
             className={section === page ? styles.activeLink : styles.link}
             key={page}
           >
             {page}
-          </a>
+          </button>
         ))}
       </div>
       <WidthContainer className={styles.container}>
