@@ -56,7 +56,7 @@ const Contact = ({
           <TextInput
             label="Name"
             value={name}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            onChange={(event) => {
               setName(event.target.value);
             }}
             hasError
@@ -66,7 +66,7 @@ const Contact = ({
           <TextInput
             label="Email"
             value={email}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            onChange={(event) => {
               setEmail(event.target.value);
             }}
           />
@@ -75,16 +75,17 @@ const Contact = ({
           <TextInput
             label="Subject"
             value={subject}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            onChange={(event) => {
               setSubject(event.target.value);
             }}
           />
         </div>
-        <div className={styles.inputContainer}>
+        <div className={styles.textareaContainer}>
           <TextInput
             label="Message"
+            type="textarea"
             value={message}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            onChange={(event) => {
               setMessage(event.target.value);
             }}
           />
