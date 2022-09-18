@@ -8,8 +8,13 @@
   justify-content: center;
   background-color: var(--lighter-theme-color);
 }
-.navigation a {
+.link,
+.activeLink {
   cursor: pointer;
+  background-color: transparent;
+  border: none;
+  font-size: 1rem;
+  font-family: var(--body-font);
   text-transform: uppercase;
   padding: 1.5rem 1rem;
   font-weight: bolder;
