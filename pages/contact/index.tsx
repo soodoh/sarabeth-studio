@@ -4,14 +4,38 @@ import PageLayout from "../../components/PageLayout";
 import TextInput from "../../components/TextInput";
 import WidthContainer from "../../components/WidthContainer";
 import getCommonData from "../../utils/fetchers/common";
+import getContactData from "../../utils/fetchers/contact";
 import styles from "./Contact.module.scss";
 import type { PageProps } from "../../utils/fetchers/common";
+import type { ContactData } from "../../utils/fetchers/contact";
 
-const Contact = ({ commonData }: PageProps) => {
+const Contact = ({ commonData, submitPostUrl }: PageProps & ContactData) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
+  const data = { name, email, subject, message };
+  const submit = () => {
+    fetch(submitPostUrl, {
+      method: "POST",
+      mode: "cors",
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        // turn off errors
+        // empty inputs
+        // show success
+      })
+      .catch((_err) => {
+        // show error
+      })
+      .finally(() => {
+        // stop loading
+      });
+  };
+
   return (
     <PageLayout
       metadata={{
@@ -65,8 +89,11 @@ const Contact = ({ commonData }: PageProps) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const commonData = await getCommonData();
-  return { props: { commonData } };
+  const [commonData, contactData] = await Promise.all([
+    getCommonData(),
+    getContactData(),
+  ]);
+  return { props: { commonData, ...contactData } };
 };
 
 export default Contact;
