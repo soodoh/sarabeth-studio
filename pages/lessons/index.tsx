@@ -2,7 +2,6 @@ import { GetStaticProps } from "next";
 import Link from "next/link";
 import React, { useState } from "react";
 import BannerImage from "../../components/BannerImage";
-import Button from "../../components/Button";
 import LessonsPageContent from "../../components/LessonsPageContent";
 import PageLayout from "../../components/PageLayout";
 import WidthContainer from "../../components/WidthContainer";
