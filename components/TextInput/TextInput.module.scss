@@ -16,6 +16,7 @@
   pointer-events: none;
 }
 .container input {
+  width: 100%;
   background-color: transparent;
   font-size: 1rem;
   outline: none;
@@ -36,4 +37,18 @@
 .container input:not(:placeholder-shown) + label {
   top: 0;
   transform: translateY(-50%) scale(0.9);
+}
+
+.showError input,
+.showError input:focus {
+  border-color: red;
+}
+.showError label,
+.showError input:focus + label {
+  color: red;
+}
+.errorMessage {
+  font-size: 0.8rem;
+  margin: 0.3rem 0 0 0;
+  color: red;
 }

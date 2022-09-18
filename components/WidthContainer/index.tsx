@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./WidthContainer.module.scss";
 
-type Props = { children: React.ReactNode; className: string };
+type Props = { children: React.ReactNode; className?: string };
 
 const WidthContainer = ({ children, className }: Props) => {
   return (

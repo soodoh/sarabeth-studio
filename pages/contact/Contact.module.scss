@@ -1,0 +1,16 @@
+@import "../../styles/variables.scss";
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+.inputContainer {
+  width: 60%;
+  margin: 1rem 0;
+}
+
+@media (max-width: $small) {
+  .inputContainer {
+    width: 100%;
+  }
+}

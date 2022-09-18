@@ -5,19 +5,40 @@ type Props = {
   label: string;
   value: string;
   placeholder?: string;
-  onChange: (event: React.FormEvent<HTMLInputElement>) => void;
+  errorMessage?: string;
+  hasError?: boolean;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const TextInput = ({ label, value, placeholder = "", onChange }: Props) => {
+const TextInput = ({
+  errorMessage,
+  label,
+  value,
+  placeholder = "",
+  hasError = false,
+  onChange,
+}: Props) => {
+  const id = label.replace(/\W+/g, "");
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${hasError ? styles.showError : ""}`}>
       <input
+        name={id}
+        id={id}
         onChange={onChange}
         placeholder={placeholder}
         type="text"
         value={value}
+        aria-invalid="true"
+        aria-required="true"
+        aria-describedby={`${id}-error`}
+        required
       />
-      <label>{label}</label>
+      <label htmlFor={id}>{label}</label>
+      {hasError && (
+        <p role="alert" id={`${id}-error`} className={styles.errorMessage}>
+          {errorMessage || `"${label}" is a required field`}
+        </p>
+      )}
     </div>
   );
 };
