@@ -1,7 +1,7 @@
 import { GetStaticProps } from "next";
 import React from "react";
 import ReactMarkdown from "react-markdown";
-import Button from "../../components/Button";
+import ArrowButton from "../../components/ArrowButton";
 import PageLayout from "../../components/PageLayout";
 import StyledImage from "../../components/StyledImage";
 import WidthContainer from "../../components/WidthContainer";
@@ -36,7 +36,7 @@ const About = ({
         </div>
         <div className={styles.bio}>
           <ReactMarkdown>{bio}</ReactMarkdown>
-          <Button url={resume} label="View Resume" />
+          <ArrowButton url={resume} label="View Resume" />
         </div>
       </WidthContainer>
     </PageLayout>

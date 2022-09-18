@@ -1,6 +1,6 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { GetStaticProps } from "next";
-import Button from "../components/Button";
+import ArrowButton from "../components/ArrowButton";
 import PageLayout from "../components/PageLayout";
 import StyledImage from "../components/StyledImage";
 import WidthContainer from "../components/WidthContainer";
@@ -95,7 +95,7 @@ const Home = ({ commonData, homeData }: Props) => {
                 {documentToReactComponents(homeRow.description)}
               </div>
               {homeRow.buttonLink && (
-                <Button
+                <ArrowButton
                   label={homeRow.buttonText}
                   url={makeRelativeUrl(homeRow.buttonLink)}
                 />

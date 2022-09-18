@@ -1,7 +1,7 @@
 import NextImage from "next/image";
 import React from "react";
 import ReactMarkdown from "react-markdown";
-import Button from "../../components/Button";
+import ArrowButton from "../../components/ArrowButton";
 import { LessonsPages } from "../../pages/lessons";
 import styles from "./LessonsPageContent.module.scss";
 import type { Image } from "../../utils/contentful";
@@ -67,7 +67,7 @@ const LessonsPageContent = ({
             <div className={styles.markdown}>
               <ReactMarkdown>{aboutData.socialMediaDescription}</ReactMarkdown>
             </div>
-            <Button label="Follow Me" url={aboutData.followLink} />
+            <ArrowButton label="Follow Me" url={aboutData.followLink} />
           </div>
         </div>
       );
