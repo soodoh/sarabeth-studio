@@ -1,5 +1,6 @@
 import { GetStaticProps } from "next";
 import React, { useState } from "react";
+import BannerImage from "../../components/BannerImage";
 import PageLayout from "../../components/PageLayout";
 import TextInput from "../../components/TextInput";
 import WidthContainer from "../../components/WidthContainer";
@@ -9,7 +10,11 @@ import styles from "./Contact.module.scss";
 import type { PageProps } from "../../utils/fetchers/common";
 import type { ContactData } from "../../utils/fetchers/contact";
 
-const Contact = ({ commonData, submitPostUrl }: PageProps & ContactData) => {
+const Contact = ({
+  commonData,
+  submitPostUrl,
+  bannerImage,
+}: PageProps & ContactData) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
@@ -45,6 +50,7 @@ const Contact = ({ commonData, submitPostUrl }: PageProps & ContactData) => {
       }}
       commonData={commonData}
     >
+      <BannerImage image={bannerImage} title="Contact Sarabeth" />
       <WidthContainer className={styles.container}>
         <div className={styles.inputContainer}>
           <TextInput

@@ -1,7 +1,9 @@
-import { getClient } from "../contentful";
+import { formatImage, getClient } from "../contentful";
+import type { Image } from "../contentful";
 
 export type ContactData = {
   submitPostUrl: string;
+  bannerImage: Image;
 };
 
 const getContactData = async (): Promise<ContactData> => {
@@ -14,6 +16,7 @@ const getContactData = async (): Promise<ContactData> => {
 
   return {
     submitPostUrl: contactResponse?.awsUrl,
+    bannerImage: formatImage(contactResponse?.bannerImage),
   };
 };
 
