@@ -1,3 +1,5 @@
+@import "../../styles/variables.scss";
+
 .container {
   width: 100%;
   display: flex;
@@ -39,8 +41,10 @@
 }
 .title {
   font-size: 1.2rem;
+  font-weight: bold;
 }
 .company {
+  font-size: 1rem;
 }
 .date {
   font-size: 0.75rem;
@@ -53,4 +57,17 @@
   background-color: var(--lighter-theme-color);
   border: none;
   padding: 0.5rem 3rem;
+}
+
+@media (max-width: $medium) {
+  .row {
+    grid-template-columns: 1fr;
+    grid-gap: 1.3rem;
+  }
+  .roleContainer {
+    justify-self: center;
+  }
+  .buttonContainer {
+    justify-self: center;
+  }
 }
