@@ -2,6 +2,7 @@
 module.exports = {
   reactStrictMode: true,
   images: {
+    unoptimized: true,
     domains: ["images.ctfassets.net"],
   },
   webpack(config) {
