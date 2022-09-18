@@ -42,7 +42,7 @@ const LessonsPageContent = ({
       );
     case LessonsPages.Resume:
       return (
-        <div className={styles.resumeContainer}>
+        <div className={`${styles.resumeContainer} ${styles.markdown}`}>
           <ReactMarkdown>{teachingResume}</ReactMarkdown>
         </div>
       );

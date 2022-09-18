@@ -35,7 +35,6 @@ const About = ({
           )}
         </div>
         <div className={styles.bio}>
-          <h1>{title}</h1>
           <ReactMarkdown>{bio}</ReactMarkdown>
           <Button url={resume} label="View Resume" />
         </div>

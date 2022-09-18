@@ -1,3 +1,5 @@
+@import "../../styles/variables.scss";
+
 .container {
   display: grid;
   grid-template-columns: 30% 1fr;
@@ -7,6 +9,19 @@
 .bio {
   line-height: 1.75rem;
 }
+.bio h1 {
+  font-size: 3rem;
+  line-height: 3.5rem;
+}
 .bio p {
   margin-bottom: 2rem;
+}
+
+@media (max-width: $small) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+  .headshot {
+    max-width: 300px;
+  }
 }
