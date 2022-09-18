@@ -46,7 +46,7 @@ const EngagementRow = ({ engagements, label }: Props) => {
               </div>
               <div className={styles.buttonContainer}>
                 <a href={link} className={buttonStyles.container}>
-                  {label === "Upcoming" ? "Buy Tickets" : "Learn More"}
+                  {label === "Upcoming" ? "Buy Tickets" : "Company Info"}
                 </a>
               </div>
             </div>
