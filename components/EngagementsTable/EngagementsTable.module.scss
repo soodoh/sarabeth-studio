@@ -53,11 +53,6 @@
 .buttonContainer {
   justify-self: flex-end;
 }
-.button {
-  background-color: var(--lighter-theme-color);
-  border: none;
-  padding: 0.5rem 3rem;
-}
 
 @media (max-width: $medium) {
   .row {
