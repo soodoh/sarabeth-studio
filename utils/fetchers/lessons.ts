@@ -1,16 +1,17 @@
 import { formatImage, getClient } from "../contentful";
 import type { Image } from "../contentful";
+import type { Document } from "@contentful/rich-text-types";
 
 export type LessonsData = {
   title: string;
   bannerImage: Image;
   followLink: string;
-  aboutDescription: string;
-  teachingPhilosophy: string;
-  studioExpectations: string;
-  socialMediaDescription: string;
+  aboutDescription: Document;
+  teachingPhilosophy: Document;
+  studioExpectations: Document;
+  socialMediaDescription: Document;
   socialMediaImage: Image;
-  teachingResume: string;
+  teachingResume: Document;
   email: string;
   phoneNumber: string;
   reviewLink: string;
@@ -24,14 +25,14 @@ const getLessonsData = async (): Promise<LessonsData> => {
     })
   )?.items?.[0]?.fields;
   const lessonsData = {
-    title: lessonsResponse?.title || "",
+    title: lessonsResponse?.title,
     bannerImage: formatImage(lessonsResponse?.bannerImage),
-    aboutDescription: lessonsResponse?.aboutDescription || "",
-    teachingPhilosophy: lessonsResponse?.teachingPhilosophy || "",
-    studioExpectations: lessonsResponse?.studioExpectations || "",
-    socialMediaDescription: lessonsResponse?.socialMediaDescription || "",
+    aboutDescription: lessonsResponse?.aboutDescription,
+    teachingPhilosophy: lessonsResponse?.teachingPhilosophy,
+    studioExpectations: lessonsResponse?.studioExpectations,
+    socialMediaDescription: lessonsResponse?.socialMediaDescription,
     socialMediaImage: formatImage(lessonsResponse?.socialMediaImage),
-    teachingResume: lessonsResponse?.teachingResume || "",
+    teachingResume: lessonsResponse?.teachingResume,
     reviewLink: lessonsResponse?.reviewLink,
     phoneNumber: lessonsResponse?.phoneNumber,
     email: lessonsResponse?.email,

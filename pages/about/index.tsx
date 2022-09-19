@@ -1,6 +1,6 @@
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { GetStaticProps } from "next";
 import React from "react";
-import ReactMarkdown from "react-markdown";
 import ArrowButton from "../../components/ArrowButton";
 import PageLayout from "../../components/PageLayout";
 import StyledImage from "../../components/StyledImage";
@@ -14,7 +14,6 @@ import type { PageProps } from "../../utils/fetchers/common";
 const About = ({
   headshot,
   bio,
-  title,
   resume,
   commonData,
 }: PageProps & AboutData) => {
@@ -35,7 +34,7 @@ const About = ({
           )}
         </div>
         <div className={styles.bio}>
-          <ReactMarkdown>{bio}</ReactMarkdown>
+          {documentToReactComponents(bio)}
           <ArrowButton url={resume} label="View Resume" />
         </div>
       </WidthContainer>

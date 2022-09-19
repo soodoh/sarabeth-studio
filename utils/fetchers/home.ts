@@ -1,7 +1,7 @@
-import { Document } from "@contentful/rich-text-types";
 import { Entry } from "contentful";
 import { formatImage, getClient } from "../contentful";
 import type { Image } from "../contentful";
+import type { Document } from "@contentful/rich-text-types";
 
 export type HomeData = {
   id: string;

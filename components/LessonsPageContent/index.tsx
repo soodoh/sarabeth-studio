@@ -1,25 +1,26 @@
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import NextImage from "next/image";
 import React from "react";
-import ReactMarkdown from "react-markdown";
 import ArrowButton from "../../components/ArrowButton";
 import { LessonsPages } from "../../pages/lessons";
 import { imageLoader } from "../../utils/contentful";
 import styles from "./LessonsPageContent.module.scss";
 import type { Image } from "../../utils/contentful";
+import type { Document } from "@contentful/rich-text-types";
 
 type Props = {
   section: LessonsPages;
   aboutData: {
-    aboutDescription: string;
+    aboutDescription: Document;
     socialMediaImage: Image;
-    socialMediaDescription: string;
+    socialMediaDescription: Document;
     followLink: string;
   };
   studioData: {
-    teachingPhilosophy: string;
-    studioExpectations: string;
+    teachingPhilosophy: Document;
+    studioExpectations: Document;
   };
-  teachingResume: string;
+  teachingResume: Document;
 };
 
 const LessonsPageContent = ({
@@ -32,27 +33,27 @@ const LessonsPageContent = ({
     case LessonsPages.Studio:
       return (
         <div className={styles.twoColumns}>
-          <div className={styles.markdown}>
-            <ReactMarkdown>{studioData.teachingPhilosophy}</ReactMarkdown>
+          <div className={styles.richText}>
+            {documentToReactComponents(studioData.teachingPhilosophy)}
           </div>
           <div className={styles.separator} />
-          <div className={styles.markdown}>
-            <ReactMarkdown>{studioData.studioExpectations}</ReactMarkdown>
+          <div className={styles.richText}>
+            {documentToReactComponents(studioData.studioExpectations)}
           </div>
         </div>
       );
     case LessonsPages.Resume:
       return (
-        <div className={`${styles.resumeContainer} ${styles.markdown}`}>
-          <ReactMarkdown>{teachingResume}</ReactMarkdown>
+        <div className={`${styles.resumeContainer} ${styles.richText}`}>
+          {documentToReactComponents(teachingResume)}
         </div>
       );
     case LessonsPages.About:
     default:
       return (
         <div className={styles.twoColumns}>
-          <div className={styles.markdown}>
-            <ReactMarkdown>{aboutData.aboutDescription}</ReactMarkdown>
+          <div className={styles.richText}>
+            {documentToReactComponents(aboutData.aboutDescription)}
           </div>
           <div className={styles.separator} />
           <div className={styles.socialMediaContainer}>
@@ -66,8 +67,8 @@ const LessonsPageContent = ({
                 height={aboutData.socialMediaImage.height}
               />
             </div>
-            <div className={styles.markdown}>
-              <ReactMarkdown>{aboutData.socialMediaDescription}</ReactMarkdown>
+            <div className={styles.richText}>
+              {documentToReactComponents(aboutData.socialMediaDescription)}
             </div>
             <ArrowButton label="Follow Me" url={aboutData.followLink} />
           </div>
