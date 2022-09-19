@@ -45,6 +45,5 @@ export const imageLoader = ({
     q: `${quality}`,
     fm: "webp",
   });
-  console.log(src, width, quality);
   return `${src}?${searchParams.toString()}`;
 };
