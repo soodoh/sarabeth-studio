@@ -15,20 +15,30 @@ type Props = {
   engagementData: EngagementData;
 } & PageProps;
 
-const Engagements = ({ commonData, engagementData }: Props) => {
-  const upcoming: Engagement[] = [];
-  const past: Engagement[] = [];
+const isUpcoming = (dateString: string) => {
   const today = new Date();
   today.setUTCHours(24, 0, 0, 0);
-  for (const engagement of engagementData.engagements) {
-    const endDate = new Date(engagement.endDate);
-    endDate.setUTCHours(24, 0, 0, 0);
-    if (endDate >= today) {
-      upcoming.push(engagement);
-    } else {
-      past.push(engagement);
-    }
-  }
+  const endDate = new Date(dateString);
+  endDate.setUTCHours(24, 0, 0, 0);
+  return endDate >= today;
+};
+
+const Engagements = ({ commonData, engagementData }: Props) => {
+  const today = new Date();
+  const upcoming: Engagement[] = engagementData.engagements
+    .filter((engagement) => isUpcoming(engagement.endDate))
+    .sort((a, b) => {
+      const dateA = new Date(a.endDate);
+      const dateB = new Date(b.endDate);
+      return dateA.getTime() - dateB.getTime();
+    });
+  const past: Engagement[] = engagementData.engagements
+    .filter((engagement) => !isUpcoming(engagement.endDate))
+    .sort((a, b) => {
+      const dateA = new Date(a.endDate);
+      const dateB = new Date(b.endDate);
+      return dateB.getTime() - dateA.getTime();
+    });
 
   return (
     <PageLayout
