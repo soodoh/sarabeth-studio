@@ -1,3 +1,5 @@
+@import "../../styles/variables.scss";
+
 .container {
   display: flex;
   flex-direction: column;
@@ -51,4 +53,10 @@
 }
 .contact a:not(.contactLinks a) {
   margin: 0.5rem 0rem;
+}
+
+@media (max-width: $small) {
+  .navigation {
+    flex-direction: column;
+  }
 }
