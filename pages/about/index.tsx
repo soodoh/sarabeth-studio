@@ -29,9 +29,12 @@ const About = ({
     >
       <WidthContainer className={styles.container}>
         <div className={styles.headshot}>
-          {headshot && (
-            <StyledImage overlayDirection="right" image={headshot} />
-          )}
+          <StyledImage
+            overlayDirection="right"
+            image={headshot}
+            maxWidth={400}
+            priority
+          />
         </div>
         <div className={styles.bio}>
           {documentToReactComponents(bio)}
