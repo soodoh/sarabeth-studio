@@ -5,11 +5,11 @@ import ArrowButton from "../../components/ArrowButton";
 import PageLayout from "../../components/PageLayout";
 import StyledImage from "../../components/StyledImage";
 import WidthContainer from "../../components/WidthContainer";
-import getAboutData from "../../utils/fetchers/about";
-import getCommonData from "../../utils/fetchers/common";
+import getAboutData from "../../utils/server/fetchers/about";
+import getCommonData from "../../utils/server/fetchers/common";
 import styles from "./About.module.scss";
-import type { AboutData } from "../../utils/fetchers/about";
-import type { PageProps } from "../../utils/fetchers/common";
+import type { AboutData } from "../../utils/server/fetchers/about";
+import type { PageProps } from "../../utils/server/fetchers/common";
 
 const About = ({
   headshot,

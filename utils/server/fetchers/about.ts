@@ -14,7 +14,7 @@ const getAboutData = async (): Promise<AboutData> => {
     await getClient().getEntries({ content_type: "about" })
   )?.items?.[0]?.fields;
   return {
-    headshot: formatImage(aboutResponse?.headshot),
+    headshot: await formatImage(aboutResponse?.headshot),
     bio: aboutResponse?.bio,
     resume: formatUrl(aboutResponse?.resume?.fields?.file?.url),
     location: aboutResponse?.location,

@@ -16,7 +16,7 @@ const getContactData = async (): Promise<ContactData> => {
 
   return {
     submitPostUrl: contactResponse?.awsUrl,
-    bannerImage: formatImage(contactResponse?.bannerImage),
+    bannerImage: await formatImage(contactResponse?.bannerImage),
   };
 };
 

@@ -1,7 +1,7 @@
 import React from "react";
 import Overlay from "../Overlay";
 import styles from "./BannerImage.module.scss";
-import type { Image } from "../../utils/contentful";
+import type { Image } from "../../utils/server/contentful";
 
 type Props = {
   image: Image;

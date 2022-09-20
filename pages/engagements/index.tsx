@@ -4,12 +4,12 @@ import BannerImage from "../../components/BannerImage";
 import EngagementsTable from "../../components/EngagementsTable";
 import PageLayout from "../../components/PageLayout";
 import WidthContainer from "../../components/WidthContainer";
-import getCommonData from "../../utils/fetchers/common";
-import getEngagementData from "../../utils/fetchers/engagements";
+import getCommonData from "../../utils/server/fetchers/common";
+import getEngagementData from "../../utils/server/fetchers/engagements";
 import styles from "./Engagements.module.scss";
-import type { PageProps } from "../../utils/fetchers/common";
-import type { EngagementData } from "../../utils/fetchers/engagements";
-import type { Engagement } from "../../utils/fetchers/engagements";
+import type { PageProps } from "../../utils/server/fetchers/common";
+import type { EngagementData } from "../../utils/server/fetchers/engagements";
+import type { Engagement } from "../../utils/server/fetchers/engagements";
 
 type Props = {
   engagementData: EngagementData;
@@ -24,7 +24,6 @@ const isUpcoming = (dateString: string) => {
 };
 
 const Engagements = ({ commonData, engagementData }: Props) => {
-  const today = new Date();
   const upcoming: Engagement[] = engagementData.engagements
     .filter((engagement) => isUpcoming(engagement.endDate))
     .sort((a, b) => {

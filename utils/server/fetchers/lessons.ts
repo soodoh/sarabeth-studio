@@ -26,12 +26,12 @@ const getLessonsData = async (): Promise<LessonsData> => {
   )?.items?.[0]?.fields;
   const lessonsData = {
     title: lessonsResponse?.title,
-    bannerImage: formatImage(lessonsResponse?.bannerImage),
+    bannerImage: await formatImage(lessonsResponse?.bannerImage),
     aboutDescription: lessonsResponse?.aboutDescription,
     teachingPhilosophy: lessonsResponse?.teachingPhilosophy,
     studioExpectations: lessonsResponse?.studioExpectations,
     socialMediaDescription: lessonsResponse?.socialMediaDescription,
-    socialMediaImage: formatImage(lessonsResponse?.socialMediaImage),
+    socialMediaImage: await formatImage(lessonsResponse?.socialMediaImage),
     teachingResume: lessonsResponse?.teachingResume,
     reviewLink: lessonsResponse?.reviewLink,
     phoneNumber: lessonsResponse?.phoneNumber,

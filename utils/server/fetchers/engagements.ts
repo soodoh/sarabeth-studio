@@ -36,7 +36,7 @@ const getEngagementsData = async (): Promise<EngagementData> => {
   );
   const engagementData = {
     title: pageResponse?.items?.[0]?.fields?.title || "",
-    bannerImage: formatImage(pageResponse?.items?.[0]?.fields?.banner),
+    bannerImage: await formatImage(pageResponse?.items?.[0]?.fields?.banner),
     engagements,
   };
   return engagementData;

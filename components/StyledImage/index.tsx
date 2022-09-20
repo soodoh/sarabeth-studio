@@ -1,8 +1,7 @@
-import NextImage from "next/image";
 import React from "react";
-import { imageLoader } from "../../utils/contentful";
+import ImageWrapper from "../../components/ImageWrapper";
 import Overlay from "../Overlay";
-import type { Image as ImageType } from "../../utils/contentful";
+import type { Image as ImageType } from "../../utils/server/contentful";
 
 type Props = {
   overlayDirection: "left" | "right";
@@ -12,15 +11,7 @@ type Props = {
 
 const StyledImage = ({ overlayDirection, priority, image }: Props) => (
   <Overlay direction={overlayDirection} type="image">
-    <NextImage
-      loader={imageLoader}
-      priority={priority}
-      alt={image.description}
-      src={image.url}
-      layout="responsive"
-      width={image.width}
-      height={image.height}
-    />
+    <ImageWrapper image={image} priority={priority} />
   </Overlay>
 );
 

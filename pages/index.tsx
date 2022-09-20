@@ -6,10 +6,10 @@ import StyledImage from "../components/StyledImage";
 import WidthContainer from "../components/WidthContainer";
 import LogoSvg from "../public/logo.svg";
 import styles from "../styles/Home.module.scss";
-import getCommonData from "../utils/fetchers/common";
-import getHomeData from "../utils/fetchers/home";
-import type { PageProps } from "../utils/fetchers/common";
-import type { HomeData } from "../utils/fetchers/home";
+import getCommonData from "../utils/server/fetchers/common";
+import getHomeData from "../utils/server/fetchers/home";
+import type { PageProps } from "../utils/server/fetchers/common";
+import type { HomeData } from "../utils/server/fetchers/home";
 
 type Props = {
   homeData: HomeData[];

@@ -7,11 +7,11 @@ import PageLayout from "../../components/PageLayout";
 import WidthContainer from "../../components/WidthContainer";
 import LogoSvg from "../../public/logo.svg";
 import buttonStyles from "../../styles/Button.module.scss";
-import getCommonData from "../../utils/fetchers/common";
-import getLessonsData from "../../utils/fetchers/lessons";
+import getCommonData from "../../utils/server/fetchers/common";
+import getLessonsData from "../../utils/server/fetchers/lessons";
 import styles from "./Lessons.module.scss";
-import type { PageProps } from "../../utils/fetchers/common";
-import type { LessonsData } from "../../utils/fetchers/lessons";
+import type { PageProps } from "../../utils/server/fetchers/common";
+import type { LessonsData } from "../../utils/server/fetchers/lessons";
 
 export enum LessonsPages {
   About = "About",

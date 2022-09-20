@@ -2,9 +2,9 @@ import { GetStaticProps } from "next";
 import React from "react";
 import PageLayout from "../../components/PageLayout";
 import WidthContainer from "../../components/WidthContainer";
-import getCommonData from "../../utils/fetchers/common";
+import getCommonData from "../../utils/server/fetchers/common";
 import styles from "./Media.module.scss";
-import type { PageProps } from "../../utils/fetchers/common";
+import type { PageProps } from "../../utils/server/fetchers/common";
 
 const Media = ({ commonData }: PageProps) => {
   return (

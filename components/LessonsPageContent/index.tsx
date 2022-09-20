@@ -1,11 +1,10 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import NextImage from "next/image";
 import React from "react";
 import ArrowButton from "../../components/ArrowButton";
+import ImageWrapper from "../../components/ImageWrapper";
 import { LessonsPages } from "../../pages/lessons";
-import { imageLoader } from "../../utils/contentful";
 import styles from "./LessonsPageContent.module.scss";
-import type { Image } from "../../utils/contentful";
+import type { Image } from "../../utils/server/contentful";
 import type { Document } from "@contentful/rich-text-types";
 
 type Props = {
@@ -58,14 +57,7 @@ const LessonsPageContent = ({
           <div className={styles.separator} />
           <div className={styles.socialMediaContainer}>
             <div className={styles.imageContainer}>
-              <NextImage
-                loader={imageLoader}
-                alt={aboutData.socialMediaImage.description}
-                src={aboutData.socialMediaImage.url}
-                layout="responsive"
-                width={aboutData.socialMediaImage.width}
-                height={aboutData.socialMediaImage.height}
-              />
+              <ImageWrapper image={aboutData.socialMediaImage} />
             </div>
             <div className={styles.richText}>
               {documentToReactComponents(aboutData.socialMediaDescription)}

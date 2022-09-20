@@ -6,11 +6,11 @@ import PageLayout from "../../components/PageLayout";
 import TextInput from "../../components/TextInput";
 import WidthContainer from "../../components/WidthContainer";
 import buttonStyles from "../../styles/Button.module.scss";
-import getCommonData from "../../utils/fetchers/common";
-import getContactData from "../../utils/fetchers/contact";
+import getCommonData from "../../utils/server/fetchers/common";
+import getContactData from "../../utils/server/fetchers/contact";
 import styles from "./Contact.module.scss";
-import type { PageProps } from "../../utils/fetchers/common";
-import type { ContactData } from "../../utils/fetchers/contact";
+import type { PageProps } from "../../utils/server/fetchers/common";
+import type { ContactData } from "../../utils/server/fetchers/contact";
 
 type EmailData = {
   name: string;

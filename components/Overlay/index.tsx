@@ -9,11 +9,7 @@ type Props = {
 
 const Overlay = ({ type, direction, children }: Props) => (
   <div className={styles.container}>
-    <div
-      className={`${styles.overlay} ${styles[type || "image"]} ${
-        styles[direction || "right"]
-      }`}
-    />
+    <div className={`${styles.overlay} ${styles[type]} ${styles[direction]}`} />
     <div className={styles.content}>{children}</div>
   </div>
 );

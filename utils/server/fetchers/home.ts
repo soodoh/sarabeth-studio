@@ -19,16 +19,22 @@ const getHomeData: () => Promise<HomeData[]> = async () => {
     content_type: "home",
     order: "fields.order",
   });
-  const formattedResponse = response.items.map((entry: Entry<any>) => ({
-    id: entry.sys.id,
-    mainSection: !!entry.fields.mainSection,
-    title: entry.fields.title || null,
-    subtitle: entry.fields.subtitle || null,
-    description: entry.fields.description,
-    buttonText: entry.fields.buttonText || null,
-    buttonLink: entry.fields.buttonLink || null,
-    images: entry.fields?.images?.map(formatImage),
-  }));
+
+  const formattedResponse = await Promise.all(
+    response.items.map(async (entry: Entry<any>) => {
+      const images = await Promise.all(entry.fields?.images?.map(formatImage));
+      return {
+        id: entry.sys.id,
+        mainSection: !!entry.fields.mainSection,
+        title: entry.fields.title || null,
+        subtitle: entry.fields.subtitle || null,
+        description: entry.fields.description,
+        buttonText: entry.fields.buttonText || null,
+        buttonLink: entry.fields.buttonLink || null,
+        images,
+      };
+    })
+  );
   return formattedResponse;
 };
 

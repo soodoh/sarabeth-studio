@@ -2,7 +2,7 @@ import React from "react";
 import TextHeading from "../../components/TextHeading";
 import buttonStyles from "../../styles/Button.module.scss";
 import styles from "./EngagementsTable.module.scss";
-import type { Engagement } from "../../utils/fetchers/engagements";
+import type { Engagement } from "../../utils/server/fetchers/engagements";
 
 type Props = {
   engagements: Engagement[];
