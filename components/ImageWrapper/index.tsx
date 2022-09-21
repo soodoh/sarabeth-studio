@@ -32,7 +32,7 @@ const ImageWrapper = ({ image, maxWidth = 900, priority = false }: Props) => {
       src={image.url}
       width={image.width}
       height={image.height}
-      sizes={getImageSizes(maxWidth)}
+      sizes="(max-width: 700px) 100vw, 384px"
     />
   );
 };
