@@ -9,6 +9,10 @@
   justify-content: center;
   align-items: center;
   background-color: var(--font-color);
+  position: relative;
+}
+.image {
+  z-index: 0;
 }
 
 .text {
