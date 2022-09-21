@@ -38,6 +38,11 @@ const PageLayout = ({ metadata, commonData, children }: Props) => {
         <meta name="GOOGLEBOT" content="index, follow" />
         <meta name="ROBOTS" content={metadata.robots || "index, follow"} />
         <meta name="robots" content={metadata.robots || "index, follow"} />
+
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
       </Head>
 
       <Header brandName={commonData.brandName} />
