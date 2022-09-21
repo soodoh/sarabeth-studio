@@ -4,7 +4,6 @@ import styles from "./TextInput.module.scss";
 type Props = {
   label: string;
   value: string;
-  placeholder?: string;
   errorMessage?: string;
   showError?: boolean;
   onChange: (
@@ -19,7 +18,6 @@ const TextInput = ({
   label,
   value,
   onChange,
-  placeholder = "",
   showError = false,
   type = "text",
   disabled = false,
@@ -34,7 +32,7 @@ const TextInput = ({
           id={id}
           disabled={disabled}
           onChange={onChange}
-          placeholder={placeholder || label}
+          placeholder=" "
           type="text"
           value={value}
           aria-invalid="true"
@@ -49,7 +47,7 @@ const TextInput = ({
           id={id}
           disabled={disabled}
           onChange={onChange}
-          placeholder={placeholder || label}
+          placeholder=" "
           value={value}
           aria-invalid="true"
           aria-required="true"
