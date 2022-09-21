@@ -5,22 +5,10 @@ import type { Image } from "../../utils/server/contentful";
 
 type Props = {
   image: Image;
-  maxWidth?: number;
   priority?: boolean;
 };
 
-const getImageSizes = (maxWidth: number) => {
-  const allSizes = [128, 256, 384, 640, 750, 828, 1020, 1200, 1920, 2048, 3840];
-  const sizes = allSizes.filter((width) => width <= maxWidth);
-  return sizes.reduce((sizeString, width, index) => {
-    if (index < sizes.length - 1) {
-      return `${sizeString}(max-width: ${width}px) ${width}px, `;
-    }
-    return `${sizeString}${width}px`;
-  }, "");
-};
-
-const ImageWrapper = ({ image, maxWidth = 900, priority = false }: Props) => {
+const ImageWrapper = ({ image, priority = false }: Props) => {
   return (
     <NextImage
       layout="responsive"
@@ -32,7 +20,15 @@ const ImageWrapper = ({ image, maxWidth = 900, priority = false }: Props) => {
       src={image.url}
       width={image.width}
       height={image.height}
-      sizes="(max-width: 700px) 100vw, 384px"
+      sizes={[
+        "(max-width: 399px) 184px",
+        "(max-width: 519px) 244px",
+        "(max-width: 639px) 200px",
+        "(max-width: 767px) 156px",
+        "(max-width: 1023px) 220px",
+        "(max-width: 1279px) 280px",
+        "280px",
+      ].join(", ")}
     />
   );
 };

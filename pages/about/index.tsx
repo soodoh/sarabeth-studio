@@ -29,12 +29,7 @@ const About = ({
     >
       <WidthContainer className={styles.container}>
         <div className={styles.headshot}>
-          <StyledImage
-            overlayDirection="right"
-            image={headshot}
-            maxWidth={400}
-            priority
-          />
+          <StyledImage overlayDirection="right" image={headshot} priority />
         </div>
         <div className={styles.bio}>
           {documentToReactComponents(bio)}
