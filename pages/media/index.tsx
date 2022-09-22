@@ -3,10 +3,12 @@ import React from "react";
 import PageLayout from "../../components/PageLayout";
 import WidthContainer from "../../components/WidthContainer";
 import getCommonData from "../../utils/server/fetchers/common";
+import getMediaData from "../../utils/server/fetchers/media";
 import styles from "./Media.module.scss";
 import type { PageProps } from "../../utils/server/fetchers/common";
+import type { MediaData } from "../../utils/server/fetchers/media";
 
-const Media = ({ commonData }: PageProps) => {
+const Media = ({ commonData }: PageProps & MediaData) => {
   return (
     <PageLayout
       metadata={{
@@ -29,8 +31,11 @@ const Media = ({ commonData }: PageProps) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const commonData = await getCommonData();
-  return { props: { commonData } };
+  const [commonData, mediaData] = await Promise.all([
+    getCommonData(),
+    getMediaData(),
+  ]);
+  return { props: { commonData, ...mediaData } };
 };
 
 export default Media;
