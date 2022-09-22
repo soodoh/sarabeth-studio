@@ -32,18 +32,27 @@
 }
 
 .navContainer {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  grid-gap: 2rem;
 }
 .link {
   font-size: 1rem;
   text-transform: uppercase;
-  margin-left: 2rem;
+  position: relative;
+  display: inline-block;
+  transition: all 100ms ease;
+}
+.link:hover {
+  transition: all 100ms ease;
+  transform: translateX(0.2rem);
 }
 .activeLink {
   font-weight: bold;
   position: relative;
 }
-.activeLink::before {
+.activeLink::before,
+.link:hover::before {
   content: "";
   position: absolute;
   height: 80%;
@@ -54,6 +63,9 @@
   background-color: var(--lighter-theme-color);
 }
 
+.mobileNavContainer {
+  display: none;
+}
 .mobileNavButton {
   display: none;
   border: none;
@@ -106,6 +118,10 @@
     display: block;
   }
   .navContainer {
+    display: none;
+  }
+  .mobileNavContainer {
+    display: flex;
     position: fixed;
     top: 0;
     right: 0;
