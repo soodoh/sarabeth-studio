@@ -44,11 +44,12 @@ const EngagementRow = ({ engagements, label }: Props) => {
                   {formatDate(startDate)} - {formatDate(endDate, true)}
                 </span>
               </div>
-              <div className={styles.buttonContainer}>
-                <a href={link} className={buttonStyles.container}>
-                  {label === "Upcoming" ? "Buy Tickets" : "Company Info"}
-                </a>
-              </div>
+              <a
+                href={link}
+                className={`${buttonStyles.container} ${styles.buttonContainer}`}
+              >
+                {label === "Upcoming" ? "Buy Tickets" : "Company Info"}
+              </a>
             </div>
           )
         )}
