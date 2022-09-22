@@ -12,6 +12,8 @@
   padding: 1rem var(--margin);
   z-index: 99;
   --mobile-nav-size: 2.5rem;
+  --link-transition: all 100ms ease;
+  --menu-transition: all 250ms ease;
 }
 
 .logoContainer {
@@ -41,11 +43,16 @@
   text-transform: uppercase;
   position: relative;
   display: inline-block;
-  transition: all 100ms ease;
+  transition: var(--link-transition);
 }
 .link:hover {
-  transition: all 100ms ease;
+  transition: var(--link-transition);
   transform: translateX(0.2rem);
+}
+.activeLink:hover::before,
+.link:hover::before {
+  transition: var(--link-transition);
+  transform: translateX(-0.2rem);
 }
 .activeLink {
   font-weight: bold;
@@ -83,7 +90,7 @@
   width: 100%;
   height: 2px;
   background-color: var(--font-color);
-  transition: all 250ms ease;
+  transition: var(--menu-transition);
 }
 .hamburgerIcon:before,
 .hamburgerIcon:after {
@@ -95,7 +102,7 @@
   width: 100%;
   height: 2px;
   background-color: var(--font-color);
-  transition: all 250ms ease;
+  transition: var(--menu-transition);
 }
 .hamburgerIcon:after {
   top: calc(var(--mobile-nav-size) / 6);
@@ -129,12 +136,12 @@
     left: 0;
     opacity: 0;
     transform: scale(0);
-    transition: all 250ms ease;
+    transition: var(--menu-transition);
   }
   .mobileNavOpen {
     opacity: 1;
     transform: scale(1);
-    transition: all 250ms ease;
+    transition: var(--menu-transition);
     display: flex;
     flex-direction: column;
     justify-content: center;
