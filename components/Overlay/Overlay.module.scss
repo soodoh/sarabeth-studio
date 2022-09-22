@@ -1,3 +1,5 @@
+@import "../../styles/variables.scss";
+
 .container {
   position: relative;
 }
@@ -36,4 +38,11 @@
 // Keeps content on top of overlay
 .content {
   position: relative;
+}
+
+@media (max-width: $small) {
+  .image {
+    --offset-y: -1rem;
+    --offset-x: -1rem;
+  }
 }
