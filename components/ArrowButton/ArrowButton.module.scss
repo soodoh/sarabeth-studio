@@ -25,6 +25,9 @@
 .container:hover .buttonText::before {
   transition: all 200ms ease;
   background-color: var(--dark-theme-color);
+  transform: translate(-0.2rem, 0.2rem);
+  height: 50%;
+  width: 80%;
 }
 .buttonText::before {
   transition: all 200ms ease;
