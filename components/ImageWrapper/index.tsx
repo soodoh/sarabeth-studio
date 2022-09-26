@@ -9,26 +9,27 @@ type Props = {
 };
 
 const ImageWrapper = ({ image, priority = false }: Props) => {
+  const sizes = [
+    "(max-width: 399px) 184px",
+    "(max-width: 519px) 244px",
+    "(max-width: 639px) 200px",
+    "(max-width: 767px) 156px",
+    "(max-width: 1023px) 220px",
+    "(max-width: 1279px) 280px",
+    "280px",
+  ].join(", ");
   return (
     <NextImage
-      layout="responsive"
-      placeholder="blur"
-      blurDataURL={image.blurDataUrl}
-      loader={imageLoader}
-      priority={priority}
       alt={image.description}
+      blurDataURL={image.blurDataUrl}
+      height={image.height}
+      layout="responsive"
+      loader={imageLoader}
+      placeholder="blur"
+      priority={priority}
+      sizes={sizes}
       src={image.url}
       width={image.width}
-      height={image.height}
-      sizes={[
-        "(max-width: 399px) 184px",
-        "(max-width: 519px) 244px",
-        "(max-width: 639px) 200px",
-        "(max-width: 767px) 156px",
-        "(max-width: 1023px) 220px",
-        "(max-width: 1279px) 280px",
-        "280px",
-      ].join(", ")}
     />
   );
 };

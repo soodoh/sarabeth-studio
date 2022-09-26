@@ -1,3 +1,5 @@
+@import "./variables.scss";
+
 .swiper-slide {
   width: auto;
 }
@@ -25,4 +27,14 @@
 .swiper-pagination-bullet-active {
   background-color: var(--light-theme-color);
   opacity: 1;
+}
+
+@media (max-width: $small) {
+  .swiper-pagination-bullets {
+    display: none;
+  }
+  .swiper-button-prev,
+  .swiper-button-next {
+    background-color: transparent;
+  }
 }

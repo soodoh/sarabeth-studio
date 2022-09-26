@@ -4,6 +4,7 @@ import React from "react";
 import { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import PageLayout from "../../components/PageLayout";
+import TextHeading from "../../components/TextHeading";
 import WidthContainer from "../../components/WidthContainer";
 import { imageLoader } from "../../utils/client/contentful";
 import getCommonData from "../../utils/server/fetchers/common";
@@ -28,31 +29,38 @@ const Media = ({
       }}
       commonData={commonData}
     >
-      <Swiper
-        centeredSlides
-        className={styles.carousel}
-        initialSlide={images.length / 2}
-        modules={[Pagination, Navigation]}
-        navigation
-        pagination={{ clickable: true }}
-        slidesPerView="auto"
-        spaceBetween={0}
-      >
-        {images.map((image) => (
-          <SwiperSlide key={image.id}>
-            <NextImage
-              width={image.width}
-              height={image.height}
-              loader={imageLoader}
-              src={image.url}
-              alt={image.description}
-              placeholder="blur"
-              blurDataURL={image.blurDataUrl}
-              className={styles.slide}
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      <div className={styles.container}>
+        <TextHeading text="Photos" />
+        <Swiper
+          // centeredSlides
+          className={styles.carousel}
+          // initialSlide={images.length / 2}
+          modules={[Pagination, Navigation]}
+          navigation
+          pagination={{ clickable: true }}
+          slidesPerView="auto"
+        >
+          {images.map((image) => (
+            <SwiperSlide key={image.id}>
+              <NextImage
+                alt={image.description}
+                blurDataURL={image.blurDataUrl}
+                className={styles.slide}
+                height={image.height}
+                loader={imageLoader}
+                placeholder="blur"
+                sizes="50vw"
+                src={image.url}
+                width={image.width}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+
+        <TextHeading text="Videos" />
+
+        <TextHeading text="Audio" />
+      </div>
     </PageLayout>
   );
 };
