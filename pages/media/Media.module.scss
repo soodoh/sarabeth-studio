@@ -20,6 +20,20 @@
   width: auto;
 }
 
+.videoContainer {
+  padding-bottom: 56.25%;
+}
+.videoContainer iframe,
+.videoContainer object,
+.videoContainer embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - 10rem);
+  height: 100%;
+  margin: auto;
+}
+
 @media (max-width: $small) {
   .carousel {
     height: 20rem;

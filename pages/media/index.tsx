@@ -1,6 +1,7 @@
 import { GetStaticProps } from "next";
 import NextImage from "next/future/image";
 import React from "react";
+import YouTube from "react-youtube";
 import { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import PageLayout from "../../components/PageLayout";
@@ -32,16 +33,14 @@ const Media = ({
       <div className={styles.container}>
         <TextHeading text="Photos" />
         <Swiper
-          // centeredSlides
           className={styles.carousel}
-          // initialSlide={images.length / 2}
           modules={[Pagination, Navigation]}
           navigation
           pagination={{ clickable: true }}
           slidesPerView="auto"
         >
           {images.map((image) => (
-            <SwiperSlide key={image.id}>
+            <SwiperSlide style={{ width: "auto" }} key={image.id}>
               <NextImage
                 alt={image.description}
                 blurDataURL={image.blurDataUrl}
@@ -58,6 +57,24 @@ const Media = ({
         </Swiper>
 
         <TextHeading text="Videos" />
+        <Swiper
+          centeredSlides
+          className={styles.carousel}
+          modules={[Pagination]}
+          navigation
+          pagination={{ clickable: true }}
+          slidesPerView={1}
+          spaceBetween={40}
+        >
+          {videos.map((video) => (
+            <SwiperSlide key={video.id}>
+              <YouTube
+                className={styles.videoContainer}
+                videoId={video.youtubeId}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
 
         <TextHeading text="Audio" />
       </div>

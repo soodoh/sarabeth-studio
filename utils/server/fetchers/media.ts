@@ -4,7 +4,7 @@ import type { Image } from "../contentful";
 export type Video = {
   id: string;
   title: string;
-  url: string;
+  youtubeId: string;
 };
 
 export type Audio = {
@@ -27,10 +27,11 @@ const getMediaData = async (): Promise<MediaData> => {
 
   const images = await Promise.all(mediaResponse?.images?.map(formatImage));
   const videos = mediaResponse?.videos?.map((video: any) => {
+    console.log(video);
     return {
       id: video?.sys?.id,
       title: video?.fields?.label,
-      url: formatUrl(video?.link),
+      youtubeId: video?.fields?.youtubeId,
     };
   });
   const audio = mediaResponse?.audio?.map((song: any) => {
