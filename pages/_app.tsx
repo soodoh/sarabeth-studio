@@ -1,4 +1,8 @@
 import "../styles/globals.scss";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "../styles/swiper.scss";
 import { AppProps } from "next/app";
 import Script from "next/script";
 
@@ -23,4 +27,5 @@ function MyApp({ Component, pageProps }: AppProps) {
     </>
   );
 }
+
 export default MyApp;

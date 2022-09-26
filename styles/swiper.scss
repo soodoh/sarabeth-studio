@@ -1,0 +1,28 @@
+.swiper-slide {
+  width: auto;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: var(--light-theme-color);
+  height: 100%;
+  margin-top: 0;
+  top: 0;
+  padding: 0 1.5rem;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.swiper-button-prev {
+  left: 0;
+}
+.swiper-button-next {
+  right: 0;
+}
+
+.swiper-pagination-bullet {
+  background-color: var(--light-theme-color);
+  opacity: 0.3;
+}
+.swiper-pagination-bullet-active {
+  background-color: var(--light-theme-color);
+  opacity: 1;
+}
