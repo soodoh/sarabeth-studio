@@ -26,14 +26,11 @@ const getMediaData = async (): Promise<MediaData> => {
   )?.items?.[0]?.fields;
 
   const images = await Promise.all(mediaResponse?.images?.map(formatImage));
-  const videos = mediaResponse?.videos?.map((video: any) => {
-    console.log(video);
-    return {
-      id: video?.sys?.id,
-      title: video?.fields?.label,
-      youtubeId: video?.fields?.youtubeId,
-    };
-  });
+  const videos = mediaResponse?.videos?.map((video: any) => ({
+    id: video?.sys?.id,
+    title: video?.fields?.label,
+    youtubeId: video?.fields?.youtubeId,
+  }));
   const audio = mediaResponse?.audio?.map((song: any) => {
     return {
       id: song?.sys?.id,
