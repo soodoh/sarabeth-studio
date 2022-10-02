@@ -57,24 +57,15 @@ const Media = ({
         </Swiper>
 
         <TextHeading text="Videos" />
-        <Swiper
-          centeredSlides
-          className={styles.carousel}
-          modules={[Pagination]}
-          navigation
-          pagination={{ clickable: true }}
-          slidesPerView={1}
-          spaceBetween={40}
-        >
-          {videos.map((video) => (
-            <SwiperSlide key={video.id}>
-              <YouTube
-                className={styles.videoContainer}
-                videoId={video.youtubeId}
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        <div className={styles.videoContainer}>
+          <iframe
+            src="https://www.youtube.com/embed/videoseries?list=PL2ucJM2n3hm_c0L7-_dAnJ_Kajde66Id1"
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
 
         <TextHeading text="Audio" />
       </div>
