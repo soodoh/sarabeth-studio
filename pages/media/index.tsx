@@ -14,12 +14,7 @@ import styles from "./Media.module.scss";
 import type { PageProps } from "../../utils/server/fetchers/common";
 import type { MediaData } from "../../utils/server/fetchers/media";
 
-const Media = ({
-  commonData,
-  images,
-  videos,
-  audio,
-}: PageProps & MediaData) => {
+const Media = ({ commonData, images, audio }: PageProps & MediaData) => {
   return (
     <PageLayout
       metadata={{
