@@ -27,12 +27,20 @@
   border-radius: 50%;
   width: 2rem;
   height: 2rem;
-  background-color: var(--font-color);
   display: flex;
   justify-content: center;
   align-items: center;
   text-decoration: none;
+  transition: all 500ms ease;
+  background-color: var(--font-color);
 }
+.socialLink:hover {
+  transition: all 150ms ease;
+  background-color: var(--dark-theme-color);
+}
+// .socialLink:hover .socialSvg {
+//   fill: var(--font-color);
+// }
 .socialSvg {
   width: 1rem;
   height: 1rem;

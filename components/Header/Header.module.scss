@@ -39,6 +39,7 @@
   grid-gap: 2rem;
 }
 .link {
+  font-weight: bold;
   font-size: 1rem;
   text-transform: uppercase;
   position: relative;
@@ -55,7 +56,6 @@
   transform: translateX(-0.2rem);
 }
 .activeLink {
-  font-weight: bold;
   position: relative;
 }
 .activeLink::before,
