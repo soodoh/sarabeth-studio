@@ -1,7 +1,7 @@
 import { GetStaticProps } from "next";
 import NextImage from "next/future/image";
 import React from "react";
-import YouTube from "react-youtube";
+import AudioPlayer from "react-h5-audio-player";
 import { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import PageLayout from "../../components/PageLayout";
@@ -68,6 +68,19 @@ const Media = ({
         </div>
 
         <TextHeading text="Audio" />
+        <WidthContainer>
+          {audio.map((audioFile) => (
+            <div className={styles.audioContainer} key={audioFile.id}>
+              <div className={styles.songTitleContainer}>
+                <h2 className={styles.songTitle}>{audioFile.title}</h2>
+                <span className={styles.songDescription}>
+                  {audioFile.description}
+                </span>
+              </div>
+              <AudioPlayer src={audioFile.url} />
+            </div>
+          ))}
+        </WidthContainer>
       </div>
     </PageLayout>
   );

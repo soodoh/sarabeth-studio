@@ -1,8 +1,6 @@
 import "../styles/globals.scss";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 import "../styles/swiper.scss";
+import "../styles/audioPlayer.scss";
 import { AppProps } from "next/app";
 import Script from "next/script";
 

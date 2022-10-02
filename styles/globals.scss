@@ -4,8 +4,8 @@
   --background-color: #efdcd3;
   --lighter-theme-color: #f5e7dd;
   --light-theme-color: #efdcd3;
-  --dark-theme-color: rgb(188, 89, 87);
-  --dark-theme-color-transparent: rgba(188, 89, 87, 0.95);
+  --dark-theme-rgb: 188, 89, 87;
+  --dark-theme-color: rgb(var(--dark-theme-rgb));
   --font-color: #1e1d1d;
   --header-font: "Cormorant", serif;
   --body-font: "Montserrat", sans-serif;

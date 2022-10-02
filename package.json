@@ -20,7 +20,7 @@
     "plaiceholder": "^2.5.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-youtube": "^10.0.0",
+    "react-h5-audio-player": "^3.8.6",
     "swiper": "^8.4.2"
   },
   "devDependencies": {

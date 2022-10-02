@@ -1,8 +1,7 @@
 @import "./variables.scss";
-
-// .swiper-slide {
-//   width: auto;
-// }
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
 
 .swiper-button-prev,
 .swiper-button-next {
