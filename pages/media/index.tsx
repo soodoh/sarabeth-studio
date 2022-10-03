@@ -35,7 +35,7 @@ const Media = ({ commonData, images, audio }: PageProps & MediaData) => {
           slidesPerView="auto"
         >
           {images.map((image) => (
-            <SwiperSlide style={{ width: "auto" }} key={image.id}>
+            <SwiperSlide key={image.id}>
               <NextImage
                 alt={image.description}
                 blurDataURL={image.blurDataUrl}

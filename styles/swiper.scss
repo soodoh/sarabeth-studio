@@ -3,6 +3,10 @@
 @import "swiper/css/navigation";
 @import "swiper/css/pagination";
 
+.swiper-slide {
+  width: auto;
+}
+
 .swiper-button-prev,
 .swiper-button-next {
   color: var(--light-theme-color);
