@@ -20,11 +20,7 @@ const isInvalid = (values: Partial<EmailData>) => {
   return Object.values(values).some((value) => !Boolean(value));
 };
 
-const Contact = ({
-  commonData,
-  submitPostUrl,
-  bannerImage,
-}: PageProps & ContactData) => {
+const Contact = ({ commonData, bannerImage }: PageProps & ContactData) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
@@ -43,9 +39,8 @@ const Contact = ({
     }
 
     setLoading(true);
-    fetch(submitPostUrl, {
+    fetch("/api/email", {
       method: "POST",
-      mode: "cors",
       body: JSON.stringify(data),
     })
       .then((res) => {
