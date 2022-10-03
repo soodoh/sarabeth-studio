@@ -3,7 +3,7 @@ import type { EmailData } from "../../utils/types";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const sendEmail = "contact@sarabethbelon.com";
-const receiveEmail = "paul.diloreto@gmail.com";
+const receiveEmail = "sarabeth.belon@gmail.com";
 
 function getEmailMessage(emailData: EmailData) {
   return {
