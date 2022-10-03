@@ -11,8 +11,7 @@ import { imageLoader } from "../../utils/client/contentful";
 import getCommonData from "../../utils/server/fetchers/common";
 import getMediaData from "../../utils/server/fetchers/media";
 import styles from "./Media.module.scss";
-import type { PageProps } from "../../utils/server/fetchers/common";
-import type { MediaData } from "../../utils/server/fetchers/media";
+import type { MediaData, PageProps } from "../../utils/types";
 
 const Media = ({ commonData, images, audio }: PageProps & MediaData) => {
   return (

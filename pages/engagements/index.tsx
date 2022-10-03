@@ -7,9 +7,7 @@ import WidthContainer from "../../components/WidthContainer";
 import getCommonData from "../../utils/server/fetchers/common";
 import getEngagementData from "../../utils/server/fetchers/engagements";
 import styles from "./Engagements.module.scss";
-import type { PageProps } from "../../utils/server/fetchers/common";
-import type { EngagementData } from "../../utils/server/fetchers/engagements";
-import type { Engagement } from "../../utils/server/fetchers/engagements";
+import type { Engagement, EngagementData, PageProps } from "../../utils/types";
 
 type Props = {
   engagementData: EngagementData;

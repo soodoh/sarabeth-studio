@@ -8,8 +8,7 @@ import WidthContainer from "../../components/WidthContainer";
 import getAboutData from "../../utils/server/fetchers/about";
 import getCommonData from "../../utils/server/fetchers/common";
 import styles from "./About.module.scss";
-import type { AboutData } from "../../utils/server/fetchers/about";
-import type { PageProps } from "../../utils/server/fetchers/common";
+import type { AboutData, PageProps } from "../../utils/types";
 
 const About = ({
   headshot,

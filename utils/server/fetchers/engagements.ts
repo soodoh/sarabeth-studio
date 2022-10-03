@@ -1,21 +1,5 @@
 import { formatImage, getClient } from "../contentful";
-import type { Image } from "../contentful";
-
-export type EngagementData = {
-  title: string;
-  bannerImage: Image;
-  engagements: Engagement[];
-};
-
-export type Engagement = {
-  id: string;
-  title: string;
-  role: string;
-  company: string;
-  link: string;
-  startDate: string;
-  endDate: string;
-};
+import type { Engagement, EngagementData, Image } from "../../types";
 
 const getEngagementsData = async (): Promise<EngagementData> => {
   const client = getClient();

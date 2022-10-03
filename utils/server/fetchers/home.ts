@@ -1,18 +1,6 @@
 import { Entry } from "contentful";
 import { formatImage, getClient } from "../contentful";
-import type { Image } from "../contentful";
-import type { Document } from "@contentful/rich-text-types";
-
-export type HomeData = {
-  id: string;
-  mainSection: boolean;
-  title: string;
-  description: Document;
-  subtitle?: string;
-  buttonText?: string;
-  buttonLink?: string;
-  images: Image[];
-};
+import type { HomeData } from "../../types";
 
 const getHomeData: () => Promise<HomeData[]> = async () => {
   const response = await getClient().getEntries({

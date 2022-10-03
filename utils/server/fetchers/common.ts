@@ -1,18 +1,5 @@
 import { getClient } from "../contentful";
-
-export type SocialMediaLink = {
-  source: string;
-  link: string;
-};
-export type CommonData = {
-  location: string;
-  brandName: string;
-  socialMediaLinks: SocialMediaLink[];
-};
-
-export type PageProps = {
-  commonData: CommonData;
-};
+import type { CommonData, SocialMediaLink } from "../../types";
 
 const getCommonData = async (): Promise<CommonData> => {
   const client = getClient();

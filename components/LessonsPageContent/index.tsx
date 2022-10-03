@@ -4,7 +4,7 @@ import ArrowButton from "../../components/ArrowButton";
 import ImageWrapper from "../../components/ImageWrapper";
 import { LessonsPages } from "../../pages/lessons";
 import styles from "./LessonsPageContent.module.scss";
-import type { Image } from "../../utils/server/contentful";
+import type { Image } from "../../utils/types";
 import type { Document } from "@contentful/rich-text-types";
 
 type Props = {

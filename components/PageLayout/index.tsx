@@ -3,7 +3,7 @@ import React, { ReactNode } from "react";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 import styles from "./PageLayout.module.scss";
-import type { CommonData } from "../../utils/server/fetchers/common";
+import type { CommonData } from "../../utils/types";
 
 type Props = {
   metadata: {

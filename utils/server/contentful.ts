@@ -1,5 +1,6 @@
 import { ContentfulClientApi, createClient } from "contentful";
 import { getPlaiceholder } from "plaiceholder";
+import type { Image } from "../types";
 
 const space = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID as string;
 const accessToken = process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN as string;
@@ -16,16 +17,6 @@ export function getClient() {
 }
 
 export const formatUrl = (url?: string) => `https:${url}`;
-
-export type Image = {
-  id: string;
-  url: string;
-  title: string;
-  description: string;
-  width: number;
-  height: number;
-  blurDataUrl: string;
-};
 
 export const formatImage = async (image: any): Promise<Image> => {
   const imageUrl = formatUrl(image?.fields?.file?.url);

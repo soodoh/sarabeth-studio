@@ -3,7 +3,7 @@ import React from "react";
 import { imageLoader } from "../../utils/client/contentful";
 import Overlay from "../Overlay";
 import styles from "./BannerImage.module.scss";
-import type { Image } from "../../utils/server/contentful";
+import type { Image } from "../../utils/types";
 
 type Props = {
   image: Image;

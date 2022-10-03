@@ -10,8 +10,7 @@ import buttonStyles from "../../styles/Button.module.scss";
 import getCommonData from "../../utils/server/fetchers/common";
 import getLessonsData from "../../utils/server/fetchers/lessons";
 import styles from "./Lessons.module.scss";
-import type { PageProps } from "../../utils/server/fetchers/common";
-import type { LessonsData } from "../../utils/server/fetchers/lessons";
+import type { LessonsData, PageProps } from "../../utils/types";
 
 export enum LessonsPages {
   About = "About",

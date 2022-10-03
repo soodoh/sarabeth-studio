@@ -9,15 +9,7 @@ import buttonStyles from "../../styles/Button.module.scss";
 import getCommonData from "../../utils/server/fetchers/common";
 import getContactData from "../../utils/server/fetchers/contact";
 import styles from "./Contact.module.scss";
-import type { PageProps } from "../../utils/server/fetchers/common";
-import type { ContactData } from "../../utils/server/fetchers/contact";
-
-type EmailData = {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-};
+import type { ContactData, EmailData, PageProps } from "../../utils/types";
 
 const isInvalid = (values: Partial<EmailData>) => {
   const emailRegex =

@@ -1,13 +1,5 @@
 import { formatImage, formatUrl, getClient } from "../contentful";
-import type { Image } from "../contentful";
-import type { Document } from "@contentful/rich-text-types";
-
-export type AboutData = {
-  headshot: Image;
-  bio: Document;
-  resume: string;
-  location: string;
-};
+import type { AboutData } from "../../types";
 
 const getAboutData = async (): Promise<AboutData> => {
   const aboutResponse: any = (

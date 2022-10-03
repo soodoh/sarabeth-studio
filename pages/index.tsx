@@ -8,8 +8,7 @@ import LogoSvg from "../public/logo.svg";
 import styles from "../styles/Home.module.scss";
 import getCommonData from "../utils/server/fetchers/common";
 import getHomeData from "../utils/server/fetchers/home";
-import type { PageProps } from "../utils/server/fetchers/common";
-import type { HomeData } from "../utils/server/fetchers/home";
+import type { HomeData, PageProps } from "../utils/types";
 
 type Props = {
   homeData: HomeData[];

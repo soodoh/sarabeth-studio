@@ -1,17 +1,5 @@
 import { formatImage, formatUrl, getClient } from "../contentful";
-import type { Image } from "../contentful";
-
-export type Audio = {
-  id: string;
-  title: string;
-  description: string;
-  url: string;
-};
-
-export type MediaData = {
-  images: Image[];
-  audio: Audio[];
-};
+import type { MediaData } from "../../types";
 
 const getMediaData = async (): Promise<MediaData> => {
   const client = getClient();
