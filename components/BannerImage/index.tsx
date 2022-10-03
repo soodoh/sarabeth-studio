@@ -14,16 +14,17 @@ const BannerImage = ({ title, image }: Props) => {
   return (
     <div className={styles.container}>
       <NextImage
-        className={styles.image}
-        loader={imageLoader}
-        placeholder="blur"
-        blurDataURL={image.blurDataUrl}
-        src={image.url}
         alt={image.description}
+        blurDataURL={image.blurDataUrl}
+        className={styles.image}
         layout="fill"
+        loader={imageLoader}
         objectFit="cover"
         objectPosition="center"
+        placeholder="blur"
+        priority
         sizes="100vw"
+        src={image.url}
       />
       <Overlay type="bannerTitle" direction="left">
         <h1 className={styles.text}>{title}</h1>
