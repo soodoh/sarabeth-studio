@@ -33,9 +33,10 @@ const Media = ({ commonData, images, audio }: PageProps & MediaData) => {
           pagination={{ clickable: true }}
           slidesPerView="auto"
         >
-          {images.map((image) => (
+          {images.map((image, index) => (
             <SwiperSlide key={image.id}>
               <NextImage
+                priority={index < 2}
                 alt={image.description}
                 blurDataURL={image.blurDataUrl}
                 className={styles.slide}

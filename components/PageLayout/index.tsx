@@ -1,9 +1,11 @@
 import Head from "next/head";
-import React, { ReactNode } from "react";
+import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
+import PageTransition from "../../components/PageTransition";
 import styles from "./PageLayout.module.scss";
 import type { CommonData } from "../../utils/types";
+import type { ReactNode } from "react";
 
 type Props = {
   metadata: {
@@ -17,6 +19,7 @@ type Props = {
 };
 
 const PageLayout = ({ metadata, commonData, children }: Props) => {
+  const { asPath } = useRouter();
   return (
     <div className={styles.container}>
       <Head>
@@ -68,9 +71,7 @@ const PageLayout = ({ metadata, commonData, children }: Props) => {
       </Head>
 
       <Header brandName={commonData.brandName} />
-
       <main className={styles.mainContent}>{children}</main>
-
       <Footer
         location={commonData.location}
         socialMediaLinks={commonData.socialMediaLinks}

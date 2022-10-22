@@ -3,6 +3,7 @@ import "../styles/swiper.scss";
 import "../styles/audioPlayer.scss";
 import { AppProps } from "next/app";
 import Script from "next/script";
+import PageTransition from "../components/PageTransition";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -21,7 +22,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           });
         `}
       </Script>
-      <Component {...pageProps} />;
+      <PageTransition>
+        <Component {...pageProps} />;
+      </PageTransition>
     </>
   );
 }
