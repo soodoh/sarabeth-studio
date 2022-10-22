@@ -26,7 +26,7 @@ const Component = ({ children }: Props) => {
 
   return (
     <div>
-      <AnimatePresence exitBeforeEnter>
+      <AnimatePresence mode="wait" onExitComplete={() => window.scrollTo(0, 0)}>
         <motion.div
           key={router.asPath}
           animate={{ opacity: 1, y: 0 }}

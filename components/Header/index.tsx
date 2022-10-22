@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import LogoSvg from "../../public/logo.svg";
+import Link from "../Link";
 import styles from "./Header.module.scss";
 
 type LinkProps = {
