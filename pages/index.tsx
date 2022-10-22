@@ -1,4 +1,5 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { motion } from "framer-motion";
 import { GetStaticProps } from "next";
 import ArrowButton from "../components/ArrowButton";
 import PageLayout from "../components/PageLayout";
@@ -33,6 +34,14 @@ const makeRelativeUrl = (url: string) => {
   return url.replace(/^https?:\/\/(.+\.)?sarabethbelon\.com/, "");
 };
 
+const animateProps = {
+  initial: "hidden",
+  whileInView: "visible",
+  viewport: { once: true },
+  transition: { duration: 1 },
+  variants: { visible: { opacity: 1 }, hidden: { opacity: 0 } },
+};
+
 const Home = ({ commonData, homeData }: Props) => {
   return (
     <PageLayout
@@ -55,13 +64,14 @@ const Home = ({ commonData, homeData }: Props) => {
               }
             >
               {homeRow.images.map((image) => (
-                <div
+                <motion.div
                   key={image.id}
                   className={getImageClasses(
                     homeRow.images.length,
                     image.width,
                     image.height
                   )}
+                  {...animateProps}
                 >
                   <StyledImage
                     priority={rowIndex < 2}
@@ -70,15 +80,17 @@ const Home = ({ commonData, homeData }: Props) => {
                     }
                     image={image}
                   />
-                </div>
+                </motion.div>
               ))}
             </div>
-            <div
+            <motion.div
               className={`${
                 homeRow.mainSection
                   ? styles.mainTextSection
                   : styles.textSection
               } ${isTeachingSection(homeRow.title) && styles.teachingSection}`}
+              {...animateProps}
+              transition={{ duration: 2 }}
             >
               {isTeachingSection(homeRow.title) && (
                 <LogoSvg className={styles.logoSvg} />
@@ -99,7 +111,7 @@ const Home = ({ commonData, homeData }: Props) => {
                   url={makeRelativeUrl(homeRow.buttonLink)}
                 />
               )}
-            </div>
+            </motion.div>
           </div>
         ))}
       </WidthContainer>
