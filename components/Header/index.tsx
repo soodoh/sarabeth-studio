@@ -13,7 +13,7 @@ const Links = ({ links }: LinkProps) => {
   return (
     <>
       {links.map((link) => (
-        <Link key={`nav-${link.url}`} href={link.url}>
+        <Link key={`nav-${link.url}`} href={link.url} legacyBehavior>
           <a className={styles.linkContainer}>
             <span
               className={`${
@@ -45,7 +45,7 @@ const Header = ({ brandName }: HeaderProps) => {
 
   return (
     <header className={styles.container}>
-      <Link href="/">
+      <Link href="/" legacyBehavior>
         <a className={styles.logoContainer}>
           <span className={styles.logoText}>{brandName}</span>
           <LogoSvg className={styles.logoSvg} />

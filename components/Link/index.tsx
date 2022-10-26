@@ -1,13 +1,14 @@
 import Link from "next/link";
+import type { LinkProps } from "next/link";
 import type { ReactNode } from "react";
 
-type Props = {
+type Props = LinkProps & {
   href: string;
   children: ReactNode;
 };
 
-const WrappedLink = ({ href, children }: Props) => (
-  <Link href={href} scroll={false}>
+const WrappedLink = ({ children, href, ...linkProps }: Props) => (
+  <Link href={href} scroll={false} {...linkProps}>
     {children}
   </Link>
 );

@@ -82,7 +82,7 @@ const Lessons = ({
             <a href={`mailto:${email}`}>{email}</a>
             <a href={`tel:${phoneNumber.replace(/\D+/g, "")}`}>{phoneNumber}</a>
           </div>
-          <Link href="/contact">
+          <Link href="/contact" legacyBehavior>
             <a className={buttonStyles.container}>Book a Lesson</a>
           </Link>
           <a href={reviewLink} className={buttonStyles.container}>
