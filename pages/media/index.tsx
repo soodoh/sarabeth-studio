@@ -1,5 +1,5 @@
 import { GetStaticProps } from "next";
-import NextImage from "next/future/image";
+import NextImage from "next/image";
 import React from "react";
 import AudioPlayer from "react-h5-audio-player";
 import { Navigation, Pagination } from "swiper";

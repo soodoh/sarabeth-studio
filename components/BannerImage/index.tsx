@@ -17,10 +17,8 @@ const BannerImage = ({ title, image }: Props) => {
         alt={image.description}
         blurDataURL={image.blurDataUrl}
         className={styles.image}
-        layout="fill"
+        fill
         loader={imageLoader}
-        objectFit="cover"
-        objectPosition="center"
         placeholder="blur"
         priority
         sizes="100vw"
