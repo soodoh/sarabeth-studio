@@ -1,7 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
-import { savePageStyles } from "./tempFix";
+// import React, { useEffect } from "react";
+import React from "react";
+// import { savePageStyles } from "./tempFix";
 import type { ReactNode } from "react";
 
 type Props = { children: ReactNode };
@@ -9,21 +10,21 @@ type Props = { children: ReactNode };
 const Component = ({ children }: Props) => {
   const router = useRouter();
 
-  useEffect(() => savePageStyles(), []);
-
-  useEffect(() => {
-    const handleDone = () => {
-      // setTimeout to execute after transition is handleDone
-      setTimeout(() => {
-        savePageStyles();
-      }, 500);
-    };
-    router.events.on("routeChangeComplete", handleDone);
-    return () => {
-      router.events.off("routeChangeComplete", handleDone);
-    };
-  }, [router]);
-
+  // useEffect(() => savePageStyles(), []);
+  //
+  // useEffect(() => {
+  //   const handleDone = () => {
+  //     // setTimeout to execute after transition is handleDone
+  //     setTimeout(() => {
+  //       savePageStyles();
+  //     }, 500);
+  //   };
+  //   router.events.on("routeChangeComplete", handleDone);
+  //   return () => {
+  //     router.events.off("routeChangeComplete", handleDone);
+  //   };
+  // }, [router]);
+  //
   return (
     <div>
       <AnimatePresence mode="wait" onExitComplete={() => window.scrollTo(0, 0)}>
