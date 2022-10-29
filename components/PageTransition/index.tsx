@@ -16,7 +16,7 @@ const Component = ({ children }: Props) => {
       // setTimeout to execute after transition is handleDone
       setTimeout(() => {
         savePageStyles();
-      }, 500);
+      }, 200);
     };
     router.events.on("routeChangeComplete", handleDone);
     return () => {
