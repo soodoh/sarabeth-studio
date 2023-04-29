@@ -4,7 +4,7 @@ import type { Image } from "../types";
 
 const space = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID as string;
 const accessToken = process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN as string;
-let _client: ContentfulClientApi;
+let _client: ContentfulClientApi<undefined>;
 
 export function getClient() {
   if (!_client) {

@@ -15,9 +15,9 @@ export type HomeData = {
   mainSection: boolean;
   title: string;
   description: Document;
-  subtitle?: string;
-  buttonText?: string;
-  buttonLink?: string;
+  subtitle: string | null;
+  buttonText: string | null;
+  buttonLink: string | null;
   images: Image[];
 };
 

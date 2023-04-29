@@ -3,7 +3,7 @@ import styles from "./ArrowButton.module.scss";
 import ArrowSvg from "../../public/arrow.svg";
 
 type Props = {
-  label?: string;
+  label: string | null;
   url: string;
 };
 

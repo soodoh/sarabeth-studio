@@ -5,7 +5,7 @@ const getCommonData = async (): Promise<CommonData> => {
   const client = getClient();
   const [aboutResponse, socialResponse]: any[] = await Promise.all([
     client.getEntries({ content_type: "about" }),
-    client.getEntries({ content_type: "socialMedia", order: "fields.order" }),
+    client.getEntries({ content_type: "socialMedia", order: ["fields.order"] }),
   ]);
   const socialMediaLinks =
     socialResponse?.items?.map(
