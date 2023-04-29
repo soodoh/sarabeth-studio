@@ -1,6 +1,6 @@
 import React from "react";
-import Overlay from "../Overlay";
 import styles from "./TextHeading.module.scss";
+import Overlay from "../Overlay";
 
 type Props = {
   text: string;

@@ -1,5 +1,6 @@
 import { GetStaticProps } from "next";
 import React, { useState } from "react";
+import styles from "./Lessons.module.scss";
 import BannerImage from "../../components/BannerImage";
 import LessonsPageContent from "../../components/LessonsPageContent";
 import Link from "../../components/Link";
@@ -9,7 +10,6 @@ import LogoSvg from "../../public/logo.svg";
 import buttonStyles from "../../styles/Button.module.scss";
 import getCommonData from "../../utils/server/fetchers/common";
 import getLessonsData from "../../utils/server/fetchers/lessons";
-import styles from "./Lessons.module.scss";
 import type { LessonsData, PageProps } from "../../utils/types";
 
 export enum LessonsPages {

@@ -4,13 +4,13 @@ import React from "react";
 import AudioPlayer from "react-h5-audio-player";
 import { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
+import styles from "./Media.module.scss";
 import PageLayout from "../../components/PageLayout";
 import TextHeading from "../../components/TextHeading";
 import WidthContainer from "../../components/WidthContainer";
 import { imageLoader } from "../../utils/client/contentful";
 import getCommonData from "../../utils/server/fetchers/common";
 import getMediaData from "../../utils/server/fetchers/media";
-import styles from "./Media.module.scss";
 import type { MediaData, PageProps } from "../../utils/types";
 
 const Media = ({ commonData, images, audio }: PageProps & MediaData) => {

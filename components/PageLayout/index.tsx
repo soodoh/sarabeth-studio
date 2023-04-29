@@ -1,9 +1,8 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
+import styles from "./PageLayout.module.scss";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
-import PageTransition from "../../components/PageTransition";
-import styles from "./PageLayout.module.scss";
 import type { CommonData } from "../../utils/types";
 import type { ReactNode } from "react";
 
@@ -19,7 +18,6 @@ type Props = {
 };
 
 const PageLayout = ({ metadata, commonData, children }: Props) => {
-  const { asPath } = useRouter();
   return (
     <div className={styles.container}>
       <Head>

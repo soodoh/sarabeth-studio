@@ -1,7 +1,7 @@
 import React from "react";
+import styles from "./EngagementsTable.module.scss";
 import TextHeading from "../../components/TextHeading";
 import buttonStyles from "../../styles/Button.module.scss";
-import styles from "./EngagementsTable.module.scss";
 import type { Engagement } from "../../utils/types";
 
 type Props = {
@@ -29,9 +29,8 @@ const EngagementRow = ({ engagements, label }: Props) => {
           ({ id, title, company, role, link, startDate, endDate }, index) => (
             <div
               key={id}
-              className={`${styles.row} ${
-                index < engagements.length - 1 ? styles.rowBorder : ""
-              }`}
+              className={`${styles.row} ${index < engagements.length - 1 ? styles.rowBorder : ""
+                }`}
             >
               <div className={styles.roleContainer}>
                 <span className={styles.roleLabel}>Performing as</span>

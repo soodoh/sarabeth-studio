@@ -1,6 +1,6 @@
 import React from "react";
-import ArrowSvg from "../../public/arrow.svg";
 import styles from "./ArrowButton.module.scss";
+import ArrowSvg from "../../public/arrow.svg";
 
 type Props = {
   label?: string;

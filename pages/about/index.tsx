@@ -1,13 +1,13 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { GetStaticProps } from "next";
 import React from "react";
+import styles from "./About.module.scss";
 import ArrowButton from "../../components/ArrowButton";
 import PageLayout from "../../components/PageLayout";
 import StyledImage from "../../components/StyledImage";
 import WidthContainer from "../../components/WidthContainer";
 import getAboutData from "../../utils/server/fetchers/about";
 import getCommonData from "../../utils/server/fetchers/common";
-import styles from "./About.module.scss";
 import type { AboutData, PageProps } from "../../utils/types";
 
 const About = ({

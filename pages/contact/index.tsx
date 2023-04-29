@@ -1,5 +1,6 @@
 import { GetStaticProps } from "next";
 import React, { useState } from "react";
+import styles from "./Contact.module.scss";
 import BannerImage from "../../components/BannerImage";
 import LoadingCircle from "../../components/LoadingCircle";
 import PageLayout from "../../components/PageLayout";
@@ -8,7 +9,6 @@ import WidthContainer from "../../components/WidthContainer";
 import buttonStyles from "../../styles/Button.module.scss";
 import getCommonData from "../../utils/server/fetchers/common";
 import getContactData from "../../utils/server/fetchers/contact";
-import styles from "./Contact.module.scss";
 import type { ContactData, EmailData, PageProps } from "../../utils/types";
 
 const isInvalid = (values: Partial<EmailData>) => {

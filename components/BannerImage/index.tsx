@@ -1,8 +1,8 @@
 import NextImage from "next/image";
 import React from "react";
+import styles from "./BannerImage.module.scss";
 import { imageLoader } from "../../utils/client/contentful";
 import Overlay from "../Overlay";
-import styles from "./BannerImage.module.scss";
 import type { Image } from "../../utils/types";
 
 type Props = {

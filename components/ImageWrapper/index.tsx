@@ -1,7 +1,7 @@
 import NextImage from "next/image";
 import React from "react";
-import { imageLoader } from "../../utils/client/contentful";
 import styles from "./ImageWrapper.module.scss";
+import { imageLoader } from "../../utils/client/contentful";
 import type { Image } from "../../utils/types";
 
 type Props = {

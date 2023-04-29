@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import styles from "./Header.module.scss";
 import LogoSvg from "../../public/logo.svg";
 import Link from "../Link";
-import styles from "./Header.module.scss";
 
 type LinkProps = {
   links: { label: string; url: string }[];
@@ -16,9 +16,8 @@ const Links = ({ links }: LinkProps) => {
         <Link key={`nav-${link.url}`} href={link.url} legacyBehavior>
           <a className={styles.linkContainer}>
             <span
-              className={`${
-                link.url === router.route ? styles.activeLink : ""
-              } ${styles.link}`}
+              className={`${link.url === router.route ? styles.activeLink : ""
+                } ${styles.link}`}
             >
               {link.label}
             </span>
@@ -57,9 +56,8 @@ const Header = ({ brandName }: HeaderProps) => {
       </nav>
 
       <nav
-        className={`${styles.mobileNavContainer} ${
-          mobileNavOpen && styles.mobileNavOpen
-        }`}
+        className={`${styles.mobileNavContainer} ${mobileNavOpen && styles.mobileNavOpen
+          }`}
       >
         <Links links={links} />
       </nav>
@@ -70,9 +68,8 @@ const Header = ({ brandName }: HeaderProps) => {
         aria-label="Open Navigation"
       >
         <div
-          className={`${styles.hamburgerIcon} ${
-            mobileNavOpen && styles.closeIcon
-          }`}
+          className={`${styles.hamburgerIcon} ${mobileNavOpen && styles.closeIcon
+            }`}
         />
       </button>
     </header>
