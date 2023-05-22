@@ -1,5 +1,3 @@
-@import "../styles/variables.scss";
-
 .container {
   --row-padding: 4rem;
 }
@@ -85,7 +83,7 @@
   fill: var(--dark-theme-color);
 }
 
-@media (max-width: $small) {
+@media (--sm-viewport) {
   .homeRow,
   .homeRow:nth-child(2n) {
     flex-direction: column;

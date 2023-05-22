@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./LoadingCircle.module.scss";
+import styles from "./LoadingCircle.module.css";
 
 type Props = {
   size?: number;

@@ -1,6 +1,6 @@
 import { GetStaticProps } from "next";
 import React from "react";
-import styles from "./Engagements.module.scss";
+import styles from "./Engagements.module.css";
 import BannerImage from "../../components/BannerImage";
 import EngagementsTable from "../../components/EngagementsTable";
 import PageLayout from "../../components/PageLayout";

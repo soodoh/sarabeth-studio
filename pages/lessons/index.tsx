@@ -1,13 +1,13 @@
 import { GetStaticProps } from "next";
 import React, { useState } from "react";
-import styles from "./Lessons.module.scss";
+import styles from "./Lessons.module.css";
 import BannerImage from "../../components/BannerImage";
 import LessonsPageContent from "../../components/LessonsPageContent";
 import Link from "../../components/Link";
 import PageLayout from "../../components/PageLayout";
 import WidthContainer from "../../components/WidthContainer";
 import LogoSvg from "../../public/logo.svg";
-import buttonStyles from "../../styles/Button.module.scss";
+import buttonStyles from "../../styles/Button.module.css";
 import getCommonData from "../../utils/server/fetchers/common";
 import getLessonsData from "../../utils/server/fetchers/lessons";
 import type { LessonsData, PageProps } from "../../utils/types";

@@ -1,5 +1,5 @@
-import "../styles/globals.scss";
-import "../styles/swiper.scss";
+import "../styles/globals.css";
+import "../styles/swiper.css";
 import "../styles/audioPlayer.scss";
 import { AppProps } from "next/app";
 import Script from "next/script";

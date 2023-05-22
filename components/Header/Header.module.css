@@ -1,5 +1,3 @@
-@import "../../styles/variables.scss";
-
 .container {
   position: sticky;
   top: 0;
@@ -120,7 +118,7 @@
   opacity: 0;
 }
 
-@media (max-width: $medium) {
+@media (--md-viewport) {
   .mobileNavButton {
     display: block;
   }
@@ -158,7 +156,7 @@
     margin: 0;
   }
 }
-@media (max-width: $extra-small) {
+@media (--xs-viewport) {
   .logoText {
     font-size: 1.5rem;
   }

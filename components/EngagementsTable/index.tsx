@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "./EngagementsTable.module.scss";
+import styles from "./EngagementsTable.module.css";
 import TextHeading from "../../components/TextHeading";
-import buttonStyles from "../../styles/Button.module.scss";
+import buttonStyles from "../../styles/Button.module.css";
 import type { Engagement } from "../../utils/types";
 
 type Props = {

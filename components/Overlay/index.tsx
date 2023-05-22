@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./Overlay.module.scss";
+import styles from "./Overlay.module.css";
 
 type Props = {
   direction: "left" | "right";

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./ArrowButton.module.scss";
+import styles from "./ArrowButton.module.css";
 import ArrowSvg from "../../public/arrow.svg";
 
 type Props = {

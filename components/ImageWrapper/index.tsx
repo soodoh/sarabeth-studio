@@ -1,6 +1,6 @@
 import NextImage from "next/image";
 import React from "react";
-import styles from "./ImageWrapper.module.scss";
+import styles from "./ImageWrapper.module.css";
 import { imageLoader } from "../../utils/client/contentful";
 import type { Image } from "../../utils/types";
 

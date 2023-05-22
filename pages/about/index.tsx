@@ -1,7 +1,7 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { GetStaticProps } from "next";
 import React from "react";
-import styles from "./About.module.scss";
+import styles from "./About.module.css";
 import ArrowButton from "../../components/ArrowButton";
 import PageLayout from "../../components/PageLayout";
 import StyledImage from "../../components/StyledImage";

@@ -1,6 +1,5 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
-import styles from "./PageLayout.module.scss";
+import styles from "./PageLayout.module.css";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 import type { CommonData } from "../../utils/types";

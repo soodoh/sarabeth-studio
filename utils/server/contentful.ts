@@ -20,7 +20,7 @@ export const formatUrl = (url?: string) => `https:${url}`;
 
 export const formatImage = async (image: any): Promise<Image> => {
   const imageUrl = formatUrl(image?.fields?.file?.url);
-  const blurDataUrl = (await getPlaiceholder(imageUrl)).base64;
+  const blurDataUrl = (await getPlaiceholder(`${imageUrl}?w=100`)).base64;
 
   return {
     id: image?.sys?.id,

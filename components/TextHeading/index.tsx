@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./TextHeading.module.scss";
+import styles from "./TextHeading.module.css";
 import Overlay from "../Overlay";
 
 type Props = {

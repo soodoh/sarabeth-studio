@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@contentful/rich-text-react-renderer": "^15.12.1",
-    "@contentful/rich-text-types": "^16.0.3",
     "aws-sdk": "^2.1227.0",
     "contentful": "^10.1.2",
     "framer-motion": "^10.12.4",
@@ -26,14 +25,20 @@
     "swiper": "^9.2.4"
   },
   "devDependencies": {
-    "@svgr/webpack": "^7.0.0",
-    "@types/node": "^18.0.6",
+    "@contentful/rich-text-types": "^16.1.0",
+    "@csstools/postcss-global-data": "^1.0.3",
+    "@svgr/webpack": "^8.0.1",
+    "@types/node": "^20.2.3",
     "@types/react": "^18.0.6",
+    "cssnano": "^6.0.1",
     "eslint": "^8.14.0",
     "eslint-config-next": "^13.0.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "postcss": "^8.4.23",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-preset-env": "^8.4.1",
     "sass": "^1.52.2",
     "typescript": "^5.0.4"
   },

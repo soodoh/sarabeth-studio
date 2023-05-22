@@ -1,12 +1,12 @@
 import { GetStaticProps } from "next";
 import React, { useState } from "react";
-import styles from "./Contact.module.scss";
+import styles from "./Contact.module.css";
 import BannerImage from "../../components/BannerImage";
 import LoadingCircle from "../../components/LoadingCircle";
 import PageLayout from "../../components/PageLayout";
 import TextInput from "../../components/TextInput";
 import WidthContainer from "../../components/WidthContainer";
-import buttonStyles from "../../styles/Button.module.scss";
+import buttonStyles from "../../styles/Button.module.css";
 import getCommonData from "../../utils/server/fetchers/common";
 import getContactData from "../../utils/server/fetchers/contact";
 import type { ContactData, EmailData, PageProps } from "../../utils/types";

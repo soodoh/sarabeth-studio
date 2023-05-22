@@ -1,6 +1,6 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import React from "react";
-import styles from "./LessonsPageContent.module.scss";
+import styles from "./LessonsPageContent.module.css";
 import ArrowButton from "../../components/ArrowButton";
 import ImageWrapper from "../../components/ImageWrapper";
 import { LessonsPages } from "../../pages/lessons";

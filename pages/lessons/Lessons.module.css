@@ -1,5 +1,3 @@
-@import "../../styles/variables.scss";
-
 .container {
   display: flex;
   flex-direction: column;
@@ -59,7 +57,7 @@
   margin: 0.5rem 0rem;
 }
 
-@media (max-width: $small) {
+@media (--sm-viewport) {
   .navigation {
     flex-direction: column;
   }

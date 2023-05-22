@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import styles from "./Header.module.scss";
+import styles from "./Header.module.css";
 import LogoSvg from "../../public/logo.svg";
 import Link from "../Link";
 

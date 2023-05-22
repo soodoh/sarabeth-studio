@@ -1,6 +1,6 @@
 import NextImage from "next/image";
 import React from "react";
-import styles from "./BannerImage.module.scss";
+import styles from "./BannerImage.module.css";
 import { imageLoader } from "../../utils/client/contentful";
 import Overlay from "../Overlay";
 import type { Image } from "../../utils/types";

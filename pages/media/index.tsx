@@ -4,7 +4,7 @@ import React from "react";
 import AudioPlayer from "react-h5-audio-player";
 import { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import styles from "./Media.module.scss";
+import styles from "./Media.module.css";
 import PageLayout from "../../components/PageLayout";
 import TextHeading from "../../components/TextHeading";
 import WidthContainer from "../../components/WidthContainer";

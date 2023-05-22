@@ -6,7 +6,7 @@ import PageLayout from "../components/PageLayout";
 import StyledImage from "../components/StyledImage";
 import WidthContainer from "../components/WidthContainer";
 import LogoSvg from "../public/logo.svg";
-import styles from "../styles/Home.module.scss";
+import styles from "../styles/Home.module.css";
 import getCommonData from "../utils/server/fetchers/common";
 import getHomeData from "../utils/server/fetchers/home";
 import type { HomeData, PageProps } from "../utils/types";
@@ -85,8 +85,8 @@ const Home = ({ commonData, homeData }: Props) => {
             </div>
             <motion.div
               className={`${homeRow.mainSection
-                  ? styles.mainTextSection
-                  : styles.textSection
+                ? styles.mainTextSection
+                : styles.textSection
                 } ${isTeachingSection(homeRow.title) && styles.teachingSection}`}
               {...animateProps}
               transition={{ duration: 2 }}

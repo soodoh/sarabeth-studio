@@ -1,5 +1,3 @@
-@import "../../styles/variables.scss";
-
 .container {
   position: relative;
 }
@@ -11,7 +9,7 @@
   background-color: var(--lighter-theme-color);
 }
 
-// Types of Overlays
+/* Types of Overlays */
 .bannerTitle {
   --offset-y: -0.8rem;
   --offset-x: -0.8rem;
@@ -26,7 +24,7 @@
   height: 25%;
 }
 
-// Overlay direction
+/* Overlay direction */
 .left {
   bottom: var(--offset-y);
   left: var(--offset-x);
@@ -35,12 +33,12 @@
   bottom: var(--offset-y);
   right: var(--offset-x);
 }
-// Keeps content on top of overlay
+/* Keeps content on top of overlay */
 .content {
   position: relative;
 }
 
-@media (max-width: $small) {
+@media (--sm-viewport) {
   .image {
     --offset-y: -1rem;
     --offset-x: -1rem;
