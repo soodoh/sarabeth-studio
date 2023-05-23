@@ -17,7 +17,6 @@
   font-family: var(--body-font);
   text-transform: uppercase;
   padding: 1.5rem 1rem;
-  margin: 0;
   font-weight: bolder;
 }
 .link {

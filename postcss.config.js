@@ -1,5 +1,6 @@
 module.exports = {
   plugins: {
+    'postcss-normalize': {},
     'postcss-flexbugs-fixes': {},
     '@csstools/postcss-global-data': {
       files: ['./styles/globals.css'],

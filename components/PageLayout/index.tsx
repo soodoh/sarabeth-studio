@@ -68,7 +68,7 @@ const PageLayout = ({ metadata, commonData, children }: Props) => {
       </Head>
 
       <Header brandName={commonData.brandName} />
-      <main className={styles.mainContent}>{children}</main>
+      <main>{children}</main>
       <Footer
         location={commonData.location}
         socialMediaLinks={commonData.socialMediaLinks}

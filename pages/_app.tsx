@@ -23,7 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         `}
       </Script>
       <PageTransition>
-        <Component {...pageProps} />;
+        <Component {...pageProps} />
       </PageTransition>
     </>
   );

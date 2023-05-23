@@ -38,6 +38,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "postcss": "^8.4.23",
     "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-normalize": "^10.0.1",
     "postcss-preset-env": "^8.4.1",
     "sass": "^1.52.2",
     "typescript": "^5.0.4"

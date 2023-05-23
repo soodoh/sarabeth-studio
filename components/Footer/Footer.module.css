@@ -3,8 +3,8 @@
   grid-gap: 0.5rem;
   justify-content: center;
   grid-template-columns: auto 1fr auto;
-  padding: 1.5rem var(--margin);
   font-size: 0.8rem;
+  padding: 1.5rem var(--margin);
 }
 .container a {
   text-decoration: underline;

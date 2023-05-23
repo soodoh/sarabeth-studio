@@ -3,11 +3,10 @@
   top: 0;
   width: 100%;
   background-color: var(--background-color);
-  height: 5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem var(--margin);
+  padding: .5rem var(--margin);
   z-index: 99;
   --mobile-nav-size: 2.5rem;
   --link-transition: all 100ms ease;
@@ -151,9 +150,6 @@
     display: flex;
     justify-content: center;
     padding: 2rem 0;
-  }
-  .link {
-    margin: 0;
   }
 }
 @media (--xs-viewport) {
