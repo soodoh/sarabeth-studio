@@ -84,10 +84,11 @@ const Home = ({ commonData, homeData }: Props) => {
               ))}
             </div>
             <motion.div
-              className={`${homeRow.mainSection
-                ? styles.mainTextSection
-                : styles.textSection
-                } ${isTeachingSection(homeRow.title) && styles.teachingSection}`}
+              className={`${
+                homeRow.mainSection
+                  ? styles.mainTextSection
+                  : styles.textSection
+              } ${isTeachingSection(homeRow.title) && styles.teachingSection}`}
               {...animateProps}
               transition={{ duration: 2 }}
             >
