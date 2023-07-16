@@ -29,7 +29,7 @@ const PageLayout = ({ metadata, commonData, children }: Props) => {
           <meta name="keywords" content={metadata.keywords.join(",")} />
         )}
         <meta name="geo.region" content="US-CA" />
-        <meta name="geo.placename" content="Montebello" />
+        <meta name="geo.placename" content="Altadena" />
         <meta
           name="google-site-verification"
           content="recDsrmbMWYOcfMC0vEE0asXttST_2d-4VZs1EVtSps"
