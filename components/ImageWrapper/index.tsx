@@ -10,7 +10,6 @@ type Props = {
 };
 
 const ImageWrapper = ({ image, priority = false }: Props) => {
-  console.log(image.blurDataUrl);
   const sizes = [
     "(max-width: 399px) 184px",
     "(max-width: 519px) 244px",
