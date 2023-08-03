@@ -2,7 +2,7 @@ import { GetStaticProps } from "next";
 import NextImage from "next/image";
 import React from "react";
 import AudioPlayer from "react-h5-audio-player";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styles from "./Media.module.css";
 import PageLayout from "../../components/PageLayout";
@@ -28,9 +28,8 @@ const Media = ({ commonData, images, audio }: PageProps & MediaData) => {
         <TextHeading text="Photos" />
         <Swiper
           className={styles.carousel}
-          modules={[Pagination, Navigation]}
+          modules={[Navigation]}
           navigation
-          pagination={{ clickable: true }}
           slidesPerView="auto"
         >
           {images.map((image, index) => (
