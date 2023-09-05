@@ -25,6 +25,9 @@
     "swiper": "^10.0.4"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
+    "@commitlint/types": "^17.4.4",
     "@contentful/rich-text-types": "^16.1.0",
     "@csstools/postcss-global-data": "^2.0.0",
     "@svgr/webpack": "^8.0.1",
@@ -36,6 +39,7 @@
     "eslint-config-prettier": "9.0.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^5.0.0",
+    "husky": "^8.0.3",
     "postcss": "^8.4.23",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-normalize": "^10.0.1",
