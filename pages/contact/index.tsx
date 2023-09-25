@@ -30,7 +30,7 @@ const Contact = ({ commonData, bannerImage }: PageProps & ContactData) => {
   const [sendState, setSendState] = useState<"success" | "fail" | null>(null);
   const data: EmailData = { name, email, subject, message };
 
-  const submit = (event: React.FormEvent<HTMLFormElement>) => {
+  const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     // Prevent page from reloading
     event.preventDefault();
     if (isInvalid(data)) {
@@ -39,30 +39,23 @@ const Contact = ({ commonData, bannerImage }: PageProps & ContactData) => {
     }
 
     setLoading(true);
-    fetch("/api/email", {
+    const response = await fetch("/api/email", {
       method: "POST",
       body: JSON.stringify(data),
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          setShowErrors(false);
-          setName("");
-          setEmail("");
-          setSubject("");
-          setMessage("");
-          setSendState("success");
-        } else {
-          throw new Error(
-            `Non-200 response: ${res.status} - ${res.statusText}`
-          );
-        }
-      })
-      .catch((_err) => {
-        setSendState("fail");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    });
+    if (response.status === 200) {
+      setShowErrors(false);
+      setName("");
+      setEmail("");
+      setSubject("");
+      setMessage("");
+      setSendState("success");
+    } else {
+      const errorBody = await response.json();
+      console.error(errorBody);
+      setSendState("fail");
+    }
+    setLoading(false);
   };
 
   return (

@@ -13,8 +13,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.418.0",
     "@contentful/rich-text-react-renderer": "^15.17.2",
-    "aws-sdk": "^2.1463.0",
     "contentful": "^10.5.2",
     "framer-motion": "^10.16.4",
     "next": "^13.5.2",

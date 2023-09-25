@@ -1,4 +1,4 @@
-import AWS from "aws-sdk";
+import { SES } from "@aws-sdk/client-ses";
 import type { EmailData } from "../../utils/types";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -34,7 +34,7 @@ function validateEmailData(body: any) {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   try {
     const emailData = JSON.parse(req.body);
@@ -43,7 +43,7 @@ export default async function handler(
       return;
     }
 
-    const sesClient = new AWS.SES({
+    const sesClient = new SES({
       region: "us-west-2",
       credentials: {
         accessKeyId: process.env.AWS_ACCESS ?? "",
@@ -51,7 +51,7 @@ export default async function handler(
       },
     });
     const params = getEmailMessage(emailData);
-    const emailRes = await sesClient.sendEmail(params).promise();
+    const emailRes = await sesClient.sendEmail(params);
     res.status(200).json(emailRes);
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : "Unknown Error!";
