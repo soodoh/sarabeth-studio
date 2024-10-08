@@ -13,11 +13,7 @@ const getHomeData: () => Promise<HomeData[]> = async () => {
     response.items.map(async (entry: any) => {
       let images: ImageType[] = [];
       if (Array.isArray(entry.fields?.images)) {
-        images = await Promise.all(
-          entry.fields?.images?.map((image: ContentfulAsset) =>
-            formatImage(image),
-          ),
-        );
+        images = await Promise.all(entry.fields?.images?.map(formatImage));
       }
       const response: HomeData = {
         id: entry.sys.id,
