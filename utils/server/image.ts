@@ -1,6 +1,4 @@
 import { Jimp, JimpMime, ResizeStrategy } from "jimp";
-import { formatUrl } from "./contentful";
-import type { Asset, ImageType } from "../types";
 
 type JimpType = Awaited<ReturnType<(typeof Jimp)["read"]>>;
 
