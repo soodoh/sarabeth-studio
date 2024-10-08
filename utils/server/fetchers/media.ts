@@ -1,8 +1,7 @@
-import { formatImage, formatUrl, getClient } from "../contentful";
+import { client, formatImage, formatUrl } from "../contentful";
 import type { MediaData } from "../../types";
 
 const getMediaData = async (): Promise<MediaData> => {
-  const client = getClient();
   const mediaResponse: any = (
     await client.getEntries({ content_type: "mediaPage" })
   )?.items?.[0]?.fields;

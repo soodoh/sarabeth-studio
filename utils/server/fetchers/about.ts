@@ -1,9 +1,9 @@
-import { formatImage, formatUrl, getClient } from "../contentful";
+import { client, formatImage, formatUrl } from "../contentful";
 import type { AboutData } from "../../types";
 
 const getAboutData = async (): Promise<AboutData> => {
   const aboutResponse: any = (
-    await getClient().getEntries({ content_type: "about" })
+    await client.getEntries({ content_type: "about" })
   )?.items?.[0]?.fields;
   return {
     headshot: await formatImage(aboutResponse?.headshot),

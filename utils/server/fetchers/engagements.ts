@@ -1,8 +1,7 @@
-import { formatImage, getClient } from "../contentful";
-import type { Engagement, EngagementData, Image } from "../../types";
+import { client, formatImage } from "../contentful";
+import type { Engagement, EngagementData } from "../../types";
 
 const getEngagementsData = async (): Promise<EngagementData> => {
-  const client = getClient();
   const [pageResponse, engagementsResponse]: any[] = await Promise.all([
     client.getEntries({ content_type: "engagementsPage" }),
     client.getEntries({ content_type: "engagements" }),
@@ -16,7 +15,7 @@ const getEngagementsData = async (): Promise<EngagementData> => {
       link: engagement?.fields?.link,
       startDate: engagement?.fields?.startDate,
       endDate: engagement?.fields?.endDate,
-    })
+    }),
   );
   const engagementData = {
     title: pageResponse?.items?.[0]?.fields?.title || "",

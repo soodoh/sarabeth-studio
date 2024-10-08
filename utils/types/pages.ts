@@ -1,4 +1,4 @@
-import type { Audio, Image, SocialMediaLink } from "./";
+import type { Audio, ImageType, SocialMediaLink } from "./";
 import type { Document } from "@contentful/rich-text-types";
 
 export type CommonData = {
@@ -18,11 +18,11 @@ export type HomeData = {
   subtitle: string | null;
   buttonText: string | null;
   buttonLink: string | null;
-  images: Image[];
+  images: ImageType[];
 };
 
 export type AboutData = {
-  headshot: Image;
+  headshot: ImageType;
   bio: Document;
   resume: string;
   location: string;
@@ -39,19 +39,19 @@ export type Engagement = {
 };
 export type EngagementData = {
   title: string;
-  bannerImage: Image;
+  bannerImage: ImageType;
   engagements: Engagement[];
 };
 
 export type LessonsData = {
   title: string;
-  bannerImage: Image;
+  bannerImage: ImageType;
   followLink: string;
   aboutDescription: Document;
   teachingPhilosophy: Document;
   studioExpectations: Document;
   socialMediaDescription: Document;
-  socialMediaImage: Image;
+  socialMediaImage: ImageType;
   teachingResume: Document;
   email: string;
   phoneNumber: string;
@@ -59,10 +59,10 @@ export type LessonsData = {
 };
 
 export type MediaData = {
-  images: Image[];
+  images: ImageType[];
   audio: Audio[];
 };
 
 export type ContactData = {
-  bannerImage: Image;
+  bannerImage: ImageType;
 };

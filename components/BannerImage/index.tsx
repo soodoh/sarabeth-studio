@@ -3,10 +3,10 @@ import React from "react";
 import styles from "./BannerImage.module.css";
 import { imageLoader } from "../../utils/client/contentful";
 import Overlay from "../Overlay";
-import type { Image } from "../../utils/types";
+import type { ImageType } from "../../utils/types";
 
 type Props = {
-  image: Image;
+  image: ImageType;
   title: string;
 };
 
@@ -15,7 +15,7 @@ const BannerImage = ({ title, image }: Props) => {
     <div className={styles.container}>
       <NextImage
         alt={image.description}
-        blurDataURL={image.blurDataUrl}
+        blurDataURL={image.placeholder}
         className={styles.image}
         fill
         loader={imageLoader}

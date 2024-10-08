@@ -1,19 +1,23 @@
-import { Entry } from "contentful";
-import { formatImage, getClient } from "../contentful";
-import type { HomeData, Image } from "../../types";
+import { client, formatImage } from "../contentful";
+import type { HomeData, ImageType } from "../../types";
 import type { Document } from "@contentful/rich-text-types";
+import type { Asset as ContentfulAsset } from "contentful";
 
 const getHomeData: () => Promise<HomeData[]> = async () => {
-  const response = await getClient().getEntries({
+  const response = await client.getEntries({
     content_type: "home",
     order: ["fields.order"],
   });
 
   const formattedResponse = await Promise.all(
-    response.items.map(async (entry: Entry<any>) => {
-      let images: Image[] = [];
+    response.items.map(async (entry: any) => {
+      let images: ImageType[] = [];
       if (Array.isArray(entry.fields?.images)) {
-        images = await Promise.all(entry.fields?.images?.map(formatImage));
+        images = await Promise.all(
+          entry.fields?.images?.map((image: ContentfulAsset) =>
+            formatImage(image),
+          ),
+        );
       }
       const response: HomeData = {
         id: entry.sys.id,
@@ -30,7 +34,7 @@ const getHomeData: () => Promise<HomeData[]> = async () => {
         images,
       };
       return response;
-    })
+    }),
   );
   return formattedResponse;
 };

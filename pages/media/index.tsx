@@ -37,7 +37,7 @@ const Media = ({ commonData, images, audio }: PageProps & MediaData) => {
               <NextImage
                 priority={index < 2}
                 alt={image.description}
-                blurDataURL={image.blurDataUrl}
+                blurDataURL={image.placeholder}
                 className={styles.slide}
                 height={image.height}
                 loader={imageLoader}

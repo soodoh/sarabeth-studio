@@ -1,8 +1,7 @@
-import { getClient } from "../contentful";
+import { client } from "../contentful";
 import type { CommonData, SocialMediaLink } from "../../types";
 
 const getCommonData = async (): Promise<CommonData> => {
-  const client = getClient();
   const [aboutResponse, socialResponse]: any[] = await Promise.all([
     client.getEntries({ content_type: "about" }),
     client.getEntries({ content_type: "socialMedia", order: ["fields.order"] }),
@@ -12,7 +11,7 @@ const getCommonData = async (): Promise<CommonData> => {
       ({ fields }: any): SocialMediaLink => ({
         source: fields?.source || "",
         link: fields?.link || "",
-      })
+      }),
     ) || [];
 
   return {

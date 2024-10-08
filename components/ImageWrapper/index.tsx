@@ -2,10 +2,10 @@ import NextImage from "next/image";
 import React from "react";
 import styles from "./ImageWrapper.module.css";
 import { imageLoader } from "../../utils/client/contentful";
-import type { Image } from "../../utils/types";
+import type { ImageType } from "../../utils/types";
 
 type Props = {
-  image: Image;
+  image: ImageType;
   priority?: boolean;
 };
 
@@ -23,7 +23,7 @@ const ImageWrapper = ({ image, priority = false }: Props) => {
     <NextImage
       alt={image.description}
       className={styles.image}
-      blurDataURL={image.blurDataUrl}
+      blurDataURL={image.placeholder}
       height={image.height}
       loader={imageLoader}
       placeholder="blur"

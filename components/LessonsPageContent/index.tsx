@@ -4,14 +4,14 @@ import styles from "./LessonsPageContent.module.css";
 import ArrowButton from "../../components/ArrowButton";
 import ImageWrapper from "../../components/ImageWrapper";
 import { LessonsPages } from "../../pages/lessons";
-import type { Image } from "../../utils/types";
+import type { ImageType } from "../../utils/types";
 import type { Document } from "@contentful/rich-text-types";
 
 type Props = {
   section: LessonsPages;
   aboutData: {
     aboutDescription: Document;
-    socialMediaImage: Image;
+    socialMediaImage: ImageType;
     socialMediaDescription: Document;
     followLink: string;
   };

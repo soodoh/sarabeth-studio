@@ -1,8 +1,7 @@
-import { formatImage, getClient } from "../contentful";
+import { client, formatImage } from "../contentful";
 import type { ContactData } from "../../types";
 
 const getContactData = async (): Promise<ContactData> => {
-  const client = getClient();
   const contactResponse: any = (
     await client.getEntries({
       content_type: "contact",

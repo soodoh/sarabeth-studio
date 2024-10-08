@@ -1,11 +1,15 @@
-export type Image = {
+export type Asset = {
   id: string;
-  url: string;
   title: string;
   description: string;
+  url: string;
+};
+
+export type ImageType = Asset & {
   width: number;
   height: number;
-  blurDataUrl: string;
+  placeholder: string;
+  dominantColor?: string;
 };
 
 export type SocialMediaLink = {
@@ -20,9 +24,4 @@ export type EmailData = {
   message: string;
 };
 
-export type Audio = {
-  id: string;
-  title: string;
-  description: string;
-  url: string;
-};
+export type Audio = Asset;
