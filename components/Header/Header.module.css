@@ -126,7 +126,8 @@
   }
   .mobileNavContainer {
     display: flex;
-    position: fixed;
+    position: absolute;
+    height: 100vh;
     top: 0;
     right: 0;
     bottom: 0;
