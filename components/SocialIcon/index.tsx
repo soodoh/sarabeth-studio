@@ -5,29 +5,29 @@ import InstgramSvg from "../../public/instagram.svg";
 import LinkedinSvg from "../../public/linkedin.svg";
 import TwitterSvg from "../../public/twitter.svg";
 import YoutubeSvg from "../../public/youtube.svg";
+import type { SocialMediaType } from "../../utils/types";
 
 type Props = {
-  source: string;
+  source: SocialMediaType;
   className: string;
 };
 
 const SocialIcon = ({ source, className }: Props) => {
-  if (/facebook/gi.test(source)) {
-    return <FacebookSvg className={className} />;
+  switch (source) {
+    case 'facebook':
+      return <FacebookSvg className={className} />;
+    case 'instagram':
+      return <InstgramSvg className={className} />;
+    case 'linkedin':
+      return <LinkedinSvg className={className} />;
+    case 'twitter':
+      return <TwitterSvg className={className} />;
+    case 'youtube':
+      return <YoutubeSvg className={className} />;
+    case 'email':
+    default:
+      return <EmailSvg className={className} />;
   }
-  if (/instagram/gi.test(source)) {
-    return <InstgramSvg className={className} />;
-  }
-  if (/linkedin/gi.test(source)) {
-    return <LinkedinSvg className={className} />;
-  }
-  if (/twitter/gi.test(source)) {
-    return <TwitterSvg className={className} />;
-  }
-  if (/youtube/gi.test(source)) {
-    return <YoutubeSvg className={className} />;
-  }
-  return <EmailSvg className={className} />;
 };
 
 export default SocialIcon;

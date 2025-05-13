@@ -1,7 +1,7 @@
 import { GetStaticProps } from "next";
 import NextImage from "next/image";
 import React from "react";
-import AudioPlayer from "react-h5-audio-player";
+import AudioPlayer from "../../components/AudioPlayer";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styles from "./Media.module.css";
@@ -71,7 +71,7 @@ const Media = ({ commonData, images, audio }: PageProps & MediaData) => {
                   {audioFile.description}
                 </span>
               </div>
-              <AudioPlayer src={audioFile.url} />
+              <AudioPlayer source={audioFile.url} />
             </div>
           ))}
         </WidthContainer>
