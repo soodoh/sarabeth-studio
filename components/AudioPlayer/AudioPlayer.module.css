@@ -1,0 +1,33 @@
+.audioPlayer {
+  padding: 15px;
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  background-color: var(--lighter-theme-color);
+}
+
+.playPauseButton {
+  cursor: pointer;
+  background-color: transparent;
+  color: var(--dark-theme-color);
+  border: none;
+
+  & svg {
+    width: 1.5rem;
+    height: auto;
+    fill: var(--dark-theme-color);
+  }
+}
+
+.progressBar {
+  cursor: pointer;
+  flex-grow: 1;
+  height: 10px;
+  background-color: var(--light-theme-color);
+}
+
+.progress {
+  height: 100%;
+  background-color: var(--dark-theme-color);
+  transition: width 0.1s linear;
+}

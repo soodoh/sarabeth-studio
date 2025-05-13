@@ -12,8 +12,10 @@ export type ImageType = Asset & {
   dominantColor?: string;
 };
 
+export type SocialMediaType = 'facebook' | 'instagram' | 'linkedin' | 'twitter' | 'youtube' | 'email';
+
 export type SocialMediaLink = {
-  source: string;
+  source: SocialMediaType;
   link: string;
 };
 
