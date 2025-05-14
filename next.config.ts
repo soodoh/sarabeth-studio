@@ -1,5 +1,6 @@
-/** @type {import('next').NextConfig} */
-module.exports = {
+import type { NextConfig } from "next";
+
+const config: NextConfig = {
   reactStrictMode: true,
   productionBrowserSourceMaps: true,
   images: {
@@ -15,4 +16,7 @@ module.exports = {
 
     return config;
   },
+  output: 'standalone'
 };
+
+export default config;
