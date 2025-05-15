@@ -1,7 +1,6 @@
-import { client, formatImage } from "../contentful";
-import type { HomeData, ImageType } from "../../types";
+import { client, formatImage } from "@/utils/server/contentful";
+import type { HomeData, ImageType } from "@/utils/types";
 import type { Document } from "@contentful/rich-text-types";
-import type { Asset as ContentfulAsset } from "contentful";
 
 const getHomeData: () => Promise<HomeData[]> = async () => {
   const response = await client.getEntries({
@@ -10,6 +9,7 @@ const getHomeData: () => Promise<HomeData[]> = async () => {
   });
 
   const formattedResponse = await Promise.all(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     response.items.map(async (entry: any) => {
       let images: ImageType[] = [];
       if (Array.isArray(entry.fields?.images)) {

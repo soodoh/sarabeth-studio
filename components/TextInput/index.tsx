@@ -7,7 +7,7 @@ type Props = {
   errorMessage?: string;
   showError?: boolean;
   onChange: (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
   type?: "text" | "textarea";
   disabled?: boolean;

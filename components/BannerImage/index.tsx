@@ -1,9 +1,11 @@
+"use client";
+
+import Overlay from "@/components/Overlay";
+import { imageLoader } from "@/utils/client/contentful";
 import NextImage from "next/image";
 import React from "react";
 import styles from "./BannerImage.module.css";
-import { imageLoader } from "../../utils/client/contentful";
-import Overlay from "../Overlay";
-import type { ImageType } from "../../utils/types";
+import type { ImageType } from "@/utils/types";
 
 type Props = {
   image: ImageType;

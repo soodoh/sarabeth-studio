@@ -66,3 +66,9 @@ export type MediaData = {
 export type ContactData = {
   bannerImage: ImageType;
 };
+
+export enum LessonsPages {
+  About = "About",
+  Studio = "Studio",
+  Resume = "Teaching Resume",
+}

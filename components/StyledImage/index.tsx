@@ -1,7 +1,7 @@
+import ImageWrapper from "@/components/ImageWrapper";
+import Overlay from "@/components/Overlay";
 import React from "react";
-import ImageWrapper from "../../components/ImageWrapper";
-import Overlay from "../Overlay";
-import type { ImageType } from "../../utils/types";
+import type { ImageType } from "@/utils/types";
 
 type Props = {
   overlayDirection: "left" | "right";

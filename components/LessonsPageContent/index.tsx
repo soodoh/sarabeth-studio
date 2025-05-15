@@ -1,72 +1,50 @@
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import React from "react";
-import styles from "./LessonsPageContent.module.css";
-import ArrowButton from "../../components/ArrowButton";
-import ImageWrapper from "../../components/ImageWrapper";
-import { LessonsPages } from "../../pages/lessons";
-import type { ImageType } from "../../utils/types";
-import type { Document } from "@contentful/rich-text-types";
+"use client";
 
-type Props = {
-  section: LessonsPages;
-  aboutData: {
-    aboutDescription: Document;
-    socialMediaImage: ImageType;
-    socialMediaDescription: Document;
-    followLink: string;
-  };
-  studioData: {
-    teachingPhilosophy: Document;
-    studioExpectations: Document;
-  };
-  teachingResume: Document;
-};
+import SvgLogo from "@/components/icons/Logo";
+import LessonsPageSections from "@/components/LessonsPageSections";
+import WidthContainer from "@/components/WidthContainer";
+import buttonStyles from "@/styles/Button.module.css";
+import { type LessonsData, LessonsPages } from "@/utils/types";
+import Link from "next/link";
+import { useState } from "react";
+import styles from "./LessonsSections.module.css";
 
-const LessonsPageContent = ({
-  section,
-  aboutData,
-  studioData,
-  teachingResume,
-}: Props) => {
-  switch (section) {
-    case LessonsPages.Studio:
-      return (
-        <div className={styles.twoColumns}>
-          <div className={styles.richText}>
-            {documentToReactComponents(studioData.teachingPhilosophy)}
+const LessonsPageContent = ({ lessonsData }: { lessonsData: LessonsData }) => {
+  const { email, phoneNumber, reviewLink } = lessonsData;
+  const [section, setSection] = useState(LessonsPages.About);
+
+  return (
+    <>
+      <div className={styles.navigation}>
+        {Object.values(LessonsPages).map((page) => (
+          <button
+            onClick={() => setSection(page)}
+            className={section === page ? styles.activeLink : styles.link}
+            key={page}
+          >
+            {page}
+          </button>
+        ))}
+      </div>
+      <WidthContainer className={styles.container}>
+        <LessonsPageSections section={section} lessonsData={lessonsData} />
+        <div className={styles.contact}>
+          <SvgLogo className={styles.contactImage} />
+          <h1>Contact</h1>
+          <div className={styles.contactLinks}>
+            <a href={`mailto:${email}`}>{email}</a>
+            <a href={`tel:${phoneNumber.replace(/\D+/g, "")}`}>{phoneNumber}</a>
           </div>
-          <div className={styles.separator} />
-          <div className={styles.richText}>
-            {documentToReactComponents(studioData.studioExpectations)}
-          </div>
+          <Link href="/contact" className={buttonStyles.container}>
+            Book a Lesson
+          </Link>
+          <Link href={reviewLink} className={buttonStyles.container}>
+            View Reviews
+          </Link>
         </div>
-      );
-    case LessonsPages.Resume:
-      return (
-        <div className={`${styles.resumeContainer} ${styles.richText}`}>
-          {documentToReactComponents(teachingResume)}
-        </div>
-      );
-    case LessonsPages.About:
-    default:
-      return (
-        <div className={styles.twoColumns}>
-          <div className={styles.richText}>
-            {documentToReactComponents(aboutData.aboutDescription)}
-          </div>
-          <div className={styles.separator} />
-          <div className={styles.socialMediaContainer}>
-            <div className={styles.imageContainer}>
-              <ImageWrapper image={aboutData.socialMediaImage} />
-            </div>
-            <div className={styles.richText}>
-              {documentToReactComponents(aboutData.socialMediaDescription)}
-            </div>
-            <ArrowButton label="Follow Me" url={aboutData.followLink} />
-          </div>
-        </div>
-      );
-  }
+      </WidthContainer>
+    </>
+  );
 };
 
 export default LessonsPageContent;

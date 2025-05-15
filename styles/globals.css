@@ -23,6 +23,10 @@ body {
   font-family: var(--body-font);
   background-color: var(--background-color);
   color: var(--font-color);
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
 }
 
 a {

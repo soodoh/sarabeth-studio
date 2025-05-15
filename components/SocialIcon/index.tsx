@@ -1,11 +1,10 @@
+import SvgEmail from "@/components/icons/Email";
+import SvgFacebook from "@/components/icons/Facebook";
+import SvgInstagram from "@/components/icons/Instagram";
+import SvgLinkedin from "@/components/icons/Linkedin";
+import SvgYoutube from "@/components/icons/Youtube";
 import React from "react";
-import EmailSvg from "../../public/email.svg";
-import FacebookSvg from "../../public/facebook.svg";
-import InstgramSvg from "../../public/instagram.svg";
-import LinkedinSvg from "../../public/linkedin.svg";
-import TwitterSvg from "../../public/twitter.svg";
-import YoutubeSvg from "../../public/youtube.svg";
-import type { SocialMediaType } from "../../utils/types";
+import type { SocialMediaType } from "@/utils/types";
 
 type Props = {
   source: SocialMediaType;
@@ -13,20 +12,18 @@ type Props = {
 };
 
 const SocialIcon = ({ source, className }: Props) => {
-  switch (source) {
-    case 'facebook':
-      return <FacebookSvg className={className} />;
-    case 'instagram':
-      return <InstgramSvg className={className} />;
-    case 'linkedin':
-      return <LinkedinSvg className={className} />;
-    case 'twitter':
-      return <TwitterSvg className={className} />;
-    case 'youtube':
-      return <YoutubeSvg className={className} />;
-    case 'email':
+  switch (source.toLowerCase()) {
+    case "facebook":
+      return <SvgFacebook className={className} />;
+    case "instagram":
+      return <SvgInstagram className={className} />;
+    case "linkedin":
+      return <SvgLinkedin className={className} />;
+    case "youtube":
+      return <SvgYoutube className={className} />;
+    case "email":
     default:
-      return <EmailSvg className={className} />;
+      return <SvgEmail className={className} />;
   }
 };
 
