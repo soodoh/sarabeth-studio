@@ -1,8 +1,8 @@
+import TextHeading from "@/components/TextHeading";
+import buttonStyles from "@/styles/Button.module.css";
 import React from "react";
 import styles from "./EngagementsTable.module.css";
-import TextHeading from "../../components/TextHeading";
-import buttonStyles from "../../styles/Button.module.css";
-import type { Engagement } from "../../utils/types";
+import type { Engagement } from "@/utils/types";
 
 type Props = {
   engagements: Engagement[];
@@ -51,7 +51,7 @@ const EngagementRow = ({ engagements, label }: Props) => {
                 {label === "Upcoming" ? "Buy Tickets" : "Company Info"}
               </a>
             </div>
-          )
+          ),
         )}
       </div>
     </div>

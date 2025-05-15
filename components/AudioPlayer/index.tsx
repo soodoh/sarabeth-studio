@@ -1,7 +1,9 @@
+"use client";
+
+import SvgPause from "@/components/icons/Pause";
+import SvgPlay from "@/components/icons/Play";
 import React, { useRef, useState } from "react";
 import styles from "./AudioPlayer.module.css";
-import Play from "../../public/play.svg";
-import Pause from "../../public/pause.svg";
 
 type Props = {
   source: string;
@@ -27,7 +29,8 @@ const AudioPlayer = ({ source }: Props) => {
 
   const handleTimeUpdate = () => {
     if (audioRef.current) {
-      const currentProgress = (audioRef.current.currentTime / audioRef.current.duration) * 100;
+      const currentProgress =
+        (audioRef.current.currentTime / audioRef.current.duration) * 100;
       setProgress(currentProgress);
       setCurrentTime(audioRef.current.currentTime);
     }
@@ -45,25 +48,22 @@ const AudioPlayer = ({ source }: Props) => {
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
-    return `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    return `${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
   return (
     <div className={styles.audioPlayer}>
-      <audio
-        ref={audioRef}
-        src={source}
-        onTimeUpdate={handleTimeUpdate}
-      />
+      <audio ref={audioRef} src={source} onTimeUpdate={handleTimeUpdate} />
       <button onClick={togglePlayPause} className={styles.playPauseButton}>
-        {isPlaying ? <Pause /> : <Play />}
+        {isPlaying ? <SvgPause /> : <SvgPlay />}
       </button>
 
       <div className={styles.timeStamps}>
         <span>{formatTime(currentTime)}</span>
       </div>
 
-      <div className={styles.progressBar}
+      <div
+        className={styles.progressBar}
         ref={progressBarRef}
         onClick={handleProgressBarClick}
       >

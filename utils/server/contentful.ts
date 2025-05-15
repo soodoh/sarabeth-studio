@@ -4,7 +4,7 @@ import {
   createClient,
 } from "contentful";
 import { getPlaceholder } from "./image";
-import type { Asset, ImageType } from "../types";
+import type { Asset, ImageType } from "@/utils/types";
 
 export const client = createClient({
   space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID as string,

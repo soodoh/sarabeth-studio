@@ -1,7 +1,8 @@
+import SocialIcon from "@/components/SocialIcon";
+import Link from "next/link";
 import React from "react";
 import styles from "./Footer.module.css";
-import SocialIcon from "../../components/SocialIcon";
-import type { SocialMediaLink } from "../../utils/types";
+import type { SocialMediaLink } from "@/utils/types";
 
 type Props = {
   socialMediaLinks: SocialMediaLink[];
@@ -17,7 +18,7 @@ const Footer = ({ location, socialMediaLinks }: Props) => {
       </div>
       <div className={styles.socialLinkContainer}>
         {socialMediaLinks.map((socialLink) => (
-          <a
+          <Link
             key={`footer-link-${socialLink.source}`}
             className={styles.socialLink}
             href={socialLink.link}
@@ -27,7 +28,7 @@ const Footer = ({ location, socialMediaLinks }: Props) => {
               source={socialLink.source}
               className={styles.socialSvg}
             />
-          </a>
+          </Link>
         ))}
       </div>
       <div className={styles.right}>

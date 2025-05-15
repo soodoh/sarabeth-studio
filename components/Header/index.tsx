@@ -1,28 +1,34 @@
-import { useRouter } from "next/router";
+"use client";
+
+import SvgLogo from "@/components/icons/Logo";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 import styles from "./Header.module.css";
-import LogoSvg from "../../public/logo.svg";
-import Link from "../Link";
 
 type LinkProps = {
   links: { label: string; url: string }[];
+  onClick?: () => void;
 };
 
-const Links = ({ links }: LinkProps) => {
-  const router = useRouter();
+const Links = ({ links, onClick }: LinkProps) => {
+  const route = usePathname();
   return (
     <>
       {links.map((link) => (
-        <Link key={`nav-${link.url}`} href={link.url} legacyBehavior>
-          <a className={styles.linkContainer}>
-            <span
-              className={`${
-                link.url === router.route ? styles.activeLink : ""
-              } ${styles.link}`}
-            >
-              {link.label}
-            </span>
-          </a>
+        <Link
+          key={`nav-${link.url}`}
+          href={link.url}
+          className={styles.linkContainer}
+          onClick={onClick}
+        >
+          <span
+            className={`${
+              link.url === route ? styles.activeLink : ""
+            } ${styles.link}`}
+          >
+            {link.label}
+          </span>
         </Link>
       ))}
     </>
@@ -45,11 +51,9 @@ const Header = ({ brandName }: HeaderProps) => {
 
   return (
     <header className={styles.container}>
-      <Link href="/" legacyBehavior>
-        <a className={styles.logoContainer}>
-          <span className={styles.logoText}>{brandName}</span>
-          <LogoSvg className={styles.logoSvg} />
-        </a>
+      <Link href="/" className={styles.logoContainer}>
+        <span className={styles.logoText}>{brandName}</span>
+        <SvgLogo className={styles.logoSvg} />
       </Link>
 
       <nav className={styles.navContainer}>
@@ -61,7 +65,7 @@ const Header = ({ brandName }: HeaderProps) => {
           mobileNavOpen && styles.mobileNavOpen
         }`}
       >
-        <Links links={links} />
+        <Links links={links} onClick={() => setMobileNav(false)} />
       </nav>
 
       <button
