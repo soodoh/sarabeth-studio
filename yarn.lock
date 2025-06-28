@@ -1881,14 +1881,14 @@ __metadata:
   linkType: hard
 
 "@contentful/rich-text-react-renderer@npm:^16.0.1":
-  version: 16.0.1
-  resolution: "@contentful/rich-text-react-renderer@npm:16.0.1"
+  version: 16.0.2
+  resolution: "@contentful/rich-text-react-renderer@npm:16.0.2"
   dependencies:
-    "@contentful/rich-text-types": "npm:^17.0.0"
+    "@contentful/rich-text-types": "npm:^17.0.1"
   peerDependencies:
     react: ^16.8.6 || ^17.0.0 || ^18.0.0 || ^19.0.0
     react-dom: ^16.8.6 || ^17.0.0 || ^18.0.0 || ^19.0.0
-  checksum: 10/05e1906ce4bebf5884f0ad0b04dc5de32c38f9d90195a13ce3f6214cd1f5ef608043f47be0b574ecd88edd8ea1d578fd6fc45c604379fc127c1a5257a610f365
+  checksum: 10/15e4062f81a8f45e0ade18468027ab88b017a9b594608238524d843b5f5265f3c4c1395af0fa67574634a61ead91c48ce93ffe387f8fe5641b019c42a2db5748
   languageName: node
   linkType: hard
 
@@ -1899,12 +1899,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@contentful/rich-text-types@npm:^17.0.0":
-  version: 17.0.0
-  resolution: "@contentful/rich-text-types@npm:17.0.0"
+"@contentful/rich-text-types@npm:^17.0.0, @contentful/rich-text-types@npm:^17.0.1":
+  version: 17.0.1
+  resolution: "@contentful/rich-text-types@npm:17.0.1"
   dependencies:
     is-plain-obj: "npm:^3.0.0"
-  checksum: 10/d9960ab17ee91f6cf2ab988b42ab33155e5674e62e1a8fc582081542e0df8e96a191e27f4f1b9be982639d5afc19db216d84d43658af64c6df77222c83914ba5
+  checksum: 10/1688f7f414982242125c124520e4f2953b3fe46b1b8e70cda15531621b01fe3bffba3e09fcc00e38bf94dfb2e5fa877474f5e7026455bcf808c381b52d963d16
   languageName: node
   linkType: hard
 
