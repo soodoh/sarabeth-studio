@@ -35,7 +35,7 @@
     "@types/react": "^19.1.4",
     "cssnano": "^7.0.7",
     "eslint": "^9.26.0",
-    "eslint-config-next": "15.3.2",
+    "eslint-config-next": "15.3.4",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-no-relative-import-paths": "^1.6.1",
