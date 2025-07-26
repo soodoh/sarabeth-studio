@@ -1,25 +1,29 @@
 import { Jimp, JimpMime, ResizeStrategy } from "jimp";
+import type { Asset } from "@/utils/types";
 
 type JimpType = Awaited<ReturnType<(typeof Jimp)["read"]>>;
 
-const imageCache: Map<string, JimpType> = new Map();
+const placeholderCache: Map<string, string> = new Map();
 
-export async function readImage(baseUrl: string): Promise<JimpType | null> {
-  const cached = imageCache.get(baseUrl);
-  if (cached) {
-    console.log(`CACHED ${baseUrl.split("/").pop()}`);
-    return Promise.resolve(cached);
-  }
-  const url = `${baseUrl}?w=100&q=50&fm=jpg`;
-  return Jimp.read(url);
+export async function readImage(asset: Asset): Promise<JimpType | null> {
+  const url = `${asset.url}?w=100&q=50&fm=jpg`;
+  const image = await Jimp.read(url);
+  image.resize({ w: 25, mode: ResizeStrategy.BICUBIC });
+  return image;
 }
 
-export const getPlaceholder = async (url: string) => {
-  const image = await readImage(url);
-  if (!image) {
-    throw new TypeError(`getPlaceholder: failed to read URL: ${url}`);
+export const getPlaceholder = async (asset: Asset) => {
+  const cached = placeholderCache.get(asset.id);
+  if (cached) {
+    return cached;
   }
-  image.resize({ w: 25, mode: ResizeStrategy.BICUBIC });
+  const image = await readImage(asset);
+  if (!image) {
+    throw new TypeError(`getPlaceholder: failed to read URL: ${asset.url}`);
+  }
+
   const placeholder = await image.getBase64(JimpMime.gif);
+  placeholderCache.set(asset.id, placeholder);
+
   return placeholder;
 };
