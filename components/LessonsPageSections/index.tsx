@@ -2,9 +2,9 @@ import ArrowButton from "@/components/ArrowButton";
 import ImageWrapper from "@/components/ImageWrapper";
 import { type LessonsData, LessonsPages } from "@/utils/types";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import classNames from "classnames/bind";
 import React from "react";
 import styles from "./LessonsPageContent.module.css";
-import classNames from "classnames/bind";
 
 const cx = classNames.bind(styles);
 
