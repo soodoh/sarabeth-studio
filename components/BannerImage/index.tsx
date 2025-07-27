@@ -1,6 +1,6 @@
 "use client";
 
-import Overlay from "@/components/Overlay";
+import OffsetShadow from "@/components/OffsetShadow";
 import { imageLoader } from "@/utils/client/contentful";
 import NextImage from "next/image";
 import React from "react";
@@ -26,9 +26,9 @@ const BannerImage = ({ title, image }: Props) => {
         sizes="100vw"
         src={image.url}
       />
-      <Overlay type="bannerTitle" direction="left">
+      <OffsetShadow type="bannerTitle" direction="left">
         <h1 className={styles.text}>{title}</h1>
-      </Overlay>
+      </OffsetShadow>
     </div>
   );
 };

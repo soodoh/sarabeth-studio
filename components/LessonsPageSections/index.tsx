@@ -4,6 +4,9 @@ import { type LessonsData, LessonsPages } from "@/utils/types";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import React from "react";
 import styles from "./LessonsPageContent.module.css";
+import classNames from "classnames/bind";
+
+const cx = classNames.bind(styles);
 
 type Props = {
   section: LessonsPages;
@@ -35,7 +38,7 @@ const LessonsPageSections = ({ section, lessonsData }: Props) => {
       );
     case LessonsPages.Resume:
       return (
-        <div className={`${styles.resumeContainer} ${styles.richText}`}>
+        <div className={cx(styles.resumeContainer, styles.richText)}>
           {documentToReactComponents(teachingResume)}
         </div>
       );

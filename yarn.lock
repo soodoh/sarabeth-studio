@@ -4884,6 +4884,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"classnames@npm:^2.5.1":
+  version: 2.5.1
+  resolution: "classnames@npm:2.5.1"
+  checksum: 10/58eb394e8817021b153bb6e7d782cfb667e4ab390cb2e9dac2fc7c6b979d1cc2b2a733093955fc5c94aa79ef5c8c89f11ab77780894509be6afbb91dddd79d15
+  languageName: node
+  linkType: hard
+
 "client-only@npm:0.0.1":
   version: 0.0.1
   resolution: "client-only@npm:0.0.1"
@@ -9025,6 +9032,7 @@ __metadata:
     "@svgr/webpack": "npm:^8.1.0"
     "@types/node": "npm:22.16.5"
     "@types/react": "npm:^19.1.4"
+    classnames: "npm:^2.5.1"
     contentful: "npm:^11.5.22"
     cssnano: "npm:^7.0.7"
     eslint: "npm:^9.26.0"

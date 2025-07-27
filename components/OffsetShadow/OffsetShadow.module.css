@@ -2,7 +2,7 @@
   position: relative;
 }
 
-.overlay {
+.shadow {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -14,10 +14,12 @@
   --offset-y: -0.8rem;
   --offset-x: -0.8rem;
 }
+
 .image {
   --offset-y: -2rem;
   --offset-x: -2rem;
 }
+
 .heading {
   --offset-y: 0.2rem;
   --offset-x: -0.5rem;
@@ -29,10 +31,12 @@
   bottom: var(--offset-y);
   left: var(--offset-x);
 }
+
 .right {
   bottom: var(--offset-y);
   right: var(--offset-x);
 }
+
 /* Keeps content on top of overlay */
 .content {
   position: relative;

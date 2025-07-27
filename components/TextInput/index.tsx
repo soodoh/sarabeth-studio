@@ -1,5 +1,8 @@
+import classNames from "classnames/bind";
 import React from "react";
 import styles from "./TextInput.module.css";
+
+const cx = classNames.bind(styles);
 
 type Props = {
   label: string;
@@ -24,7 +27,7 @@ const TextInput = ({
 }: Props) => {
   const id = label.replace(/\W+/g, "");
   return (
-    <div className={`${styles.container} ${showError ? styles.showError : ""}`}>
+    <div className={cx(styles.container, { showError })}>
       {type === "text" ? (
         <input
           className={styles.input}

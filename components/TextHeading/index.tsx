@@ -1,4 +1,4 @@
-import Overlay from "@/components/Overlay";
+import OffsetShadow from "@/components/OffsetShadow";
 import React from "react";
 import styles from "./TextHeading.module.css";
 
@@ -8,9 +8,9 @@ type Props = {
 
 const TextHeading = ({ text }: Props) => {
   return (
-    <Overlay type="heading" direction="left">
+    <OffsetShadow type="heading" direction="left">
       <h1 className={styles.text}>{text}</h1>
-    </Overlay>
+    </OffsetShadow>
   );
 };
 
