@@ -1,6 +1,3 @@
-"use client";
-
-import { imageLoader } from "@/utils/client/contentful";
 import NextImage from "next/image";
 import React from "react";
 import styles from "./ImageWrapper.module.css";
@@ -27,7 +24,6 @@ const ImageWrapper = ({ image, priority = false }: Props) => {
       className={styles.image}
       blurDataURL={image.placeholder}
       height={image.height}
-      loader={imageLoader}
       placeholder="blur"
       priority={priority}
       sizes={sizes}

@@ -5,7 +5,7 @@ const config: NextConfig = {
   productionBrowserSourceMaps: true,
   images: {
     loader: "custom",
-    domains: ["images.ctfassets.net"],
+    loaderFile: "./utils/server/image-loader.ts",
   },
   output: "standalone",
 };
