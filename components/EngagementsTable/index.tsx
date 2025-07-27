@@ -1,8 +1,11 @@
 import TextHeading from "@/components/TextHeading";
 import buttonStyles from "@/styles/Button.module.css";
+import classNames from "classnames/bind";
 import React from "react";
 import styles from "./EngagementsTable.module.css";
 import type { Engagement } from "@/utils/types";
+
+const cx = classNames.bind(styles);
 
 type Props = {
   engagements: Engagement[];
@@ -29,9 +32,9 @@ const EngagementRow = ({ engagements, label }: Props) => {
           ({ id, title, company, role, link, startDate, endDate }, index) => (
             <div
               key={id}
-              className={`${styles.row} ${
-                index < engagements.length - 1 ? styles.rowBorder : ""
-              }`}
+              className={cx(styles.row, {
+                rowBorder: index < engagements.length - 1,
+              })}
             >
               <div className={styles.roleContainer}>
                 <span className={styles.roleLabel}>Performing as</span>

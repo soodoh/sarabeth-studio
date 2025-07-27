@@ -1,5 +1,5 @@
 import ImageWrapper from "@/components/ImageWrapper";
-import Overlay from "@/components/Overlay";
+import OffsetShadow from "@/components/OffsetShadow";
 import React from "react";
 import type { ImageType } from "@/utils/types";
 
@@ -10,9 +10,9 @@ type Props = {
 };
 
 const StyledImage = ({ overlayDirection, priority, image }: Props) => (
-  <Overlay direction={overlayDirection} type="image">
+  <OffsetShadow direction={overlayDirection} type="image">
     <ImageWrapper image={image} priority={priority} />
-  </Overlay>
+  </OffsetShadow>
 );
 
 export default StyledImage;

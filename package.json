@@ -16,6 +16,7 @@
   "dependencies": {
     "@aws-sdk/client-ses": "^3.810.0",
     "@contentful/rich-text-react-renderer": "^16.0.1",
+    "classnames": "^2.5.1",
     "contentful": "^11.5.22",
     "framer-motion": "^12.11.3",
     "jimp": "^1.6.0",

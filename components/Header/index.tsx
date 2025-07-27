@@ -1,10 +1,13 @@
 "use client";
 
 import SvgLogo from "@/components/icons/Logo";
+import classNames from "classnames/bind";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 import styles from "./Header.module.css";
+
+const cx = classNames.bind(styles);
 
 type LinkProps = {
   links: { label: string; url: string }[];
@@ -23,9 +26,9 @@ const Links = ({ links, onClick }: LinkProps) => {
           onClick={onClick}
         >
           <span
-            className={`${
-              link.url === route ? styles.activeLink : ""
-            } ${styles.link}`}
+            className={cx(styles.link, {
+              activeLink: link.url === route,
+            })}
           >
             {link.label}
           </span>
@@ -60,11 +63,7 @@ const Header = ({ brandName }: HeaderProps) => {
         <Links links={links} />
       </nav>
 
-      <nav
-        className={`${styles.mobileNavContainer} ${
-          mobileNavOpen && styles.mobileNavOpen
-        }`}
-      >
+      <nav className={cx(styles.mobileNavContainer, { mobileNavOpen })}>
         <Links links={links} onClick={() => setMobileNav(false)} />
       </nav>
 
@@ -74,9 +73,7 @@ const Header = ({ brandName }: HeaderProps) => {
         aria-label="Open Navigation"
       >
         <div
-          className={`${styles.hamburgerIcon} ${
-            mobileNavOpen && styles.closeIcon
-          }`}
+          className={cx(styles.hamburgerIcon, { closeIcon: mobileNavOpen })}
         />
       </button>
     </header>
