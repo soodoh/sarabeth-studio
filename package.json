@@ -31,6 +31,8 @@
     "@commitlint/types": "^19.8.1",
     "@contentful/rich-text-types": "^17.0.0",
     "@csstools/postcss-global-data": "^3.0.0",
+    "@netlify/plugin-lighthouse": "^6.0.1",
+    "@netlify/plugin-nextjs": "^5.11.6",
     "@svgr/webpack": "^8.1.0",
     "@types/node": "22.16.5",
     "@types/react": "^19.1.4",
