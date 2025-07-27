@@ -3,6 +3,9 @@ import ContactForm from "@/components/ContactForm";
 import getContactData from "@/utils/server/fetchers/contact";
 import type { Metadata } from "next";
 
+// Statically generated at build time, will error if any Dynamic APIs are used
+export const dynamic = "error";
+
 export const metadata: Metadata = {
   title: "Contact Sarabeth",
   description:

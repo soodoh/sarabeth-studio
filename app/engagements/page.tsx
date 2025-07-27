@@ -6,13 +6,8 @@ import { Engagement } from "@/utils/types";
 import styles from "./Engagements.module.css";
 import type { Metadata } from "next";
 
-const isUpcoming = (dateString: string) => {
-  const today = new Date();
-  today.setUTCHours(24, 0, 0, 0);
-  const endDate = new Date(dateString);
-  endDate.setUTCHours(24, 0, 0, 0);
-  return endDate >= today;
-};
+// Statically generated at build time, will error if any Dynamic APIs are used
+export const dynamic = "error";
 
 export const metadata: Metadata = {
   title: "Sarabeth's Engagements",
@@ -20,6 +15,14 @@ export const metadata: Metadata = {
     "Young and talented female opera singer, Sarabeth Belon, captivates audiences throughout the country. Learn more about her current and upcoming engagements!",
   keywords: ["sarabeth belon engagements"],
   icons: "/favicon.png",
+};
+
+const isUpcoming = (dateString: string) => {
+  const today = new Date();
+  today.setUTCHours(24, 0, 0, 0);
+  const endDate = new Date(dateString);
+  endDate.setUTCHours(24, 0, 0, 0);
+  return endDate >= today;
 };
 
 export default async function EngagementsPage() {

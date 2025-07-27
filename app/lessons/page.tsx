@@ -3,6 +3,9 @@ import LessonsPageContent from "@/components/LessonsPageContent";
 import getLessonsData from "@/utils/server/fetchers/lessons";
 import type { Metadata } from "next";
 
+// Statically generated at build time, will error if any Dynamic APIs are used
+export const dynamic = "error";
+
 export const metadata: Metadata = {
   title: "Singing Lessons | Los Angeles",
   description:
