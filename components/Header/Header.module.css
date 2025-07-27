@@ -11,6 +11,12 @@
   --mobile-nav-size: 2.5rem;
   --link-transition: all 100ms ease;
   --menu-transition: all 250ms ease;
+
+  @media (--xs-viewport) {
+    & {
+      padding: 1rem;
+    }
+  }
 }
 
 .logoContainer {
@@ -23,18 +29,25 @@
   font-size: 2rem;
   font-weight: bold;
   margin-right: 1rem;
+
+  @media (--xs-viewport) {
+    & {
+      font-size: 1.5rem;
+    }
+  }
 }
 
 .logoSvg {
   width: 6rem;
   fill: var(--dark-theme-color);
+
+  @media (--xs-viewport) {
+    & {
+      width: 4rem;
+    }
+  }
 }
 
-.navContainer {
-  display: grid;
-  grid-template-columns: repeat(5, auto);
-  grid-gap: 2rem;
-}
 .link {
   font-weight: bold;
   font-size: 1rem;
@@ -43,18 +56,22 @@
   display: inline-block;
   transition: var(--link-transition);
 }
+
 .link:hover {
   transition: var(--link-transition);
   transform: translateX(0.2rem);
 }
+
 .activeLink:hover::before,
 .link:hover::before {
   transition: var(--link-transition);
   transform: translateX(-0.2rem);
 }
+
 .activeLink {
   position: relative;
 }
+
 .activeLink::before,
 .link:hover::before {
   content: "";
@@ -67,9 +84,38 @@
   background-color: var(--lighter-theme-color);
 }
 
-.mobileNavContainer {
-  display: none;
+.linkContainer {
+  @media (--md-viewport) {
+    & {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: 2rem 0;
+    }
+  }
 }
+
+.navContainer {
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  grid-gap: 2rem;
+
+  @media (--md-viewport) {
+    & {
+      display: flex;
+      position: absolute;
+      height: 100vh;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      opacity: 0;
+      transform: scale(0);
+      transition: var(--menu-transition);
+    }
+  }
+}
+
 .mobileNavButton {
   display: none;
   border: none;
@@ -79,6 +125,27 @@
   position: relative;
   padding: 0 0.6rem;
   cursor: pointer;
+
+  @media (--md-viewport) {
+    & {
+      display: block;
+    }
+  }
+}
+
+.mobileNavOpen {
+  @media (--md-viewport) {
+    & {
+      opacity: 1;
+      transform: scale(1);
+      transition: var(--menu-transition);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--background-color);
+    }
+  }
 }
 
 .hamburgerIcon {
@@ -88,79 +155,35 @@
   height: 2px;
   background-color: var(--font-color);
   transition: var(--menu-transition);
-}
-.hamburgerIcon:before,
-.hamburgerIcon:after {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  top: calc(var(--mobile-nav-size) / -6);
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: var(--font-color);
-  transition: var(--menu-transition);
-}
-.hamburgerIcon:after {
-  top: calc(var(--mobile-nav-size) / 6);
+
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: calc(var(--mobile-nav-size) / -6);
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--font-color);
+    transition: var(--menu-transition);
+  }
+
+  &:after {
+    top: calc(var(--mobile-nav-size) / 6);
+  }
 }
 
 .closeIcon {
   transform: rotate(135deg);
-}
-.closeIcon:before,
-.closeIcon:after {
-  top: 0;
-  transform: rotate(90deg);
-}
-.closeIcon:after {
-  opacity: 0;
-}
 
-@media (--md-viewport) {
-  .mobileNavButton {
-    display: block;
-  }
-  .navContainer {
-    display: none;
-  }
-  .mobileNavContainer {
-    display: flex;
-    position: absolute;
-    height: 100vh;
+  &:before,
+  &:after {
     top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    transform: rotate(90deg);
+  }
+
+  &:after {
     opacity: 0;
-    transform: scale(0);
-    transition: var(--menu-transition);
-  }
-  .mobileNavOpen {
-    opacity: 1;
-    transform: scale(1);
-    transition: var(--menu-transition);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--background-color);
-  }
-  .linkContainer {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 2rem 0;
-  }
-}
-@media (--xs-viewport) {
-  .logoText {
-    font-size: 1.5rem;
-  }
-  .container {
-    padding: 1rem;
-  }
-  .logoSvg {
-    width: 4rem;
   }
 }
