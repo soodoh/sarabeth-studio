@@ -7,6 +7,9 @@ import React from "react";
 import styles from "./About.module.css";
 import type { Metadata } from "next";
 
+// Statically generated at build time, will error if any Dynamic APIs are used
+export const dynamic = "error";
+
 export const metadata: Metadata = {
   title: "About Sarabeth",
   description:
