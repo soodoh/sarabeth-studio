@@ -1,6 +1,5 @@
 "use client";
 
-import { imageLoader } from "@/utils/client/contentful";
 import NextImage from "next/image";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -23,7 +22,6 @@ const PhotoCarousel = ({ images }: { images: ImageType[] }) => {
             blurDataURL={image.placeholder}
             className={styles.slide}
             height={image.height}
-            loader={imageLoader}
             placeholder="blur"
             sizes="50vw"
             src={image.url}

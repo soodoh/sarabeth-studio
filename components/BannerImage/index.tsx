@@ -1,7 +1,4 @@
-"use client";
-
 import OffsetShadow from "@/components/OffsetShadow";
-import { imageLoader } from "@/utils/client/contentful";
 import NextImage from "next/image";
 import React from "react";
 import styles from "./BannerImage.module.css";
@@ -20,7 +17,6 @@ const BannerImage = ({ title, image }: Props) => {
         blurDataURL={image.placeholder}
         className={styles.image}
         fill
-        loader={imageLoader}
         placeholder="blur"
         priority
         sizes="100vw"
