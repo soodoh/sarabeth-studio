@@ -6,16 +6,20 @@ import type { ImageType } from "@/utils/types";
 type Props = {
   image: ImageType;
   priority?: boolean;
+  sizes?: string;
 };
 
-const ImageWrapper = ({ image, priority = false }: Props) => {
-  const sizes = [
+const ImageWrapper = ({
+  image,
+  priority = false,
+  sizes = [
     "(max-width: 639px) 100vw",
     "(max-width: 767px) 400px",
     "(max-width: 1023px) 600px",
     "(max-width: 1279px) 800px",
     "400px",
-  ].join(", ");
+  ].join(", "),
+}: Props) => {
   return (
     <NextImage
       alt={image.description}
