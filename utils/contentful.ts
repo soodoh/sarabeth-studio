@@ -39,7 +39,7 @@ export async function formatImage(
   const imageDetails = contentfulAsset.fields.file?.details as AssetDetails;
   const width = imageDetails.image?.width ?? 0;
   const height = imageDetails.image?.height ?? 0;
-  const placeholder = await getPlaceholder(asset);
+  const placeholder = await getPlaceholder(asset.url);
 
   const image = {
     ...asset,
