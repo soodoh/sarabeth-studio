@@ -1,4 +1,4 @@
-import { client } from "@/utils/server/contentful";
+import { client } from "@/utils/contentful";
 import type { CommonData, SocialMediaLink } from "@/utils/types";
 
 const getCommonData = async (): Promise<CommonData> => {

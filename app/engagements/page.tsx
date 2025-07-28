@@ -1,7 +1,7 @@
 import BannerImage from "@/components/BannerImage";
 import EngagementsTable from "@/components/EngagementsTable";
 import WidthContainer from "@/components/WidthContainer";
-import getEngagementData from "@/utils/server/fetchers/engagements";
+import getEngagementData from "@/utils/fetchers/engagements";
 import { Engagement } from "@/utils/types";
 import styles from "./Engagements.module.css";
 import type { Metadata } from "next";

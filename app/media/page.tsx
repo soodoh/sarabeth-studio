@@ -2,7 +2,7 @@ import AudioPlayer from "@/components/AudioPlayer";
 import PhotoCarousel from "@/components/PhotoCarousel";
 import TextHeading from "@/components/TextHeading";
 import WidthContainer from "@/components/WidthContainer";
-import getMediaData from "@/utils/server/fetchers/media";
+import getMediaData from "@/utils/fetchers/media";
 import React from "react";
 import styles from "./Media.module.css";
 import type { Metadata } from "next";

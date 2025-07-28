@@ -1,5 +1,5 @@
 import HomeContent from "@/components/HomeContent";
-import getHomeData from "@/utils/server/fetchers/home";
+import getHomeData from "@/utils/fetchers/home";
 import type { Metadata } from "next";
 
 // Statically generated at build time, will error if any Dynamic APIs are used
