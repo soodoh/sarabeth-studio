@@ -1,29 +1,15 @@
-import { Jimp, JimpMime, ResizeStrategy } from "jimp";
-import type { Asset } from "@/utils/types";
+import sharp from "sharp";
 
-type JimpType = Awaited<ReturnType<(typeof Jimp)["read"]>>;
-
-const placeholderCache: Map<string, string> = new Map();
-
-export async function readImage(asset: Asset): Promise<JimpType | null> {
-  const url = `${asset.url}?w=100&q=50&fm=jpg`;
-  const image = await Jimp.read(url);
-  image.resize({ w: 25, mode: ResizeStrategy.BICUBIC });
-  return image;
+export async function readImage(baseUrl: string): Promise<sharp.Sharp> {
+  const url = `${baseUrl}?w=100&q=50&fm=jpg`;
+  const response = await fetch(url);
+  const arrayBuffer = await response.arrayBuffer();
+  return sharp(arrayBuffer).jpeg();
 }
 
-export const getPlaceholder = async (asset: Asset) => {
-  const cached = placeholderCache.get(asset.id);
-  if (cached) {
-    return cached;
-  }
-  const image = await readImage(asset);
-  if (!image) {
-    throw new TypeError(`getPlaceholder: failed to read URL: ${asset.url}`);
-  }
-
-  const placeholder = await image.getBase64(JimpMime.gif);
-  placeholderCache.set(asset.id, placeholder);
-
+export const getPlaceholder = async (url: string) => {
+  const image = await readImage(url);
+  const imageBuffer = await image.resize(25).blur().toBuffer();
+  const placeholder = `data:image/jpg;base64,${imageBuffer.toString("base64")}`;
   return placeholder;
 };
