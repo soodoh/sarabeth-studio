@@ -1,4 +1,4 @@
-import { client, formatImage, formatUrl } from "@/utils/server/contentful";
+import { client, formatImage, formatUrl } from "@/utils/contentful";
 import type { MediaData } from "@/utils/types";
 
 const getMediaData = async (): Promise<MediaData> => {

@@ -2,7 +2,7 @@ import "@/styles/globals.css";
 import "@/styles/swiper.css";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import getCommonData from "@/utils/server/fetchers/common";
+import getCommonData from "@/utils/fetchers/common";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

@@ -1,6 +1,6 @@
 import BannerImage from "@/components/BannerImage";
 import LessonsPageContent from "@/components/LessonsPageContent";
-import getLessonsData from "@/utils/server/fetchers/lessons";
+import getLessonsData from "@/utils/fetchers/lessons";
 import type { Metadata } from "next";
 
 // Statically generated at build time, will error if any Dynamic APIs are used

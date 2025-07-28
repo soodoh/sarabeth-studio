@@ -1,4 +1,4 @@
-import { client, formatImage } from "@/utils/server/contentful";
+import { client, formatImage } from "@/utils/contentful";
 import type { HomeData, ImageType } from "@/utils/types";
 import type { Document } from "@contentful/rich-text-types";
 

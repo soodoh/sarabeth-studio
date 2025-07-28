@@ -1,4 +1,4 @@
-import { client, formatImage, formatUrl } from "@/utils/server/contentful";
+import { client, formatImage, formatUrl } from "@/utils/contentful";
 import type { AboutData } from "@/utils/types";
 
 const getAboutData = async (): Promise<AboutData> => {
