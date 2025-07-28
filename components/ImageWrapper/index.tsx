@@ -10,13 +10,11 @@ type Props = {
 
 const ImageWrapper = ({ image, priority = false }: Props) => {
   const sizes = [
-    "(max-width: 399px) 184px",
-    "(max-width: 519px) 244px",
-    "(max-width: 639px) 200px",
-    "(max-width: 767px) 156px",
-    "(max-width: 1023px) 220px",
-    "(max-width: 1279px) 280px",
-    "280px",
+    "(max-width: 639px) 100vw",
+    "(max-width: 767px) 400px",
+    "(max-width: 1023px) 600px",
+    "(max-width: 1279px) 800px",
+    "400px",
   ].join(", ");
   return (
     <NextImage
