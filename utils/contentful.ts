@@ -25,19 +25,29 @@ export function formatAsset(asset: ContentfulAsset): Asset {
   };
 }
 
+const imageCache: Map<string, ImageType> = new Map();
+
 export async function formatImage(
   contentfulAsset: ContentfulAsset,
 ): Promise<ImageType> {
   const asset = formatAsset(contentfulAsset);
+  const cached = imageCache.get(asset.id);
+  if (cached) {
+    return cached;
+  }
+
   const imageDetails = contentfulAsset.fields.file?.details as AssetDetails;
   const width = imageDetails.image?.width ?? 0;
   const height = imageDetails.image?.height ?? 0;
   const placeholder = await getPlaceholder(asset);
 
-  return {
+  const image = {
     ...asset,
     width,
     height,
     placeholder,
   };
+  imageCache.set(asset.id, image);
+
+  return image;
 }
