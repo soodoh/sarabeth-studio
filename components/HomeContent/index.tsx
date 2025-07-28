@@ -6,7 +6,7 @@ import StyledImage from "@/components/StyledImage";
 import WidthContainer from "@/components/WidthContainer";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import classNames from "classnames/bind";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import styles from "./HomeContent.module.css";
 import type { HomeData } from "@/utils/types";
 
