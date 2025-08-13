@@ -1623,9 +1623,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@netlify/plugin-lighthouse@npm:^6.0.2":
-  version: 6.0.2
-  resolution: "@netlify/plugin-lighthouse@npm:6.0.2"
+"@netlify/plugin-lighthouse@npm:^6.0.3":
+  version: 6.0.3
+  resolution: "@netlify/plugin-lighthouse@npm:6.0.3"
   dependencies:
     chalk: "npm:^4.1.0"
     chrome-launcher: "npm:^0.15.0"
@@ -1635,7 +1635,7 @@ __metadata:
     html-minifier: "npm:^4.0.0"
     lighthouse: "npm:^9.6.3"
     puppeteer: "npm:^24.8.2"
-  checksum: 10/8943052f412ca3d7c15b8e6a353a830d1552dc84591a3b51bf93d02e00b79fad9bad1aa202f2c1d244d87fb1d348958d612e6faf6875c1a81f06c6bcb82265ca
+  checksum: 10/988bdd89f15782b79fb255f7bf3c0a4fed2d7297869ed6e29bb9f7fcd1aa5f42a0382863f1cb4959b8e734b1c03201ae86697224e249935d049538dc0551e996
   languageName: node
   linkType: hard
 
@@ -8199,7 +8199,7 @@ __metadata:
     "@contentful/rich-text-react-renderer": "npm:^16.1.0"
     "@contentful/rich-text-types": "npm:^17.1.0"
     "@csstools/postcss-global-data": "npm:^3.0.0"
-    "@netlify/plugin-lighthouse": "npm:^6.0.2"
+    "@netlify/plugin-lighthouse": "npm:^6.0.3"
     "@netlify/plugin-nextjs": "npm:^5.12.0"
     "@types/node": "npm:24.2.1"
     "@types/react": "npm:^19.1.10"
