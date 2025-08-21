@@ -51,14 +51,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/client-ses@npm:^3.864.0":
-  version: 3.864.0
-  resolution: "@aws-sdk/client-ses@npm:3.864.0"
+"@aws-sdk/client-ses@npm:^3.872.0":
+  version: 3.872.0
+  resolution: "@aws-sdk/client-ses@npm:3.872.0"
   dependencies:
     "@aws-crypto/sha256-browser": "npm:5.2.0"
     "@aws-crypto/sha256-js": "npm:5.2.0"
     "@aws-sdk/core": "npm:3.864.0"
-    "@aws-sdk/credential-provider-node": "npm:3.864.0"
+    "@aws-sdk/credential-provider-node": "npm:3.872.0"
     "@aws-sdk/middleware-host-header": "npm:3.862.0"
     "@aws-sdk/middleware-logger": "npm:3.862.0"
     "@aws-sdk/middleware-recursion-detection": "npm:3.862.0"
@@ -95,13 +95,13 @@ __metadata:
     "@smithy/util-utf8": "npm:^4.0.0"
     "@smithy/util-waiter": "npm:^4.0.7"
     tslib: "npm:^2.6.2"
-  checksum: 10/e087ef120743c7c32d5e800382c8e462c7cf67599a7d0287377428561652e7639670905332e6aa5833388d767613c23eed08dc0b78dec1c146a9e5f544c27be6
+  checksum: 10/80bd778106203ae18bc32f885a25acc61a1219d4c5fdea4384ba2315bffce3c1fa3dbdda23c85756ccffd6f398c3471db4bfcc65adfe4a57a018f3d1efe71cc5
   languageName: node
   linkType: hard
 
-"@aws-sdk/client-sso@npm:3.864.0":
-  version: 3.864.0
-  resolution: "@aws-sdk/client-sso@npm:3.864.0"
+"@aws-sdk/client-sso@npm:3.872.0":
+  version: 3.872.0
+  resolution: "@aws-sdk/client-sso@npm:3.872.0"
   dependencies:
     "@aws-crypto/sha256-browser": "npm:5.2.0"
     "@aws-crypto/sha256-js": "npm:5.2.0"
@@ -141,7 +141,7 @@ __metadata:
     "@smithy/util-retry": "npm:^4.0.7"
     "@smithy/util-utf8": "npm:^4.0.0"
     tslib: "npm:^2.6.2"
-  checksum: 10/77bf9ec221976d878b053b5731f6d829757dba4bb9376ba40e068352464c4a3508b9a6622b59da7554084f88ec17d68ae98344d0cd76b30cd2fa1161de578d86
+  checksum: 10/bd38a9d380781d07712770d85e1813ae684817b0de42e35a8c5d6a59f11847917b9bbfb1fd6b74dc1f21d6ddd483b65192bfe4217382a1487a41e427472c32c9
   languageName: node
   linkType: hard
 
@@ -199,15 +199,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/credential-provider-ini@npm:3.864.0":
-  version: 3.864.0
-  resolution: "@aws-sdk/credential-provider-ini@npm:3.864.0"
+"@aws-sdk/credential-provider-ini@npm:3.872.0":
+  version: 3.872.0
+  resolution: "@aws-sdk/credential-provider-ini@npm:3.872.0"
   dependencies:
     "@aws-sdk/core": "npm:3.864.0"
     "@aws-sdk/credential-provider-env": "npm:3.864.0"
     "@aws-sdk/credential-provider-http": "npm:3.864.0"
     "@aws-sdk/credential-provider-process": "npm:3.864.0"
-    "@aws-sdk/credential-provider-sso": "npm:3.864.0"
+    "@aws-sdk/credential-provider-sso": "npm:3.872.0"
     "@aws-sdk/credential-provider-web-identity": "npm:3.864.0"
     "@aws-sdk/nested-clients": "npm:3.864.0"
     "@aws-sdk/types": "npm:3.862.0"
@@ -216,19 +216,19 @@ __metadata:
     "@smithy/shared-ini-file-loader": "npm:^4.0.5"
     "@smithy/types": "npm:^4.3.2"
     tslib: "npm:^2.6.2"
-  checksum: 10/5b779614ea468d96767672c6f2f94fbe50e9252c954d935d1bd52e41308e896b720d0d5d84fbd289dc9ae32c26fd9179ed9f1bd541d5756002486ae4f3b03be3
+  checksum: 10/849985dde921b20aac0550b4753df75ac5549ffdeea77aab937169c66160a6dfc064f17b0e7ae8a906953cab0f5603a1fbfb1541a6e8cd63f6109e8f57900425
   languageName: node
   linkType: hard
 
-"@aws-sdk/credential-provider-node@npm:3.864.0":
-  version: 3.864.0
-  resolution: "@aws-sdk/credential-provider-node@npm:3.864.0"
+"@aws-sdk/credential-provider-node@npm:3.872.0":
+  version: 3.872.0
+  resolution: "@aws-sdk/credential-provider-node@npm:3.872.0"
   dependencies:
     "@aws-sdk/credential-provider-env": "npm:3.864.0"
     "@aws-sdk/credential-provider-http": "npm:3.864.0"
-    "@aws-sdk/credential-provider-ini": "npm:3.864.0"
+    "@aws-sdk/credential-provider-ini": "npm:3.872.0"
     "@aws-sdk/credential-provider-process": "npm:3.864.0"
-    "@aws-sdk/credential-provider-sso": "npm:3.864.0"
+    "@aws-sdk/credential-provider-sso": "npm:3.872.0"
     "@aws-sdk/credential-provider-web-identity": "npm:3.864.0"
     "@aws-sdk/types": "npm:3.862.0"
     "@smithy/credential-provider-imds": "npm:^4.0.7"
@@ -236,7 +236,7 @@ __metadata:
     "@smithy/shared-ini-file-loader": "npm:^4.0.5"
     "@smithy/types": "npm:^4.3.2"
     tslib: "npm:^2.6.2"
-  checksum: 10/e6e40d909495581e078bcec802588c192f7d38cb9e73b3b7e56c18b3418b7f5cddc0ba94bd5ec64705fe08f99a3a0ee6816279243d6b4a3ace0ca7d1e14976c5
+  checksum: 10/d140c4dc9cf32fb093879537d629c096bea20b0fb03410e7d63ff2212fe7c11204d589bdbf7e3999907c67b4730aacc9cef005e5c5410b3d384d508f63ca3a09
   languageName: node
   linkType: hard
 
@@ -254,11 +254,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/credential-provider-sso@npm:3.864.0":
-  version: 3.864.0
-  resolution: "@aws-sdk/credential-provider-sso@npm:3.864.0"
+"@aws-sdk/credential-provider-sso@npm:3.872.0":
+  version: 3.872.0
+  resolution: "@aws-sdk/credential-provider-sso@npm:3.872.0"
   dependencies:
-    "@aws-sdk/client-sso": "npm:3.864.0"
+    "@aws-sdk/client-sso": "npm:3.872.0"
     "@aws-sdk/core": "npm:3.864.0"
     "@aws-sdk/token-providers": "npm:3.864.0"
     "@aws-sdk/types": "npm:3.862.0"
@@ -266,7 +266,7 @@ __metadata:
     "@smithy/shared-ini-file-loader": "npm:^4.0.5"
     "@smithy/types": "npm:^4.3.2"
     tslib: "npm:^2.6.2"
-  checksum: 10/f30b050083d788deaf481bf6154819401d08925003a88db7c98cc8c3f0d4e3aacdeb4bf70958b7d75f1fafaf8386dbb5671cb899d46424ab59a7e16d17bc6b5a
+  checksum: 10/5f5cf6a65d52931ab558804fe481c0481628f522d2061bfa6c7902f5112a04dc937cc8626e371a731d6ce49e73ae419467818d48d04603ce3b80a921d4d5cc2c
   languageName: node
   linkType: hard
 
@@ -1639,81 +1639,81 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@netlify/plugin-nextjs@npm:^5.12.0":
-  version: 5.12.0
-  resolution: "@netlify/plugin-nextjs@npm:5.12.0"
-  checksum: 10/1b3a4bc1f16e93b39b266d9ddb106e5e5b48d284eddf14a2256f01ed5826a4bb3f11257158af5791c707aa6da520c78d7c25348595ab9e664e6860609f8df3cb
+"@netlify/plugin-nextjs@npm:^5.12.1":
+  version: 5.12.1
+  resolution: "@netlify/plugin-nextjs@npm:5.12.1"
+  checksum: 10/627c746a48866ec023a1441d8445a90e007bce9e5a436ec9e20107a07229dd707a29c6ac91938bbaa7f3e95fa9c0035e450b03d699eb32abd82f22e0e2123ed8
   languageName: node
   linkType: hard
 
-"@next/env@npm:15.4.6":
-  version: 15.4.6
-  resolution: "@next/env@npm:15.4.6"
-  checksum: 10/1b21a0f1df184554d2d33f28218f3f2e24168b173d09aa3b117fd4aee5e618f3be54366b678ea4f52a3b429407519317dcaad11b6f10d683d72f590fcd24e087
+"@next/env@npm:15.5.0":
+  version: 15.5.0
+  resolution: "@next/env@npm:15.5.0"
+  checksum: 10/e754202be4c6a158497f6031943a222d9924f63fc14f8fff7d70ed782b508bb48042acd2a6fb860891b81e6415e1672b5b759160ee7a797dbd6daa4ba8f3557c
   languageName: node
   linkType: hard
 
-"@next/eslint-plugin-next@npm:15.4.6":
-  version: 15.4.6
-  resolution: "@next/eslint-plugin-next@npm:15.4.6"
+"@next/eslint-plugin-next@npm:15.5.0":
+  version: 15.5.0
+  resolution: "@next/eslint-plugin-next@npm:15.5.0"
   dependencies:
     fast-glob: "npm:3.3.1"
-  checksum: 10/a02a813bcbc14a49418daff7e34b85600011ba74c285fe570382b260f4447c7966d48b261a8735ab1706e0dcb345edbd92859030bf10848084fce91083bfaecb
+  checksum: 10/b6746717a1626fff5d880d8825768e2ba3ae892787a82e7edcad1cf71ab0a23a4588a6ec451087a0c5030e477a3590c684653d60d81ba5ea369c3f69e6a90a3a
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-arm64@npm:15.4.6":
-  version: 15.4.6
-  resolution: "@next/swc-darwin-arm64@npm:15.4.6"
+"@next/swc-darwin-arm64@npm:15.5.0":
+  version: 15.5.0
+  resolution: "@next/swc-darwin-arm64@npm:15.5.0"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-x64@npm:15.4.6":
-  version: 15.4.6
-  resolution: "@next/swc-darwin-x64@npm:15.4.6"
+"@next/swc-darwin-x64@npm:15.5.0":
+  version: 15.5.0
+  resolution: "@next/swc-darwin-x64@npm:15.5.0"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-gnu@npm:15.4.6":
-  version: 15.4.6
-  resolution: "@next/swc-linux-arm64-gnu@npm:15.4.6"
+"@next/swc-linux-arm64-gnu@npm:15.5.0":
+  version: 15.5.0
+  resolution: "@next/swc-linux-arm64-gnu@npm:15.5.0"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-musl@npm:15.4.6":
-  version: 15.4.6
-  resolution: "@next/swc-linux-arm64-musl@npm:15.4.6"
+"@next/swc-linux-arm64-musl@npm:15.5.0":
+  version: 15.5.0
+  resolution: "@next/swc-linux-arm64-musl@npm:15.5.0"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-gnu@npm:15.4.6":
-  version: 15.4.6
-  resolution: "@next/swc-linux-x64-gnu@npm:15.4.6"
+"@next/swc-linux-x64-gnu@npm:15.5.0":
+  version: 15.5.0
+  resolution: "@next/swc-linux-x64-gnu@npm:15.5.0"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-musl@npm:15.4.6":
-  version: 15.4.6
-  resolution: "@next/swc-linux-x64-musl@npm:15.4.6"
+"@next/swc-linux-x64-musl@npm:15.5.0":
+  version: 15.5.0
+  resolution: "@next/swc-linux-x64-musl@npm:15.5.0"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@next/swc-win32-arm64-msvc@npm:15.4.6":
-  version: 15.4.6
-  resolution: "@next/swc-win32-arm64-msvc@npm:15.4.6"
+"@next/swc-win32-arm64-msvc@npm:15.5.0":
+  version: 15.5.0
+  resolution: "@next/swc-win32-arm64-msvc@npm:15.5.0"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-win32-x64-msvc@npm:15.4.6":
-  version: 15.4.6
-  resolution: "@next/swc-win32-x64-msvc@npm:15.4.6"
+"@next/swc-win32-x64-msvc@npm:15.5.0":
+  version: 15.5.0
+  resolution: "@next/swc-win32-x64-msvc@npm:15.5.0"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -2438,12 +2438,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:24.2.1":
-  version: 24.2.1
-  resolution: "@types/node@npm:24.2.1"
+"@types/node@npm:24.3.0":
+  version: 24.3.0
+  resolution: "@types/node@npm:24.3.0"
   dependencies:
     undici-types: "npm:~7.10.0"
-  checksum: 10/cdfa7b30b2f1de71c4cf0b66ee05c71c8f39819a817bb78b4ba10545d4ca1ea9988a3614885806e90401e92938aa08e08489b1b920ba5c1406a028295019734f
+  checksum: 10/1331c2d0e9a512ac27a016b4df3eff92317e4603dbbbab31731275dff14d3a04847a50c5776cbf94f99ff4dedac0ba5f721dce8cea020d8eea5e21711fd964b0
   languageName: node
   linkType: hard
 
@@ -4395,11 +4395,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-next@npm:15.4.6":
-  version: 15.4.6
-  resolution: "eslint-config-next@npm:15.4.6"
+"eslint-config-next@npm:15.5.0":
+  version: 15.5.0
+  resolution: "eslint-config-next@npm:15.5.0"
   dependencies:
-    "@next/eslint-plugin-next": "npm:15.4.6"
+    "@next/eslint-plugin-next": "npm:15.5.0"
     "@rushstack/eslint-patch": "npm:^1.10.3"
     "@typescript-eslint/eslint-plugin": "npm:^5.4.2 || ^6.0.0 || ^7.0.0 || ^8.0.0"
     "@typescript-eslint/parser": "npm:^5.4.2 || ^6.0.0 || ^7.0.0 || ^8.0.0"
@@ -4415,7 +4415,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10/da053475f57edb79b5036f58718cacad466c8242dc438be97dc26d7f7a0a7481a787bec3e92d721cf400b8b59d6adf25d02bf706dfb4cf95fb65af08279a0822
+  checksum: 10/21bdbba088178309139985d64b176d9454b98ad411c1197b92232d8aaced06fabdf14fdbb21cd2b4d71639c8c51e24c1a464c3f094c1381eea2d61e177caa576
   languageName: node
   linkType: hard
 
@@ -6530,19 +6530,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:^15.4.6":
-  version: 15.4.6
-  resolution: "next@npm:15.4.6"
+"next@npm:^15.5.0":
+  version: 15.5.0
+  resolution: "next@npm:15.5.0"
   dependencies:
-    "@next/env": "npm:15.4.6"
-    "@next/swc-darwin-arm64": "npm:15.4.6"
-    "@next/swc-darwin-x64": "npm:15.4.6"
-    "@next/swc-linux-arm64-gnu": "npm:15.4.6"
-    "@next/swc-linux-arm64-musl": "npm:15.4.6"
-    "@next/swc-linux-x64-gnu": "npm:15.4.6"
-    "@next/swc-linux-x64-musl": "npm:15.4.6"
-    "@next/swc-win32-arm64-msvc": "npm:15.4.6"
-    "@next/swc-win32-x64-msvc": "npm:15.4.6"
+    "@next/env": "npm:15.5.0"
+    "@next/swc-darwin-arm64": "npm:15.5.0"
+    "@next/swc-darwin-x64": "npm:15.5.0"
+    "@next/swc-linux-arm64-gnu": "npm:15.5.0"
+    "@next/swc-linux-arm64-musl": "npm:15.5.0"
+    "@next/swc-linux-x64-gnu": "npm:15.5.0"
+    "@next/swc-linux-x64-musl": "npm:15.5.0"
+    "@next/swc-win32-arm64-msvc": "npm:15.5.0"
+    "@next/swc-win32-x64-msvc": "npm:15.5.0"
     "@swc/helpers": "npm:0.5.15"
     caniuse-lite: "npm:^1.0.30001579"
     postcss: "npm:8.4.31"
@@ -6585,7 +6585,7 @@ __metadata:
       optional: true
   bin:
     next: dist/bin/next
-  checksum: 10/9af4109349b7e4c0f0196cee719ef9075f734d1450bdd0a73f9b188f87520817c80fb0b65ad4941881475decd2dd6da7aee19fbf6227483d510be9f0bad74d59
+  checksum: 10/407b418a7e5826ccff5419b2ccaf15c5011e1c16e1de7d0723eaac9c9a2126391ebcc1ea6b052e00f42adf62ccf5b59c0be3e59f2db56ef7b900f635b30a2069
   languageName: node
   linkType: hard
 
@@ -8199,7 +8199,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "sarabeth-studio@workspace:."
   dependencies:
-    "@aws-sdk/client-ses": "npm:^3.864.0"
+    "@aws-sdk/client-ses": "npm:^3.872.0"
     "@commitlint/cli": "npm:^19.8.1"
     "@commitlint/config-conventional": "npm:^19.8.1"
     "@commitlint/types": "npm:^19.8.1"
@@ -8207,22 +8207,22 @@ __metadata:
     "@contentful/rich-text-types": "npm:^17.1.0"
     "@csstools/postcss-global-data": "npm:^3.0.0"
     "@netlify/plugin-lighthouse": "npm:^6.0.3"
-    "@netlify/plugin-nextjs": "npm:^5.12.0"
+    "@netlify/plugin-nextjs": "npm:^5.12.1"
     "@tsconfig/next": "npm:^2.0.3"
-    "@types/node": "npm:24.2.1"
+    "@types/node": "npm:24.3.0"
     "@types/react": "npm:^19.1.10"
     classnames: "npm:^2.5.1"
     contentful: "npm:^11.7.15"
     cssnano: "npm:^7.1.0"
     eslint: "npm:^9.33.0"
-    eslint-config-next: "npm:15.4.6"
+    eslint-config-next: "npm:15.5.0"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-plugin-import: "npm:^2.32.0"
     eslint-plugin-no-relative-import-paths: "npm:^1.6.1"
     eslint-plugin-prettier: "npm:^5.5.4"
     husky: "npm:^9.1.7"
     motion: "npm:^12.23.12"
-    next: "npm:^15.4.6"
+    next: "npm:^15.5.0"
     postcss: "npm:^8.5.6"
     postcss-flexbugs-fixes: "npm:^5.0.2"
     postcss-normalize: "npm:^13.0.1"
