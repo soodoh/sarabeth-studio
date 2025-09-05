@@ -14,8 +14,8 @@
     "lint:fix": "eslint --fix ."
   },
   "dependencies": {
-    "@aws-sdk/client-ses": "^3.879.0",
-    "@contentful/rich-text-react-renderer": "^16.1.0",
+    "@aws-sdk/client-ses": "^3.883.0",
+    "@contentful/rich-text-react-renderer": "^16.1.1",
     "classnames": "^2.5.1",
     "contentful": "^11.7.15",
     "motion": "^12.23.12",
@@ -29,7 +29,7 @@
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@commitlint/types": "^19.8.1",
-    "@contentful/rich-text-types": "^17.1.0",
+    "@contentful/rich-text-types": "^17.2.0",
     "@csstools/postcss-global-data": "^3.1.0",
     "@netlify/plugin-lighthouse": "^6.0.3",
     "@netlify/plugin-nextjs": "^5.13.0",
@@ -37,7 +37,7 @@
     "@types/node": "24.3.1",
     "@types/react": "^19.1.12",
     "cssnano": "^7.1.1",
-    "eslint": "^9.34.0",
+    "eslint": "^9.35.0",
     "eslint-config-next": "15.5.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
