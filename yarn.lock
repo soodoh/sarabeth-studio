@@ -8558,7 +8558,7 @@ __metadata:
     react: "npm:^19.1.1"
     react-dom: "npm:^19.1.1"
     sharp: "npm:^0.34.3"
-    swiper: "npm:^11.2.10"
+    swiper: "npm:^12.0.1"
     typescript: "npm:^5.9.2"
   languageName: unknown
   linkType: soft
@@ -9135,10 +9135,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swiper@npm:^11.2.10":
-  version: 11.2.10
-  resolution: "swiper@npm:11.2.10"
-  checksum: 10/c3dde83e65d6ab686ad6e08b5e473f1043fa9f9f5b8d8825a8b5397c85025f71575acbcc23f2700fdf795cee9dd71256b8b65325dd0324f2fb3ca27651e59981
+"swiper@npm:^12.0.1":
+  version: 12.0.1
+  resolution: "swiper@npm:12.0.1"
+  checksum: 10/8d40643e72b84ff8aa68c7d161d97d982b18fa2937a8c4120e2ce4a0446b2e09fe4ac59d6328164c44f224d471f5e5dc9fe95c29103d6fbd0633f995b10f2da0
   languageName: node
   linkType: hard
 
