@@ -1967,10 +1967,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@netlify/plugin-nextjs@npm:^5.13.4":
-  version: 5.13.4
-  resolution: "@netlify/plugin-nextjs@npm:5.13.4"
-  checksum: 10/50b197b482805ebbd5ed94ecdd7a0d33571b4d01469d7afa2fa0946a599b1c85c1de5050e4dcacfe80e9c8eaf2992b20a7717c2addbc43dbdf2f3756038a8094
+"@netlify/plugin-nextjs@npm:^5.13.5":
+  version: 5.13.5
+  resolution: "@netlify/plugin-nextjs@npm:5.13.5"
+  checksum: 10/0245f2e4bbe56682c1835a7f96fe48f66549a75ab4aa0aef2b49ac42b2e1f6143df87c808a189e5c2cb59f59627fb15268677faeb8d8f61779744902a826ee8e
   languageName: node
   linkType: hard
 
@@ -2773,21 +2773,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:24.6.2":
-  version: 24.6.2
-  resolution: "@types/node@npm:24.6.2"
+"@types/node@npm:24.7.0":
+  version: 24.7.0
+  resolution: "@types/node@npm:24.7.0"
   dependencies:
-    undici-types: "npm:~7.13.0"
-  checksum: 10/8d1e64b37abdafd3da295394235ad5357509ac0b47e6991d36b1eecacd7ad830ada60ca71b7b3598b6c8b519361fb70aab691888c378ff25e69dba5690afcc22
+    undici-types: "npm:~7.14.0"
+  checksum: 10/db0b77e9b132906cdf0350661df660c970e924093ccaa781472d61bc5c448f3d15514b15f55b4df6827254a041aad2418339fe00d45ef10687557ffc0f026d47
   languageName: node
   linkType: hard
 
-"@types/react@npm:^19.2.0":
-  version: 19.2.0
-  resolution: "@types/react@npm:19.2.0"
+"@types/react@npm:^19.2.2":
+  version: 19.2.2
+  resolution: "@types/react@npm:19.2.2"
   dependencies:
     csstype: "npm:^3.0.2"
-  checksum: 10/c00a8552d54282caeb608d09664a250e6bd00b1f51e32bb73a0569d844ddbf58d25ffadffec85cc5df08e6c00e6c232a06a8efcfa5edd0bea2ce234519707b34
+  checksum: 10/d6adf8fd4bb23a7e04da5700d96b15dc0f59653727a9c6e940c151d7232fa1dbbab98417d5ac830dcfb6cba3f206efbd4cd83647e6f9a688d7363a90e607f6bf
   languageName: node
   linkType: hard
 
@@ -3908,9 +3908,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"contentful@npm:^11.8.4":
-  version: 11.8.4
-  resolution: "contentful@npm:11.8.4"
+"contentful@npm:^11.8.5":
+  version: 11.8.5
+  resolution: "contentful@npm:11.8.5"
   dependencies:
     "@contentful/content-source-maps": "npm:^0.11.33"
     "@contentful/rich-text-types": "npm:^16.6.1"
@@ -3919,7 +3919,7 @@ __metadata:
     contentful-sdk-core: "npm:^9.0.1"
     json-stringify-safe: "npm:^5.0.1"
     type-fest: "npm:^4.0.0"
-  checksum: 10/55566943edc90ec0606cea3b83d18b6ace3a7f4471d44f5053db31cb335a4032d166ba1432487ecbcc9455238e131974b2d7e7a7bc357f7d874cdbdcfa4870c5
+  checksum: 10/c09ee30c0315d51bd13bb61fe6a3b3eff343e0f5a62a8c46310fff778fd87aba824fe59588d6c3696045bdc35149e6b5cf94f1652d69d4c6213474640d38d8b4
   languageName: node
   linkType: hard
 
@@ -8597,12 +8597,12 @@ __metadata:
     "@contentful/rich-text-types": "npm:^17.2.4"
     "@csstools/postcss-global-data": "npm:^3.1.0"
     "@netlify/plugin-lighthouse": "npm:^6.0.3"
-    "@netlify/plugin-nextjs": "npm:^5.13.4"
+    "@netlify/plugin-nextjs": "npm:^5.13.5"
     "@tsconfig/next": "npm:^2.0.3"
-    "@types/node": "npm:24.6.2"
-    "@types/react": "npm:^19.2.0"
+    "@types/node": "npm:24.7.0"
+    "@types/react": "npm:^19.2.2"
     classnames: "npm:^2.5.1"
-    contentful: "npm:^11.8.4"
+    contentful: "npm:^11.8.5"
     cssnano: "npm:^7.1.1"
     eslint: "npm:^9.37.0"
     eslint-config-next: "npm:15.5.4"
@@ -9596,10 +9596,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici-types@npm:~7.13.0":
-  version: 7.13.0
-  resolution: "undici-types@npm:7.13.0"
-  checksum: 10/1088ad68dd57981aa6eced5b3f5d74129ac619fbe558b30cb584d6096d32b084ae30d7cdc480d622226e6ffc8d31e01ac30215816439a0d784e0fe64db873b0f
+"undici-types@npm:~7.14.0":
+  version: 7.14.0
+  resolution: "undici-types@npm:7.14.0"
+  checksum: 10/0f8709b21437697af35801e33bddbe9992e0cf1771959c41850b1946f63822b825e03ce99f44bf19e4f5c3ccc5166e0be59f541565c36ce86163dc2c5870bc62
   languageName: node
   linkType: hard
 
