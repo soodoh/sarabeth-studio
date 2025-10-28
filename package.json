@@ -14,7 +14,7 @@
     "lint:fix": "eslint --fix ."
   },
   "dependencies": {
-    "@aws-sdk/client-ses": "^3.914.0",
+    "@aws-sdk/client-ses": "^3.918.0",
     "@contentful/rich-text-react-renderer": "^16.1.5",
     "classnames": "^2.5.1",
     "contentful": "^11.8.7",
@@ -32,7 +32,7 @@
     "@contentful/rich-text-types": "^17.2.4",
     "@csstools/postcss-global-data": "^3.1.0",
     "@netlify/plugin-lighthouse": "^6.0.3",
-    "@netlify/plugin-nextjs": "^5.14.3",
+    "@netlify/plugin-nextjs": "^5.14.4",
     "@tsconfig/next": "^2.0.3",
     "@types/node": "24.9.1",
     "@types/react": "^19.2.2",
