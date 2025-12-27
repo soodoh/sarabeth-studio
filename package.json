@@ -19,7 +19,7 @@
     "classnames": "^2.5.1",
     "contentful": "^11.10.1",
     "motion": "^12.23.26",
-    "next": "^16.0.5",
+    "next": "^16.1.1",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "sharp": "^0.34.5",
@@ -47,7 +47,7 @@
     "postcss": "^8.5.6",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-normalize": "^13.0.1",
-    "postcss-preset-env": "^10.5.0",
+    "postcss-preset-env": "^10.6.0",
     "prettier": "^3.7.4",
     "typescript": "^5.9.3"
   },
