@@ -51,14 +51,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/client-ses@npm:^3.958.0":
-  version: 3.958.0
-  resolution: "@aws-sdk/client-ses@npm:3.958.0"
+"@aws-sdk/client-ses@npm:^3.962.0":
+  version: 3.962.0
+  resolution: "@aws-sdk/client-ses@npm:3.962.0"
   dependencies:
     "@aws-crypto/sha256-browser": "npm:5.2.0"
     "@aws-crypto/sha256-js": "npm:5.2.0"
     "@aws-sdk/core": "npm:3.957.0"
-    "@aws-sdk/credential-provider-node": "npm:3.958.0"
+    "@aws-sdk/credential-provider-node": "npm:3.962.0"
     "@aws-sdk/middleware-host-header": "npm:3.957.0"
     "@aws-sdk/middleware-logger": "npm:3.957.0"
     "@aws-sdk/middleware-recursion-detection": "npm:3.957.0"
@@ -95,7 +95,7 @@ __metadata:
     "@smithy/util-utf8": "npm:^4.2.0"
     "@smithy/util-waiter": "npm:^4.2.7"
     tslib: "npm:^2.6.2"
-  checksum: 10/2d20d8ed60f976d482c46aa1506c4cb1393a2a0e081c0593ce699f23f8cd5cbd29571576367d081a522415ffa8f588fac8df2c830d8b89f399be1ff26cb9d21f
+  checksum: 10/01dc785318913735350069f78b30770d261dae044ee0cb775c622a3298090f8e5014b966845e77ab334e272c8ac17eb064e7c6e3ffb319b0f781ed08ba51a650
   languageName: node
   linkType: hard
 
@@ -197,14 +197,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/credential-provider-ini@npm:3.958.0":
-  version: 3.958.0
-  resolution: "@aws-sdk/credential-provider-ini@npm:3.958.0"
+"@aws-sdk/credential-provider-ini@npm:3.962.0":
+  version: 3.962.0
+  resolution: "@aws-sdk/credential-provider-ini@npm:3.962.0"
   dependencies:
     "@aws-sdk/core": "npm:3.957.0"
     "@aws-sdk/credential-provider-env": "npm:3.957.0"
     "@aws-sdk/credential-provider-http": "npm:3.957.0"
-    "@aws-sdk/credential-provider-login": "npm:3.958.0"
+    "@aws-sdk/credential-provider-login": "npm:3.962.0"
     "@aws-sdk/credential-provider-process": "npm:3.957.0"
     "@aws-sdk/credential-provider-sso": "npm:3.958.0"
     "@aws-sdk/credential-provider-web-identity": "npm:3.958.0"
@@ -215,13 +215,13 @@ __metadata:
     "@smithy/shared-ini-file-loader": "npm:^4.4.2"
     "@smithy/types": "npm:^4.11.0"
     tslib: "npm:^2.6.2"
-  checksum: 10/531a6fef016c5dd82f20e61bf05f2ef4b813c4f93fd33e53ac11ed42e0453946f8cca0d76940016e4a8e1199f272cd5b7ee8dbc0b3e99633660729d2a580c37c
+  checksum: 10/d04c7edafe3d7638909832c4ff82a8d998d5a41759ec78f1c7f32830a592fb140f5882b3973680bf76f41879b6722eea26f6cad01045ed339eb6f386056749e7
   languageName: node
   linkType: hard
 
-"@aws-sdk/credential-provider-login@npm:3.958.0":
-  version: 3.958.0
-  resolution: "@aws-sdk/credential-provider-login@npm:3.958.0"
+"@aws-sdk/credential-provider-login@npm:3.962.0":
+  version: 3.962.0
+  resolution: "@aws-sdk/credential-provider-login@npm:3.962.0"
   dependencies:
     "@aws-sdk/core": "npm:3.957.0"
     "@aws-sdk/nested-clients": "npm:3.958.0"
@@ -231,17 +231,17 @@ __metadata:
     "@smithy/shared-ini-file-loader": "npm:^4.4.2"
     "@smithy/types": "npm:^4.11.0"
     tslib: "npm:^2.6.2"
-  checksum: 10/421fe85db17f01c6796bde874e1d86e8b686911a0f65fd529bb82a5b41f9845c404917d6c8afdd0cb7ffc5900876dd2aa6d02e03176636710fa4bab8b1949144
+  checksum: 10/c2e0404cc3d9ef572521be78655df22297a7bd7bbf0933db201ab83cd5de205dc3f61ce7b6fbe8079b3a522b48348704923edae3cc80e5edf0a8dc48e654e376
   languageName: node
   linkType: hard
 
-"@aws-sdk/credential-provider-node@npm:3.958.0":
-  version: 3.958.0
-  resolution: "@aws-sdk/credential-provider-node@npm:3.958.0"
+"@aws-sdk/credential-provider-node@npm:3.962.0":
+  version: 3.962.0
+  resolution: "@aws-sdk/credential-provider-node@npm:3.962.0"
   dependencies:
     "@aws-sdk/credential-provider-env": "npm:3.957.0"
     "@aws-sdk/credential-provider-http": "npm:3.957.0"
-    "@aws-sdk/credential-provider-ini": "npm:3.958.0"
+    "@aws-sdk/credential-provider-ini": "npm:3.962.0"
     "@aws-sdk/credential-provider-process": "npm:3.957.0"
     "@aws-sdk/credential-provider-sso": "npm:3.958.0"
     "@aws-sdk/credential-provider-web-identity": "npm:3.958.0"
@@ -251,7 +251,7 @@ __metadata:
     "@smithy/shared-ini-file-loader": "npm:^4.4.2"
     "@smithy/types": "npm:^4.11.0"
     tslib: "npm:^2.6.2"
-  checksum: 10/5797068f0716a7d29995356cedf59a1e76de062c0f650e4aa4eb45e909bcdd14a684eed45b31801faef44a66c8cd4b6d762cdedec84d993ee275f34efaf1aa48
+  checksum: 10/0356b3ef2842e37a869a32b349d205eeada6074bf36391991886e7ceee35a6b83724990ae20b53e031b528f005acbf9dccbdf887be2e020b7743093df4465b55
   languageName: node
   linkType: hard
 
@@ -697,30 +697,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@commitlint/cli@npm:^20.2.0":
-  version: 20.2.0
-  resolution: "@commitlint/cli@npm:20.2.0"
+"@commitlint/cli@npm:^20.3.0":
+  version: 20.3.0
+  resolution: "@commitlint/cli@npm:20.3.0"
   dependencies:
     "@commitlint/format": "npm:^20.2.0"
-    "@commitlint/lint": "npm:^20.2.0"
-    "@commitlint/load": "npm:^20.2.0"
+    "@commitlint/lint": "npm:^20.3.0"
+    "@commitlint/load": "npm:^20.3.0"
     "@commitlint/read": "npm:^20.2.0"
     "@commitlint/types": "npm:^20.2.0"
     tinyexec: "npm:^1.0.0"
     yargs: "npm:^17.0.0"
   bin:
     commitlint: ./cli.js
-  checksum: 10/3892ff04ffc60c63fd53546e97d6fb3aa19cbcc60149ff9dce631814064ac002e656da23577d9510adaddf5da9c07259366b6a6a549a0959731491eb76c5d5bd
+  checksum: 10/92d7d3c0f27c9af8ebd3ca18c405b4381d6810cb02fb381aa7af23426f62404e66be4067313f2034278ac0739d8ce3809d14ee1dbf097dbaa58b8605b414ce41
   languageName: node
   linkType: hard
 
-"@commitlint/config-conventional@npm:^20.2.0":
-  version: 20.2.0
-  resolution: "@commitlint/config-conventional@npm:20.2.0"
+"@commitlint/config-conventional@npm:^20.3.0":
+  version: 20.3.0
+  resolution: "@commitlint/config-conventional@npm:20.3.0"
   dependencies:
     "@commitlint/types": "npm:^20.2.0"
     conventional-changelog-conventionalcommits: "npm:^7.0.2"
-  checksum: 10/e9290c90c0e2b56ece25d45df1477746355ff540204d6acd9ef6c514e8e52aecde730667bb638b793f93e7e3c5d1fc395e3ea15047918cad48d834eb773956d5
+  checksum: 10/410fe56bbe553a591e6a30dad018c992e9a2d5c1851666cd323d26dc3b1a96f15b6350c71cd3c3095653408109cdcaae8cd76eaf69868896cef9e0ea532e0464
   languageName: node
   linkType: hard
 
@@ -775,21 +775,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@commitlint/lint@npm:^20.2.0":
-  version: 20.2.0
-  resolution: "@commitlint/lint@npm:20.2.0"
+"@commitlint/lint@npm:^20.3.0":
+  version: 20.3.0
+  resolution: "@commitlint/lint@npm:20.3.0"
   dependencies:
     "@commitlint/is-ignored": "npm:^20.2.0"
     "@commitlint/parse": "npm:^20.2.0"
-    "@commitlint/rules": "npm:^20.2.0"
+    "@commitlint/rules": "npm:^20.3.0"
     "@commitlint/types": "npm:^20.2.0"
-  checksum: 10/35844454c0c2b04e4f5ee10f099bb34100027a5db2009fe2ac12997001f8bef371d7479cd41b1ac8e422395762c47dc60676e976b44be4d5b8f24c09b6adc2f1
+  checksum: 10/e51f55cd7fdc19fcbd61d481d98e0bb11ef4f2c152fe01ddc6e11bef88e06db9bbddeb4fe5aad86540879426bbc515ca2f82bf910bfcf87a4bef247b9758a50b
   languageName: node
   linkType: hard
 
-"@commitlint/load@npm:^20.2.0":
-  version: 20.2.0
-  resolution: "@commitlint/load@npm:20.2.0"
+"@commitlint/load@npm:^20.3.0":
+  version: 20.3.0
+  resolution: "@commitlint/load@npm:20.3.0"
   dependencies:
     "@commitlint/config-validator": "npm:^20.2.0"
     "@commitlint/execute-rule": "npm:^20.0.0"
@@ -801,7 +801,7 @@ __metadata:
     lodash.isplainobject: "npm:^4.0.6"
     lodash.merge: "npm:^4.6.2"
     lodash.uniq: "npm:^4.5.0"
-  checksum: 10/90285577381d593fbd2ee7fb825234f828378205374d26186577500bd160919efa01b1e584ad44190e57da9c151238063b8c896356bf9a7074e4a85a5a3e19b5
+  checksum: 10/d55989ecc080f44c5113acd0a9a2f29c656262ddaf747212d9c3aa0b96bba2a96ac6b65d3623238eebf0043636cb5a6e09f528362a17753ff48938b400db543b
   languageName: node
   linkType: hard
 
@@ -850,15 +850,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@commitlint/rules@npm:^20.2.0":
-  version: 20.2.0
-  resolution: "@commitlint/rules@npm:20.2.0"
+"@commitlint/rules@npm:^20.3.0":
+  version: 20.3.0
+  resolution: "@commitlint/rules@npm:20.3.0"
   dependencies:
     "@commitlint/ensure": "npm:^20.2.0"
     "@commitlint/message": "npm:^20.0.0"
     "@commitlint/to-lines": "npm:^20.0.0"
     "@commitlint/types": "npm:^20.2.0"
-  checksum: 10/f5cda11de06a5cbacceebb0628a4a45b01e2d3af483e1e95cc04aa7ec1a1198cfdcd8587c29afdc9dc915df8a849864e989347c6304f81b50fdb0c98e47ab49f
+  checksum: 10/20e3c94cb9b906d91d74488e957a7a00eaa0308a6d1e6d294fb31c88bfbfe518902670473a615ee56782b69d47c50d46ac537576329ffc40ddbc255012c7a349
   languageName: node
   linkType: hard
 
@@ -1376,6 +1376,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@csstools/postcss-property-rule-prelude-list@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@csstools/postcss-property-rule-prelude-list@npm:1.0.0"
+  dependencies:
+    "@csstools/css-parser-algorithms": "npm:^3.0.5"
+    "@csstools/css-tokenizer": "npm:^3.0.4"
+  peerDependencies:
+    postcss: ^8.4
+  checksum: 10/f915cef138a8a96d256a47c6c317456d3d31d516777bc3d556ad8276a2d919405cc24781c91e4c629f2bf009e79be84f38cf62ac73fe94edd7bf61d4b2c7cf93
+  languageName: node
+  linkType: hard
+
 "@csstools/postcss-random-function@npm:^2.0.1":
   version: 2.0.1
   resolution: "@csstools/postcss-random-function@npm:2.0.1"
@@ -1438,6 +1450,17 @@ __metadata:
   peerDependencies:
     postcss: ^8.4
   checksum: 10/6465a883be42d4cc4a4e83be2626a1351de4bfe84a63641c53e7c39d3c0e109152489ca2d8235625cdf6726341c676b9fbbca18fe80bb5eae8d488a0e42fc5e4
+  languageName: node
+  linkType: hard
+
+"@csstools/postcss-syntax-descriptor-syntax-production@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@csstools/postcss-syntax-descriptor-syntax-production@npm:1.0.1"
+  dependencies:
+    "@csstools/css-tokenizer": "npm:^3.0.4"
+  peerDependencies:
+    postcss: ^8.4
+  checksum: 10/d0216cf3cd0b86203c5927cb211500543dec498d6d91b393caaa1df82af7dd7570a477a9a829ab15341ef812e341a7b34193f204a18c10e571b6da8df14c2127
   languageName: node
   linkType: hard
 
@@ -2243,10 +2266,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@netlify/plugin-nextjs@npm:^5.15.3":
-  version: 5.15.3
-  resolution: "@netlify/plugin-nextjs@npm:5.15.3"
-  checksum: 10/0c5cc9de1f11130da0d66dbfb603e7b2eff8086f5652c94916f7cf18c7cd47ad3ea6b23b3a85d7af9da8c5654e99b59cad9962b85903efacf7f2a3856a0777c6
+"@netlify/plugin-nextjs@npm:^5.15.4":
+  version: 5.15.4
+  resolution: "@netlify/plugin-nextjs@npm:5.15.4"
+  checksum: 10/f988b457c2bb54c24acdcc66f695be395614ab7e89225142c08df19805a7f3f32ff7b7e8a03142891e3c05cb02a4514c0dded86a592b153e63c09b160d3a6702
   languageName: node
   linkType: hard
 
@@ -3602,7 +3625,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"autoprefixer@npm:^10.4.22":
+"autoprefixer@npm:^10.4.23":
   version: 10.4.23
   resolution: "autoprefixer@npm:10.4.23"
   dependencies:
@@ -3864,7 +3887,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"browserslist@npm:^4.28.0, browserslist@npm:^4.28.1":
+"browserslist@npm:^4.28.1":
   version: 4.28.1
   resolution: "browserslist@npm:4.28.1"
   dependencies:
@@ -4455,10 +4478,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cssdb@npm:^8.5.2":
-  version: 8.5.2
-  resolution: "cssdb@npm:8.5.2"
-  checksum: 10/d3b5d7c44e633428085cc9bc2e1a77c6f5c7962508ae1beb48f4e4c7c3f48c0acef03c72a617a0539b3db84f8245323d787be1980aa4d36c59443c5f95fcc148
+"cssdb@npm:^8.6.0":
+  version: 8.6.0
+  resolution: "cssdb@npm:8.6.0"
+  checksum: 10/c8cd29b56a89ce1eeced2990b2f6cc88b543426817d9aac1d05d97feef941858d16b98c9d0ad627486f03e81b3652c796d94c19f280dcf1d398797894ff28e6f
   languageName: node
   linkType: hard
 
@@ -5774,12 +5797,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:^12.23.26":
-  version: 12.23.26
-  resolution: "framer-motion@npm:12.23.26"
+"framer-motion@npm:^12.24.0":
+  version: 12.24.0
+  resolution: "framer-motion@npm:12.24.0"
   dependencies:
-    motion-dom: "npm:^12.23.23"
-    motion-utils: "npm:^12.23.6"
+    motion-dom: "npm:^12.24.0"
+    motion-utils: "npm:^12.23.28"
     tslib: "npm:^2.4.0"
   peerDependencies:
     "@emotion/is-prop-valid": "*"
@@ -5792,7 +5815,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: 10/29d51ac57ce8c2599664bf706d7a83c2aba4fe1dee1c0c7d75d5c45c120b1c2ca5d257c3ff608992b26bf8e9cf258cacf231b0873d7b16f01c5eeb42b9831f78
+  checksum: 10/5d82e793345eac97d95ff6b9a808facc28461e8d7c08fe2627bd9900fa1f36f1fc80d92f18c0e66564ca7aa02bcd1e8b1dc89c0df1601ac78ddddeb92870117d
   languageName: node
   linkType: hard
 
@@ -7215,27 +7238,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"motion-dom@npm:^12.23.23":
-  version: 12.23.23
-  resolution: "motion-dom@npm:12.23.23"
+"motion-dom@npm:^12.24.0":
+  version: 12.24.0
+  resolution: "motion-dom@npm:12.24.0"
   dependencies:
-    motion-utils: "npm:^12.23.6"
-  checksum: 10/6bec34c28b478622bd23ce919c0d64e7f372cbc3f88e665f1e34fbf590e9bb53eebea086fb28f4e0c31941bd5274e086dc9b5360b68c4976891b94c4e92ca01a
+    motion-utils: "npm:^12.23.28"
+  checksum: 10/8813fd43613b5fe4e8cb4e09bcda13b944ebfaa4a27173c9268cf6f7f19e2d285618919d3bf1367edafa2dccecb20d526ecf25a73822d01539d5cbcba31fec60
   languageName: node
   linkType: hard
 
-"motion-utils@npm:^12.23.6":
-  version: 12.23.6
-  resolution: "motion-utils@npm:12.23.6"
-  checksum: 10/fae741319e72389eca8f3e73e644ffe6501409d00c7febb2f9b836629ae86ef735e73d670d0591706ca5e93ce10228ddbcff0ecdeb09b4cd8df14df7007aedd9
+"motion-utils@npm:^12.23.28":
+  version: 12.23.28
+  resolution: "motion-utils@npm:12.23.28"
+  checksum: 10/2d481eb26134f282019e0117abae7b5788e89504a88113d7f53e94c5a6aae34e552d3b14a804ebc5d46596946839190963a3fb8189c55b5b38cf82fb16069a77
   languageName: node
   linkType: hard
 
-"motion@npm:^12.23.26":
-  version: 12.23.26
-  resolution: "motion@npm:12.23.26"
+"motion@npm:^12.24.0":
+  version: 12.24.0
+  resolution: "motion@npm:12.24.0"
   dependencies:
-    framer-motion: "npm:^12.23.26"
+    framer-motion: "npm:^12.24.0"
     tslib: "npm:^2.4.0"
   peerDependencies:
     "@emotion/is-prop-valid": "*"
@@ -7248,7 +7271,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: 10/c5e683d2c67e55816587cbbd451c5600dc0602aa04108ab0bf8d4472befd490e90b3177362dbc8b9f96316ec16383924cc574eb7c9e031540f1e88e64a2704ae
+  checksum: 10/2c9a51ea7b42583525826230b48aaeb7fbab56cae7925a016277f3c148ad504af27ce6bf9635b39eaecb8d362292312fc76a4d97ee1b862439e3d550da2b72ad
   languageName: node
   linkType: hard
 
@@ -7319,7 +7342,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:^16.0.5":
+"next@npm:^16.1.1":
   version: 16.1.1
   resolution: "next@npm:16.1.1"
   dependencies:
@@ -8364,9 +8387,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-preset-env@npm:^10.5.0":
-  version: 10.5.0
-  resolution: "postcss-preset-env@npm:10.5.0"
+"postcss-preset-env@npm:^10.6.0":
+  version: 10.6.0
+  resolution: "postcss-preset-env@npm:10.6.0"
   dependencies:
     "@csstools/postcss-alpha-function": "npm:^1.0.1"
     "@csstools/postcss-cascade-layers": "npm:^5.0.2"
@@ -8397,21 +8420,23 @@ __metadata:
     "@csstools/postcss-oklab-function": "npm:^4.0.12"
     "@csstools/postcss-position-area-property": "npm:^1.0.0"
     "@csstools/postcss-progressive-custom-properties": "npm:^4.2.1"
+    "@csstools/postcss-property-rule-prelude-list": "npm:^1.0.0"
     "@csstools/postcss-random-function": "npm:^2.0.1"
     "@csstools/postcss-relative-color-syntax": "npm:^3.0.12"
     "@csstools/postcss-scope-pseudo-class": "npm:^4.0.1"
     "@csstools/postcss-sign-functions": "npm:^1.1.4"
     "@csstools/postcss-stepped-value-functions": "npm:^4.0.9"
+    "@csstools/postcss-syntax-descriptor-syntax-production": "npm:^1.0.1"
     "@csstools/postcss-system-ui-font-family": "npm:^1.0.0"
     "@csstools/postcss-text-decoration-shorthand": "npm:^4.0.3"
     "@csstools/postcss-trigonometric-functions": "npm:^4.0.9"
     "@csstools/postcss-unset-value": "npm:^4.0.0"
-    autoprefixer: "npm:^10.4.22"
-    browserslist: "npm:^4.28.0"
+    autoprefixer: "npm:^10.4.23"
+    browserslist: "npm:^4.28.1"
     css-blank-pseudo: "npm:^7.0.1"
     css-has-pseudo: "npm:^7.0.3"
     css-prefers-color-scheme: "npm:^10.0.0"
-    cssdb: "npm:^8.5.2"
+    cssdb: "npm:^8.6.0"
     postcss-attribute-case-insensitive: "npm:^7.0.1"
     postcss-clamp: "npm:^4.1.0"
     postcss-color-functional-notation: "npm:^7.0.12"
@@ -8439,7 +8464,7 @@ __metadata:
     postcss-selector-not: "npm:^8.0.1"
   peerDependencies:
     postcss: ^8.4
-  checksum: 10/15733a1fc07785bc01a00dd5954b43af9dc3cb99a510f3fab79cbd6a69c9b33f75deb77d226c03f36b31b786235ecafd16a8c3e3e19075a7ca8b8073e018b766
+  checksum: 10/6a9085de08b66393bc50dae4b85a66163714980196795d4a240397e4ad007a45d33c5dc12d20787d933e2bc84f262404b7c0221a3715580a4c654d02537d4fe6
   languageName: node
   linkType: hard
 
@@ -9013,15 +9038,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "sarabeth-studio@workspace:."
   dependencies:
-    "@aws-sdk/client-ses": "npm:^3.958.0"
-    "@commitlint/cli": "npm:^20.2.0"
-    "@commitlint/config-conventional": "npm:^20.2.0"
+    "@aws-sdk/client-ses": "npm:^3.962.0"
+    "@commitlint/cli": "npm:^20.3.0"
+    "@commitlint/config-conventional": "npm:^20.3.0"
     "@commitlint/types": "npm:^20.2.0"
     "@contentful/rich-text-react-renderer": "npm:^16.1.6"
     "@contentful/rich-text-types": "npm:^17.2.5"
     "@csstools/postcss-global-data": "npm:^3.1.0"
     "@netlify/plugin-lighthouse": "npm:^6.0.4"
-    "@netlify/plugin-nextjs": "npm:^5.15.3"
+    "@netlify/plugin-nextjs": "npm:^5.15.4"
     "@tsconfig/next": "npm:^2.0.5"
     "@types/node": "npm:24.10.4"
     "@types/react": "npm:^19.2.7"
@@ -9035,12 +9060,12 @@ __metadata:
     eslint-plugin-no-relative-import-paths: "npm:^1.6.1"
     eslint-plugin-prettier: "npm:^5.5.4"
     husky: "npm:^9.1.7"
-    motion: "npm:^12.23.26"
-    next: "npm:^16.0.5"
+    motion: "npm:^12.24.0"
+    next: "npm:^16.1.1"
     postcss: "npm:^8.5.6"
     postcss-flexbugs-fixes: "npm:^5.0.2"
     postcss-normalize: "npm:^13.0.1"
-    postcss-preset-env: "npm:^10.5.0"
+    postcss-preset-env: "npm:^10.6.0"
     prettier: "npm:^3.7.4"
     react: "npm:^19.2.3"
     react-dom: "npm:^19.2.3"
