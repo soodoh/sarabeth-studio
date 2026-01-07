@@ -65,5 +65,5 @@
     "type": "git",
     "url": "git+https://github.com/sudopseudocode/sarabeth-studio.git"
   },
-  "packageManager": "yarn@4.12.0"
+  "packageManager": "pnpm@9.15.4"
 }
