@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "author": "Paul DiLoreto <paul.diloreto@gmail.com>",
   "bugs": {
-    "url": "https://github.com/sudopseudocode/sarabeth-portfolio/issues"
+    "url": "https://github.com/soodoh/sarabeth-portfolio/issues"
   },
   "private": true,
   "scripts": {
@@ -63,7 +63,7 @@
   "main": "n/a",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sudopseudocode/sarabeth-studio.git"
+    "url": "git+https://github.com/soodoh/sarabeth-studio.git"
   },
   "packageManager": "pnpm@9.15.4"
 }
