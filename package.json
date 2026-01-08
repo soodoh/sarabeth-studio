@@ -1,11 +1,25 @@
 {
   "name": "sarabeth-studio",
   "version": "1.1.0",
-  "author": "Paul DiLoreto <paul.diloreto@gmail.com>",
+  "homepage": "https://sarabethbelon.com",
+  "private": true,
+  "author": "Paul DiLoreto <soodohh@pm.me>",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/soodoh/sarabeth-portfolio/issues"
   },
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soodoh/sarabeth-studio.git"
+  },
+  "keywords": [
+    "nextjs",
+    "contentful",
+    "react",
+    "aws",
+    "serverless"
+  ],
+  "packageManager": "pnpm@9.15.4",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -50,20 +64,5 @@
     "postcss-preset-env": "^10.6.0",
     "prettier": "^3.7.4",
     "typescript": "^5.9.3"
-  },
-  "homepage": "https://sarabethbelon.com",
-  "keywords": [
-    "nextjs",
-    "contentful",
-    "react",
-    "aws",
-    "serverless"
-  ],
-  "license": "MIT",
-  "main": "n/a",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/soodoh/sarabeth-studio.git"
-  },
-  "packageManager": "pnpm@9.15.4"
+  }
 }
