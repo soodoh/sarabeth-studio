@@ -19,7 +19,7 @@
     "aws",
     "serverless"
   ],
-  "packageManager": "pnpm@9.15.9",
+  "packageManager": "bun",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
