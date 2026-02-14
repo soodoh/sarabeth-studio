@@ -1,6 +1,5 @@
 import NextImage from "next/image";
 import React from "react";
-import styles from "./ImageWrapper.module.css";
 import type { ImageType } from "@/utils/types";
 
 type Props = {
@@ -23,7 +22,7 @@ const ImageWrapper = ({
   return (
     <NextImage
       alt={image.description}
-      className={styles.image}
+      className="h-full w-full"
       blurDataURL={image.placeholder}
       height={image.height}
       placeholder="blur"

@@ -4,7 +4,6 @@ import WidthContainer from "@/components/WidthContainer";
 import getAboutData from "@/utils/fetchers/about";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import React from "react";
-import styles from "./About.module.css";
 import type { Metadata } from "next";
 
 // Statically generated at build time, will error if any Dynamic APIs are used
@@ -24,11 +23,11 @@ const About = async () => {
   const { headshot, bio, resume } = aboutData;
 
   return (
-    <WidthContainer className={styles.container}>
-      <div className={styles.headshot}>
+    <WidthContainer className="mb-16 grid grid-cols-[30%_1fr] gap-16 max-sm:grid-cols-1">
+      <div className="max-sm:max-w-[300px]">
         <StyledImage overlayDirection="right" image={headshot} priority />
       </div>
-      <div className={styles.bio}>
+      <div className="leading-7 [&_h1]:text-[3rem] [&_h1]:leading-[3.5rem] [&_p]:mb-8">
         {documentToReactComponents(bio)}
         <ArrowButton url={resume} label="View Resume" />
       </div>

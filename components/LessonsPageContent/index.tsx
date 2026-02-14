@@ -2,12 +2,12 @@
 
 import SvgLogo from "@/components/icons/Logo";
 import LessonsPageSections from "@/components/LessonsPageSections";
+import { Button } from "@/components/ui/button";
 import WidthContainer from "@/components/WidthContainer";
-import buttonStyles from "@/styles/Button.module.css";
+import { brandButtonClasses, cn } from "@/lib/utils";
 import { type LessonsData, LessonsPages } from "@/utils/types";
 import Link from "next/link";
 import { useState } from "react";
-import styles from "./LessonsSections.module.css";
 
 const LessonsPageContent = ({ lessonsData }: { lessonsData: LessonsData }) => {
   const { email, phoneNumber, reviewLink } = lessonsData;
@@ -15,30 +15,37 @@ const LessonsPageContent = ({ lessonsData }: { lessonsData: LessonsData }) => {
 
   return (
     <>
-      <div className={styles.navigation}>
+      <div className="flex justify-center bg-background-light max-sm:flex-col">
         {Object.values(LessonsPages).map((page) => (
-          <button
+          <Button
+            variant="unstyled"
+            size="unstyled"
             onClick={() => setSection(page)}
-            className={section === page ? styles.activeLink : styles.link}
+            className={cn(
+              "cursor-pointer rounded-none border-none bg-transparent px-4 py-6 font-sans text-base font-bold uppercase",
+              section === page
+                ? "bg-accent text-background-light hover:bg-accent hover:text-background-light"
+                : "text-foreground hover:bg-transparent hover:text-accent",
+            )}
             key={page}
           >
             {page}
-          </button>
+          </Button>
         ))}
       </div>
-      <WidthContainer className={styles.container}>
+      <WidthContainer className="flex flex-col">
         <LessonsPageSections section={section} lessonsData={lessonsData} />
-        <div className={styles.contact}>
-          <SvgLogo className={styles.contactImage} />
+        <div className="flex flex-col items-center [&>h1]:m-0 [&>h1]:text-[2rem]">
+          <SvgLogo className="w-40 fill-accent" />
           <h1>Contact</h1>
-          <div className={styles.contactLinks}>
+          <div className="my-4 flex flex-col items-center [&_a]:my-2">
             <a href={`mailto:${email}`}>{email}</a>
             <a href={`tel:${phoneNumber.replace(/\D+/g, "")}`}>{phoneNumber}</a>
           </div>
-          <Link href="/contact" className={buttonStyles.container}>
+          <Link href="/contact" className={cn(brandButtonClasses, "my-2")}>
             Book a Lesson
           </Link>
-          <Link href={reviewLink} className={buttonStyles.container}>
+          <Link href={reviewLink} className={cn(brandButtonClasses, "my-2")}>
             View Reviews
           </Link>
         </div>

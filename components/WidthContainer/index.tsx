@@ -1,13 +1,19 @@
-import classNames from "classnames/bind";
+import { cn } from "@/lib/utils";
 import React from "react";
-import styles from "./WidthContainer.module.css";
-
-const cx = classNames.bind(styles);
 
 type Props = { children: React.ReactNode; className?: string };
 
 const WidthContainer = ({ children, className }: Props) => {
-  return <div className={cx(styles.container, className)}>{children}</div>;
+  return (
+    <div
+      className={cn(
+        "mx-auto mt-6 w-full max-w-[1200px] px-[2.5rem]",
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
 };
 
 export default WidthContainer;

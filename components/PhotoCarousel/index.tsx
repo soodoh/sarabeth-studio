@@ -3,13 +3,12 @@
 import NextImage from "next/image";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import styles from "./PhotoCarousel.module.css";
 import type { ImageType } from "@/utils/types";
 
 const PhotoCarousel = ({ images }: { images: ImageType[] }) => {
   return (
     <Swiper
-      className={styles.carousel}
+      className="relative mx-auto my-8 h-[35rem] w-screen max-w-[1200px] bg-black px-[2.5rem]"
       modules={[Navigation]}
       navigation
       slidesPerView="auto"
@@ -20,7 +19,7 @@ const PhotoCarousel = ({ images }: { images: ImageType[] }) => {
             priority={index < 2}
             alt={image.description}
             blurDataURL={image.placeholder}
-            className={styles.slide}
+            className="h-full w-auto"
             height={image.height}
             placeholder="blur"
             sizes="50vw"

@@ -4,7 +4,6 @@ import TextHeading from "@/components/TextHeading";
 import WidthContainer from "@/components/WidthContainer";
 import getMediaData from "@/utils/fetchers/media";
 import React from "react";
-import styles from "./Media.module.css";
 import type { Metadata } from "next";
 
 // Statically generated at build time, will error if any Dynamic APIs are used
@@ -23,12 +22,12 @@ export default async function MediaPage() {
 
   return (
     <>
-      <div className={styles.container}>
+      <div className="flex flex-col items-center">
         <TextHeading text="Photos" />
         <PhotoCarousel images={images} />
 
         <TextHeading text="Videos" />
-        <div className={styles.videoContainer}>
+        <div className="relative mx-auto mt-4 mb-8 h-[35rem] w-full max-w-[1200px] px-[2.5rem] max-sm:h-[20rem] [&_embed]:absolute [&_embed]:inset-0 [&_embed]:h-full [&_embed]:w-full [&_iframe]:absolute [&_iframe]:inset-0 [&_iframe]:h-full [&_iframe]:w-full [&_object]:absolute [&_object]:inset-0 [&_object]:h-full [&_object]:w-full">
           <iframe
             src="https://www.youtube.com/embed/videoseries?list=PL2ucJM2n3hm_c0L7-_dAnJ_Kajde66Id1"
             title="YouTube video player"
@@ -41,12 +40,12 @@ export default async function MediaPage() {
         <TextHeading text="Audio" />
         <WidthContainer>
           {audio.map((audioFile) => (
-            <div className={styles.audioContainer} key={audioFile.id}>
-              <div className={styles.songTitleContainer}>
-                <h2 className={styles.songTitle}>{audioFile.title}</h2>
-                <span className={styles.songDescription}>
-                  {audioFile.description}
-                </span>
+            <div className="my-8" key={audioFile.id}>
+              <div className="my-2 flex items-center">
+                <h2 className="m-0 mr-8 font-sans text-base">
+                  {audioFile.title}
+                </h2>
+                <span className="font-sans">{audioFile.description}</span>
               </div>
               <AudioPlayer source={audioFile.url} />
             </div>

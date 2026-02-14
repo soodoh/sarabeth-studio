@@ -8,5 +8,5 @@
 
 .swiper-button-prev,
 .swiper-button-next {
-  color: var(--light-theme-color);
+  color: var(--color-background);
 }
