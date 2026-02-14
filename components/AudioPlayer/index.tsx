@@ -1,9 +1,8 @@
 "use client";
 
-import SvgPause from "@/components/icons/Pause";
-import SvgPlay from "@/components/icons/Play";
+import { Button } from "@/components/ui/button";
+import { Pause, Play } from "lucide-react";
 import React, { useRef, useState } from "react";
-import styles from "./AudioPlayer.module.css";
 
 type Props = {
   source: string;
@@ -52,22 +51,30 @@ const AudioPlayer = ({ source }: Props) => {
   };
 
   return (
-    <div className={styles.audioPlayer}>
+    <div className="flex items-center gap-[30px] bg-background-light p-[15px]">
       <audio ref={audioRef} src={source} onTimeUpdate={handleTimeUpdate} />
-      <button onClick={togglePlayPause} className={styles.playPauseButton}>
-        {isPlaying ? <SvgPause /> : <SvgPlay />}
-      </button>
+      <Button
+        variant="unstyled"
+        size="unstyled"
+        onClick={togglePlayPause}
+        className="cursor-pointer border-none bg-transparent p-0 text-accent hover:bg-transparent [&_svg]:fill-accent"
+      >
+        {isPlaying ? <Pause className="size-6" /> : <Play className="size-6" />}
+      </Button>
 
-      <div className={styles.timeStamps}>
+      <div>
         <span>{formatTime(currentTime)}</span>
       </div>
 
       <div
-        className={styles.progressBar}
+        className="h-[10px] grow cursor-pointer bg-background"
         ref={progressBarRef}
         onClick={handleProgressBarClick}
       >
-        <div className={styles.progress} style={{ width: `${progress}%` }} />
+        <div
+          className="h-full bg-accent transition-[width] duration-100 linear"
+          style={{ width: `${progress}%` }}
+        />
       </div>
     </div>
   );

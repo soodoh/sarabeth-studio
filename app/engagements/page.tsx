@@ -3,7 +3,6 @@ import EngagementsTable from "@/components/EngagementsTable";
 import WidthContainer from "@/components/WidthContainer";
 import getEngagementData from "@/utils/fetchers/engagements";
 import { Engagement } from "@/utils/types";
-import styles from "./Engagements.module.css";
 import type { Metadata } from "next";
 
 // Statically generated at build time, will error if any Dynamic APIs are used
@@ -47,7 +46,7 @@ export default async function EngagementsPage() {
   return (
     <>
       <BannerImage image={bannerImage} title={title} />
-      <WidthContainer className={styles.container}>
+      <WidthContainer className="flex flex-col items-center justify-center">
         {upcoming.length > 0 && (
           <EngagementsTable engagements={upcoming} label="Upcoming" />
         )}

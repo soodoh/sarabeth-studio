@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "./LoadingCircle.module.css";
 
 type Props = {
   size?: number;
@@ -9,7 +8,7 @@ type Props = {
 const LoadingCircle = ({ size = 50, strokeWidth = 10 }: Props) => {
   return (
     <svg
-      className={styles.loader}
+      className="-rotate-90 fill-none [stroke-linecap:round]"
       style={{
         width: `${size}px`,
         height: `${size}px`,
@@ -18,7 +17,13 @@ const LoadingCircle = ({ size = 50, strokeWidth = 10 }: Props) => {
       viewBox="0 0 120 120"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle className={styles.circle} cx="60" cy="60" r="50" />
+      <circle
+        className="animate-loading-spin stroke-accent origin-center"
+        style={{ strokeDasharray: 312, strokeDashoffset: 0 }}
+        cx="60"
+        cy="60"
+        r="50"
+      />
     </svg>
   );
 };
