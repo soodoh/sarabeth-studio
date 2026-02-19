@@ -1,4 +1,3 @@
-/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import TextHeading from "@/components/TextHeading";
 import { brandButtonClasses, cn } from "@/lib/utils";
 import React from "react";
@@ -9,7 +8,7 @@ type Props = {
   label: "Upcoming" | "Past";
 };
 
-const formatDate = (dateString: string, includeYear = false) => {
+const formatDate = (dateString: string, includeYear = false): string => {
   const date = new Date(dateString);
   const formattedString = date.toLocaleString("en-US", {
     month: "long",
@@ -19,7 +18,7 @@ const formatDate = (dateString: string, includeYear = false) => {
   return formattedString;
 };
 
-const EngagementRow = ({ engagements, label }: Props) => {
+const EngagementRow = ({ engagements, label }: Props): JSX.Element => {
   return (
     <div className="mb-8 flex w-full flex-col items-center">
       <TextHeading text={label} />

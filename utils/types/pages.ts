@@ -1,4 +1,3 @@
-/* oxlint-disable typescript-eslint/no-restricted-types */
 import type { Audio, ImageType, SocialMediaLink } from "./";
 import type { Document } from "@contentful/rich-text-types";
 
@@ -16,9 +15,9 @@ export type HomeData = {
   mainSection: boolean;
   title: string;
   description: Document;
-  subtitle: string | null;
-  buttonText: string | null;
-  buttonLink: string | null;
+  subtitle?: string;
+  buttonText?: string;
+  buttonLink?: string;
   images: ImageType[];
 };
 

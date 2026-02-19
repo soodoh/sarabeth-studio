@@ -1,4 +1,3 @@
-/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import React from "react";
 
 type Props = {
@@ -6,7 +5,7 @@ type Props = {
   strokeWidth?: number;
 };
 
-const LoadingCircle = ({ size = 50, strokeWidth = 10 }: Props) => {
+const LoadingCircle = ({ size = 50, strokeWidth = 10 }: Props): JSX.Element => {
   return (
     <svg
       className="-rotate-90 fill-none [stroke-linecap:round]"

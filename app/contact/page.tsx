@@ -1,4 +1,3 @@
-/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import BannerImage from "@/components/BannerImage";
 import ContactForm from "@/components/ContactForm";
 import getContactData from "@/utils/fetchers/contact";
@@ -14,7 +13,7 @@ export const metadata: Metadata = {
   icons: "/favicon.png",
 };
 
-export default async function ContactPage() {
+export default async function ContactPage(): Promise<JSX.Element> {
   const { bannerImage } = await getContactData();
 
   return (

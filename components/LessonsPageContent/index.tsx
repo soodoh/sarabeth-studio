@@ -1,6 +1,5 @@
 "use client";
 
-/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import SvgLogo from "@/components/icons/logo";
 import LessonsPageSections from "@/components/LessonsPageSections";
 import { Button } from "@/components/ui/button";
@@ -11,7 +10,11 @@ import type { LessonsData } from "@/utils/types";
 import Link from "next/link";
 import { useState } from "react";
 
-const LessonsPageContent = ({ lessonsData }: { lessonsData: LessonsData }) => {
+const LessonsPageContent = ({
+  lessonsData,
+}: {
+  lessonsData: LessonsData;
+}): JSX.Element => {
   const { email, phoneNumber, reviewLink } = lessonsData;
   const [section, setSection] = useState(LessonsPages.About);
 

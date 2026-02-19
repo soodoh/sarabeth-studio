@@ -1,4 +1,3 @@
-/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import NextImage from "next/image";
 import React from "react";
 import type { ImageType } from "@/utils/types";
@@ -19,7 +18,7 @@ const ImageWrapper = ({
     "(max-width: 1279px) 800px",
     "400px",
   ].join(", "),
-}: Props) => {
+}: Props): JSX.Element => {
   return (
     <NextImage
       alt={image.description}

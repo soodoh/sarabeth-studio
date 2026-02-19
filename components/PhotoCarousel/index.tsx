@@ -1,6 +1,5 @@
 "use client";
 
-/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import {
   Carousel,
   CarouselContent,
@@ -13,7 +12,7 @@ import NextImage from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import type { ImageType } from "@/utils/types";
 
-const PhotoCarousel = ({ images }: { images: ImageType[] }) => {
+const PhotoCarousel = ({ images }: { images: ImageType[] }): JSX.Element => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(1);
 

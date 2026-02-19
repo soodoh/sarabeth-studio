@@ -1,6 +1,5 @@
 "use client";
 
-/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import SvgLogo from "@/components/icons/logo";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,7 +19,7 @@ type HeaderProps = {
   brandName: string;
 };
 
-const Header = ({ brandName }: HeaderProps) => {
+const Header = ({ brandName }: HeaderProps): JSX.Element => {
   const route = usePathname();
   const links = [
     { label: "About", url: "/about" },

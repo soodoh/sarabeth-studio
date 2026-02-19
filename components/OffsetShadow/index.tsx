@@ -1,4 +1,3 @@
-/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import { cn } from "@/lib/utils";
 import React from "react";
 
@@ -30,7 +29,7 @@ const positionStyles = {
   },
 };
 
-const OffsetShadow = ({ type, direction, children }: Props) => (
+const OffsetShadow = ({ type, direction, children }: Props): JSX.Element => (
   <div className="relative">
     <div
       className={cn(

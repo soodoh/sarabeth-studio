@@ -1,9 +1,10 @@
-/* oxlint-disable import/no-unassigned-import, typescript-eslint/explicit-module-boundary-types */
-import "@/styles/globals.css";
+import globalStyles from "@/styles/globals.css";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import getCommonData from "@/utils/fetchers/common";
 import type { Metadata } from "next";
+
+void globalStyles;
 
 export const metadata: Metadata = {
   title: "Sarabeth Belón: Portfolio",
@@ -17,7 +18,7 @@ export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}): Promise<JSX.Element> {
   const { brandName, location, socialMediaLinks } = await getCommonData();
 
   return (

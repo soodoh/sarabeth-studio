@@ -1,13 +1,12 @@
-/* oxlint-disable typescript-eslint/explicit-module-boundary-types, typescript-eslint/no-restricted-types */
 import SvgArrow from "@/components/icons/arrow";
 import React from "react";
 
 type Props = {
-  label: string | null;
+  label?: string;
   url: string;
 };
 
-const Button = ({ label, url }: Props) => (
+const Button = ({ label, url }: Props): JSX.Element => (
   <a
     className="group flex items-center transition-all duration-200 ease-in-out hover:translate-x-[0.2rem] hover:-translate-y-[0.2rem]"
     href={url}

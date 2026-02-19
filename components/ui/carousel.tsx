@@ -1,6 +1,5 @@
 "use client";
 
-/* oxlint-disable no-shadow, react/jsx-no-constructed-context-values, typescript-eslint/explicit-module-boundary-types, typescript-eslint/no-restricted-types */
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import useEmblaCarousel from "embla-carousel-react";
@@ -29,9 +28,11 @@ type CarouselContextProps = {
   canScrollNext: boolean;
 } & CarouselProps;
 
-const CarouselContext = React.createContext<CarouselContextProps | null>(null);
+const CarouselContext = React.createContext<CarouselContextProps | undefined>(
+  undefined,
+);
 
-function useCarousel() {
+function useCarousel(): CarouselContextProps {
   const context = React.useContext(CarouselContext);
 
   if (!context) {
@@ -49,8 +50,8 @@ function Carousel({
   className,
   children,
   ...props
-}: React.ComponentProps<"div"> & CarouselProps) {
-  const [carouselRef, api] = useEmblaCarousel(
+}: React.ComponentProps<"div"> & CarouselProps): JSX.Element {
+  const [carouselRef, emblaApi] = useEmblaCarousel(
     {
       ...opts,
       axis: orientation === "horizontal" ? "x" : "y",
@@ -60,21 +61,21 @@ function Carousel({
   const [canScrollPrev, setCanScrollPrev] = React.useState(false);
   const [canScrollNext, setCanScrollNext] = React.useState(false);
 
-  const onSelect = React.useCallback((api: CarouselApi) => {
-    if (!api) {
+  const onSelect = React.useCallback((selectedApi: CarouselApi) => {
+    if (!selectedApi) {
       return;
     }
-    setCanScrollPrev(api.canScrollPrev());
-    setCanScrollNext(api.canScrollNext());
+    setCanScrollPrev(selectedApi.canScrollPrev());
+    setCanScrollNext(selectedApi.canScrollNext());
   }, []);
 
   const scrollPrev = React.useCallback(() => {
-    api?.scrollPrev();
-  }, [api]);
+    emblaApi?.scrollPrev();
+  }, [emblaApi]);
 
   const scrollNext = React.useCallback(() => {
-    api?.scrollNext();
-  }, [api]);
+    emblaApi?.scrollNext();
+  }, [emblaApi]);
 
   const handleKeyDown = React.useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -90,39 +91,50 @@ function Carousel({
   );
 
   React.useEffect(() => {
-    if (!api || !setApi) {
+    if (!emblaApi || !setApi) {
       return;
     }
-    setApi(api);
-  }, [api, setApi]);
+    setApi(emblaApi);
+  }, [emblaApi, setApi]);
 
   React.useEffect(() => {
-    if (!api) {
+    if (!emblaApi) {
       return;
     }
-    onSelect(api);
-    api.on("reInit", onSelect);
-    api.on("select", onSelect);
+    onSelect(emblaApi);
+    emblaApi.on("reInit", onSelect);
+    emblaApi.on("select", onSelect);
 
     return () => {
-      api?.off("select", onSelect);
+      emblaApi?.off("select", onSelect);
     };
-  }, [api, onSelect]);
+  }, [emblaApi, onSelect]);
+
+  const contextValue = React.useMemo<CarouselContextProps>(
+    () => ({
+      carouselRef,
+      api: emblaApi,
+      opts,
+      orientation,
+      scrollPrev,
+      scrollNext,
+      canScrollPrev,
+      canScrollNext,
+    }),
+    [
+      carouselRef,
+      emblaApi,
+      opts,
+      orientation,
+      scrollPrev,
+      scrollNext,
+      canScrollPrev,
+      canScrollNext,
+    ],
+  );
 
   return (
-    <CarouselContext.Provider
-      value={{
-        carouselRef,
-        api: api,
-        opts,
-        orientation:
-          orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
-        scrollPrev,
-        scrollNext,
-        canScrollPrev,
-        canScrollNext,
-      }}
-    >
+    <CarouselContext.Provider value={contextValue}>
       <div
         onKeyDownCapture={handleKeyDown}
         className={cn("relative", className)}
@@ -137,7 +149,10 @@ function Carousel({
   );
 }
 
-function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
+function CarouselContent({
+  className,
+  ...props
+}: React.ComponentProps<"div">): JSX.Element {
   const { carouselRef, orientation } = useCarousel();
 
   return (
@@ -158,7 +173,10 @@ function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
+function CarouselItem({
+  className,
+  ...props
+}: React.ComponentProps<"div">): JSX.Element {
   const { orientation } = useCarousel();
 
   return (
@@ -181,7 +199,7 @@ function CarouselPrevious({
   variant = "outline",
   size = "icon",
   ...props
-}: React.ComponentProps<typeof Button>) {
+}: React.ComponentProps<typeof Button>): JSX.Element {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel();
 
   return (
@@ -211,7 +229,7 @@ function CarouselNext({
   variant = "outline",
   size = "icon",
   ...props
-}: React.ComponentProps<typeof Button>) {
+}: React.ComponentProps<typeof Button>): JSX.Element {
   const { orientation, scrollNext, canScrollNext } = useCarousel();
 
   return (

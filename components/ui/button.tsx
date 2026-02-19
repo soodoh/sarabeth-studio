@@ -1,4 +1,3 @@
-/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 import type { VariantProps } from "class-variance-authority";
@@ -51,7 +50,7 @@ function Button({
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
-  }) {
+  }): JSX.Element {
   const Comp = asChild ? Slot.Root : "button";
 
   return (

@@ -1,6 +1,5 @@
 "use client";
 
-/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import ArrowButton from "@/components/ArrowButton";
 import SvgLogo from "@/components/icons/logo";
 import StyledImage from "@/components/StyledImage";
@@ -10,11 +9,11 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { motion } from "motion/react";
 import type { HomeData } from "@/utils/types";
 
-const isTeachingSection = (name: string) => {
+const isTeachingSection = (name: string): boolean => {
   return /sarabeth'?s\s*studio/gi.test(name);
 };
 
-const makeRelativeUrl = (url: string) => {
+const makeRelativeUrl = (url: string): string => {
   return url.replace(/^https?:\/\/(.+\.)?sarabethbelon\.com/, "");
 };
 
@@ -26,7 +25,7 @@ const animateProps = {
   variants: { visible: { opacity: 1 }, hidden: { opacity: 0 } },
 };
 
-const HomeContent = ({ homeData }: { homeData: HomeData[] }) => {
+const HomeContent = ({ homeData }: { homeData: HomeData[] }): JSX.Element => {
   return (
     <WidthContainer>
       {homeData.map((homeRow, rowIndex) => {

@@ -1,6 +1,5 @@
 "use client";
 
-/* oxlint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/media-has-caption, jsx-a11y/no-static-element-interactions, typescript-eslint/explicit-module-boundary-types, unicorn/consistent-function-scoping */
 import { Button } from "@/components/ui/button";
 import { Pause, Play } from "lucide-react";
 import React, { useRef, useState } from "react";
@@ -9,14 +8,22 @@ type Props = {
   source: string;
 };
 
-const AudioPlayer = ({ source }: Props) => {
+const EMPTY_CAPTIONS = "data:text/vtt,WEBVTT";
+
+const formatTime = (time: number): string => {
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60);
+  return `${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+};
+
+const AudioPlayer = ({ source }: Props): JSX.Element => {
   const audioRef = useRef<HTMLAudioElement>(null);
-  const progressBarRef = useRef<HTMLDivElement>(null);
+  const progressBarRef = useRef<HTMLButtonElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
 
-  const togglePlayPause = () => {
+  const togglePlayPause = (): void => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
@@ -27,16 +34,19 @@ const AudioPlayer = ({ source }: Props) => {
     }
   };
 
-  const handleTimeUpdate = () => {
+  const handleTimeUpdate = (): void => {
     if (audioRef.current) {
+      const duration = audioRef.current.duration || 0;
       const currentProgress =
-        (audioRef.current.currentTime / audioRef.current.duration) * 100;
+        duration > 0 ? (audioRef.current.currentTime / duration) * 100 : 0;
       setProgress(currentProgress);
       setCurrentTime(audioRef.current.currentTime);
     }
   };
 
-  const handleProgressBarClick = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleProgressBarClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ): void => {
     if (audioRef.current && progressBarRef.current) {
       const rect = progressBarRef.current.getBoundingClientRect();
       const clickPosition = event.clientX - rect.left;
@@ -45,15 +55,17 @@ const AudioPlayer = ({ source }: Props) => {
     }
   };
 
-  const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-  };
-
   return (
     <div className="flex items-center gap-[30px] bg-background-light p-[15px]">
-      <audio ref={audioRef} src={source} onTimeUpdate={handleTimeUpdate} />
+      <audio ref={audioRef} src={source} onTimeUpdate={handleTimeUpdate}>
+        <track
+          kind="captions"
+          src={EMPTY_CAPTIONS}
+          srcLang="en"
+          label="English"
+          default
+        />
+      </audio>
       <Button
         variant="unstyled"
         size="unstyled"
@@ -67,16 +79,18 @@ const AudioPlayer = ({ source }: Props) => {
         <span>{formatTime(currentTime)}</span>
       </div>
 
-      <div
+      <button
+        type="button"
         className="h-[10px] grow cursor-pointer bg-background"
         ref={progressBarRef}
         onClick={handleProgressBarClick}
+        aria-label="Seek audio"
       >
         <div
           className="h-full bg-accent transition-[width] duration-100 linear"
           style={{ width: `${progress}%` }}
         />
-      </div>
+      </button>
     </div>
   );
 };

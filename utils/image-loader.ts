@@ -1,11 +1,10 @@
-/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import type { ImageLoaderProps } from "next/image";
 
 export default function contentfulImageLoader({
   src,
   width,
   quality = 100,
-}: ImageLoaderProps) {
+}: ImageLoaderProps): string {
   const searchParams = new URLSearchParams({
     w: `${width}`,
     q: `${quality}`,

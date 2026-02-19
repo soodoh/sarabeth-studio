@@ -1,4 +1,3 @@
-/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import ArrowButton from "@/components/ArrowButton";
 import StyledImage from "@/components/StyledImage";
 import WidthContainer from "@/components/WidthContainer";
@@ -18,7 +17,7 @@ export const metadata: Metadata = {
   icons: "/favicon.png",
 };
 
-const About = async () => {
+const About = async (): Promise<JSX.Element> => {
   const aboutData = await getAboutData();
 
   const { headshot, bio, resume } = aboutData;

@@ -1,4 +1,3 @@
-/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import ImageWrapper from "@/components/ImageWrapper";
 import OffsetShadow from "@/components/OffsetShadow";
 import React from "react";
@@ -10,7 +9,11 @@ type Props = {
   priority?: boolean;
 };
 
-const StyledImage = ({ overlayDirection, priority, image }: Props) => (
+const StyledImage = ({
+  overlayDirection,
+  priority,
+  image,
+}: Props): JSX.Element => (
   <OffsetShadow direction={overlayDirection} type="image">
     <ImageWrapper image={image} priority={priority} sizes="100vw" />
   </OffsetShadow>

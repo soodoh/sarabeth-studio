@@ -1,10 +1,9 @@
-/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import { cn } from "@/lib/utils";
 import React from "react";
 
 type Props = { children: React.ReactNode; className?: string };
 
-const WidthContainer = ({ children, className }: Props) => {
+const WidthContainer = ({ children, className }: Props): JSX.Element => {
   return (
     <div
       className={cn(

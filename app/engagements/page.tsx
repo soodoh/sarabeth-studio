@@ -1,4 +1,3 @@
-/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import BannerImage from "@/components/BannerImage";
 import EngagementsTable from "@/components/EngagementsTable";
 import WidthContainer from "@/components/WidthContainer";
@@ -17,7 +16,7 @@ export const metadata: Metadata = {
   icons: "/favicon.png",
 };
 
-const isUpcoming = (dateString: string) => {
+const isUpcoming = (dateString: string): boolean => {
   const today = new Date();
   today.setUTCHours(24, 0, 0, 0);
   const endDate = new Date(dateString);
@@ -25,7 +24,7 @@ const isUpcoming = (dateString: string) => {
   return endDate >= today;
 };
 
-export default async function EngagementsPage() {
+export default async function EngagementsPage(): Promise<JSX.Element> {
   const { engagements, bannerImage, title } = await getEngagementData();
 
   const upcoming = engagements

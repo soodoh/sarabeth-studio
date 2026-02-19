@@ -1,11 +1,14 @@
-/* oxlint-disable import/prefer-default-export, typescript-eslint/explicit-module-boundary-types */
 import { SES } from "@aws-sdk/client-ses";
 import type { EmailData } from "@/utils/types";
 
 const sendEmail = "contact@sarabethbelon.com";
 const receiveEmail = "sarabethstudio@gmail.com";
 
-function getEmailMessage(emailData: EmailData) {
+export const runtime = "nodejs";
+
+function getEmailMessage(
+  emailData: EmailData,
+): Parameters<SES["sendEmail"]>[0] {
   return {
     Destination: {
       ToAddresses: [receiveEmail],
@@ -27,15 +30,22 @@ function getEmailMessage(emailData: EmailData) {
   };
 }
 
-function validateEmailData(body: Record<string, unknown>) {
+function validateEmailData(body: unknown): body is EmailData {
+  if (!body || typeof body !== "object") {
+    return false;
+  }
+
   const keys = ["name", "email", "subject", "message"];
-  return keys.some((key) => !body[key] || typeof body[key] !== "string");
+  const parsedBody = body as Partial<Record<string, unknown>>;
+  return keys.every(
+    (key) => typeof parsedBody[key] === "string" && parsedBody[key] !== "",
+  );
 }
 
-export async function POST(req: Request) {
+export async function POST(req: Request): Promise<Response> {
   try {
     const emailData = await req.json();
-    if (validateEmailData(emailData)) {
+    if (!validateEmailData(emailData)) {
       return Response.json(
         { error: "Missing required inputs in POST body" },
         { status: 500 },

@@ -1,8 +1,10 @@
-/* oxlint-disable import/prefer-default-export, typescript-eslint/explicit-module-boundary-types */
 import { cn } from "@/lib/utils";
 import * as React from "react";
 
-function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
+function Textarea({
+  className,
+  ...props
+}: React.ComponentProps<"textarea">): JSX.Element {
   return (
     <textarea
       data-slot="textarea"
@@ -16,4 +18,4 @@ function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
   );
 }
 
-export { Textarea };
+export default Textarea;

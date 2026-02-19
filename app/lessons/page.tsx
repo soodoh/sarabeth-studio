@@ -1,4 +1,3 @@
-/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import BannerImage from "@/components/BannerImage";
 import LessonsPageContent from "@/components/LessonsPageContent";
 import getLessonsData from "@/utils/fetchers/lessons";
@@ -19,7 +18,7 @@ export const metadata: Metadata = {
   icons: "/favicon.png",
 };
 
-export default async function LessonsPage() {
+export default async function LessonsPage(): Promise<JSX.Element> {
   const lessonsData = await getLessonsData();
 
   return (

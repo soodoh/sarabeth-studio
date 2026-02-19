@@ -1,20 +1,35 @@
 "use client";
 
-/* oxlint-disable complexity, no-console, no-control-regex, typescript-eslint/explicit-module-boundary-types, typescript-eslint/no-restricted-types */
 import LoadingCircle from "@/components/LoadingCircle";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import Input from "@/components/ui/input";
+import Label from "@/components/ui/label";
+import Textarea from "@/components/ui/textarea";
 import WidthContainer from "@/components/WidthContainer";
 import { brandButtonClasses, cn } from "@/lib/utils";
 import { useState } from "react";
 import type { EmailData } from "@/utils/types";
 
-const isInvalid = (values: Partial<EmailData>) => {
-  const emailRegex =
-    /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\u0001-\u0008\u000B\u000C\u000E-\u001F\u0021\u0023-\u005B\u005D-\u007F]|\\[\u0001-\u0009\u000B\u000C\u000E-\u007F])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\u0001-\u0008\u000B\u000C\u000E-\u001F\u0021-\u005A\u0053-\u007F]|\\[\u0001-\u0009\u000B\u000C\u000E-\u007F])+)\])/;
-  if (values.email && !emailRegex.test(values.email)) {
+type SendState = "success" | "fail" | undefined;
+
+type TextFieldProps = {
+  id: "Name" | "Email" | "Subject";
+  value: string;
+  error: boolean;
+  loading: boolean;
+  errorMessage: string;
+  onChange: (value: string) => void;
+};
+
+type MessageFieldProps = {
+  value: string;
+  error: boolean;
+  loading: boolean;
+  onChange: (value: string) => void;
+};
+
+const isInvalid = (values: Partial<EmailData>): boolean => {
+  if (values.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
     return true;
   }
   return Object.values(values).some((value) => !value);
@@ -25,17 +40,105 @@ const fieldClasses = "py-2.5 text-base font-sans";
 const labelClasses =
   "text-sm font-medium text-accent has-[+_*:focus]:text-foreground";
 
-const ContactContent = () => {
+const ContactTextField = ({
+  id,
+  value,
+  error,
+  loading,
+  errorMessage,
+  onChange,
+}: TextFieldProps): JSX.Element => (
+  <div className="my-4 w-[60%] max-sm:w-full">
+    <div className="space-y-1.5">
+      <Label htmlFor={id} className={cn(labelClasses, error && "text-red-600")}>
+        {id}
+      </Label>
+      <Input
+        className={cn(fieldClasses, error && "!border-red-600")}
+        name={id}
+        id={id}
+        disabled={loading}
+        onChange={(event) => onChange(event.target.value)}
+        type="text"
+        value={value}
+        aria-invalid={error}
+        aria-required="true"
+        aria-describedby={`${id}-error`}
+        required
+      />
+      {error && (
+        <p
+          role="alert"
+          id={`${id}-error`}
+          className="text-[0.8rem] text-red-600"
+        >
+          {errorMessage}
+        </p>
+      )}
+    </div>
+  </div>
+);
+
+const ContactMessageField = ({
+  value,
+  error,
+  loading,
+  onChange,
+}: MessageFieldProps): JSX.Element => (
+  <div className="my-4">
+    <div className="space-y-1.5">
+      <Label
+        htmlFor="Message"
+        className={cn(labelClasses, error && "text-red-600")}
+      >
+        Message
+      </Label>
+      <Textarea
+        className={cn(fieldClasses, "resize-none", error && "!border-red-600")}
+        name="Message"
+        id="Message"
+        disabled={loading}
+        onChange={(event) => onChange(event.target.value)}
+        value={value}
+        aria-invalid={error}
+        aria-required="true"
+        aria-describedby="Message-error"
+        rows={10}
+        required
+      />
+      {error && (
+        <p
+          role="alert"
+          id="Message-error"
+          className="text-[0.8rem] text-red-600"
+        >
+          &quot;Message&quot; is a required field
+        </p>
+      )}
+    </div>
+  </div>
+);
+
+const ContactContent = (): JSX.Element => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [showErrors, setShowErrors] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [sendState, setSendState] = useState<"success" | "fail" | null>(null);
+  const [sendState, setSendState] = useState<SendState>(undefined);
   const data: EmailData = { name, email, subject, message };
 
-  const submit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const resetForm = (): void => {
+    setName("");
+    setEmail("");
+    setSubject("");
+    setMessage("");
+  };
+
+  const submit = async (
+    event: React.FormEvent<HTMLFormElement>,
+  ): Promise<void> => {
     event.preventDefault();
     if (isInvalid(data)) {
       setShowErrors(true);
@@ -49,14 +152,10 @@ const ContactContent = () => {
     });
     if (response.status === 200) {
       setShowErrors(false);
-      setName("");
-      setEmail("");
-      setSubject("");
-      setMessage("");
+      resetForm();
       setSendState("success");
     } else {
-      const errorBody = await response.json();
-      console.error(errorBody);
+      await response.json();
       setSendState("fail");
     }
     setLoading(false);
@@ -73,138 +172,36 @@ const ContactContent = () => {
       {sendState === "fail" && <h1>Message failed to send</h1>}
       {!sendState && (
         <form onSubmit={submit}>
-          <div className="my-4 w-[60%] max-sm:w-full">
-            <div className="space-y-1.5">
-              <Label
-                htmlFor="Name"
-                className={cn(labelClasses, nameError && "text-red-600")}
-              >
-                Name
-              </Label>
-              <Input
-                className={cn(fieldClasses, nameError && "!border-red-600")}
-                name="Name"
-                id="Name"
-                disabled={loading}
-                onChange={(e) => setName(e.target.value)}
-                type="text"
-                value={name}
-                aria-invalid={nameError}
-                aria-required="true"
-                aria-describedby="Name-error"
-                required
-              />
-              {nameError && (
-                <p
-                  role="alert"
-                  id="Name-error"
-                  className="text-[0.8rem] text-red-600"
-                >
-                  &quot;Name&quot; is a required field
-                </p>
-              )}
-            </div>
-          </div>
-          <div className="my-4 w-[60%] max-sm:w-full">
-            <div className="space-y-1.5">
-              <Label
-                htmlFor="Email"
-                className={cn(labelClasses, emailError && "text-red-600")}
-              >
-                Email
-              </Label>
-              <Input
-                className={cn(fieldClasses, emailError && "!border-red-600")}
-                name="Email"
-                id="Email"
-                disabled={loading}
-                onChange={(e) => setEmail(e.target.value)}
-                type="text"
-                value={email}
-                aria-invalid={emailError}
-                aria-required="true"
-                aria-describedby="Email-error"
-                required
-              />
-              {emailError && (
-                <p
-                  role="alert"
-                  id="Email-error"
-                  className="text-[0.8rem] text-red-600"
-                >
-                  Please enter a valid email
-                </p>
-              )}
-            </div>
-          </div>
-          <div className="my-4 w-[60%] max-sm:w-full">
-            <div className="space-y-1.5">
-              <Label
-                htmlFor="Subject"
-                className={cn(labelClasses, subjectError && "text-red-600")}
-              >
-                Subject
-              </Label>
-              <Input
-                className={cn(fieldClasses, subjectError && "!border-red-600")}
-                name="Subject"
-                id="Subject"
-                disabled={loading}
-                onChange={(e) => setSubject(e.target.value)}
-                type="text"
-                value={subject}
-                aria-invalid={subjectError}
-                aria-required="true"
-                aria-describedby="Subject-error"
-                required
-              />
-              {subjectError && (
-                <p
-                  role="alert"
-                  id="Subject-error"
-                  className="text-[0.8rem] text-red-600"
-                >
-                  &quot;Subject&quot; is a required field
-                </p>
-              )}
-            </div>
-          </div>
-          <div className="my-4">
-            <div className="space-y-1.5">
-              <Label
-                htmlFor="Message"
-                className={cn(labelClasses, messageError && "text-red-600")}
-              >
-                Message
-              </Label>
-              <Textarea
-                className={cn(
-                  fieldClasses,
-                  "resize-none",
-                  messageError && "!border-red-600",
-                )}
-                name="Message"
-                id="Message"
-                disabled={loading}
-                onChange={(e) => setMessage(e.target.value)}
-                value={message}
-                aria-invalid={messageError}
-                aria-required="true"
-                aria-describedby="Message-error"
-                rows={10}
-                required
-              />
-              {messageError && (
-                <p
-                  role="alert"
-                  id="Message-error"
-                  className="text-[0.8rem] text-red-600"
-                >
-                  &quot;Message&quot; is a required field
-                </p>
-              )}
-            </div>
-          </div>
+          <ContactTextField
+            id="Name"
+            value={name}
+            error={nameError}
+            loading={loading}
+            onChange={setName}
+            errorMessage='"Name" is a required field'
+          />
+          <ContactTextField
+            id="Email"
+            value={email}
+            error={emailError}
+            loading={loading}
+            onChange={setEmail}
+            errorMessage="Please enter a valid email"
+          />
+          <ContactTextField
+            id="Subject"
+            value={subject}
+            error={subjectError}
+            loading={loading}
+            onChange={setSubject}
+            errorMessage='"Subject" is a required field'
+          />
+          <ContactMessageField
+            value={message}
+            error={messageError}
+            loading={loading}
+            onChange={setMessage}
+          />
           <div className="my-4 w-[60%] max-sm:w-full">
             {loading ? (
               <LoadingCircle />

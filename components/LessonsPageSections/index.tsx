@@ -1,4 +1,3 @@
-/* oxlint-disable typescript-eslint/explicit-module-boundary-types, unicorn/no-useless-switch-case */
 import ArrowButton from "@/components/ArrowButton";
 import ImageWrapper from "@/components/ImageWrapper";
 import { LessonsPages } from "@/utils/types";
@@ -13,7 +12,7 @@ type Props = {
 
 const richTextClasses = "leading-7 [&_h1]:text-[2rem] [&_p]:mb-8";
 
-const LessonsPageSections = ({ section, lessonsData }: Props) => {
+const LessonsPageSections = ({ section, lessonsData }: Props): JSX.Element => {
   const {
     teachingPhilosophy,
     studioExpectations,
@@ -44,7 +43,6 @@ const LessonsPageSections = ({ section, lessonsData }: Props) => {
         </div>
       );
     }
-    case LessonsPages.About:
     default: {
       return (
         <div className="my-12 grid grid-cols-[1fr_auto_1fr] gap-16 max-sm:grid-cols-1">

@@ -2,7 +2,6 @@ import { client, formatImage } from "@/utils/contentful";
 import type { LessonsData } from "@/utils/types";
 
 const getLessonsData = async (): Promise<LessonsData> => {
-  // oxlint-disable-next-line typescript-eslint/no-explicit-any
   const lessonsEntries: any = await client.getEntries({
     content_type: "lessons",
   });

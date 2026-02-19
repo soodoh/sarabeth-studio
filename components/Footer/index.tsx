@@ -1,4 +1,3 @@
-/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import { Instagram } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -9,7 +8,7 @@ type Props = {
   location: string;
 };
 
-const Footer = ({ location, socialMediaLinks }: Props) => {
+const Footer = ({ location, socialMediaLinks }: Props): JSX.Element => {
   const instagramLink = socialMediaLinks.find((socialLink) =>
     /instagram/i.test(socialLink.source),
   );

@@ -1,4 +1,3 @@
-/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import HomeContent from "@/components/HomeContent";
 import getHomeData from "@/utils/fetchers/home";
 import type { Metadata } from "next";
@@ -14,7 +13,7 @@ export const metadata: Metadata = {
   icons: "/favicon.png",
 };
 
-const Home = async () => {
+const Home = async (): Promise<JSX.Element> => {
   const homeData = await getHomeData();
 
   return <HomeContent homeData={homeData} />;

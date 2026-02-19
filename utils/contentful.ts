@@ -1,4 +1,3 @@
-/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import { createClient } from "contentful";
 import type { AssetDetails, Asset as ContentfulAsset } from "contentful";
 import { getPlaceholder } from "./image";
@@ -9,7 +8,7 @@ export const client = createClient({
   accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN as string,
 });
 
-export function formatUrl(baseUrl: string) {
+export function formatUrl(baseUrl: string): string {
   return `https:${baseUrl}`;
 }
 
