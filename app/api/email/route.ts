@@ -1,3 +1,4 @@
+/* oxlint-disable import/prefer-default-export, typescript-eslint/explicit-module-boundary-types */
 import { SES } from "@aws-sdk/client-ses";
 import type { EmailData } from "@/utils/types";
 

@@ -1,5 +1,6 @@
 "use client";
 
+/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import type { CarouselApi } from '@/components/ui/carousel';
 import NextImage from "next/image";

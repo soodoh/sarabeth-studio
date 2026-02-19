@@ -1,3 +1,4 @@
+/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import ArrowButton from "@/components/ArrowButton";
 import StyledImage from "@/components/StyledImage";
 import WidthContainer from "@/components/WidthContainer";

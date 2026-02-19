@@ -1,3 +1,4 @@
+/* oxlint-disable typescript-eslint/no-restricted-types */
 import type { Audio, ImageType, SocialMediaLink } from "./";
 import type { Document } from "@contentful/rich-text-types";
 

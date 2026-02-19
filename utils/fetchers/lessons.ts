@@ -3,11 +3,10 @@ import type { LessonsData } from "@/utils/types";
 
 const getLessonsData = async (): Promise<LessonsData> => {
   // oxlint-disable-next-line typescript-eslint/no-explicit-any
-  const lessonsResponse: any = (
-    await client.getEntries({
-      content_type: "lessons",
-    })
-  )?.items?.[0]?.fields;
+  const lessonsEntries: any = await client.getEntries({
+    content_type: "lessons",
+  });
+  const lessonsResponse = lessonsEntries?.items?.[0]?.fields;
   const lessonsData = {
     title: lessonsResponse?.title,
     bannerImage: await formatImage(lessonsResponse?.bannerImage),

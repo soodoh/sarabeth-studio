@@ -3,9 +3,8 @@ import type { AboutData } from "@/utils/types";
 
 const getAboutData = async (): Promise<AboutData> => {
   // oxlint-disable-next-line typescript-eslint/no-explicit-any
-  const aboutResponse: any = (
-    await client.getEntries({ content_type: "about" })
-  )?.items?.[0]?.fields;
+  const aboutEntries: any = await client.getEntries({ content_type: "about" });
+  const aboutResponse = aboutEntries?.items?.[0]?.fields;
   return {
     headshot: await formatImage(aboutResponse?.headshot),
     bio: aboutResponse?.bio,

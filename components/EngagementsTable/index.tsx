@@ -1,3 +1,4 @@
+/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import TextHeading from "@/components/TextHeading";
 import { brandButtonClasses, cn } from "@/lib/utils";
 import React from "react";

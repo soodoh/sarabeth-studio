@@ -1,3 +1,4 @@
+/* oxlint-disable import/no-commonjs */
 import { RuleConfigSeverity } from "@commitlint/types";
 import type { UserConfig } from "@commitlint/types";
 

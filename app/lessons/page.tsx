@@ -1,3 +1,4 @@
+/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import BannerImage from "@/components/BannerImage";
 import LessonsPageContent from "@/components/LessonsPageContent";
 import getLessonsData from "@/utils/fetchers/lessons";

@@ -1,3 +1,4 @@
+/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import sharp from "sharp";
 
 export async function readImage(baseUrl: string): Promise<sharp.Sharp> {

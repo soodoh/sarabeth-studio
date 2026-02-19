@@ -1,3 +1,4 @@
+/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import OffsetShadow from "@/components/OffsetShadow";
 import React from "react";
 

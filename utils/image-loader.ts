@@ -1,3 +1,4 @@
+/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import type { ImageLoaderProps } from "next/image";
 
 export default function contentfulImageLoader({

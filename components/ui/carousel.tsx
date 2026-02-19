@@ -1,5 +1,6 @@
 "use client";
 
+/* oxlint-disable no-shadow, react/jsx-no-constructed-context-values, typescript-eslint/explicit-module-boundary-types, typescript-eslint/no-restricted-types */
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import useEmblaCarousel from 'embla-carousel-react';

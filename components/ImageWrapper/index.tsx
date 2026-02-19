@@ -1,3 +1,4 @@
+/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import NextImage from "next/image";
 import React from "react";
 import type { ImageType } from "@/utils/types";

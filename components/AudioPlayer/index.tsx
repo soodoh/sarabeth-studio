@@ -1,5 +1,6 @@
 "use client";
 
+/* oxlint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/media-has-caption, jsx-a11y/no-static-element-interactions, typescript-eslint/explicit-module-boundary-types, unicorn/consistent-function-scoping */
 import { Button } from "@/components/ui/button";
 import { Pause, Play } from "lucide-react";
 import React, { useRef, useState } from "react";

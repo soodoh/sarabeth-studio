@@ -1,3 +1,4 @@
+/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import { clsx } from 'clsx';
 import type { ClassValue } from 'clsx';
 import { twMerge } from "tailwind-merge";

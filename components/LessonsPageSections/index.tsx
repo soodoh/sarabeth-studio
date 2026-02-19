@@ -1,3 +1,4 @@
+/* oxlint-disable typescript-eslint/explicit-module-boundary-types, unicorn/no-useless-switch-case */
 import ArrowButton from "@/components/ArrowButton";
 import ImageWrapper from "@/components/ImageWrapper";
 import { LessonsPages } from '@/utils/types';

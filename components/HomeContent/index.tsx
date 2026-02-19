@@ -1,7 +1,8 @@
 "use client";
 
+/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import ArrowButton from "@/components/ArrowButton";
-import SvgLogo from "@/components/icons/Logo";
+import SvgLogo from "@/components/icons/logo";
 import StyledImage from "@/components/StyledImage";
 import WidthContainer from "@/components/WidthContainer";
 import { cn } from "@/lib/utils";

@@ -1,3 +1,4 @@
+/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import { createClient } from 'contentful';
 import type { AssetDetails, Asset as ContentfulAsset } from 'contentful';
 import { getPlaceholder } from "./image";

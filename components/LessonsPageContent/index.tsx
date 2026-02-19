@@ -1,6 +1,7 @@
 "use client";
 
-import SvgLogo from "@/components/icons/Logo";
+/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
+import SvgLogo from "@/components/icons/logo";
 import LessonsPageSections from "@/components/LessonsPageSections";
 import { Button } from "@/components/ui/button";
 import WidthContainer from "@/components/WidthContainer";

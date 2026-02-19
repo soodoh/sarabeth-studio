@@ -15,7 +15,7 @@ const getHomeData: () => Promise<HomeData[]> = async () => {
       if (Array.isArray(entry.fields?.images)) {
         images = await Promise.all(entry.fields?.images?.map(formatImage));
       }
-      const response: HomeData = {
+      const homeSection: HomeData = {
         id: entry.sys.id,
         mainSection: Boolean(entry.fields.mainSection),
         title: String(entry.fields.title),
@@ -29,7 +29,7 @@ const getHomeData: () => Promise<HomeData[]> = async () => {
           : null,
         images,
       };
-      return response;
+      return homeSection;
     }),
   );
   return formattedResponse;

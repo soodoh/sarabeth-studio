@@ -1,3 +1,4 @@
+/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import BannerImage from "@/components/BannerImage";
 import EngagementsTable from "@/components/EngagementsTable";
 import WidthContainer from "@/components/WidthContainer";

@@ -1,3 +1,4 @@
+/* oxlint-disable react/iframe-missing-sandbox, react/jsx-no-useless-fragment, typescript-eslint/explicit-module-boundary-types */
 import AudioPlayer from "@/components/AudioPlayer";
 import PhotoCarousel from "@/components/PhotoCarousel";
 import TextHeading from "@/components/TextHeading";

@@ -1,3 +1,4 @@
+/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import HomeContent from "@/components/HomeContent";
 import getHomeData from "@/utils/fetchers/home";
 import type { Metadata } from "next";

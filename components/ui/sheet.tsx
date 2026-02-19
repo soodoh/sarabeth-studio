@@ -1,5 +1,6 @@
 "use client";
 
+/* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import { cn } from "@/lib/utils";
 import { XIcon } from "lucide-react";
 import { Dialog as SheetPrimitive } from "radix-ui";

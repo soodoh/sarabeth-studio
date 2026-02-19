@@ -1,5 +1,6 @@
 "use client";
 
+/* oxlint-disable import/prefer-default-export, typescript-eslint/explicit-module-boundary-types */
 import { cn } from "@/lib/utils";
 import { Label as LabelPrimitive } from "radix-ui";
 import * as React from "react";

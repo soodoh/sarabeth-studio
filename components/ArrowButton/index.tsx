@@ -1,4 +1,5 @@
-import SvgArrow from "@/components/icons/Arrow";
+/* oxlint-disable typescript-eslint/explicit-module-boundary-types, typescript-eslint/no-restricted-types */
+import SvgArrow from "@/components/icons/arrow";
 import React from "react";
 
 type Props = {

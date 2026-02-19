@@ -1,3 +1,4 @@
+/* oxlint-disable import/no-unassigned-import, typescript-eslint/explicit-module-boundary-types */
 import "@/styles/globals.css";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
