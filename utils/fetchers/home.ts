@@ -9,7 +9,7 @@ const getHomeData: () => Promise<HomeData[]> = async () => {
   });
 
   const formattedResponse = await Promise.all(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript-eslint/no-explicit-any
     response.items.map(async (entry: any) => {
       let images: ImageType[] = [];
       if (Array.isArray(entry.fields?.images)) {

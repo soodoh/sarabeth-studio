@@ -2,13 +2,13 @@ import { client, formatImage } from "@/utils/contentful";
 import type { Engagement, EngagementData } from "@/utils/types";
 
 const getEngagementsData = async (): Promise<EngagementData> => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript-eslint/no-explicit-any
   const [pageResponse, engagementsResponse]: any[] = await Promise.all([
     client.getEntries({ content_type: "engagementsPage" }),
     client.getEntries({ content_type: "engagements" }),
   ]);
   const engagements: Engagement[] = engagementsResponse?.items.map(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript-eslint/no-explicit-any
     (engagement: any) => ({
       id: engagement?.sys?.id,
       title: engagement?.fields?.label,

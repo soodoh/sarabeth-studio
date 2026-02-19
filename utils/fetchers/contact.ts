@@ -2,7 +2,7 @@ import { client, formatImage } from "@/utils/contentful";
 import type { ContactData } from "@/utils/types";
 
 const getContactData = async (): Promise<ContactData> => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript-eslint/no-explicit-any
   const contactResponse: any = (
     await client.getEntries({
       content_type: "contact",

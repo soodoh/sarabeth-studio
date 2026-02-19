@@ -12,7 +12,7 @@
 - `bun dev`: Start local dev server at `http://localhost:3000`.
 - `bun build`: Create production build.
 - `bun start`: Run the production server locally.
-- `bun lint`: Run ESLint across the repository.
+- `bun lint`: Run Oxlint across the repository.
 - `bun lint:fix`: Auto-fix lint issues where possible.
 
 ## Coding Style & Naming Conventions
@@ -20,8 +20,8 @@
 - Indentation: 2 spaces; keep files Prettier-friendly.
 - Components use PascalCase folders/files with `index.tsx` (example: `components/Header/index.tsx`).
 - Route segments use lowercase names in `app/`.
-- Use path alias imports (`@/...`); relative imports outside same folder are blocked by ESLint.
-- Keep imports sorted and grouped per configured ESLint rules.
+- Use path alias imports (`@/...`) for cross-folder imports.
+- Keep imports sorted and grouped consistently.
 
 ## Testing Guidelines
 - There is currently no automated test suite configured.
