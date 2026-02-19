@@ -24,8 +24,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "oxlint .",
-    "lint:fix": "oxlint --fix ."
+    "lint": "oxlint . && prettier --check .",
+    "lint:fix": "oxlint --fix . && prettier --write ."
   },
   "dependencies": {
     "@aws-sdk/client-ses": "^3.990.0",
