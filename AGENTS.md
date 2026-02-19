@@ -29,9 +29,9 @@
 - For new tests, prefer colocated `*.test.ts` or `*.test.tsx` files near the code they cover.
 
 ## Commit & Pull Request Guidelines
-- Commits must follow Conventional Commits and include a scope (commitlint enforces non-empty scope).
-- Format: `type(scope): summary`.
-- Examples: `feat(contact): add form validation`, `fix(media): handle missing asset fields`.
+- Commits must follow Conventional Commits with no scope (`scope-empty` is enforced in commitlint).
+- Format: `type: summary`.
+- Examples: `feat: add form validation`, `fix: handle missing asset fields`.
 - PRs should include: concise description, linked issue (if any), test steps, and screenshots for UI changes.
 
 ## Security & Configuration Tips
