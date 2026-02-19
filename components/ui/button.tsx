@@ -1,7 +1,7 @@
 /* oxlint-disable typescript-eslint/explicit-module-boundary-types */
 import { cn } from "@/lib/utils";
-import { cva } from 'class-variance-authority';
-import type { VariantProps } from 'class-variance-authority';
+import { cva } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
 import { Slot } from "radix-ui";
 import * as React from "react";
 

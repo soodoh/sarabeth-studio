@@ -1,8 +1,14 @@
 "use client";
 
 /* oxlint-disable typescript-eslint/explicit-module-boundary-types */
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import type { CarouselApi } from '@/components/ui/carousel';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import type { CarouselApi } from "@/components/ui/carousel";
 import NextImage from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import type { ImageType } from "@/utils/types";
@@ -12,12 +18,16 @@ const PhotoCarousel = ({ images }: { images: ImageType[] }) => {
   const [current, setCurrent] = useState(1);
 
   const onSelect = useCallback(() => {
-    if (!api) {return;}
+    if (!api) {
+      return;
+    }
     setCurrent(api.selectedScrollSnap() + 1);
   }, [api]);
 
   useEffect(() => {
-    if (!api) {return;}
+    if (!api) {
+      return;
+    }
     onSelect();
     api.on("select", onSelect);
     return () => {

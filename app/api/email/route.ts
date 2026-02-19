@@ -53,7 +53,8 @@ export async function POST(req: Request) {
     const emailRes = await sesClient.sendEmail(params);
     return Response.json(emailRes, { status: 200 });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : "Unknown Error!";
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown Error!";
     return Response.json({ error: errorMessage }, { status: 500 });
   }
 }
