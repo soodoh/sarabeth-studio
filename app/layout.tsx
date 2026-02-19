@@ -30,8 +30,8 @@ export default async function RootLayout({
         />
 
         <meta name="GOOGLEBOT" content="index, follow" />
-        <meta name="ROBOTS" content={"index, follow"} />
-        <meta name="robots" content={"index, follow"} />
+        <meta name="ROBOTS" content="index, follow" />
+        <meta name="robots" content="index, follow" />
 
         {/* Favicon */}
         <link

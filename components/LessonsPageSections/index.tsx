@@ -1,6 +1,7 @@
 import ArrowButton from "@/components/ArrowButton";
 import ImageWrapper from "@/components/ImageWrapper";
-import { type LessonsData, LessonsPages } from "@/utils/types";
+import { LessonsPages } from '@/utils/types';
+import type { LessonsData } from '@/utils/types';
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import React from "react";
 
@@ -22,7 +23,7 @@ const LessonsPageSections = ({ section, lessonsData }: Props) => {
     followLink,
   } = lessonsData;
   switch (section) {
-    case LessonsPages.Studio:
+    case LessonsPages.Studio: {
       return (
         <div className="my-12 grid grid-cols-[1fr_auto_1fr] gap-16 max-sm:grid-cols-1">
           <div className={richTextClasses}>
@@ -34,14 +35,16 @@ const LessonsPageSections = ({ section, lessonsData }: Props) => {
           </div>
         </div>
       );
-    case LessonsPages.Resume:
+    }
+    case LessonsPages.Resume: {
       return (
         <div className={`my-12 ${richTextClasses}`}>
           {documentToReactComponents(teachingResume)}
         </div>
       );
+    }
     case LessonsPages.About:
-    default:
+    default: {
       return (
         <div className="my-12 grid grid-cols-[1fr_auto_1fr] gap-16 max-sm:grid-cols-1">
           <div className={richTextClasses}>
@@ -59,6 +62,7 @@ const LessonsPageSections = ({ section, lessonsData }: Props) => {
           </div>
         </div>
       );
+    }
   }
 };
 

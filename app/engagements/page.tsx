@@ -2,7 +2,7 @@ import BannerImage from "@/components/BannerImage";
 import EngagementsTable from "@/components/EngagementsTable";
 import WidthContainer from "@/components/WidthContainer";
 import getEngagementData from "@/utils/fetchers/engagements";
-import { Engagement } from "@/utils/types";
+import type { Engagement } from "@/utils/types";
 import type { Metadata } from "next";
 
 // Statically generated at build time, will error if any Dynamic APIs are used
@@ -29,7 +29,7 @@ export default async function EngagementsPage() {
 
   const upcoming = engagements
     .filter((engagement: Engagement) => isUpcoming(engagement.endDate))
-    .sort((a: Engagement, b: Engagement) => {
+    .toSorted((a: Engagement, b: Engagement) => {
       const dateA = new Date(a.endDate);
       const dateB = new Date(b.endDate);
       return dateA.getTime() - dateB.getTime();
@@ -37,7 +37,7 @@ export default async function EngagementsPage() {
 
   const past = engagements
     .filter((engagement: Engagement) => !isUpcoming(engagement.endDate))
-    .sort((a: Engagement, b: Engagement) => {
+    .toSorted((a: Engagement, b: Engagement) => {
       const dateA = new Date(a.endDate);
       const dateB = new Date(b.endDate);
       return dateB.getTime() - dateA.getTime();

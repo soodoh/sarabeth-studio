@@ -1,8 +1,5 @@
-import {
-  type AssetDetails,
-  type Asset as ContentfulAsset,
-  createClient,
-} from "contentful";
+import { createClient } from 'contentful';
+import type { AssetDetails, Asset as ContentfulAsset } from 'contentful';
 import { getPlaceholder } from "./image";
 import type { Asset, ImageType } from "@/utils/types";
 
@@ -25,7 +22,7 @@ export function formatAsset(asset: ContentfulAsset): Asset {
   };
 }
 
-const imageCache: Map<string, ImageType> = new Map();
+const imageCache = new Map<string, ImageType>();
 
 export async function formatImage(
   contentfulAsset: ContentfulAsset,

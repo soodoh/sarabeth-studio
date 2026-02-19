@@ -17,7 +17,7 @@ const getHomeData: () => Promise<HomeData[]> = async () => {
       }
       const response: HomeData = {
         id: entry.sys.id,
-        mainSection: !!entry.fields.mainSection,
+        mainSection: Boolean(entry.fields.mainSection),
         title: String(entry.fields.title),
         description: entry.fields.description as Document,
         subtitle: entry.fields.subtitle ? String(entry.fields.subtitle) : null,
