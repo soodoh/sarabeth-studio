@@ -1,9 +1,9 @@
 "use client";
 
-import ArrowButton from "@/components/ArrowButton";
+import ArrowButton from "@/components/arrow-button";
 import SvgLogo from "@/components/icons/logo";
-import StyledImage from "@/components/StyledImage";
-import WidthContainer from "@/components/WidthContainer";
+import StyledImage from "@/components/styled-image";
+import WidthContainer from "@/components/width-container";
 import { cn } from "@/lib/utils";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { motion } from "motion/react";

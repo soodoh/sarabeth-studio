@@ -1,6 +1,6 @@
-import ArrowButton from "@/components/ArrowButton";
-import StyledImage from "@/components/StyledImage";
-import WidthContainer from "@/components/WidthContainer";
+import ArrowButton from "@/components/arrow-button";
+import StyledImage from "@/components/styled-image";
+import WidthContainer from "@/components/width-container";
 import getAboutData from "@/utils/fetchers/about";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import React from "react";

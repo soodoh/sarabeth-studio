@@ -1,9 +1,9 @@
 "use client";
 
 import SvgLogo from "@/components/icons/logo";
-import LessonsPageSections from "@/components/LessonsPageSections";
+import LessonsPageSections from "@/components/lessons-page-sections";
 import { Button } from "@/components/ui/button";
-import WidthContainer from "@/components/WidthContainer";
+import WidthContainer from "@/components/width-container";
 import { brandButtonClasses, cn } from "@/lib/utils";
 import { LessonsPages } from "@/utils/types";
 import type { LessonsData } from "@/utils/types";

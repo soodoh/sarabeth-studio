@@ -1,6 +1,6 @@
-import BannerImage from "@/components/BannerImage";
-import EngagementsTable from "@/components/EngagementsTable";
-import WidthContainer from "@/components/WidthContainer";
+import BannerImage from "@/components/banner-image";
+import EngagementsTable from "@/components/engagements-table";
+import WidthContainer from "@/components/width-container";
 import getEngagementData from "@/utils/fetchers/engagements";
 import type { Engagement } from "@/utils/types";
 import type { Metadata } from "next";

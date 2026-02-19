@@ -1,4 +1,4 @@
-import OffsetShadow from "@/components/OffsetShadow";
+import OffsetShadow from "@/components/offset-shadow";
 import React from "react";
 
 type Props = {

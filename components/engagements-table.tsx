@@ -1,4 +1,4 @@
-import TextHeading from "@/components/TextHeading";
+import TextHeading from "@/components/text-heading";
 import { brandButtonClasses, cn } from "@/lib/utils";
 import React from "react";
 import type { Engagement } from "@/utils/types";

@@ -1,5 +1,5 @@
-import ImageWrapper from "@/components/ImageWrapper";
-import OffsetShadow from "@/components/OffsetShadow";
+import ImageWrapper from "@/components/image-wrapper";
+import OffsetShadow from "@/components/offset-shadow";
 import React from "react";
 import type { ImageType } from "@/utils/types";
 

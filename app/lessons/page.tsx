@@ -1,5 +1,5 @@
-import BannerImage from "@/components/BannerImage";
-import LessonsPageContent from "@/components/LessonsPageContent";
+import BannerImage from "@/components/banner-image";
+import LessonsPageContent from "@/components/lessons-page-content";
 import getLessonsData from "@/utils/fetchers/lessons";
 import type { Metadata } from "next";
 

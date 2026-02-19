@@ -1,6 +1,6 @@
 import globalStyles from "@/styles/globals.css";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import Footer from "@/components/footer";
+import Header from "@/components/header";
 import getCommonData from "@/utils/fetchers/common";
 import type { Metadata } from "next";
 

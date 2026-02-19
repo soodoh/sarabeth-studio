@@ -1,5 +1,5 @@
-import ArrowButton from "@/components/ArrowButton";
-import ImageWrapper from "@/components/ImageWrapper";
+import ArrowButton from "@/components/arrow-button";
+import ImageWrapper from "@/components/image-wrapper";
 import { LessonsPages } from "@/utils/types";
 import type { LessonsData } from "@/utils/types";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";

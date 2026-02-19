@@ -1,5 +1,5 @@
-import BannerImage from "@/components/BannerImage";
-import ContactForm from "@/components/ContactForm";
+import BannerImage from "@/components/banner-image";
+import ContactForm from "@/components/contact-form";
 import getContactData from "@/utils/fetchers/contact";
 import type { Metadata } from "next";
 

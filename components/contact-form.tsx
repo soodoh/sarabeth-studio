@@ -1,11 +1,11 @@
 "use client";
 
-import LoadingCircle from "@/components/LoadingCircle";
+import LoadingCircle from "@/components/loading-circle";
 import { Button } from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Textarea from "@/components/ui/textarea";
-import WidthContainer from "@/components/WidthContainer";
+import WidthContainer from "@/components/width-container";
 import { brandButtonClasses, cn } from "@/lib/utils";
 import { useState } from "react";
 import type { EmailData } from "@/utils/types";

@@ -1,7 +1,7 @@
-import AudioPlayer from "@/components/AudioPlayer";
-import PhotoCarousel from "@/components/PhotoCarousel";
-import TextHeading from "@/components/TextHeading";
-import WidthContainer from "@/components/WidthContainer";
+import AudioPlayer from "@/components/audio-player";
+import PhotoCarousel from "@/components/photo-carousel";
+import TextHeading from "@/components/text-heading";
+import WidthContainer from "@/components/width-container";
 import getMediaData from "@/utils/fetchers/media";
 import type { Metadata } from "next";
 

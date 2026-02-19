@@ -1,4 +1,4 @@
-import HomeContent from "@/components/HomeContent";
+import HomeContent from "@/components/home-content";
 import getHomeData from "@/utils/fetchers/home";
 import type { Metadata } from "next";
 
