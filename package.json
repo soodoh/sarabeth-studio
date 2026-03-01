@@ -37,7 +37,7 @@
     "*.{css,html,json,md,mdx,yaml,yml}": "prettier --write"
   },
   "dependencies": {
-    "@aws-sdk/client-ses": "^3.998.0",
+    "@aws-sdk/client-ses": "^3.1000.0",
     "@contentful/rich-text-react-renderer": "^16.1.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -62,11 +62,11 @@
     "@netlify/plugin-nextjs": "^5.15.8",
     "@standard-config/oxlint": "^1.2.2",
     "@tailwindcss/postcss": "^4.2.1",
-    "@tsconfig/next": "^2.0.5",
-    "@types/node": "25.3.0",
+    "@tsconfig/next": "^2.0.6",
+    "@types/node": "25.3.3",
     "@types/react": "^19.2.14",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.7",
+    "lint-staged": "^16.3.1",
     "oxlint": "^1.50.0",
     "postcss": "^8.5.6",
     "prettier": "^3.8.1",
