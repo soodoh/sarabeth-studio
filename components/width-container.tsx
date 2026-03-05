@@ -3,7 +3,7 @@ import React from "react";
 
 type Props = { children: React.ReactNode; className?: string };
 
-const WidthContainer = ({ children, className }: Props): JSX.Element => {
+const WidthContainer = ({ children, className }: Props): React.JSX.Element => {
   return (
     <div
       className={cn(

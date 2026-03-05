@@ -1,3 +1,4 @@
+import type React from "react";
 import AudioPlayer from "@/components/audio-player";
 import PhotoCarousel from "@/components/photo-carousel";
 import TextHeading from "@/components/text-heading";
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
   icons: "/favicon.png",
 };
 
-export default async function MediaPage(): Promise<JSX.Element> {
+export default async function MediaPage(): Promise<React.JSX.Element> {
   const { images, audio } = await getMediaData();
 
   return (
@@ -29,7 +30,7 @@ export default async function MediaPage(): Promise<JSX.Element> {
         <iframe
           src="https://www.youtube.com/embed/videoseries?list=PL2ucJM2n3hm_c0L7-_dAnJ_Kajde66Id1"
           title="YouTube video player"
-          frameBorder="0"
+          style={{ border: 0 }}
           sandbox="allow-scripts allow-presentation"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen

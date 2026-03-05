@@ -50,7 +50,7 @@ function Carousel({
   className,
   children,
   ...props
-}: React.ComponentProps<"div"> & CarouselProps): JSX.Element {
+}: React.ComponentProps<"div"> & CarouselProps): React.JSX.Element {
   const [carouselRef, emblaApi] = useEmblaCarousel(
     {
       ...opts,
@@ -152,7 +152,7 @@ function Carousel({
 function CarouselContent({
   className,
   ...props
-}: React.ComponentProps<"div">): JSX.Element {
+}: React.ComponentProps<"div">): React.JSX.Element {
   const { carouselRef, orientation } = useCarousel();
 
   return (
@@ -176,7 +176,7 @@ function CarouselContent({
 function CarouselItem({
   className,
   ...props
-}: React.ComponentProps<"div">): JSX.Element {
+}: React.ComponentProps<"div">): React.JSX.Element {
   const { orientation } = useCarousel();
 
   return (
@@ -199,7 +199,7 @@ function CarouselPrevious({
   variant = "outline",
   size = "icon",
   ...props
-}: React.ComponentProps<typeof Button>): JSX.Element {
+}: React.ComponentProps<typeof Button>): React.JSX.Element {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel();
 
   return (
@@ -229,7 +229,7 @@ function CarouselNext({
   variant = "outline",
   size = "icon",
   ...props
-}: React.ComponentProps<typeof Button>): JSX.Element {
+}: React.ComponentProps<typeof Button>): React.JSX.Element {
   const { orientation, scrollNext, canScrollNext } = useCarousel();
 
   return (

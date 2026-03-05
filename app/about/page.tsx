@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   icons: "/favicon.png",
 };
 
-const About = async (): Promise<JSX.Element> => {
+const About = async (): Promise<React.JSX.Element> => {
   const aboutData = await getAboutData();
 
   const { headshot, bio, resume } = aboutData;

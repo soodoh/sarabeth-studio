@@ -7,7 +7,7 @@ import Label from "@/components/ui/label";
 import Textarea from "@/components/ui/textarea";
 import WidthContainer from "@/components/width-container";
 import { brandButtonClasses, cn } from "@/lib/utils";
-import { useState } from "react";
+import React, { useState } from "react";
 import type { EmailData } from "@/utils/types";
 
 type SendState = "success" | "fail" | undefined;
@@ -47,7 +47,7 @@ const ContactTextField = ({
   loading,
   errorMessage,
   onChange,
-}: TextFieldProps): JSX.Element => (
+}: TextFieldProps): React.JSX.Element => (
   <div className="my-4 w-[60%] max-sm:w-full">
     <div className="space-y-1.5">
       <Label htmlFor={id} className={cn(labelClasses, error && "text-red-600")}>
@@ -84,7 +84,7 @@ const ContactMessageField = ({
   error,
   loading,
   onChange,
-}: MessageFieldProps): JSX.Element => (
+}: MessageFieldProps): React.JSX.Element => (
   <div className="my-4">
     <div className="space-y-1.5">
       <Label
@@ -119,7 +119,7 @@ const ContactMessageField = ({
   </div>
 );
 
-const ContactContent = (): JSX.Element => {
+const ContactContent = (): React.JSX.Element => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
@@ -137,7 +137,7 @@ const ContactContent = (): JSX.Element => {
   };
 
   const submit = async (
-    event: React.FormEvent<HTMLFormElement>,
+    event: React.SyntheticEvent<HTMLFormElement>,
   ): Promise<void> => {
     event.preventDefault();
     if (isInvalid(data)) {

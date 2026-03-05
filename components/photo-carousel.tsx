@@ -9,10 +9,14 @@ import {
 } from "@/components/ui/carousel";
 import type { CarouselApi } from "@/components/ui/carousel";
 import NextImage from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import type { ImageType } from "@/utils/types";
 
-const PhotoCarousel = ({ images }: { images: ImageType[] }): JSX.Element => {
+const PhotoCarousel = ({
+  images,
+}: {
+  images: ImageType[];
+}): React.JSX.Element => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(1);
 

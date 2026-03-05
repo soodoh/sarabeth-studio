@@ -3,6 +3,7 @@
   "version": "1.1.0",
   "homepage": "https://sarabethbelon.com",
   "private": true,
+  "type": "module",
   "author": "Paul DiLoreto <soodohh@pm.me>",
   "license": "MIT",
   "bugs": {
@@ -68,6 +69,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.3.2",
     "oxlint": "^1.51.0",
+    "oxlint-tsgolint": "^0.16.0",
     "postcss": "^8.5.8",
     "prettier": "^3.8.1",
     "tailwindcss": "^4.2.1",

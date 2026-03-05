@@ -1,4 +1,10 @@
-const SvgArrow = ({ className = "" }: { className?: string }): JSX.Element => (
+import type React from "react";
+
+const SvgArrow = ({
+  className = "",
+}: {
+  className?: string;
+}): React.JSX.Element => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={51}

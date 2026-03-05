@@ -25,7 +25,11 @@ const animateProps = {
   variants: { visible: { opacity: 1 }, hidden: { opacity: 0 } },
 };
 
-const HomeContent = ({ homeData }: { homeData: HomeData[] }): JSX.Element => {
+const HomeContent = ({
+  homeData,
+}: {
+  homeData: HomeData[];
+}): React.JSX.Element => {
   return (
     <WidthContainer>
       {homeData.map((homeRow, rowIndex) => {

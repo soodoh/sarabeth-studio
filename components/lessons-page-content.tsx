@@ -8,13 +8,13 @@ import { brandButtonClasses, cn } from "@/lib/utils";
 import { LessonsPages } from "@/utils/types";
 import type { LessonsData } from "@/utils/types";
 import Link from "next/link";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const LessonsPageContent = ({
   lessonsData,
 }: {
   lessonsData: LessonsData;
-}): JSX.Element => {
+}): React.JSX.Element => {
   const { email, phoneNumber, reviewLink } = lessonsData;
   const [section, setSection] = useState(LessonsPages.About);
 

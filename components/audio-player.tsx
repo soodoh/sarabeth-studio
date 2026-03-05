@@ -16,7 +16,7 @@ const formatTime = (time: number): string => {
   return `${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 };
 
-const AudioPlayer = ({ source }: Props): JSX.Element => {
+const AudioPlayer = ({ source }: Props): React.JSX.Element => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const progressBarRef = useRef<HTMLButtonElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -28,7 +28,7 @@ const AudioPlayer = ({ source }: Props): JSX.Element => {
       if (isPlaying) {
         audioRef.current.pause();
       } else {
-        audioRef.current.play();
+        void audioRef.current.play();
       }
       setIsPlaying(!isPlaying);
     }

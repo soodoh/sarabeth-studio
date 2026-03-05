@@ -44,7 +44,7 @@ function validateEmailData(body: unknown): body is EmailData {
 
 export async function POST(req: Request): Promise<Response> {
   try {
-    const emailData = await req.json();
+    const emailData: unknown = await req.json();
     if (!validateEmailData(emailData)) {
       return Response.json(
         { error: "Missing required inputs in POST body" },

@@ -7,7 +7,7 @@ import * as React from "react";
 function Label({
   className,
   ...props
-}: React.ComponentProps<typeof LabelPrimitive.Root>): JSX.Element {
+}: React.ComponentProps<typeof LabelPrimitive.Root>): React.JSX.Element {
   return (
     <LabelPrimitive.Root
       data-slot="label"

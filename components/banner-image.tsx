@@ -8,7 +8,7 @@ type Props = {
   title: string;
 };
 
-const BannerImage = ({ title, image }: Props): JSX.Element => {
+const BannerImage = ({ title, image }: Props): React.JSX.Element => {
   return (
     <div className="relative flex h-[500px] w-full items-center justify-center bg-foreground bg-cover bg-center">
       <NextImage

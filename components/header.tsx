@@ -19,7 +19,7 @@ type HeaderProps = {
   brandName: string;
 };
 
-const Header = ({ brandName }: HeaderProps): JSX.Element => {
+const Header = ({ brandName }: HeaderProps): React.JSX.Element => {
   const route = usePathname();
   const links = [
     { label: "About", url: "/about" },

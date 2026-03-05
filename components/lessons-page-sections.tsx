@@ -12,7 +12,10 @@ type Props = {
 
 const richTextClasses = "leading-7 [&_h1]:text-[2rem] [&_p]:mb-8";
 
-const LessonsPageSections = ({ section, lessonsData }: Props): JSX.Element => {
+const LessonsPageSections = ({
+  section,
+  lessonsData,
+}: Props): React.JSX.Element => {
   const {
     teachingPhilosophy,
     studioExpectations,
@@ -23,7 +26,7 @@ const LessonsPageSections = ({ section, lessonsData }: Props): JSX.Element => {
     followLink,
   } = lessonsData;
   switch (section) {
-    case LessonsPages.Studio: {
+    case LessonsPages.Studio:
       return (
         <div className="my-12 grid grid-cols-[1fr_auto_1fr] gap-16 max-sm:grid-cols-1">
           <div className={richTextClasses}>
@@ -35,15 +38,15 @@ const LessonsPageSections = ({ section, lessonsData }: Props): JSX.Element => {
           </div>
         </div>
       );
-    }
-    case LessonsPages.Resume: {
+
+    case LessonsPages.Resume:
       return (
         <div className={`my-12 ${richTextClasses}`}>
           {documentToReactComponents(teachingResume)}
         </div>
       );
-    }
-    default: {
+
+    default:
       return (
         <div className="my-12 grid grid-cols-[1fr_auto_1fr] gap-16 max-sm:grid-cols-1">
           <div className={richTextClasses}>
@@ -61,7 +64,6 @@ const LessonsPageSections = ({ section, lessonsData }: Props): JSX.Element => {
           </div>
         </div>
       );
-    }
   }
 };
 

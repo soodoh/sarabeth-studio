@@ -1,3 +1,4 @@
+import type React from "react";
 import BannerImage from "@/components/banner-image";
 import LessonsPageContent from "@/components/lessons-page-content";
 import getLessonsData from "@/utils/fetchers/lessons";
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
   icons: "/favicon.png",
 };
 
-export default async function LessonsPage(): Promise<JSX.Element> {
+export default async function LessonsPage(): Promise<React.JSX.Element> {
   const lessonsData = await getLessonsData();
 
   return (

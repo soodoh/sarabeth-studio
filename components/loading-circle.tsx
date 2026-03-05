@@ -5,7 +5,10 @@ type Props = {
   strokeWidth?: number;
 };
 
-const LoadingCircle = ({ size = 50, strokeWidth = 10 }: Props): JSX.Element => {
+const LoadingCircle = ({
+  size = 50,
+  strokeWidth = 10,
+}: Props): React.JSX.Element => {
   return (
     <svg
       className="-rotate-90 fill-none [stroke-linecap:round]"

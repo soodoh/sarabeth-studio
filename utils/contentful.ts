@@ -1,11 +1,11 @@
 import { createClient } from "contentful";
-import type { AssetDetails, Asset as ContentfulAsset } from "contentful";
+import type { AssetFields, Asset as ContentfulAsset } from "contentful";
 import { getPlaceholder } from "./image";
 import type { Asset, ImageType } from "@/utils/types";
 
 export const client = createClient({
-  space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID as string,
-  accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN as string,
+  space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID!,
+  accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN!,
 });
 
 export function formatUrl(baseUrl: string): string {
@@ -13,11 +13,12 @@ export function formatUrl(baseUrl: string): string {
 }
 
 export function formatAsset(asset: ContentfulAsset): Asset {
-  const assetUrl = formatUrl(String(asset.fields.file?.url));
+  const fields = asset.fields as AssetFields;
+  const assetUrl = formatUrl(String(fields.file?.url ?? ""));
   return {
     id: asset.sys.id,
-    title: String(asset.fields.title),
-    description: String(asset.fields.description),
+    title: String(fields.title ?? ""),
+    description: String(fields.description ?? ""),
     url: assetUrl,
   };
 }
@@ -33,12 +34,13 @@ export async function formatImage(
     return cached;
   }
 
-  const imageDetails = contentfulAsset.fields.file?.details as AssetDetails;
+  const fields = contentfulAsset.fields as AssetFields;
+  const imageDetails = fields.file!.details;
   const width = imageDetails.image?.width ?? 0;
   const height = imageDetails.image?.height ?? 0;
   const placeholder = await getPlaceholder(asset.url);
 
-  const image = {
+  const image: ImageType = {
     ...asset,
     width,
     height,

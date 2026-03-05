@@ -5,7 +5,7 @@ type Props = {
   text: string;
 };
 
-const TextHeading = ({ text }: Props): JSX.Element => {
+const TextHeading = ({ text }: Props): React.JSX.Element => {
   return (
     <OffsetShadow type="heading" direction="left">
       <h1 className="m-0 text-[2rem]">{text}</h1>

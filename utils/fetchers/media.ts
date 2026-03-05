@@ -1,19 +1,36 @@
 import { client, formatImage, formatUrl } from "@/utils/contentful";
-import type { MediaData } from "@/utils/types";
+import type { Audio, ImageType, MediaData } from "@/utils/types";
+import type {
+  Asset as ContentfulAsset,
+  AssetFields,
+  EntrySkeletonType,
+} from "contentful";
+
+type MediaPageFields = {
+  images: ContentfulAsset[];
+  audio: ContentfulAsset[];
+};
+
+type MediaPageSkeleton = EntrySkeletonType<MediaPageFields, "mediaPage">;
 
 const getMediaData = async (): Promise<MediaData> => {
-  const mediaEntries: any = await client.getEntries({
+  const mediaEntries = await client.getEntries<MediaPageSkeleton>({
     content_type: "mediaPage",
   });
-  const mediaResponse = mediaEntries?.items?.[0]?.fields;
+  const mediaResponse = mediaEntries.items[0]?.fields;
 
-  const images = await Promise.all(mediaResponse?.images?.map(formatImage));
-  const audio = mediaResponse?.audio?.map((song: any) => {
+  const images: ImageType[] = await Promise.all(
+    ((mediaResponse?.images as ContentfulAsset[]) ?? []).map(formatImage),
+  );
+  const audio: Audio[] = (
+    (mediaResponse?.audio as ContentfulAsset[]) ?? []
+  ).map((song) => {
+    const fields = song.fields as AssetFields;
     return {
-      id: song?.sys?.id,
-      title: song?.fields?.title,
-      description: song?.fields?.description || "",
-      url: formatUrl(song?.fields?.file?.url),
+      id: song.sys.id,
+      title: String(fields.title ?? ""),
+      description: String(fields.description ?? ""),
+      url: formatUrl(String(fields.file?.url ?? "")),
     };
   });
   return { images, audio };

@@ -18,7 +18,7 @@ const ImageWrapper = ({
     "(max-width: 1279px) 800px",
     "400px",
   ].join(", "),
-}: Props): JSX.Element => {
+}: Props): React.JSX.Element => {
   return (
     <NextImage
       alt={image.description}

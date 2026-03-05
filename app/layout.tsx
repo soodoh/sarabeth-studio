@@ -1,3 +1,4 @@
+import type React from "react";
 import globalStyles from "@/styles/globals.css";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
@@ -18,7 +19,7 @@ export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
-}): Promise<JSX.Element> {
+}): Promise<React.JSX.Element> {
   const { brandName, location, socialMediaLinks } = await getCommonData();
 
   return (

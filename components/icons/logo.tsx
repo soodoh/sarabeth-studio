@@ -1,4 +1,10 @@
-const SvgLogo = ({ className = "" }: { className?: string }): JSX.Element => (
+import type React from "react";
+
+const SvgLogo = ({
+  className = "",
+}: {
+  className?: string;
+}): React.JSX.Element => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 1146 770"

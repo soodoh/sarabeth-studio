@@ -18,7 +18,7 @@ const formatDate = (dateString: string, includeYear = false): string => {
   return formattedString;
 };
 
-const EngagementRow = ({ engagements, label }: Props): JSX.Element => {
+const EngagementRow = ({ engagements, label }: Props): React.JSX.Element => {
   return (
     <div className="mb-8 flex w-full flex-col items-center">
       <TextHeading text={label} />

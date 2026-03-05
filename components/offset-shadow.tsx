@@ -29,7 +29,11 @@ const positionStyles = {
   },
 };
 
-const OffsetShadow = ({ type, direction, children }: Props): JSX.Element => (
+const OffsetShadow = ({
+  type,
+  direction,
+  children,
+}: Props): React.JSX.Element => (
   <div className="relative">
     <div
       className={cn(

@@ -13,7 +13,7 @@ const StyledImage = ({
   overlayDirection,
   priority,
   image,
-}: Props): JSX.Element => (
+}: Props): React.JSX.Element => (
   <OffsetShadow direction={overlayDirection} type="image">
     <ImageWrapper image={image} priority={priority} sizes="100vw" />
   </OffsetShadow>
