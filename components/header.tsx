@@ -1,5 +1,9 @@
 "use client";
 
+import { Menu } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import React, { useState } from "react";
 import SvgLogo from "@/components/icons/logo";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,10 +14,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import { Menu } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React, { useState } from "react";
 
 type HeaderProps = {
   brandName: string;

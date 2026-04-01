@@ -1,10 +1,10 @@
+import type { EntryFieldTypes, EntrySkeletonType } from "contentful";
 import { client } from "@/utils/contentful";
 import type {
   CommonData,
   SocialMediaLink,
   SocialMediaType,
 } from "@/utils/types";
-import type { EntryFieldTypes, EntrySkeletonType } from "contentful";
 
 type AboutFields = {
   title: string;

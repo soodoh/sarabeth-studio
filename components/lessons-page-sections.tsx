@@ -1,9 +1,9 @@
-import ArrowButton from "@/components/arrow-button";
-import ImageWrapper from "@/components/image-wrapper";
-import { LessonsPages } from "@/utils/types";
-import type { LessonsData } from "@/utils/types";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import React from "react";
+import ArrowButton from "@/components/arrow-button";
+import ImageWrapper from "@/components/image-wrapper";
+import type { LessonsData } from "@/utils/types";
+import { LessonsPages } from "@/utils/types";
 
 type Props = {
   section: LessonsPages;

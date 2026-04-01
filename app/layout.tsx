@@ -1,9 +1,9 @@
+import type { Metadata } from "next";
 import type React from "react";
-import globalStyles from "@/styles/globals.css";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
+import globalStyles from "@/styles/globals.css";
 import getCommonData from "@/utils/fetchers/common";
-import type { Metadata } from "next";
 
 void globalStyles;
 

@@ -1,10 +1,10 @@
-import { client, formatImage, formatUrl } from "@/utils/contentful";
-import type { Audio, ImageType, MediaData } from "@/utils/types";
 import type {
-  Asset as ContentfulAsset,
   AssetFields,
+  Asset as ContentfulAsset,
   EntrySkeletonType,
 } from "contentful";
+import { client, formatImage, formatUrl } from "@/utils/contentful";
+import type { Audio, ImageType, MediaData } from "@/utils/types";
 
 type MediaPageFields = {
   images: ContentfulAsset[];

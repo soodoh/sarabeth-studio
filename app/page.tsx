@@ -1,7 +1,7 @@
+import type { Metadata } from "next";
 import type React from "react";
 import HomeContent from "@/components/home-content";
 import getHomeData from "@/utils/fetchers/home";
-import type { Metadata } from "next";
 
 // Statically generated at build time, will error if any Dynamic APIs are used
 export const dynamic = "error";

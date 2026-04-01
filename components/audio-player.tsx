@@ -1,8 +1,8 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Pause, Play } from "lucide-react";
 import React, { useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   source: string;

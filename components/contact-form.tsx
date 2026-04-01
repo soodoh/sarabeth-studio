@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState } from "react";
 import LoadingCircle from "@/components/loading-circle";
 import { Button } from "@/components/ui/button";
 import Input from "@/components/ui/input";
@@ -7,7 +8,6 @@ import Label from "@/components/ui/label";
 import Textarea from "@/components/ui/textarea";
 import WidthContainer from "@/components/width-container";
 import { brandButtonClasses, cn } from "@/lib/utils";
-import React, { useState } from "react";
 import type { EmailData } from "@/utils/types";
 
 type SendState = "success" | "fail" | undefined;

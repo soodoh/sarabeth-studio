@@ -1,11 +1,11 @@
-import { client, formatImage, formatUrl } from "@/utils/contentful";
-import type { AboutData } from "@/utils/types";
 import type { Document } from "@contentful/rich-text-types";
 import type {
-  Asset as ContentfulAsset,
   AssetFields,
+  Asset as ContentfulAsset,
   EntrySkeletonType,
 } from "contentful";
+import { client, formatImage, formatUrl } from "@/utils/contentful";
+import type { AboutData } from "@/utils/types";
 
 type AboutFields = {
   headshot: ContentfulAsset;

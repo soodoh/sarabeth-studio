@@ -1,5 +1,5 @@
-import OffsetShadow from "@/components/offset-shadow";
 import React from "react";
+import OffsetShadow from "@/components/offset-shadow";
 
 type Props = {
   text: string;

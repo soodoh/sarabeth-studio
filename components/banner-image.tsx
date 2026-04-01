@@ -1,6 +1,6 @@
-import OffsetShadow from "@/components/offset-shadow";
 import NextImage from "next/image";
 import React from "react";
+import OffsetShadow from "@/components/offset-shadow";
 import type { ImageType } from "@/utils/types";
 
 type Props = {

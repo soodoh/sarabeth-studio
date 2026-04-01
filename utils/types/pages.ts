@@ -1,5 +1,5 @@
-import type { Audio, ImageType, SocialMediaLink } from "./";
 import type { Document } from "@contentful/rich-text-types";
+import type { Audio, ImageType, SocialMediaLink } from "./";
 
 export type CommonData = {
   location: string;

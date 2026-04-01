@@ -1,14 +1,14 @@
 "use client";
 
+import Link from "next/link";
+import React, { useState } from "react";
 import SvgLogo from "@/components/icons/logo";
 import LessonsPageSections from "@/components/lessons-page-sections";
 import { Button } from "@/components/ui/button";
 import WidthContainer from "@/components/width-container";
 import { brandButtonClasses, cn } from "@/lib/utils";
-import { LessonsPages } from "@/utils/types";
 import type { LessonsData } from "@/utils/types";
-import Link from "next/link";
-import React, { useState } from "react";
+import { LessonsPages } from "@/utils/types";
 
 const LessonsPageContent = ({
   lessonsData,

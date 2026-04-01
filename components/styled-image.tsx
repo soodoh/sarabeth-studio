@@ -1,6 +1,6 @@
+import React from "react";
 import ImageWrapper from "@/components/image-wrapper";
 import OffsetShadow from "@/components/offset-shadow";
-import React from "react";
 import type { ImageType } from "@/utils/types";
 
 type Props = {

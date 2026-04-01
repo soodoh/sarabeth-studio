@@ -11,6 +11,7 @@ const LoadingCircle = ({
 }: Props): React.JSX.Element => {
   return (
     <svg
+      aria-hidden="true"
       className="-rotate-90 fill-none [stroke-linecap:round]"
       style={{
         width: `${size}px`,

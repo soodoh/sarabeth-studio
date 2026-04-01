@@ -1,10 +1,12 @@
-import { createClient } from "contentful";
 import type { AssetFields, Asset as ContentfulAsset } from "contentful";
-import { getPlaceholder } from "./image";
+import { createClient } from "contentful";
 import type { Asset, ImageType } from "@/utils/types";
+import { getPlaceholder } from "./image";
 
 export const client = createClient({
+  // biome-ignore lint/style/noNonNullAssertion: env vars required at build time
   space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID!,
+  // biome-ignore lint/style/noNonNullAssertion: env vars required at build time
   accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN!,
 });
 
@@ -35,9 +37,9 @@ export async function formatImage(
   }
 
   const fields = contentfulAsset.fields as AssetFields;
-  const imageDetails = fields.file!.details;
-  const width = imageDetails.image?.width ?? 0;
-  const height = imageDetails.image?.height ?? 0;
+  const imageDetails = fields.file?.details;
+  const width = imageDetails?.image?.width ?? 0;
+  const height = imageDetails?.image?.height ?? 0;
   const placeholder = await getPlaceholder(asset.url);
 
   const image: ImageType = {

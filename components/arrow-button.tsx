@@ -1,5 +1,5 @@
-import SvgArrow from "@/components/icons/arrow";
 import React from "react";
+import SvgArrow from "@/components/icons/arrow";
 
 type Props = {
   label?: string;

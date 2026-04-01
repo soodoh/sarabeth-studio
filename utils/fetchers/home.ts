@@ -1,11 +1,11 @@
-import { client, formatImage } from "@/utils/contentful";
-import type { HomeData, ImageType } from "@/utils/types";
 import type { Document } from "@contentful/rich-text-types";
 import type {
   Asset as ContentfulAsset,
-  EntrySkeletonType,
   EntryFieldTypes,
+  EntrySkeletonType,
 } from "contentful";
+import { client, formatImage } from "@/utils/contentful";
+import type { HomeData, ImageType } from "@/utils/types";
 
 type HomeFields = {
   order: EntryFieldTypes.Number;

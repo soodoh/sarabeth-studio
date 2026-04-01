@@ -1,6 +1,6 @@
+import type { Asset as ContentfulAsset, EntrySkeletonType } from "contentful";
 import { client, formatImage } from "@/utils/contentful";
 import type { Engagement, EngagementData } from "@/utils/types";
-import type { Asset as ContentfulAsset, EntrySkeletonType } from "contentful";
 
 type EngagementsPageFields = {
   title: string;

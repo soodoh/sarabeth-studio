@@ -1,10 +1,10 @@
+import type { Metadata } from "next";
 import type React from "react";
 import AudioPlayer from "@/components/audio-player";
 import PhotoCarousel from "@/components/photo-carousel";
 import TextHeading from "@/components/text-heading";
 import WidthContainer from "@/components/width-container";
 import getMediaData from "@/utils/fetchers/media";
-import type { Metadata } from "next";
 
 // Statically generated at build time, will error if any Dynamic APIs are used
 export const dynamic = "error";

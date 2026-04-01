@@ -1,10 +1,10 @@
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import type { Metadata } from "next";
+import React from "react";
 import ArrowButton from "@/components/arrow-button";
 import StyledImage from "@/components/styled-image";
 import WidthContainer from "@/components/width-container";
 import getAboutData from "@/utils/fetchers/about";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import React from "react";
-import type { Metadata } from "next";
 
 // Statically generated at build time, will error if any Dynamic APIs are used
 export const dynamic = "error";

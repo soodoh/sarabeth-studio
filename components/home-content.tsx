@@ -1,12 +1,12 @@
 "use client";
 
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { motion } from "motion/react";
 import ArrowButton from "@/components/arrow-button";
 import SvgLogo from "@/components/icons/logo";
 import StyledImage from "@/components/styled-image";
 import WidthContainer from "@/components/width-container";
 import { cn } from "@/lib/utils";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import { motion } from "motion/react";
 import type { HomeData } from "@/utils/types";
 
 const isTeachingSection = (name: string): boolean => {

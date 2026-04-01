@@ -1,5 +1,8 @@
 "use client";
 
+import NextImage from "next/image";
+import React, { useCallback, useEffect, useState } from "react";
+import type { CarouselApi } from "@/components/ui/carousel";
 import {
   Carousel,
   CarouselContent,
@@ -7,9 +10,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import type { CarouselApi } from "@/components/ui/carousel";
-import NextImage from "next/image";
-import React, { useCallback, useEffect, useState } from "react";
 import type { ImageType } from "@/utils/types";
 
 const PhotoCarousel = ({

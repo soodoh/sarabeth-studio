@@ -1,7 +1,7 @@
-import { client, formatImage } from "@/utils/contentful";
-import type { LessonsData } from "@/utils/types";
 import type { Document } from "@contentful/rich-text-types";
 import type { Asset as ContentfulAsset, EntrySkeletonType } from "contentful";
+import { client, formatImage } from "@/utils/contentful";
+import type { LessonsData } from "@/utils/types";
 
 type LessonsFields = {
   title: string;

@@ -1,8 +1,8 @@
+import type { Metadata } from "next";
 import type React from "react";
 import BannerImage from "@/components/banner-image";
 import ContactForm from "@/components/contact-form";
 import getContactData from "@/utils/fetchers/contact";
-import type { Metadata } from "next";
 
 // Statically generated at build time, will error if any Dynamic APIs are used
 export const dynamic = "error";
