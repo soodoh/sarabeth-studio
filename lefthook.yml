@@ -1,0 +1,13 @@
+pre-commit:
+  commands:
+    lint:
+      glob: "*.{js,jsx,ts,tsx}"
+      run: bunx oxlint --fix {staged_files} && bunx prettier --write {staged_files} && git add {staged_files}
+    format-other:
+      glob: "*.{css,html,json,md,mdx,yaml,yml}"
+      run: bunx prettier --write {staged_files} && git add {staged_files}
+
+commit-msg:
+  commands:
+    commitlint:
+      run: bunx commitlint --edit {1}
