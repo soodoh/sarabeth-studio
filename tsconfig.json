@@ -1,15 +1,15 @@
 {
-  "extends": "@tsconfig/next/tsconfig.json",
-  "compilerOptions": {
-    "paths": {
-      "@/*": ["./*"]
-    },
-    "target": "ES2017"
-  },
-  "include": [
-    "node_modules/@tsconfig/next/next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ]
+	"extends": "@tsconfig/next/tsconfig.json",
+	"compilerOptions": {
+		"paths": {
+			"@/*": ["./*"]
+		},
+		"target": "ES2017"
+	},
+	"include": [
+		"node_modules/@tsconfig/next/next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		".next/types/**/*.ts"
+	]
 }

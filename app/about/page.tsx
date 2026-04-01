@@ -10,29 +10,29 @@ import getAboutData from "@/utils/fetchers/about";
 export const dynamic = "error";
 
 export const metadata: Metadata = {
-  title: "About Sarabeth",
-  description:
-    "Offering the very best private vocal lessons in Los Angeles. Refine your voice, achieve constant flow of breadth, and sing with ease.",
-  keywords: ["vocal lessons los angeles", "piano teacher los angeles"],
-  icons: "/favicon.png",
+	title: "About Sarabeth",
+	description:
+		"Offering the very best private vocal lessons in Los Angeles. Refine your voice, achieve constant flow of breadth, and sing with ease.",
+	keywords: ["vocal lessons los angeles", "piano teacher los angeles"],
+	icons: "/favicon.png",
 };
 
 const About = async (): Promise<JSX.Element> => {
-  const aboutData = await getAboutData();
+	const aboutData = await getAboutData();
 
-  const { headshot, bio, resume } = aboutData;
+	const { headshot, bio, resume } = aboutData;
 
-  return (
-    <WidthContainer className="mb-16 grid grid-cols-[30%_1fr] gap-16 max-sm:grid-cols-1">
-      <div className="max-sm:max-w-[300px]">
-        <StyledImage overlayDirection="right" image={headshot} priority />
-      </div>
-      <div className="leading-7 [&_h1]:text-[3rem] [&_h1]:leading-[3.5rem] [&_p]:mb-8">
-        {documentToReactComponents(bio)}
-        <ArrowButton url={resume} label="View Resume" />
-      </div>
-    </WidthContainer>
-  );
+	return (
+		<WidthContainer className="mb-16 grid grid-cols-[30%_1fr] gap-16 max-sm:grid-cols-1">
+			<div className="max-sm:max-w-[300px]">
+				<StyledImage overlayDirection="right" image={headshot} priority />
+			</div>
+			<div className="leading-7 [&_h1]:text-[3rem] [&_h1]:leading-[3.5rem] [&_p]:mb-8">
+				{documentToReactComponents(bio)}
+				<ArrowButton url={resume} label="View Resume" />
+			</div>
+		</WidthContainer>
+	);
 };
 
 export default About;

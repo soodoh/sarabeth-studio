@@ -4,19 +4,19 @@ import OffsetShadow from "@/components/offset-shadow";
 import type { ImageType } from "@/utils/types";
 
 type Props = {
-  overlayDirection: "left" | "right";
-  image: ImageType;
-  priority?: boolean;
+	overlayDirection: "left" | "right";
+	image: ImageType;
+	priority?: boolean;
 };
 
 const StyledImage = ({
-  overlayDirection,
-  priority,
-  image,
+	overlayDirection,
+	priority,
+	image,
 }: Props): JSX.Element => (
-  <OffsetShadow direction={overlayDirection} type="image">
-    <ImageWrapper image={image} priority={priority} sizes="100vw" />
-  </OffsetShadow>
+	<OffsetShadow direction={overlayDirection} type="image">
+		<ImageWrapper image={image} priority={priority} sizes="100vw" />
+	</OffsetShadow>
 );
 
 export default StyledImage;

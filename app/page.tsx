@@ -7,17 +7,17 @@ import getHomeData from "@/utils/fetchers/home";
 export const dynamic = "error";
 
 export const metadata: Metadata = {
-  title: "Sarabeth Belón: Portfolio",
-  description:
-    "Sarabeth Belon, a young female opera singer, captivates audiences with her tessitura and repertoire versatility. Learn more about this artist!",
-  keywords: ["young female opera singer", "opera singer los angeles"],
-  icons: "/favicon.png",
+	title: "Sarabeth Belón: Portfolio",
+	description:
+		"Sarabeth Belon, a young female opera singer, captivates audiences with her tessitura and repertoire versatility. Learn more about this artist!",
+	keywords: ["young female opera singer", "opera singer los angeles"],
+	icons: "/favicon.png",
 };
 
 const Home = async (): Promise<JSX.Element> => {
-  const homeData = await getHomeData();
+	const homeData = await getHomeData();
 
-  return <HomeContent homeData={homeData} />;
+	return <HomeContent homeData={homeData} />;
 };
 
 export default Home;

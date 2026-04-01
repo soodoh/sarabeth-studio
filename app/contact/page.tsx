@@ -8,19 +8,19 @@ import getContactData from "@/utils/fetchers/contact";
 export const dynamic = "error";
 
 export const metadata: Metadata = {
-  title: "Contact Sarabeth",
-  description:
-    "Send an email to Sarabeth for any questions or to follow up with upcoming singing gigs. Feel free to reach out if interested in private voice or piano lessons.",
-  icons: "/favicon.png",
+	title: "Contact Sarabeth",
+	description:
+		"Send an email to Sarabeth for any questions or to follow up with upcoming singing gigs. Feel free to reach out if interested in private voice or piano lessons.",
+	icons: "/favicon.png",
 };
 
 export default async function ContactPage(): Promise<JSX.Element> {
-  const { bannerImage } = await getContactData();
+	const { bannerImage } = await getContactData();
 
-  return (
-    <>
-      <BannerImage image={bannerImage} title="Contact Sarabeth" />
-      <ContactForm />
-    </>
-  );
+	return (
+		<>
+			<BannerImage image={bannerImage} title="Contact Sarabeth" />
+			<ContactForm />
+		</>
+	);
 }
