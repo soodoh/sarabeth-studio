@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import type { JSX } from "react";
 import type { SocialMediaLink } from "@/utils/types";
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
   location: string;
 };
 
-const Footer = ({ location, socialMediaLinks }: Props): React.JSX.Element => {
+const Footer = ({ location, socialMediaLinks }: Props): JSX.Element => {
   const instagramLink = socialMediaLinks.find((socialLink) =>
     /instagram/i.test(socialLink.source),
   );

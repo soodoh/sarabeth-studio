@@ -1,7 +1,7 @@
 "use client";
 
 import { Pause, Play } from "lucide-react";
-import React, { useRef, useState } from "react";
+import { type JSX, type MouseEvent, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 type Props = {
@@ -16,7 +16,7 @@ const formatTime = (time: number): string => {
   return `${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 };
 
-const AudioPlayer = ({ source }: Props): React.JSX.Element => {
+const AudioPlayer = ({ source }: Props): JSX.Element => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const progressBarRef = useRef<HTMLButtonElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -45,7 +45,7 @@ const AudioPlayer = ({ source }: Props): React.JSX.Element => {
   };
 
   const handleProgressBarClick = (
-    event: React.MouseEvent<HTMLButtonElement>,
+    event: MouseEvent<HTMLButtonElement>,
   ): void => {
     if (audioRef.current && progressBarRef.current) {
       const rect = progressBarRef.current.getBoundingClientRect();

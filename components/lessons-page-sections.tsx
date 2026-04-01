@@ -1,5 +1,5 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import React from "react";
+import type { JSX } from "react";
 import ArrowButton from "@/components/arrow-button";
 import ImageWrapper from "@/components/image-wrapper";
 import type { LessonsData } from "@/utils/types";
@@ -12,10 +12,7 @@ type Props = {
 
 const richTextClasses = "leading-7 [&_h1]:text-[2rem] [&_p]:mb-8";
 
-const LessonsPageSections = ({
-  section,
-  lessonsData,
-}: Props): React.JSX.Element => {
+const LessonsPageSections = ({ section, lessonsData }: Props): JSX.Element => {
   const {
     teachingPhilosophy,
     studioExpectations,

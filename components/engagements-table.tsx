@@ -1,4 +1,4 @@
-import React from "react";
+import type { JSX } from "react";
 import TextHeading from "@/components/text-heading";
 import { brandButtonClasses, cn } from "@/lib/utils";
 import type { Engagement } from "@/utils/types";
@@ -18,7 +18,7 @@ const formatDate = (dateString: string, includeYear = false): string => {
   return formattedString;
 };
 
-const EngagementRow = ({ engagements, label }: Props): React.JSX.Element => {
+const EngagementRow = ({ engagements, label }: Props): JSX.Element => {
   return (
     <div className="mb-8 flex w-full flex-col items-center">
       <TextHeading text={label} />

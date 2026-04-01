@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import type React from "react";
+import type { JSX } from "react";
 import HomeContent from "@/components/home-content";
 import getHomeData from "@/utils/fetchers/home";
 
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   icons: "/favicon.png",
 };
 
-const Home = async (): Promise<React.JSX.Element> => {
+const Home = async (): Promise<JSX.Element> => {
   const homeData = await getHomeData();
 
   return <HomeContent homeData={homeData} />;

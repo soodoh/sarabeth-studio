@@ -1,14 +1,11 @@
-import React from "react";
+import type { JSX } from "react";
 
 type Props = {
   size?: number;
   strokeWidth?: number;
 };
 
-const LoadingCircle = ({
-  size = 50,
-  strokeWidth = 10,
-}: Props): React.JSX.Element => {
+const LoadingCircle = ({ size = 50, strokeWidth = 10 }: Props): JSX.Element => {
   return (
     <svg
       aria-hidden="true"

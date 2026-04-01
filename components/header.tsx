@@ -3,7 +3,7 @@
 import { Menu } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+import { type JSX, useState } from "react";
 import SvgLogo from "@/components/icons/logo";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,7 +19,7 @@ type HeaderProps = {
   brandName: string;
 };
 
-const Header = ({ brandName }: HeaderProps): React.JSX.Element => {
+const Header = ({ brandName }: HeaderProps): JSX.Element => {
   const route = usePathname();
   const links = [
     { label: "About", url: "/about" },

@@ -1,10 +1,6 @@
-import type React from "react";
+import type { JSX } from "react";
 
-const SvgLogo = ({
-  className = "",
-}: {
-  className?: string;
-}): React.JSX.Element => (
+const SvgLogo = ({ className = "" }: { className?: string }): JSX.Element => (
   <svg
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"

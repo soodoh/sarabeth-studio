@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { type JSX, type SyntheticEvent, useState } from "react";
 import LoadingCircle from "@/components/loading-circle";
 import { Button } from "@/components/ui/button";
 import Input from "@/components/ui/input";
@@ -47,7 +47,7 @@ const ContactTextField = ({
   loading,
   errorMessage,
   onChange,
-}: TextFieldProps): React.JSX.Element => (
+}: TextFieldProps): JSX.Element => (
   <div className="my-4 w-[60%] max-sm:w-full">
     <div className="space-y-1.5">
       <Label htmlFor={id} className={cn(labelClasses, error && "text-red-600")}>
@@ -84,7 +84,7 @@ const ContactMessageField = ({
   error,
   loading,
   onChange,
-}: MessageFieldProps): React.JSX.Element => (
+}: MessageFieldProps): JSX.Element => (
   <div className="my-4">
     <div className="space-y-1.5">
       <Label
@@ -119,7 +119,7 @@ const ContactMessageField = ({
   </div>
 );
 
-const ContactContent = (): React.JSX.Element => {
+const ContactContent = (): JSX.Element => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
@@ -137,7 +137,7 @@ const ContactContent = (): React.JSX.Element => {
   };
 
   const submit = async (
-    event: React.SyntheticEvent<HTMLFormElement>,
+    event: SyntheticEvent<HTMLFormElement>,
   ): Promise<void> => {
     event.preventDefault();
     if (isInvalid(data)) {

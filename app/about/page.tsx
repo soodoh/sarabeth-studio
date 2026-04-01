@@ -1,6 +1,6 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import type { Metadata } from "next";
-import React from "react";
+import type { JSX } from "react";
 import ArrowButton from "@/components/arrow-button";
 import StyledImage from "@/components/styled-image";
 import WidthContainer from "@/components/width-container";
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   icons: "/favicon.png",
 };
 
-const About = async (): Promise<React.JSX.Element> => {
+const About = async (): Promise<JSX.Element> => {
   const aboutData = await getAboutData();
 
   const { headshot, bio, resume } = aboutData;

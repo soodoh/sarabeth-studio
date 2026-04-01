@@ -10,7 +10,20 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "style": {
+        "noRestrictedImports": {
+          "level": "error",
+          "options": {
+            "paths": {
+              "react": {
+                "importNames": ["default"],
+                "message": "Use named imports from 'react' instead."
+              }
+            }
+          }
+        }
+      }
     }
   },
   "formatter": {

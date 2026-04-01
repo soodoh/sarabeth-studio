@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import type React from "react";
+import type { JSX } from "react";
 import BannerImage from "@/components/banner-image";
 import EngagementsTable from "@/components/engagements-table";
 import WidthContainer from "@/components/width-container";
@@ -25,7 +25,7 @@ const isUpcoming = (dateString: string): boolean => {
   return endDate >= today;
 };
 
-export default async function EngagementsPage(): Promise<React.JSX.Element> {
+export default async function EngagementsPage(): Promise<JSX.Element> {
   const { engagements, bannerImage, title } = await getEngagementData();
 
   const upcoming = engagements

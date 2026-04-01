@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import { type JSX, useState } from "react";
 import SvgLogo from "@/components/icons/logo";
 import LessonsPageSections from "@/components/lessons-page-sections";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,7 @@ const LessonsPageContent = ({
   lessonsData,
 }: {
   lessonsData: LessonsData;
-}): React.JSX.Element => {
+}): JSX.Element => {
   const { email, phoneNumber, reviewLink } = lessonsData;
   const [section, setSection] = useState(LessonsPages.About);
 

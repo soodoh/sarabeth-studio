@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import type React from "react";
+import type { JSX } from "react";
 import AudioPlayer from "@/components/audio-player";
 import PhotoCarousel from "@/components/photo-carousel";
 import TextHeading from "@/components/text-heading";
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   icons: "/favicon.png",
 };
 
-export default async function MediaPage(): Promise<React.JSX.Element> {
+export default async function MediaPage(): Promise<JSX.Element> {
   const { images, audio } = await getMediaData();
 
   return (

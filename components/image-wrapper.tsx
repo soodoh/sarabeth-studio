@@ -1,5 +1,5 @@
 import NextImage from "next/image";
-import React from "react";
+import type { JSX } from "react";
 import type { ImageType } from "@/utils/types";
 
 type Props = {
@@ -18,7 +18,7 @@ const ImageWrapper = ({
     "(max-width: 1279px) 800px",
     "400px",
   ].join(", "),
-}: Props): React.JSX.Element => {
+}: Props): JSX.Element => {
   return (
     <NextImage
       alt={image.description}

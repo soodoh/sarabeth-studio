@@ -1,9 +1,9 @@
-import React from "react";
+import type { JSX, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-type Props = { children: React.ReactNode; className?: string };
+type Props = { children: ReactNode; className?: string };
 
-const WidthContainer = ({ children, className }: Props): React.JSX.Element => {
+const WidthContainer = ({ children, className }: Props): JSX.Element => {
   return (
     <div
       className={cn(

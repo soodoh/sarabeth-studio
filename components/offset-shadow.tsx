@@ -1,10 +1,10 @@
-import React from "react";
+import type { JSX, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 type Props = {
   direction: "left" | "right";
   type: "bannerTitle" | "image" | "heading";
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 const typeStyles = {
@@ -29,11 +29,7 @@ const positionStyles = {
   },
 };
 
-const OffsetShadow = ({
-  type,
-  direction,
-  children,
-}: Props): React.JSX.Element => (
+const OffsetShadow = ({ type, direction, children }: Props): JSX.Element => (
   <div className="relative">
     <div
       className={cn(

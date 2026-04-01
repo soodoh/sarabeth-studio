@@ -1,5 +1,5 @@
 import NextImage from "next/image";
-import React from "react";
+import type { JSX } from "react";
 import OffsetShadow from "@/components/offset-shadow";
 import type { ImageType } from "@/utils/types";
 
@@ -8,7 +8,7 @@ type Props = {
   title: string;
 };
 
-const BannerImage = ({ title, image }: Props): React.JSX.Element => {
+const BannerImage = ({ title, image }: Props): JSX.Element => {
   return (
     <div className="relative flex h-[500px] w-full items-center justify-center bg-foreground bg-cover bg-center">
       <NextImage

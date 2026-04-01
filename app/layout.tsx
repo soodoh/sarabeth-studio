@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import type React from "react";
+import type { JSX, ReactNode } from "react";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import globalStyles from "@/styles/globals.css";
@@ -18,8 +18,8 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
-}): Promise<React.JSX.Element> {
+  children: ReactNode;
+}): Promise<JSX.Element> {
   const { brandName, location, socialMediaLinks } = await getCommonData();
 
   return (

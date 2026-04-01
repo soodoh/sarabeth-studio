@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import type React from "react";
+import type { JSX } from "react";
 import BannerImage from "@/components/banner-image";
 import ContactForm from "@/components/contact-form";
 import getContactData from "@/utils/fetchers/contact";
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   icons: "/favicon.png",
 };
 
-export default async function ContactPage(): Promise<React.JSX.Element> {
+export default async function ContactPage(): Promise<JSX.Element> {
   const { bannerImage } = await getContactData();
 
   return (

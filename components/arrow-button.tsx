@@ -1,4 +1,4 @@
-import React from "react";
+import type { JSX } from "react";
 import SvgArrow from "@/components/icons/arrow";
 
 type Props = {
@@ -6,7 +6,7 @@ type Props = {
   url: string;
 };
 
-const Button = ({ label, url }: Props): React.JSX.Element => (
+const Button = ({ label, url }: Props): JSX.Element => (
   <a
     className="group flex items-center transition-all duration-200 ease-in-out hover:translate-x-[0.2rem] hover:-translate-y-[0.2rem]"
     href={url}
