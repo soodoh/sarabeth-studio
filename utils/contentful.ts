@@ -3,12 +3,14 @@ import { createClient } from "contentful";
 import type { Asset, ImageType } from "@/utils/types";
 import { getPlaceholder } from "./image";
 
-export const client = createClient({
-  // biome-ignore lint/style/noNonNullAssertion: env vars required at build time
-  space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID!,
-  // biome-ignore lint/style/noNonNullAssertion: env vars required at build time
-  accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN!,
-});
+const space = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID;
+const accessToken = process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN;
+
+if (!space || !accessToken) {
+  throw new Error("Missing Contentful environment variables");
+}
+
+export const client = createClient({ space, accessToken });
 
 export function formatUrl(baseUrl: string): string {
   return `https:${baseUrl}`;
