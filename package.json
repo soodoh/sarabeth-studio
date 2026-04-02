@@ -30,15 +30,15 @@
 		"prepare": "lefthook install"
 	},
 	"dependencies": {
-		"@aws-sdk/client-ses": "^3.1002.0",
+		"@aws-sdk/client-ses": "^3.1022.0",
 		"@contentful/rich-text-react-renderer": "^16.1.6",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
-		"contentful": "^11.10.5",
+		"contentful": "^11.12.0",
 		"embla-carousel-react": "^8.6.0",
-		"lucide-react": "^0.577.0",
-		"motion": "^12.35.0",
-		"next": "^16.1.6",
+		"lucide-react": "^1.7.0",
+		"motion": "^12.38.0",
+		"next": "^16.2.2",
 		"radix-ui": "^1.4.3",
 		"react": "^19.2.4",
 		"react-dom": "^19.2.4",
@@ -48,19 +48,19 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.10",
-		"@commitlint/cli": "^20.4.3",
-		"@commitlint/config-conventional": "^20.4.3",
-		"@commitlint/types": "^20.4.3",
+		"@commitlint/cli": "^20.5.0",
+		"@commitlint/config-conventional": "^20.5.0",
+		"@commitlint/types": "^20.5.0",
 		"@contentful/rich-text-types": "^17.2.5",
 		"@netlify/plugin-lighthouse": "^6.0.4",
-		"@netlify/plugin-nextjs": "^5.15.8",
-		"@tailwindcss/postcss": "^4.2.1",
+		"@netlify/plugin-nextjs": "^5.15.9",
+		"@tailwindcss/postcss": "^4.2.2",
 		"@tsconfig/next": "^2.0.6",
-		"@types/node": "25.3.3",
+		"@types/node": "25.5.0",
 		"@types/react": "^19.2.14",
 		"lefthook": "^2.1.4",
 		"postcss": "^8.5.8",
-		"tailwindcss": "^4.2.1",
-		"typescript": "^5.9.3"
+		"tailwindcss": "^4.2.2",
+		"typescript": "^6.0.2"
 	}
 }
