@@ -30,7 +30,7 @@
 		"prepare": "lefthook install"
 	},
 	"dependencies": {
-		"@aws-sdk/client-ses": "^3.1022.0",
+		"@aws-sdk/client-ses": "^3.1024.0",
 		"@contentful/rich-text-react-renderer": "^16.1.6",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
@@ -56,9 +56,9 @@
 		"@netlify/plugin-nextjs": "^5.15.9",
 		"@tailwindcss/postcss": "^4.2.2",
 		"@tsconfig/next": "^2.0.6",
-		"@types/node": "25.5.0",
+		"@types/node": "25.5.2",
 		"@types/react": "^19.2.14",
-		"lefthook": "^2.1.4",
+		"lefthook": "^2.1.5",
 		"postcss": "^8.5.8",
 		"tailwindcss": "^4.2.2",
 		"typescript": "^6.0.2"
