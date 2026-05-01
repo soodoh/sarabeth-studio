@@ -1,8 +1,8 @@
 pre-commit:
   commands:
-    lint:
-      glob: "*.{js,jsx,ts,tsx,css,json}"
-      run: bunx biome check --write {staged_files} && git add {staged_files}
+    check:
+      run: bunx biome check --write --staged --no-errors-on-unmatched
+      stage_fixed: true
 
 commit-msg:
   commands:
