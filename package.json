@@ -61,6 +61,6 @@
 		"lefthook": "^2.1.10",
 		"postcss": "^8.5.17",
 		"tailwindcss": "^4.3.2",
-		"typescript": "^7.0.2"
+		"typescript": "^6.0.3"
 	}
 }

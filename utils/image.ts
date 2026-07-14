@@ -1,6 +1,8 @@
 import sharp from "sharp";
 
-export async function readImage(baseUrl: string): Promise<sharp.Sharp> {
+export async function readImage(
+	baseUrl: string,
+): Promise<ReturnType<typeof sharp>> {
 	const url = `${baseUrl}?w=100&q=50&fm=jpg`;
 	const response = await fetch(url);
 	const arrayBuffer = await response.arrayBuffer();
