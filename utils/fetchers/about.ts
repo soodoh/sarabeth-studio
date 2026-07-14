@@ -1,37 +1,23 @@
-import type { Document } from "@contentful/rich-text-types";
-import type {
-	AssetFields,
-	Asset as ContentfulAsset,
-	EntrySkeletonType,
-} from "contentful";
-import { client, formatImage, formatUrl } from "@/utils/contentful";
-import type { AboutData } from "@/utils/types";
+import {
+	formatAsset,
+	type ImageFormatter,
+	requireFirstEntry,
+} from "@/utils/contentful-assets";
+import { decodeAboutData } from "@/utils/contentful-data";
+import { type EntrySource, readEntry } from "@/utils/contentful-entry-source";
 
-type AboutFields = {
-	headshot: ContentfulAsset;
-	bio: Document;
-	resume: ContentfulAsset;
-	location: string;
-};
-
-type AboutSkeleton = EntrySkeletonType<AboutFields, "about">;
-
-const getAboutData = async (): Promise<AboutData> => {
-	const aboutEntries = await client.getEntries<AboutSkeleton>({
-		content_type: "about",
+const getAboutData = async (
+	entrySource: EntrySource,
+	imageFormatter: ImageFormatter,
+) => {
+	const response = await entrySource.getEntries({ content_type: "about" });
+	const entry = readEntry(requireFirstEntry(response.items, "about"), "about");
+	return decodeAboutData({
+		headshot: await imageFormatter(entry.fields.headshot, "about.headshot"),
+		bio: entry.fields.bio,
+		resume: formatAsset(entry.fields.resume, "about.resume").url,
+		location: entry.fields.location,
 	});
-	const aboutResponse = aboutEntries.items[0]?.fields;
-	return {
-		headshot: await formatImage(aboutResponse?.headshot as ContentfulAsset),
-		bio: aboutResponse?.bio as Document,
-		resume: formatUrl(
-			String(
-				((aboutResponse?.resume as ContentfulAsset)?.fields as AssetFields)
-					?.file?.url ?? "",
-			),
-		),
-		location: String(aboutResponse?.location ?? ""),
-	};
 };
 
 export default getAboutData;

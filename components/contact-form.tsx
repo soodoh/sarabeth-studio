@@ -1,5 +1,3 @@
-"use client";
-
 import { type JSX, type SyntheticEvent, useState } from "react";
 import LoadingCircle from "@/components/loading-circle";
 import { Button } from "@/components/ui/button";

@@ -1,49 +1,40 @@
-import type { Document } from "@contentful/rich-text-types";
-import type { Asset as ContentfulAsset, EntrySkeletonType } from "contentful";
-import { client, formatImage } from "@/utils/contentful";
-import type { LessonsData } from "@/utils/types";
+import {
+	type ImageFormatter,
+	requireFirstEntry,
+} from "@/utils/contentful-assets";
+import { decodeLessonsData } from "@/utils/contentful-data";
+import { type EntrySource, readEntry } from "@/utils/contentful-entry-source";
 
-type LessonsFields = {
-	title: string;
-	bannerImage: ContentfulAsset;
-	aboutDescription: Document;
-	teachingPhilosophy: Document;
-	studioExpectations: Document;
-	socialMediaDescription: Document;
-	socialMediaImage: ContentfulAsset;
-	teachingResume: Document;
-	reviewLink: string;
-	phoneNumber: string;
-	email: string;
-	followLink: string;
-};
-
-type LessonsSkeleton = EntrySkeletonType<LessonsFields, "lessons">;
-
-const getLessonsData = async (): Promise<LessonsData> => {
-	const lessonsEntries = await client.getEntries<LessonsSkeleton>({
-		content_type: "lessons",
+const getLessonsData = async (
+	entrySource: EntrySource,
+	imageFormatter: ImageFormatter,
+) => {
+	const response = await entrySource.getEntries({ content_type: "lessons" });
+	const entry = readEntry(
+		requireFirstEntry(response.items, "lessons"),
+		"lessons",
+	);
+	const fields = entry.fields;
+	return decodeLessonsData({
+		title: fields.title,
+		bannerImage: await imageFormatter(
+			fields.bannerImage,
+			"lessons.bannerImage",
+		),
+		aboutDescription: fields.aboutDescription,
+		teachingPhilosophy: fields.teachingPhilosophy,
+		studioExpectations: fields.studioExpectations,
+		socialMediaDescription: fields.socialMediaDescription,
+		socialMediaImage: await imageFormatter(
+			fields.socialMediaImage,
+			"lessons.socialMediaImage",
+		),
+		teachingResume: fields.teachingResume,
+		reviewLink: fields.reviewLink,
+		phoneNumber: fields.phoneNumber,
+		email: fields.email,
+		followLink: fields.followLink,
 	});
-	const lessonsResponse = lessonsEntries.items[0]?.fields;
-	const lessonsData: LessonsData = {
-		title: String(lessonsResponse?.title ?? ""),
-		bannerImage: await formatImage(
-			lessonsResponse?.bannerImage as ContentfulAsset,
-		),
-		aboutDescription: lessonsResponse?.aboutDescription as Document,
-		teachingPhilosophy: lessonsResponse?.teachingPhilosophy as Document,
-		studioExpectations: lessonsResponse?.studioExpectations as Document,
-		socialMediaDescription: lessonsResponse?.socialMediaDescription as Document,
-		socialMediaImage: await formatImage(
-			lessonsResponse?.socialMediaImage as ContentfulAsset,
-		),
-		teachingResume: lessonsResponse?.teachingResume as Document,
-		reviewLink: String(lessonsResponse?.reviewLink ?? ""),
-		phoneNumber: String(lessonsResponse?.phoneNumber ?? ""),
-		email: String(lessonsResponse?.email ?? ""),
-		followLink: String(lessonsResponse?.followLink ?? ""),
-	};
-	return lessonsData;
 };
 
 export default getLessonsData;

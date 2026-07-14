@@ -1,5 +1,10 @@
-import NextImage from "next/image";
+import { Image as BaseImage } from "@unpic/react/base";
 import type { JSX } from "react";
+import {
+	getImageBreakpoints,
+	getImageDimensions,
+	transformImageUrl,
+} from "@/utils/image";
 import type { ImageType } from "@/utils/types";
 
 type Props = {
@@ -19,16 +24,18 @@ const ImageWrapper = ({
 		"400px",
 	].join(", "),
 }: Props): JSX.Element => {
+	const { width } = getImageDimensions(image);
 	return (
-		<NextImage
+		<BaseImage
 			alt={image.description}
-			className="h-full w-full"
-			blurDataURL={image.placeholder}
+			background={image.placeholder}
+			breakpoints={getImageBreakpoints(width)}
+			className="h-full w-full [background-position:center]"
 			height={image.height}
-			placeholder="blur"
 			priority={priority}
 			sizes={sizes}
 			src={image.url}
+			transformer={transformImageUrl}
 			width={image.width}
 		/>
 	);

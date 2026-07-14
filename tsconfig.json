@@ -1,15 +1,23 @@
 {
-	"extends": "@tsconfig/next/tsconfig.json",
 	"compilerOptions": {
+		"target": "ES2023",
+		"useDefineForClassFields": true,
+		"lib": ["ES2023", "DOM", "DOM.Iterable"],
+		"module": "ESNext",
+		"skipLibCheck": true,
+		"moduleResolution": "Bundler",
+		"allowImportingTsExtensions": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"strict": true,
+		"noEmit": true,
+		"jsx": "react-jsx",
 		"paths": {
 			"@/*": ["./*"]
-		},
-		"target": "ES2017"
+		}
 	},
-	"include": [
-		"node_modules/@tsconfig/next/next-env.d.ts",
-		"**/*.ts",
-		"**/*.tsx",
-		".next/types/**/*.ts"
-	]
+	"include": ["**/*.ts", "**/*.tsx"],
+	"exclude": ["node_modules", ".output"]
 }

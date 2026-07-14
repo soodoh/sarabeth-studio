@@ -1,35 +1,41 @@
 # Playwright tests
 
-The test server is built with the committed Contentful snapshot and local image,
-audio, and font assets. The application selects the snapshot once at its data
-boundary; the individual Contentful fetchers remain live-only. This keeps page
-content and rendering independent from live Contentful updates and external font
-delivery.
+The Playwright server uses the committed fixture in `tests/fixtures/contentful`.
+Its explicit Vite configuration aliases the production provider and current-date
+modules to deterministic test implementations; canonical production builds
+exclude fixture code. Focused contract tests run every Contentful fetcher against
+raw entry-shaped data, while browser routes intercept the fixture's absolute
+image and audio URLs to exercise production media markup.
+
+CMS-backed server functions use TanStack's static-function middleware. Their
+build-time results are emitted as static assets, so client-side navigation does
+not introduce a runtime Contentful dependency. The Playwright launcher gives
+build and production-server children an allowlisted environment and binds to
+loopback.
 
 Run tests in the same ARM64 Linux/Chromium environment used by CI:
 
 ```sh
-docker compose -f compose.playwright.yaml run --rm playwright
+docker compose -f compose.playwright.yaml run --build --rm playwright
 ```
 
-Create or update Linux screenshot baselines after an intentional UI change:
+`bun run test:e2e` uses `--update-snapshots=none` and cannot create or update
+baselines. After an intentional, reviewed UI change, the only recording command
+is:
 
 ```sh
-docker compose -f compose.playwright.yaml run --rm playwright bun run test:e2e:update
+docker compose -f compose.playwright.yaml run --build --rm playwright bun run test:e2e:update
 ```
 
-Refresh the Contentful snapshot intentionally (requires the Contentful variables
-in `.env`), review the resulting content/assets, and then regenerate screenshots.
-The recorder validates the data and assets, publishes them under a content-based
-version, and atomically switches `public/contentful-snapshot/manifest.json` only
-after the new version is complete:
+Refresh the Contentful fixture intentionally with real Contentful variables in
+`.env`. The recorder retains live CDN URLs, validates each downloaded WebP,
+creates one ID-named synthetic WAV per audio asset, validates the staged fixture,
+and swaps it into place while retaining the previous fixture for rollback:
 
 ```sh
 bun run contentful:snapshot
-docker compose -f compose.playwright.yaml build playwright
-docker compose -f compose.playwright.yaml run --rm playwright bun run test:e2e:update
+docker compose -f compose.playwright.yaml run --build --rm playwright bun run test:e2e:update
 ```
 
-Local `bun run test:e2e` is useful for debugging, but visual baselines should only
-be recorded in the container so host OS font and browser rendering differences
-do not enter the snapshots.
+Visual baselines should only be recorded in the container so host font and
+browser differences do not enter screenshots.

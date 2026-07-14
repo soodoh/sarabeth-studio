@@ -1,5 +1,3 @@
-"use client";
-
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { motion } from "motion/react";
 import type { JSX } from "react";

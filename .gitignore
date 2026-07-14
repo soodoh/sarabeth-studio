@@ -9,9 +9,8 @@ bun-debug.log*
 /playwright-report
 /test-results
 
-# next.js
-/.next/
-/out/
+# generated application output
+/.output/
 
 # production
 /build
@@ -35,3 +34,6 @@ core
 
 # Local Netlify folder
 .netlify
+
+# AI Agents
+.pi-subagents/

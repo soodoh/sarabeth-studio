@@ -1,39 +1,34 @@
-import type {
-	AssetFields,
-	Asset as ContentfulAsset,
-	EntrySkeletonType,
-} from "contentful";
-import { client, formatImage, formatUrl } from "@/utils/contentful";
-import type { Audio, ImageType, MediaData } from "@/utils/types";
+import {
+	formatAsset,
+	type ImageFormatter,
+	requireFirstEntry,
+} from "@/utils/contentful-assets";
+import { decodeMediaData } from "@/utils/contentful-data";
+import {
+	type EntrySource,
+	readEntry,
+	readEntryArray,
+} from "@/utils/contentful-entry-source";
 
-type MediaPageFields = {
-	images: ContentfulAsset[];
-	audio: ContentfulAsset[];
-};
-
-type MediaPageSkeleton = EntrySkeletonType<MediaPageFields, "mediaPage">;
-
-const getMediaData = async (): Promise<MediaData> => {
-	const mediaEntries = await client.getEntries<MediaPageSkeleton>({
-		content_type: "mediaPage",
-	});
-	const mediaResponse = mediaEntries.items[0]?.fields;
-
-	const images: ImageType[] = await Promise.all(
-		((mediaResponse?.images as ContentfulAsset[]) ?? []).map(formatImage),
+const getMediaData = async (
+	entrySource: EntrySource,
+	imageFormatter: ImageFormatter,
+) => {
+	const response = await entrySource.getEntries({ content_type: "mediaPage" });
+	const entry = readEntry(
+		requireFirstEntry(response.items, "mediaPage"),
+		"mediaPage",
 	);
-	const audio: Audio[] = (
-		(mediaResponse?.audio as ContentfulAsset[]) ?? []
-	).map((song) => {
-		const fields = song.fields as AssetFields;
-		return {
-			id: song.sys.id,
-			title: String(fields.title ?? ""),
-			description: String(fields.description ?? ""),
-			url: formatUrl(String(fields.file?.url ?? "")),
-		};
+	return decodeMediaData({
+		images: await Promise.all(
+			readEntryArray(entry.fields.images, "mediaPage.fields.images").map(
+				(image, index) => imageFormatter(image, `media.images[${index}]`),
+			),
+		),
+		audio: readEntryArray(entry.fields.audio, "mediaPage.fields.audio").map(
+			(audio, index) => formatAsset(audio, `media.audio[${index}]`),
+		),
 	});
-	return { images, audio };
 };
 
 export default getMediaData;

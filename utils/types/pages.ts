@@ -1,13 +1,10 @@
 import type { Document } from "@contentful/rich-text-types";
-import type { Audio, ImageType, SocialMediaLink } from "./";
+import type { Audio, ImageType, SocialMediaLink } from "./common";
 
 export type CommonData = {
 	location: string;
 	brandName: string;
 	socialMediaLinks: SocialMediaLink[];
-};
-export type PageProps = {
-	commonData: CommonData;
 };
 
 export type HomeData = {
@@ -15,9 +12,9 @@ export type HomeData = {
 	mainSection: boolean;
 	title: string;
 	description: Document;
-	subtitle?: string;
-	buttonText?: string;
-	buttonLink?: string;
+	subtitle: string | undefined;
+	buttonText: string | undefined;
+	buttonLink: string | undefined;
 	images: ImageType[];
 };
 
@@ -37,6 +34,7 @@ export type Engagement = {
 	startDate: string;
 	endDate: string;
 };
+
 export type EngagementData = {
 	title: string;
 	bannerImage: ImageType;
@@ -75,6 +73,10 @@ export type ContentfulSnapshot = {
 	lessons: LessonsData;
 	media: MediaData;
 	contact: ContactData;
+};
+
+export type PageProps = {
+	commonData: CommonData;
 };
 
 export enum LessonsPages {

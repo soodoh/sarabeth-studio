@@ -1,53 +1,41 @@
-import type { Asset as ContentfulAsset, EntrySkeletonType } from "contentful";
-import { client, formatImage } from "@/utils/contentful";
-import type { Engagement, EngagementData } from "@/utils/types";
+import {
+	type ImageFormatter,
+	requireFirstEntry,
+} from "@/utils/contentful-assets";
+import { decodeEngagementData } from "@/utils/contentful-data";
+import { type EntrySource, readEntry } from "@/utils/contentful-entry-source";
 
-type EngagementsPageFields = {
-	title: string;
-	banner: ContentfulAsset;
-};
-
-type EngagementFields = {
-	label: string;
-	role: string;
-	company: string;
-	link: string;
-	startDate: string;
-	endDate: string;
-};
-
-type EngagementsPageSkeleton = EntrySkeletonType<
-	EngagementsPageFields,
-	"engagementsPage"
->;
-type EngagementSkeleton = EntrySkeletonType<EngagementFields, "engagements">;
-
-const getEngagementsData = async (): Promise<EngagementData> => {
+const getEngagementsData = async (
+	entrySource: EntrySource,
+	imageFormatter: ImageFormatter,
+) => {
 	const [pageResponse, engagementsResponse] = await Promise.all([
-		client.getEntries<EngagementsPageSkeleton>({
-			content_type: "engagementsPage",
-		}),
-		client.getEntries<EngagementSkeleton>({ content_type: "engagements" }),
+		entrySource.getEntries({ content_type: "engagementsPage" }),
+		entrySource.getEntries({ content_type: "engagements" }),
 	]);
-	const engagements: Engagement[] = engagementsResponse.items.map(
-		(engagement) => ({
-			id: engagement.sys.id,
-			title: String(engagement.fields.label ?? ""),
-			role: String(engagement.fields.role ?? ""),
-			company: String(engagement.fields.company ?? ""),
-			link: String(engagement.fields.link ?? ""),
-			startDate: String(engagement.fields.startDate ?? ""),
-			endDate: String(engagement.fields.endDate ?? ""),
-		}),
+	const page = readEntry(
+		requireFirstEntry(pageResponse.items, "engagementsPage"),
+		"engagementsPage",
 	);
-	const engagementData: EngagementData = {
-		title: String(pageResponse.items[0]?.fields?.title ?? ""),
-		bannerImage: await formatImage(
-			pageResponse.items[0]?.fields?.banner as ContentfulAsset,
+	return decodeEngagementData({
+		title: page.fields.title,
+		bannerImage: await imageFormatter(
+			page.fields.banner,
+			"engagements.bannerImage",
 		),
-		engagements,
-	};
-	return engagementData;
+		engagements: engagementsResponse.items.map((value, index) => {
+			const entry = readEntry(value, `engagements[${index}]`);
+			return {
+				id: entry.sys.id,
+				title: entry.fields.label,
+				role: entry.fields.role,
+				company: entry.fields.company,
+				link: entry.fields.link,
+				startDate: entry.fields.startDate,
+				endDate: entry.fields.endDate,
+			};
+		}),
+	});
 };
 
 export default getEngagementsData;

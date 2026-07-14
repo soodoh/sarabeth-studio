@@ -13,6 +13,7 @@ const formatDate = (dateString: string, includeYear = false): string => {
 	const formattedString = date.toLocaleString("en-US", {
 		month: "long",
 		day: "numeric",
+		timeZone: "UTC",
 		...(includeYear && { year: "numeric" }),
 	});
 	return formattedString;

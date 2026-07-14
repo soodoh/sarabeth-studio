@@ -1,8 +1,5 @@
-"use client";
-
+import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { type JSX, useState } from "react";
 import SvgLogo from "@/components/icons/logo";
 import { Button } from "@/components/ui/button";
@@ -19,20 +16,26 @@ type HeaderProps = {
 	brandName: string;
 };
 
+const links = [
+	{ label: "About", url: "/about" },
+	{ label: "Engagements", url: "/engagements" },
+	{ label: "Media", url: "/media" },
+	{ label: "Lessons", url: "/lessons" },
+	{ label: "Contact", url: "/contact" },
+] satisfies ReadonlyArray<{
+	label: string;
+	url: "/about" | "/engagements" | "/media" | "/lessons" | "/contact";
+}>;
+
 const Header = ({ brandName }: HeaderProps): JSX.Element => {
-	const route = usePathname();
-	const links = [
-		{ label: "About", url: "/about" },
-		{ label: "Engagements", url: "/engagements" },
-		{ label: "Media", url: "/media" },
-		{ label: "Lessons", url: "/lessons" },
-		{ label: "Contact", url: "/contact" },
-	];
+	const route = useRouterState({
+		select: (state) => state.location.pathname,
+	});
 	const [mobileNavOpen, setMobileNav] = useState(false);
 
 	return (
 		<header className="sticky top-0 z-40 flex w-full items-center justify-between bg-background px-[2.5rem] py-2 max-xs:px-4">
-			<Link href="/" className="flex items-center">
+			<Link to="/" className="flex items-center">
 				<span className="mr-4 font-serif text-[2rem] font-bold max-xs:text-[1.5rem]">
 					{brandName}
 				</span>
@@ -41,7 +44,7 @@ const Header = ({ brandName }: HeaderProps): JSX.Element => {
 
 			<nav className="grid grid-cols-[repeat(5,auto)] gap-8 max-md:hidden">
 				{links.map((link) => (
-					<Link key={`nav-${link.url}`} href={link.url}>
+					<Link key={`nav-${link.url}`} to={link.url}>
 						<span
 							className={cn(
 								"relative inline-block text-base font-bold uppercase transition-all duration-100 ease-in-out",
@@ -72,7 +75,7 @@ const Header = ({ brandName }: HeaderProps): JSX.Element => {
 					<nav className="flex flex-col items-center gap-8">
 						{links.map((link) => (
 							<SheetClose asChild key={`mobile-nav-${link.url}`}>
-								<Link href={link.url} className="w-full text-center">
+								<Link to={link.url} className="w-full text-center">
 									<span
 										className={cn(
 											"relative inline-block text-base font-bold uppercase transition-all duration-100 ease-in-out",

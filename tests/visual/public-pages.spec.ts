@@ -1,4 +1,4 @@
-import { expect, type Page, test } from "@playwright/test";
+import { expect, type Page, test } from "@/tests/playwright";
 
 const pages = [
 	{ name: "home", path: "/" },

@@ -1,15 +1,17 @@
-import Link from "next/link";
 import type { JSX } from "react";
-import { getCurrentDate } from "@/utils/date";
 import type { SocialMediaLink } from "@/utils/types";
 
 type Props = {
 	socialMediaLinks: SocialMediaLink[];
 	location: string;
+	currentYear: number;
 };
 
-const Footer = ({ location, socialMediaLinks }: Props): JSX.Element => {
-	const currentYear = getCurrentDate().getFullYear();
+const Footer = ({
+	currentYear,
+	location,
+	socialMediaLinks,
+}: Props): JSX.Element => {
 	const instagramLink = socialMediaLinks.find((socialLink) =>
 		/instagram/i.test(socialLink.source),
 	);
@@ -22,12 +24,12 @@ const Footer = ({ location, socialMediaLinks }: Props): JSX.Element => {
 			</div>
 			<div className="flex flex-1 justify-center max-sm:row-[1]">
 				{instagramLink && (
-					<Link
-						key="footer-link-instagram"
+					<a
 						className="group flex h-8 w-8 items-center justify-center rounded-full bg-foreground no-underline transition-all duration-500 ease-in-out hover:bg-accent hover:duration-150"
 						href={instagramLink.link}
-						aria-label="Link to Sarabeth's Instgram"
+						aria-label="Link to Sarabeth's Instagram"
 					>
+						<span className="sr-only">Instagram</span>
 						<svg
 							aria-hidden="true"
 							xmlns="http://www.w3.org/2000/svg"
@@ -43,7 +45,7 @@ const Footer = ({ location, socialMediaLinks }: Props): JSX.Element => {
 							<path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
 							<line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
 						</svg>
-					</Link>
+					</a>
 				)}
 			</div>
 			<div className="flex flex-col items-end max-sm:items-center">

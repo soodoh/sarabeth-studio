@@ -1,6 +1,4 @@
-"use client";
-
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 import { type JSX, useState } from "react";
 import SvgLogo from "@/components/icons/logo";
 import LessonsPageSections from "@/components/lessons-page-sections";
@@ -49,12 +47,12 @@ const LessonsPageContent = ({
 							{phoneNumber}
 						</a>
 					</div>
-					<Link href="/contact" className={cn(brandButtonClasses, "my-2")}>
+					<Link to="/contact" className={cn(brandButtonClasses, "my-2")}>
 						Book a Lesson
 					</Link>
-					<Link href={reviewLink} className={cn(brandButtonClasses, "my-2")}>
+					<a href={reviewLink} className={cn(brandButtonClasses, "my-2")}>
 						View Reviews
-					</Link>
+					</a>
 				</div>
 			</WidthContainer>
 		</>

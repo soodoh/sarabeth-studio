@@ -2,8 +2,14 @@ import { defineConfig } from "@playwright/test";
 
 const port = 3000;
 
+const sharedBrowserTests = [
+	"browser/shared/**/*.spec.ts",
+	"visual/**/*.spec.ts",
+];
+
 export default defineConfig({
 	testDir: "./tests",
+	outputDir: "test-results",
 	fullyParallel: true,
 	forbidOnly: Boolean(process.env.CI),
 	timeout: 45_000,
@@ -28,7 +34,12 @@ export default defineConfig({
 	},
 	projects: [
 		{
+			name: "contract",
+			testMatch: "contract/**/*.spec.ts",
+		},
+		{
 			name: "desktop",
+			testMatch: [...sharedBrowserTests, "browser/desktop/**/*.spec.ts"],
 			use: {
 				browserName: "chromium",
 				viewport: { width: 1440, height: 900 },
@@ -36,7 +47,7 @@ export default defineConfig({
 		},
 		{
 			name: "mobile",
-			testIgnore: /functional\//,
+			testMatch: sharedBrowserTests,
 			use: {
 				browserName: "chromium",
 				hasTouch: true,
@@ -46,14 +57,7 @@ export default defineConfig({
 		},
 	],
 	webServer: {
-		command: `bun run build && bun run start --hostname 0.0.0.0 --port ${port}`,
-		env: {
-			...process.env,
-			CONTENTFUL_USE_SNAPSHOT: "true",
-			NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN: "contentful-snapshot",
-			NEXT_PUBLIC_CONTENTFUL_SPACE_ID: "contentful-snapshot",
-			PLAYWRIGHT_TEST_DATE: "2026-01-01T12:00:00.000Z",
-		},
+		command: `bun --no-env-file scripts/playwright-server.ts ${port}`,
 		port,
 		reuseExistingServer: false,
 		timeout: 180_000,

@@ -3,13 +3,14 @@
 Can be seen at [sarabethbelon.com](sarabethbelon.com).
 Website for music studio teaching voice lessons. Complete with Square booking & Lambda e-mail contact form.
 
-Serverless: powered by NextJS + React, Contentful and Netlify + AWS Lambda.
+Powered by TanStack Start, React, Contentful, Netlify, and AWS SES.
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies and run the development server:
 
 ```bash
+bun install
 bun dev
 ```
 

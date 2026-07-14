@@ -1,5 +1,3 @@
-"use client";
-
 import { Pause, Play } from "lucide-react";
 import { type JSX, type MouseEvent, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";

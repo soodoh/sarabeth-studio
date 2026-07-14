@@ -1,6 +1,4 @@
-"use client";
-
-import NextImage from "next/image";
+import { Image } from "@unpic/react/base";
 import { type JSX, useCallback, useEffect, useState } from "react";
 import type { CarouselApi } from "@/components/ui/carousel";
 import {
@@ -10,6 +8,12 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from "@/components/ui/carousel";
+import {
+	getBlurStyle,
+	getImageBreakpoints,
+	getImageDimensions,
+	transformImageUrl,
+} from "@/utils/image";
 import type { ImageType } from "@/utils/types";
 
 const PhotoCarousel = ({ images }: { images: ImageType[] }): JSX.Element => {
@@ -41,26 +45,39 @@ const PhotoCarousel = ({ images }: { images: ImageType[] }): JSX.Element => {
 			setApi={setApi}
 		>
 			<CarouselContent className="h-full">
-				{images.map((image, index) => (
-					<CarouselItem
-						key={image.id}
-						className="flex items-center justify-center"
-						aria-label={`${index + 1} of ${images.length}`}
-						aria-hidden={current !== index + 1}
-					>
-						<NextImage
-							priority={index < 2}
-							alt={image.description}
-							blurDataURL={image.placeholder}
-							className="h-full w-auto object-contain"
-							height={image.height}
-							placeholder="blur"
-							sizes="100vw"
-							src={image.url}
-							width={image.width}
-						/>
-					</CarouselItem>
-				))}
+				{images.map((image, index) => {
+					const { aspectRatio, height, width } = getImageDimensions(image);
+					return (
+						<CarouselItem
+							key={image.id}
+							className="flex items-center justify-center"
+							aria-label={`${index + 1} of ${images.length}`}
+							aria-hidden={current !== index + 1}
+						>
+							<div
+								className="h-full max-w-full"
+								style={{
+									...getBlurStyle(image.placeholder, "contain"),
+									aspectRatio,
+								}}
+							>
+								<Image
+									priority={index < 2}
+									alt={image.description}
+									breakpoints={getImageBreakpoints(width)}
+									className="h-full w-full object-contain"
+									height={height}
+									layout="fixed"
+									sizes="100vw"
+									src={image.url}
+									transformer={transformImageUrl}
+									unstyled
+									width={width}
+								/>
+							</div>
+						</CarouselItem>
+					);
+				})}
 			</CarouselContent>
 			<CarouselPrevious
 				variant="unstyled"

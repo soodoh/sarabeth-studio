@@ -12,15 +12,15 @@ export type ImageType = Asset & {
 	dominantColor?: string;
 };
 
-type SocialMediaName =
+export type Audio = Asset;
+
+export type SocialMediaType =
 	| "facebook"
 	| "instagram"
 	| "linkedin"
 	| "twitter"
 	| "youtube"
 	| "email";
-
-export type SocialMediaType = SocialMediaName | Capitalize<SocialMediaName>;
 
 export type SocialMediaLink = {
 	source: SocialMediaType;
@@ -33,5 +33,3 @@ export type EmailData = {
 	subject: string;
 	message: string;
 };
-
-export type Audio = Asset;

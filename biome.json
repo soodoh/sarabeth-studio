@@ -7,7 +7,11 @@
 		"defaultBranch": "main"
 	},
 	"files": {
-		"includes": ["**", "!public/contentful-snapshot/**/snapshot.json"]
+		"includes": [
+			"**",
+			"!tests/fixtures/contentful/**/snapshot.json",
+			"!src/routeTree.gen.ts"
+		]
 	},
 	"assist": {
 		"actions": {

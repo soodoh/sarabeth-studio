@@ -1,60 +1,44 @@
-import type { Document } from "@contentful/rich-text-types";
-import type {
-	Asset as ContentfulAsset,
-	EntryFieldTypes,
-	EntrySkeletonType,
-} from "contentful";
-import { client, formatImage } from "@/utils/contentful";
-import type { HomeData, ImageType } from "@/utils/types";
+import type { ImageFormatter } from "@/utils/contentful-assets";
+import { decodeHomeData } from "@/utils/contentful-data";
+import {
+	type EntrySource,
+	readEntry,
+	readEntryArray,
+} from "@/utils/contentful-entry-source";
 
-type HomeFields = {
-	order: EntryFieldTypes.Number;
-	mainSection: boolean;
-	title: string;
-	description: Document;
-	subtitle?: string;
-	buttonText?: string;
-	buttonLink?: string;
-	images?: ContentfulAsset[];
-};
-
-type HomeSkeleton = EntrySkeletonType<HomeFields, "home">;
-
-const getHomeData: () => Promise<HomeData[]> = async () => {
-	const response = await client.getEntries<HomeSkeleton>({
+const getHomeData = async (
+	entrySource: EntrySource,
+	imageFormatter: ImageFormatter,
+) => {
+	const response = await entrySource.getEntries({
 		content_type: "home",
 		order: ["fields.order"],
 	});
-
-	const formattedResponse = await Promise.all(
-		response.items.map(async (entry) => {
-			const rawImages = entry.fields.images as ContentfulAsset[] | undefined;
-			let images: ImageType[] = [];
-			if (rawImages) {
-				images = await Promise.all(
-					rawImages.map(async (img) => formatImage(img)),
-				);
-			}
-			const homeSection: HomeData = {
-				id: entry.sys.id,
-				mainSection: Boolean(entry.fields.mainSection),
-				title: String(entry.fields.title),
-				description: entry.fields.description as Document,
-				subtitle: entry.fields.subtitle
-					? String(entry.fields.subtitle)
-					: undefined,
-				buttonText: entry.fields.buttonText
-					? String(entry.fields.buttonText)
-					: undefined,
-				buttonLink: entry.fields.buttonLink
-					? String(entry.fields.buttonLink)
-					: undefined,
-				images,
-			};
-			return homeSection;
+	return Promise.all(
+		response.items.map(async (value, index) => {
+			const entry = readEntry(value, `home[${index}]`);
+			return decodeHomeData(
+				{
+					id: entry.sys.id,
+					mainSection: entry.fields.mainSection,
+					title: entry.fields.title,
+					description: entry.fields.description,
+					subtitle: entry.fields.subtitle,
+					buttonText: entry.fields.buttonText,
+					buttonLink: entry.fields.buttonLink,
+					images: await Promise.all(
+						readEntryArray(
+							entry.fields.images ?? [],
+							`home[${index}].fields.images`,
+						).map((image, imageIndex) =>
+							imageFormatter(image, `home[${index}].images[${imageIndex}]`),
+						),
+					),
+				},
+				`home[${index}]`,
+			);
 		}),
 	);
-	return formattedResponse;
 };
 
 export default getHomeData;
