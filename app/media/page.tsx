@@ -31,7 +31,6 @@ export default async function MediaPage(): Promise<JSX.Element> {
 					src="https://www.youtube.com/embed/videoseries?list=PL2ucJM2n3hm_c0L7-_dAnJ_Kajde66Id1"
 					title="YouTube video player"
 					style={{ border: 0 }}
-					sandbox="allow-scripts allow-presentation"
 					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 					allowFullScreen
 				/>
