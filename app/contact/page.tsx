@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { JSX } from "react";
 import BannerImage from "@/components/banner-image";
 import ContactForm from "@/components/contact-form";
-import getContactData from "@/utils/fetchers/contact";
+import { getContactData } from "@/utils/data";
 
 // Statically generated at build time, will error if any Dynamic APIs are used
 export const dynamic = "error";

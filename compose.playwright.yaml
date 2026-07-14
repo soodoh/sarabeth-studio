@@ -1,0 +1,11 @@
+services:
+  playwright:
+    build:
+      context: .
+      dockerfile: Dockerfile.playwright
+    ipc: host
+    platform: linux/arm64
+    volumes:
+      - .:/work
+      - /work/node_modules
+      - /work/.next

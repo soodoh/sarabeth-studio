@@ -4,7 +4,7 @@ import type { JSX } from "react";
 import ArrowButton from "@/components/arrow-button";
 import StyledImage from "@/components/styled-image";
 import WidthContainer from "@/components/width-container";
-import getAboutData from "@/utils/fetchers/about";
+import { getAboutData } from "@/utils/data";
 
 // Statically generated at build time, will error if any Dynamic APIs are used
 export const dynamic = "error";

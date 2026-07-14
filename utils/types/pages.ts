@@ -67,6 +67,16 @@ export type ContactData = {
 	bannerImage: ImageType;
 };
 
+export type ContentfulSnapshot = {
+	common: CommonData;
+	home: HomeData[];
+	about: AboutData;
+	engagements: EngagementData;
+	lessons: LessonsData;
+	media: MediaData;
+	contact: ContactData;
+};
+
 export enum LessonsPages {
 	About = "About",
 	Studio = "Studio",

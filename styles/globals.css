@@ -1,6 +1,21 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant&family=Cormorant:wght@700&family=Montserrat:wght@600&family=Montserrat&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
+
+@font-face {
+	font-family: "Cormorant";
+	font-style: normal;
+	font-weight: 400 700;
+	font-display: swap;
+	src: url("/fonts/cormorant-latin.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Montserrat";
+	font-style: normal;
+	font-weight: 400 600;
+	font-display: swap;
+	src: url("/fonts/montserrat-latin.woff2") format("woff2");
+}
 
 @theme {
 	--color-background: #efdcd3;

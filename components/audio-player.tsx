@@ -24,13 +24,14 @@ const AudioPlayer = ({ source }: Props): JSX.Element => {
 	const [currentTime, setCurrentTime] = useState(0);
 
 	const togglePlayPause = (): void => {
-		if (audioRef.current) {
-			if (isPlaying) {
-				audioRef.current.pause();
-			} else {
-				void audioRef.current.play();
-			}
-			setIsPlaying(!isPlaying);
+		if (!audioRef.current) {
+			return;
+		}
+
+		if (audioRef.current.paused) {
+			void audioRef.current.play();
+		} else {
+			audioRef.current.pause();
 		}
 	};
 
@@ -57,7 +58,14 @@ const AudioPlayer = ({ source }: Props): JSX.Element => {
 
 	return (
 		<div className="flex items-center gap-[30px] bg-background-light p-[15px]">
-			<audio ref={audioRef} src={source} onTimeUpdate={handleTimeUpdate}>
+			<audio
+				ref={audioRef}
+				src={source}
+				onEnded={() => setIsPlaying(false)}
+				onPause={() => setIsPlaying(false)}
+				onPlay={() => setIsPlaying(true)}
+				onTimeUpdate={handleTimeUpdate}
+			>
 				<track
 					kind="captions"
 					src={EMPTY_CAPTIONS}
@@ -71,6 +79,7 @@ const AudioPlayer = ({ source }: Props): JSX.Element => {
 				size="unstyled"
 				onClick={togglePlayPause}
 				className="cursor-pointer border-none bg-transparent p-0 text-accent hover:bg-transparent [&_svg]:fill-accent"
+				aria-label={isPlaying ? "Pause audio" : "Play audio"}
 			>
 				{isPlaying ? <Pause className="size-6" /> : <Play className="size-6" />}
 			</Button>

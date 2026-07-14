@@ -7,7 +7,7 @@
 		"defaultBranch": "main"
 	},
 	"files": {
-		"includes": ["**"]
+		"includes": ["**", "!public/contentful-snapshot/**/snapshot.json"]
 	},
 	"assist": {
 		"actions": {

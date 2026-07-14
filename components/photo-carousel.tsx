@@ -36,6 +36,7 @@ const PhotoCarousel = ({ images }: { images: ImageType[] }): JSX.Element => {
 
 	return (
 		<Carousel
+			aria-label="Photo gallery"
 			className="relative mx-auto my-8 h-[35rem] w-screen max-w-[1200px] bg-black"
 			setApi={setApi}
 		>
@@ -44,6 +45,8 @@ const PhotoCarousel = ({ images }: { images: ImageType[] }): JSX.Element => {
 					<CarouselItem
 						key={image.id}
 						className="flex items-center justify-center"
+						aria-label={`${index + 1} of ${images.length}`}
+						aria-hidden={current !== index + 1}
 					>
 						<NextImage
 							priority={index < 2}
@@ -69,7 +72,11 @@ const PhotoCarousel = ({ images }: { images: ImageType[] }): JSX.Element => {
 				size="unstyled"
 				className="right-2 text-background"
 			/>
-			<div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-sm text-background/80">
+			<div
+				className="absolute bottom-4 left-1/2 -translate-x-1/2 text-sm text-background/80"
+				role="status"
+				aria-live="polite"
+			>
 				{current} / {images.length}
 			</div>
 		</Carousel>

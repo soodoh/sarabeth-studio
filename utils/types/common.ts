@@ -12,13 +12,15 @@ export type ImageType = Asset & {
 	dominantColor?: string;
 };
 
-export type SocialMediaType =
+type SocialMediaName =
 	| "facebook"
 	| "instagram"
 	| "linkedin"
 	| "twitter"
 	| "youtube"
 	| "email";
+
+export type SocialMediaType = SocialMediaName | Capitalize<SocialMediaName>;
 
 export type SocialMediaLink = {
 	source: SocialMediaType;

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { JSX } from "react";
+import { getCurrentDate } from "@/utils/date";
 import type { SocialMediaLink } from "@/utils/types";
 
 type Props = {
@@ -8,6 +9,7 @@ type Props = {
 };
 
 const Footer = ({ location, socialMediaLinks }: Props): JSX.Element => {
+	const currentYear = getCurrentDate().getFullYear();
 	const instagramLink = socialMediaLinks.find((socialLink) =>
 		/instagram/i.test(socialLink.source),
 	);
@@ -16,9 +18,7 @@ const Footer = ({ location, socialMediaLinks }: Props): JSX.Element => {
 		<footer className="grid grid-cols-[auto_1fr_auto] justify-center gap-2 px-[2.5rem] py-6 text-[0.8rem] max-sm:grid-cols-1 max-sm:grid-rows-[auto_auto_auto] max-sm:gap-4 [&_a]:underline">
 			<div className="flex flex-col items-start max-sm:items-center">
 				<span>{location}</span>
-				<span>
-					Copyright &copy;{new Date().getFullYear()} Sarabeth Bel&oacute;n
-				</span>
+				<span>Copyright &copy;{currentYear} Sarabeth Bel&oacute;n</span>
 			</div>
 			<div className="flex flex-1 justify-center max-sm:row-[1]">
 				{instagramLink && (

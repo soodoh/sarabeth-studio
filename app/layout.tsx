@@ -3,7 +3,7 @@ import type { JSX, ReactNode } from "react";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import globalStyles from "@/styles/globals.css";
-import getCommonData from "@/utils/fetchers/common";
+import { getCommonData } from "@/utils/data";
 
 void globalStyles;
 

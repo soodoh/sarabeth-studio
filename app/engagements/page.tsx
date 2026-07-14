@@ -3,7 +3,8 @@ import type { JSX } from "react";
 import BannerImage from "@/components/banner-image";
 import EngagementsTable from "@/components/engagements-table";
 import WidthContainer from "@/components/width-container";
-import getEngagementData from "@/utils/fetchers/engagements";
+import { getEngagementsData } from "@/utils/data";
+import { getCurrentDate } from "@/utils/date";
 import type { Engagement } from "@/utils/types";
 
 // Statically generated at build time, will error if any Dynamic APIs are used
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 const isUpcoming = (dateString: string): boolean => {
-	const today = new Date();
+	const today = getCurrentDate();
 	today.setUTCHours(24, 0, 0, 0);
 	const endDate = new Date(dateString);
 	endDate.setUTCHours(24, 0, 0, 0);
@@ -26,7 +27,7 @@ const isUpcoming = (dateString: string): boolean => {
 };
 
 export default async function EngagementsPage(): Promise<JSX.Element> {
-	const { engagements, bannerImage, title } = await getEngagementData();
+	const { engagements, bannerImage, title } = await getEngagementsData();
 
 	const upcoming = engagements
 		.filter((engagement: Engagement) => isUpcoming(engagement.endDate))
