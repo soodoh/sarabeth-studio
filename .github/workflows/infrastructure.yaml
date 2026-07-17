@@ -75,6 +75,53 @@ jobs:
             --no-fail-on-empty-changeset \
             --tags Project=sarabeth-studio Environment=production
 
+      - name: Validate canonical www redirects
+        if: inputs.rollback_to_netlify == false
+        run: |
+          domain_status=$(aws amplify get-domain-association \
+            --app-id "$AMPLIFY_APP_ID" \
+            --domain-name sarabethbelon.com \
+            --query 'domainAssociation.domainStatus' \
+            --output text 2>/dev/null || true)
+          if [[ "$domain_status" != "AVAILABLE" ]]; then
+            echo "Skipping canonical redirect validation because the production domain is not available"
+            exit 0
+          fi
+
+          paths=(
+            "/?redirect-check=$GITHUB_RUN_ID"
+            "/about?redirect-check=$GITHUB_RUN_ID"
+            "/contact?redirect-check=$GITHUB_RUN_ID"
+            "/engagements?redirect-check=$GITHUB_RUN_ID"
+            "/lessons?redirect-check=$GITHUB_RUN_ID"
+            "/media?redirect-check=$GITHUB_RUN_ID"
+          )
+          for _ in {1..60}; do
+            all_redirects_valid=true
+            for path in "${paths[@]}"; do
+              headers=$(mktemp)
+              status=$(curl --silent --show-error --max-time 30 \
+                --dump-header "$headers" \
+                --output /dev/null \
+                --write-out '%{http_code}' \
+                "https://www.sarabethbelon.com${path}" || true)
+              location=$(awk -F ': ' 'tolower($1) == "location" { print $2 }' "$headers" | tail -1 | tr -d '\r')
+              rm -f "$headers"
+              expected_location="https://sarabethbelon.com${path}"
+              if [[ "$status" != "301" || "$location" != "$expected_location" ]]; then
+                all_redirects_valid=false
+                break
+              fi
+            done
+            if [[ "$all_redirects_valid" == "true" ]]; then
+              echo "Canonical www redirects preserve all production paths and query strings"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "Canonical www redirects did not stabilize" >&2
+          exit 1
+
       - name: Verify domain operation
         env:
           CUTOVER_CONFIRMATION: ${{ inputs.cutover_confirmation }}
