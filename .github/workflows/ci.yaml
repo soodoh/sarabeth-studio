@@ -134,7 +134,7 @@ jobs:
             --output text)
           read -r job_id commit_id <<< "$job"
           echo "job_id=$job_id" >> "$GITHUB_OUTPUT"
-          if [[ "$commit_id" != "$GITHUB_SHA" ]]; then
+          if [[ "$commit_id" != "HEAD" && "$commit_id" != "$GITHUB_SHA" ]]; then
             aws amplify stop-job \
               --app-id "$AMPLIFY_APP_ID" \
               --branch-name "$AMPLIFY_BRANCH" \
