@@ -25,7 +25,7 @@ permissions:
 jobs:
   cloudformation:
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    timeout-minutes: 90
     environment: production-infrastructure
     concurrency:
       group: sarabeth-production-infrastructure
@@ -91,22 +91,30 @@ jobs:
       - name: Remove Amplify domain association before rollback
         if: inputs.rollback_to_netlify
         run: |
-          aws cloudformation deploy \
+          stack_status=$(aws cloudformation describe-stacks \
             --stack-name sarabeth-amplify-domain \
-            --template-file infrastructure/cloudformation/domain.yaml \
-            --role-arn "$CLOUDFORMATION_EXECUTION_ROLE_ARN" \
-            --parameter-overrides \
-              AmplifyAppId="$AMPLIFY_APP_ID" \
-              AssociateDomain=false \
-            --no-fail-on-empty-changeset \
-            --tags Project=sarabeth-studio Environment=production
+            --query 'Stacks[0].StackStatus' \
+            --output text 2>/dev/null || echo NOT_FOUND)
+          if [[ "$stack_status" == "ROLLBACK_COMPLETE" ]]; then
+            aws cloudformation delete-stack --stack-name sarabeth-amplify-domain
+            aws cloudformation wait stack-delete-complete --stack-name sarabeth-amplify-domain
+          elif [[ "$stack_status" != "NOT_FOUND" ]]; then
+            aws cloudformation deploy \
+              --stack-name sarabeth-amplify-domain \
+              --template-file infrastructure/cloudformation/domain.yaml \
+              --role-arn "$CLOUDFORMATION_EXECUTION_ROLE_ARN" \
+              --parameter-overrides \
+                AmplifyAppId="$AMPLIFY_APP_ID" \
+                AssociateDomain=false \
+              --no-fail-on-empty-changeset \
+              --tags Project=sarabeth-studio Environment=production
+          fi
 
       - name: Apply DNS stack without changing delegation
+        if: inputs.apply_domain == false
         run: |
           parameter_overrides=()
-          if [[ "${{ inputs.apply_domain }}" == "true" ]]; then
-            parameter_overrides=(--parameter-overrides WebTarget=Amplify)
-          elif [[ "${{ inputs.rollback_to_netlify }}" == "true" ]]; then
+          if [[ "${{ inputs.rollback_to_netlify }}" == "true" ]]; then
             parameter_overrides=(--parameter-overrides WebTarget=Netlify)
           fi
           aws cloudformation deploy \
@@ -125,7 +133,7 @@ jobs:
               --stack-name "$stack" >/dev/null
           done
 
-      - name: Apply approval-gated domain association
+      - name: Apply approval-gated domain association and DNS
         if: inputs.apply_domain
         id: domain_association
         continue-on-error: true
@@ -140,6 +148,64 @@ jobs:
             --no-fail-on-empty-changeset \
             --tags Project=sarabeth-studio Environment=production
 
+          domain=''
+          for _ in {1..60}; do
+            domain=$(aws amplify get-domain-association \
+              --app-id "$AMPLIFY_APP_ID" \
+              --domain-name sarabethbelon.com \
+              --output json)
+            domain_status=$(jq -r '.domainAssociation.domainStatus' <<< "$domain")
+            if [[ "$domain_status" == "FAILED" ]]; then
+              jq -r '.domainAssociation.statusReason' <<< "$domain" >&2
+              exit 1
+            fi
+            certificate_record=$(jq -r '.domainAssociation.certificateVerificationDNSRecord // empty' <<< "$domain")
+            cloudfront_target=$(jq -r '.domainAssociation.subDomains[0].dnsRecord | split(" ") | map(select(length > 0)) | last' <<< "$domain")
+            if [[ -n "$certificate_record" && -n "$cloudfront_target" && "$cloudfront_target" != "<pending>" ]]; then
+              break
+            fi
+            sleep 10
+          done
+          certificate_name=$(awk '{print $1}' <<< "$certificate_record")
+          certificate_type=$(awk '{print $2}' <<< "$certificate_record")
+          certificate_value=$(awk '{print $3}' <<< "$certificate_record")
+          if [[ "$certificate_type" != "CNAME" || -z "$certificate_name" || -z "$certificate_value" || -z "$cloudfront_target" ]]; then
+            echo "Amplify did not return complete domain DNS records" >&2
+            exit 1
+          fi
+
+          aws cloudformation deploy \
+            --stack-name sarabeth-amplify-dns \
+            --template-file infrastructure/cloudformation/dns.yaml \
+            --role-arn "$CLOUDFORMATION_EXECUTION_ROLE_ARN" \
+            --parameter-overrides \
+              WebTarget=Amplify \
+              AmplifyCloudFrontTarget="$cloudfront_target" \
+              AmplifyCertificateRecordName="$certificate_name" \
+              AmplifyCertificateRecordValue="$certificate_value" \
+            --no-fail-on-empty-changeset \
+            --tags Project=sarabeth-studio Environment=production
+
+          for _ in {1..360}; do
+            domain_status=$(aws amplify get-domain-association \
+              --app-id "$AMPLIFY_APP_ID" \
+              --domain-name sarabethbelon.com \
+              --query 'domainAssociation.domainStatus' \
+              --output text)
+            [[ "$domain_status" == "AVAILABLE" ]] && exit 0
+            if [[ "$domain_status" == "FAILED" ]]; then
+              aws amplify get-domain-association \
+                --app-id "$AMPLIFY_APP_ID" \
+                --domain-name sarabethbelon.com \
+                --query 'domainAssociation.statusReason' \
+                --output text >&2
+              exit 1
+            fi
+            sleep 10
+          done
+          echo "Timed out waiting for the Amplify domain to become available" >&2
+          exit 1
+
       - name: Restore Netlify records after domain failure
         if: inputs.apply_domain && steps.domain_association.outcome == 'failure'
         run: |
@@ -151,15 +217,40 @@ jobs:
             --no-fail-on-empty-changeset \
             --tags Project=sarabeth-studio Environment=production
 
+      - name: Remove failed domain association after DNS rollback
+        if: inputs.apply_domain && steps.domain_association.outcome == 'failure'
+        continue-on-error: true
+        run: |
+          stack_status=$(aws cloudformation describe-stacks \
+            --stack-name sarabeth-amplify-domain \
+            --query 'Stacks[0].StackStatus' \
+            --output text 2>/dev/null || echo NOT_FOUND)
+          if [[ "$stack_status" == "ROLLBACK_COMPLETE" ]]; then
+            aws cloudformation delete-stack --stack-name sarabeth-amplify-domain
+            aws cloudformation wait stack-delete-complete --stack-name sarabeth-amplify-domain
+          elif [[ "$stack_status" != "NOT_FOUND" ]]; then
+            aws cloudformation deploy \
+              --stack-name sarabeth-amplify-domain \
+              --template-file infrastructure/cloudformation/domain.yaml \
+              --role-arn "$CLOUDFORMATION_EXECUTION_ROLE_ARN" \
+              --parameter-overrides \
+                AmplifyAppId="$AMPLIFY_APP_ID" \
+                AssociateDomain=false \
+              --no-fail-on-empty-changeset \
+              --tags Project=sarabeth-studio Environment=production
+          fi
+
+      - name: Preserve domain stack from accidental deletion
+        if: inputs.apply_domain || inputs.rollback_to_netlify
+        run: |
+          if aws cloudformation describe-stacks --stack-name sarabeth-amplify-domain >/dev/null 2>&1; then
+            aws cloudformation update-termination-protection \
+              --enable-termination-protection \
+              --stack-name sarabeth-amplify-domain >/dev/null
+          fi
+
       - name: Fail after domain rollback
         if: inputs.apply_domain && steps.domain_association.outcome == 'failure'
         run: |
           echo "Domain association failed; Netlify web records were restored" >&2
           exit 1
-
-      - name: Preserve domain stack from accidental deletion
-        if: inputs.apply_domain || inputs.rollback_to_netlify
-        run: |
-          aws cloudformation update-termination-protection \
-            --enable-termination-protection \
-            --stack-name sarabeth-amplify-domain >/dev/null

@@ -84,8 +84,8 @@ After approval gate 1:
 
 1. Change registrar delegation to the new Route 53 nameservers while web traffic still targets Netlify.
 2. Verify authoritative and recursive propagation, web health, SES DKIM, MAIL FROM MX/SPF, and email health.
-3. Dispatch the protected infrastructure workflow with the approval confirmation. It changes the DNS stack's `WebTarget` parameter from `Netlify` to `Amplify`, removing only the temporary Netlify A/AAAA records, then applies the domain stack. The Amplify domain association declaratively manages the replacement aliases.
-4. Wait for the Amplify certificate/domain association. The app-level domain rule keeps the apex canonical and sends a path/query-preserving 301 from `www` to the apex.
+3. Dispatch the protected infrastructure workflow with the approval confirmation. It first applies the domain association while the DNS stack continues serving Netlify, retrieves Amplify's certificate-validation and CloudFront targets, then updates the existing apex and `www` record resources atomically from Netlify addresses to Amplify aliases and adds the ACM validation record.
+4. Wait for the Amplify certificate/domain association. If any association, DNS, or stabilization step fails, the workflow restores the same record resources to Netlify before removing the failed association. The app-level domain rule keeps the apex canonical and sends a path/query-preserving 301 from `www` to the apex.
 5. Repeat the complete production validation. Future DNS workflow runs retain the stack's existing `WebTarget` unless an explicit approved cutover override is supplied.
 
 No WAF is provisioned.

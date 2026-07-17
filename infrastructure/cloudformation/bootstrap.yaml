@@ -218,9 +218,11 @@ Resources:
                   - sns:UntagResource
                   - sns:ListSubscriptionsByTopic
                 Resource: !Sub arn:${AWS::Partition}:sns:${AWS::Region}:${AWS::AccountId}:sarabeth-amplify-*
-              - Sid: Route53CreateHostedZone
+              - Sid: Route53AccountDiscovery
                 Effect: Allow
-                Action: route53:CreateHostedZone
+                Action:
+                  - route53:CreateHostedZone
+                  - route53:ListHostedZones
                 Resource: "*"
               - Sid: Route53
                 Effect: Allow
