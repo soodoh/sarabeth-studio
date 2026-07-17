@@ -60,11 +60,11 @@ assert(
 
 const prerenderedPages = [
 	{ path: "/", file: "index.html" },
-	{ path: "/about", file: "about" },
-	{ path: "/contact", file: "contact" },
-	{ path: "/engagements", file: "engagements" },
-	{ path: "/lessons", file: "lessons" },
-	{ path: "/media", file: "media" },
+	{ path: "/about", file: "about.html" },
+	{ path: "/contact", file: "contact.html" },
+	{ path: "/engagements", file: "engagements.html" },
+	{ path: "/lessons", file: "lessons.html" },
+	{ path: "/media", file: "media.html" },
 ];
 for (const page of prerenderedPages) {
 	const routeIndex = manifest.routes.findIndex(

@@ -148,6 +148,21 @@ Resources:
               - key: "Referrer-Policy"
                 value: "strict-origin-when-cross-origin"
       CustomRules:
+        - Source: /about
+          Target: /about.html
+          Status: "200"
+        - Source: /contact
+          Target: /contact.html
+          Status: "200"
+        - Source: /engagements
+          Target: /engagements.html
+          Status: "200"
+        - Source: /lessons
+          Target: /lessons.html
+          Status: "200"
+        - Source: /media
+          Target: /media.html
+          Status: "200"
         - Source: https://www.sarabethbelon.com/<*>
           Target: https://sarabethbelon.com/<*>
           Status: "301"

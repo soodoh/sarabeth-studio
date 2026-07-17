@@ -60,7 +60,7 @@ jobs:
       group: amplify-production
       cancel-in-progress: false
     permissions:
-      contents: write
+      contents: read
       id-token: write
     env:
       AWS_REGION: us-west-2
@@ -105,21 +105,6 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
           role-session-name: sarabeth-amplify-release
 
-      - name: Record currently deployed source revision
-        if: steps.freshness.outputs.superseded == 'false'
-        id: deployed_source
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          deployed_commit=$(curl -fsS "$DEPLOYMENT_URL/__deployment.json" | jq -r '.commit // empty' || true)
-          if [[ "$deployed_commit" =~ ^[0-9a-f]{40}$ ]] && gh api "repos/${GITHUB_REPOSITORY}/git/commits/${deployed_commit}" >/dev/null 2>&1; then
-            echo "commit=$deployed_commit" >> "$GITHUB_OUTPUT"
-          else
-            parent_sha=$(gh api "repos/${GITHUB_REPOSITORY}/git/commits/${GITHUB_SHA}" --jq '.parents[0].sha')
-            echo "commit=$parent_sha" >> "$GITHUB_OUTPUT"
-            echo "Deployment metadata unavailable; using parent $parent_sha as the bootstrap rollback revision"
-          fi
-
       - name: Start Amplify release
         if: steps.freshness.outputs.superseded == 'false'
         id: release
@@ -154,11 +139,8 @@ jobs:
         continue-on-error: true
         run: bun scripts/smoke-deployment.ts "$DEPLOYMENT_URL" "$GITHUB_SHA"
 
-      - name: Restore the previous source revision
-        if: steps.freshness.outputs.superseded == 'false' && (steps.release_wait.outcome == 'failure' || steps.functional_smoke.outcome == 'failure')
-        env:
-          GH_TOKEN: ${{ github.token }}
-          PREVIOUS_COMMIT: ${{ steps.deployed_source.outputs.commit }}
+      - name: Stop an active failed release
+        if: steps.freshness.outputs.superseded == 'false' && steps.release_wait.outcome == 'failure'
         run: |
           failed_job_id="${{ steps.release.outputs.job_id }}"
           failed_status=$(aws amplify get-job \
@@ -175,31 +157,11 @@ jobs:
                 --job-id "$failed_job_id" >/dev/null
               ;;
           esac
-          current_sha=$(gh api "repos/${GITHUB_REPOSITORY}/git/ref/heads/main" --jq .object.sha)
-          if [[ "$current_sha" != "$GITHUB_SHA" ]]; then
-            echo "Main moved to $current_sha; refusing to overwrite the superseding revision" >&2
-            exit 1
-          fi
-          commit_message=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${GITHUB_SHA}" --jq .commit.message)
-          if [[ "$commit_message" == "revert: restore production after failed deployment"* ]]; then
-            echo "The automatic source rollback also failed; manual intervention is required" >&2
-            exit 1
-          fi
-          previous_tree=$(gh api "repos/${GITHUB_REPOSITORY}/git/commits/${PREVIOUS_COMMIT}" --jq .tree.sha)
-          rollback_sha=$(gh api --method POST "repos/${GITHUB_REPOSITORY}/git/commits" \
-            -f message="revert: restore production after failed deployment" \
-            -f tree="$previous_tree" \
-            -f "parents[]=$GITHUB_SHA" \
-            --jq .sha)
-          gh api --method PATCH "repos/${GITHUB_REPOSITORY}/git/refs/heads/main" \
-            -f sha="$rollback_sha" \
-            -F force=false >/dev/null
-          echo "Created source rollback $rollback_sha; its protected production workflow will restore and validate Amplify" >&2
 
-      - name: Fail after scheduling source rollback
+      - name: Fail release validation
         if: steps.freshness.outputs.superseded == 'false' && (steps.release_wait.outcome == 'failure' || steps.functional_smoke.outcome == 'failure')
         run: |
-          echo "Release validation failed; an automatic source rollback was scheduled when safe" >&2
+          echo "Release validation failed. Restore the last validated source revision with a new commit on main; Amplify RETRY does not restore repository-connected artifacts." >&2
           exit 1
 
       - name: Run mobile Lighthouse CI
