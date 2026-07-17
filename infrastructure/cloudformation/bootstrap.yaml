@@ -190,17 +190,21 @@ Resources:
                   - logs:DeleteRetentionPolicy
                   - logs:TagResource
                   - logs:UntagResource
-                  - logs:DescribeLogGroups
                 Resource:
                   - !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/amplify/*
                   - !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/amplify/*:*
                   - !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/sarabeth-amplify-webhook-custom-resource
                   - !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/sarabeth-amplify-webhook-custom-resource:*
+              - Sid: DescribeAmplifyLogs
+                Effect: Allow
+                Action: logs:DescribeLogGroups
+                Resource: "*"
               - Sid: Monitoring
                 Effect: Allow
                 Action:
                   - cloudwatch:DeleteAlarms
                   - cloudwatch:DescribeAlarms
+                  - cloudwatch:ListTagsForResource
                   - cloudwatch:PutMetricAlarm
                   - cloudwatch:TagResource
                   - cloudwatch:UntagResource
