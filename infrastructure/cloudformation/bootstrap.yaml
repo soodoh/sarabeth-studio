@@ -186,6 +186,7 @@ Resources:
                 Action:
                   - logs:CreateLogGroup
                   - logs:DeleteLogGroup
+                  - logs:DescribeIndexPolicies
                   - logs:PutRetentionPolicy
                   - logs:DeleteRetentionPolicy
                   - logs:TagResource
