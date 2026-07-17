@@ -43,7 +43,7 @@ jobs:
 
       - name: Upload Playwright diagnostics
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: playwright-test-results-${{ github.run_attempt }}
           path: test-results
@@ -236,7 +236,7 @@ jobs:
 
       - name: Upload Lighthouse reports
         if: always() && steps.freshness.outputs.superseded == 'false' && steps.functional_smoke.outcome == 'success'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: lighthouse-${{ github.sha }}-${{ github.run_attempt }}
           path: .lighthouseci
