@@ -39,7 +39,7 @@ jobs:
       AMPLIFY_APP_ID: ${{ vars.AMPLIFY_APP_ID }}
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Configure protected infrastructure credentials
         uses: aws-actions/configure-aws-credentials@v4
