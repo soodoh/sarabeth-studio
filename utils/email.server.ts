@@ -92,6 +92,11 @@ export const handleEmailRequest = async (
 	sender?: EmailSender,
 ): Promise<Response> => {
 	const contentType = request.headers.get("content-type")?.split(";", 1)[0];
+	if (!sender) {
+		console.info("Contact email request received", {
+			contentType: contentType?.trim().toLowerCase() ?? "missing",
+		});
+	}
 	if (contentType?.trim().toLowerCase() !== "application/json") {
 		return Response.json(
 			{ error: "Content-Type must be application/json" },
