@@ -1,5 +1,7 @@
+import { execFile } from "node:child_process";
 import { readdir, readFile, stat } from "node:fs/promises";
 import { join } from "node:path";
+import { promisify } from "node:util";
 
 const outputDirectory = ".amplify-hosting";
 const manifestPath = join(outputDirectory, "deploy-manifest.json");
@@ -13,6 +15,17 @@ const assert: (condition: unknown, message: string) => asserts condition = (
 };
 
 assert(manifest.version === 1, "Amplify deployment manifest must be version 1");
+const deploymentMetadata = JSON.parse(
+	await readFile(join(outputDirectory, "static", "__deployment.json"), "utf8"),
+);
+const { stdout: gitCommitOutput } = await promisify(execFile)("git", [
+	"rev-parse",
+	"HEAD",
+]);
+assert(
+	deploymentMetadata.commit === gitCommitOutput.trim(),
+	"Deployment metadata must identify the exact Git commit built by Amplify",
+);
 assert(
 	manifest.computeResources?.length === 1,
 	"Amplify bundle must contain one compute resource",

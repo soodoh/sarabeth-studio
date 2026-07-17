@@ -67,6 +67,7 @@ jobs:
       AMPLIFY_APP_ID: ${{ vars.AMPLIFY_APP_ID }}
       AMPLIFY_BRANCH: main
       DEPLOYMENT_URL: ${{ vars.AMPLIFY_PRODUCTION_URL }}
+      BOOTSTRAP_PREVIOUS_COMMIT: ${{ vars.AMPLIFY_BOOTSTRAP_PREVIOUS_COMMIT }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -116,7 +117,11 @@ jobs:
             --query 'jobSummaries[?status==`SUCCEED`] | [0].[jobId,commitId]' \
             --output text)
           if [[ -n "$previous" && "$previous" != "None" ]]; then
-            read -r previous_job previous_commit <<< "$previous"
+            read -r previous_job _ <<< "$previous"
+            previous_commit=$(curl -fsS "$DEPLOYMENT_URL/__deployment.json" | jq -r '.commit // empty' || true)
+            if [[ ! "$previous_commit" =~ ^[0-9a-f]{40}$ ]]; then
+              previous_commit="$BOOTSTRAP_PREVIOUS_COMMIT"
+            fi
             echo "job_id=$previous_job" >> "$GITHUB_OUTPUT"
             echo "commit_id=$previous_commit" >> "$GITHUB_OUTPUT"
           fi
@@ -153,7 +158,7 @@ jobs:
         if: steps.freshness.outputs.superseded == 'false' && steps.release_wait.outcome == 'success'
         id: functional_smoke
         continue-on-error: true
-        run: bun scripts/smoke-deployment.ts "$DEPLOYMENT_URL"
+        run: bun scripts/smoke-deployment.ts "$DEPLOYMENT_URL" "$GITHUB_SHA"
 
       - name: Restore previous successful release
         if: steps.freshness.outputs.superseded == 'false' && (steps.release_wait.outcome == 'failure' || steps.functional_smoke.outcome == 'failure')
@@ -208,7 +213,7 @@ jobs:
             "$rollback_job" \
             "$PREVIOUS_COMMIT_ID" \
             1800
-          bun scripts/smoke-deployment.ts "$DEPLOYMENT_URL"
+          bun scripts/smoke-deployment.ts "$DEPLOYMENT_URL" "$PREVIOUS_COMMIT_ID"
 
       - name: Fail after release rollback
         if: steps.freshness.outputs.superseded == 'false' && (steps.release_wait.outcome == 'failure' || steps.functional_smoke.outcome == 'failure')

@@ -1,5 +1,7 @@
+import { execFile } from "node:child_process";
 import { readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import { promisify } from "node:util";
 
 const manifestPath = join(".amplify-hosting", "deploy-manifest.json");
 const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
@@ -26,6 +28,13 @@ manifest.routes = [
 ];
 
 await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+const run = promisify(execFile);
+const { stdout } = await run("git", ["rev-parse", "HEAD"]);
+const commit = stdout.trim();
+await writeFile(
+	join(".amplify-hosting", "static", "__deployment.json"),
+	`${JSON.stringify({ commit })}\n`,
+);
 console.log(
-	`Prepared Amplify bundle with ${prerenderedRoutes.length} static-first page routes`,
+	`Prepared Amplify bundle for ${commit} with ${prerenderedRoutes.length} static-first page routes`,
 );

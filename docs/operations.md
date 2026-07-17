@@ -43,7 +43,7 @@ rm -f "$secret_file"
 
 Pull requests and pushes run lint, type checking, a normal Node build, and Playwright. A successful push to `main` then assumes the narrow deployment role through GitHub OIDC and starts an Amplify `RELEASE` job. Amplify—not GitHub Actions—runs `amplify.yml`, fetches the Contentful secret with its build role, builds `.amplify-hosting`, and validates the deployment bundle.
 
-Repository auto-builds and preview branches are disabled. Deployment concurrency allows only one production release. The workflow checks that the SHA is still current, verifies the commit selected by `StartJob` immediately, stops a mismatched job, and verifies the commit again after completion.
+Repository auto-builds and preview branches are disabled. Deployment concurrency allows only one production release. The workflow checks that the SHA is still current and rejects any concrete mismatched commit returned by `StartJob`. Manual Amplify `RELEASE` jobs report the literal `HEAD` rather than a Git SHA, so the Amplify build writes the checked-out `git rev-parse HEAD` to `__deployment.json`; post-deployment smoke testing requires that immutable value to equal the expected GitHub SHA.
 
 Functional smoke tests run against the Amplify URL without sending email. A failed release wait, commit mismatch, or functional smoke test causes the workflow to retry the previously successful Amplify job, verify that rollback, and fail. The first successful production release has no predecessor; monitor it directly before relying on automatic rollback for later releases. Lighthouse CI runs only after functional checks; a Lighthouse regression fails/reports the workflow but never triggers rollback.
 

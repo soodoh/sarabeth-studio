@@ -1,8 +1,11 @@
 export {};
 
 const deploymentUrl = process.argv[2]?.replace(/\/$/, "");
-if (!deploymentUrl) {
-	throw new Error("Usage: bun scripts/smoke-deployment.ts <deployment-url>");
+const expectedCommit = process.argv[3];
+if (!deploymentUrl || !expectedCommit) {
+	throw new Error(
+		"Usage: bun scripts/smoke-deployment.ts <deployment-url> <expected-commit>",
+	);
 }
 
 const request = async (path: string, init?: RequestInit): Promise<Response> => {
@@ -27,6 +30,14 @@ const expectStatus = async (
 	}
 	return response;
 };
+
+const deploymentMetadata = await expectStatus("/__deployment.json", 200);
+const deployedCommit = (await deploymentMetadata.json()).commit;
+if (deployedCommit !== expectedCommit) {
+	throw new Error(
+		`Deployment metadata identifies ${deployedCommit}, expected ${expectedCommit}`,
+	);
+}
 
 const publicRoutes = [
 	"/",
@@ -107,5 +118,5 @@ for (const assetPath of assetPaths) {
 }
 
 console.log(
-	`Functional smoke passed for ${deploymentUrl}: ${publicRoutes.length} pages, ${assetPaths.size} assets, 404 behavior, and non-sending email API checks`,
+	`Functional smoke passed for ${deploymentUrl} at ${expectedCommit}: ${publicRoutes.length} pages, ${assetPaths.size} assets, 404 behavior, and non-sending email API checks`,
 );
