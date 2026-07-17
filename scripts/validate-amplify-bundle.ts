@@ -49,6 +49,17 @@ assert(
 		staticAssetRoute.fallback?.src === "default",
 	"Static asset routing must precede the compute fallback",
 );
+const deploymentMetadataRouteIndex = manifest.routes.findIndex(
+	(route: { path?: string }) => route.path === "/__deployment.json",
+);
+const deploymentMetadataRoute = manifest.routes[deploymentMetadataRouteIndex];
+assert(
+	deploymentMetadataRouteIndex >= 0 &&
+		deploymentMetadataRouteIndex < staticAssetRouteIndex &&
+		deploymentMetadataRoute?.target?.kind === "Static" &&
+		deploymentMetadataRoute.target.cacheControl === "no-store",
+	"Deployment metadata must use a non-cached static route",
+);
 const catchAllRoute = manifest.routes.at(-1);
 assert(
 	catchAllRoute?.path === "/*" &&

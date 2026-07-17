@@ -13,12 +13,19 @@ const prerenderedRoutes = [
 	"/lessons",
 	"/media",
 ];
-const prerenderedRouteSet = new Set(prerenderedRoutes);
+const prerenderedRouteSet = new Set([
+	...prerenderedRoutes,
+	"/__deployment.json",
+]);
 const remainingRoutes = manifest.routes.filter(
 	(route: { path?: string }) => !prerenderedRouteSet.has(route.path ?? ""),
 );
 const computeFallback = { kind: "Compute", src: "default" };
 manifest.routes = [
+	{
+		path: "/__deployment.json",
+		target: { kind: "Static", cacheControl: "no-store" },
+	},
 	...prerenderedRoutes.map((path) => ({
 		path,
 		target: { kind: "Static" },

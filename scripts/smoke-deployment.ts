@@ -31,7 +31,11 @@ const expectStatus = async (
 	return response;
 };
 
-const deploymentMetadata = await expectStatus("/__deployment.json", 200);
+const deploymentMetadata = await expectStatus(
+	`/__deployment.json?commit=${expectedCommit}`,
+	200,
+	{ headers: { "Cache-Control": "no-cache" } },
+);
 const deployedCommit = (await deploymentMetadata.json()).commit;
 if (deployedCommit !== expectedCommit) {
 	throw new Error(
