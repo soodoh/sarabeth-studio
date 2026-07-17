@@ -188,6 +188,7 @@ jobs:
         with:
           name: lighthouse-${{ github.sha }}-${{ github.run_attempt }}
           path: .lighthouseci
+          include-hidden-files: true
           if-no-files-found: error
           retention-days: 30
 
