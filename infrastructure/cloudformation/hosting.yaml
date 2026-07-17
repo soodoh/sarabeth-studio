@@ -327,7 +327,7 @@ Resources:
     DeletionPolicy: RetainExceptOnCreate
     UpdateReplacePolicy: Retain
     Properties:
-      LogGroupName: !Sub /aws/amplify/${AmplifyApp.AppId}/${GitHubBranch}
+      LogGroupName: !Sub /aws/amplify/${AmplifyApp.AppId}
       RetentionInDays: 30
       Tags:
         - Key: Project
