@@ -45,7 +45,7 @@ Pull requests and pushes run lint, type checking, a normal Node build, and Playw
 
 Repository auto-builds and preview branches are disabled. Deployment concurrency allows only one production release. The workflow checks that the SHA is still current and rejects any concrete mismatched commit returned by `StartJob`. Manual Amplify `RELEASE` jobs report the literal `HEAD` rather than a Git SHA, so the Amplify build writes the checked-out `git rev-parse HEAD` to `__deployment.json`; post-deployment smoke testing requires that immutable value to equal the expected GitHub SHA.
 
-Functional smoke tests run against the Amplify URL without sending email. A failed release wait, commit mismatch, or functional smoke test causes the workflow to retry the previously successful Amplify job, verify that rollback, and fail. The first successful production release has no predecessor; monitor it directly before relying on automatic rollback for later releases. Lighthouse CI runs only after functional checks; a Lighthouse regression fails/reports the workflow but never triggers rollback.
+Functional smoke tests run against the Amplify URL without sending email. Before release, the workflow records the immutable commit from the live `__deployment.json`. A failed release wait, commit mismatch, or functional smoke test creates a new commit on `main` whose tree restores that previously deployed revision; the rollback commit then runs through the same protected production workflow. The workflow refuses to overwrite a superseding `main` revision or recursively roll back a failed rollback commit. Lighthouse CI runs only after functional checks; a Lighthouse regression fails/reports the workflow but never triggers rollback.
 
 ## CMS rebuilds
 
@@ -57,7 +57,7 @@ To test the integration, trigger one controlled Contentful publish/unpublish eve
 
 ### Deployment rollback
 
-Find the last successful job for `main`, then use Amplify's `RETRY` job type for that job ID. Wait for completion and run the non-sending functional smoke suite. The deployment workflow performs this automatically for release-validation and functional failures, but not for Lighthouse-only failures.
+Restore the last commit proven by the live `__deployment.json` with a new Conventional Commit on `main`, then let the protected production workflow build, deploy, and validate it. Do not use Amplify's `RETRY` job type as a rollback mechanism for this repository-connected app: a retry clones the current `HEAD` and does not restore the original job artifact. The deployment workflow creates the source-restoration commit automatically for release-validation and functional failures when `main` still points to the failing SHA, but not for Lighthouse-only failures.
 
 ### CloudFormation rollback recovery
 
@@ -119,7 +119,7 @@ No runtime restart is needed because Contentful credentials are build-only. Rota
 - Reauthorize the Amplify GitHub App with a temporary token and repopulate GitHub repository variables from stack outputs.
 - Restore Route 53 records from the sanitized inventory and current stack template, never from copied SOA/NS records.
 - Trigger a `main` release, validate the default Amplify URL, then attach the domain.
-- If Amplify is unavailable while the retained Netlify site still exists, use the documented pre-decommission DNS rollback. After Netlify deletion, restore a prior successful Amplify job or recreate the app from CloudFormation.
+- If Amplify is unavailable while the retained Netlify site still exists, use the documented pre-decommission DNS rollback. After Netlify deletion, restore a previously validated source revision through `main` or recreate the app from CloudFormation.
 
 ## Decommissioning controls
 

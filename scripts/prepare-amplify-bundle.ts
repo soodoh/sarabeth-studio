@@ -1,5 +1,5 @@
 import { execFile } from "node:child_process";
-import { readFile, writeFile } from "node:fs/promises";
+import { readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { promisify } from "node:util";
 
@@ -28,6 +28,12 @@ manifest.routes = [
 ];
 
 await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+for (const path of prerenderedRoutes.filter((path) => path !== "/")) {
+	const outputPath = join(".amplify-hosting", "static", path.slice(1));
+	const html = await readFile(join(outputPath, "index.html"));
+	await rm(outputPath, { recursive: true });
+	await writeFile(outputPath, html);
+}
 const run = promisify(execFile);
 const { stdout } = await run("git", ["rev-parse", "HEAD"]);
 const commit = stdout.trim();
