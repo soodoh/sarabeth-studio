@@ -290,6 +290,9 @@ Resources:
                   - cloudformation:ValidateTemplate
                 Resource: "*"
               - Effect: Allow
+                Action: amplify:GetDomainAssociation
+                Resource: !Sub arn:${AWS::Partition}:amplify:${AWS::Region}:${AWS::AccountId}:apps/*/domains/sarabethbelon.com
+              - Effect: Allow
                 Action: iam:PassRole
                 Resource: !GetAtt CloudFormationExecutionRole.Arn
                 Condition:

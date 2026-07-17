@@ -163,8 +163,8 @@ Resources:
         - Source: /media
           Target: /media.html
           Status: "200"
-        - Source: https://www.sarabethbelon.com/<*>
-          Target: https://sarabethbelon.com/<*>
+        - Source: https://www.sarabethbelon.com
+          Target: https://sarabethbelon.com
           Status: "301"
       Tags:
         - Key: Project
