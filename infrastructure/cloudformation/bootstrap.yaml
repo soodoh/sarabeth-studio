@@ -1,0 +1,308 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: GitHub OIDC and protected CloudFormation deployment roles for sarabeth-studio.
+
+Parameters:
+  GitHubOwner:
+    Type: String
+    Default: soodoh
+  GitHubRepository:
+    Type: String
+    Default: sarabeth-studio
+  InfrastructureEnvironment:
+    Type: String
+    Default: production-infrastructure
+  ExistingGitHubOidcProviderArn:
+    Type: String
+    Default: ""
+    Description: Existing token.actions.githubusercontent.com provider ARN, or blank to create it.
+
+Conditions:
+  CreateGitHubOidcProvider: !Equals [!Ref ExistingGitHubOidcProviderArn, ""]
+
+Resources:
+  GitHubOidcProvider:
+    Type: AWS::IAM::OIDCProvider
+    Condition: CreateGitHubOidcProvider
+    Properties:
+      Url: https://token.actions.githubusercontent.com
+      ClientIdList:
+        - sts.amazonaws.com
+      Tags:
+        - Key: Project
+          Value: sarabeth-studio
+
+  WorkloadPermissionsBoundary:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: sarabeth-amplify-workload-boundary
+      Description: Maximum permissions for roles created by the sarabeth Amplify infrastructure stack.
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: AmplifyJobsAndWebhooks
+            Effect: Allow
+            Action:
+              - amplify:CreateWebhook
+              - amplify:DeleteWebhook
+              - amplify:GetApp
+              - amplify:GetBranch
+              - amplify:GetJob
+              - amplify:GetWebhook
+              - amplify:ListJobs
+              - amplify:StartJob
+              - amplify:StopJob
+              - amplify:UpdateWebhook
+            Resource: "*"
+          - Sid: ContentfulBuildSecret
+            Effect: Allow
+            Action:
+              - secretsmanager:DescribeSecret
+              - secretsmanager:GetSecretValue
+            Resource: !Sub arn:${AWS::Partition}:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:sarabeth-studio/production/*
+          - Sid: ContactEmail
+            Effect: Allow
+            Action: ses:SendEmail
+            Resource: !Sub arn:${AWS::Partition}:ses:${AWS::Region}:${AWS::AccountId}:identity/sarabethbelon.com
+          - Sid: ApplicationLogs
+            Effect: Allow
+            Action:
+              - logs:CreateLogGroup
+              - logs:CreateLogStream
+              - logs:DescribeLogGroups
+              - logs:PutLogEvents
+            Resource: "*"
+
+  CloudFormationExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: sarabeth-amplify-cloudformation-execution
+      Description: Executes protected sarabeth-studio CloudFormation changes.
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: cloudformation.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: SarabethAmplifyInfrastructure
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: Amplify
+                Effect: Allow
+                Action: amplify:*
+                Resource: "*"
+              - Sid: GitHubOidcProvider
+                Effect: Allow
+                Action:
+                  - iam:AddClientIDToOpenIDConnectProvider
+                  - iam:DeleteOpenIDConnectProvider
+                  - iam:GetOpenIDConnectProvider
+                  - iam:ListOpenIDConnectProviderTags
+                  - iam:RemoveClientIDFromOpenIDConnectProvider
+                  - iam:TagOpenIDConnectProvider
+                  - iam:UntagOpenIDConnectProvider
+                  - iam:UpdateOpenIDConnectProviderThumbprint
+                Resource: !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:oidc-provider/token.actions.githubusercontent.com
+              - Sid: CreateBoundedWorkloadRoles
+                Effect: Allow
+                Action:
+                  - iam:CreateRole
+                  - iam:PutRolePermissionsBoundary
+                Resource:
+                  - !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:role/sarabeth-amplify-service
+                  - !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:role/sarabeth-amplify-compute-main
+                  - !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:role/sarabeth-amplify-webhook-provider
+                  - !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:role/sarabeth-amplify-deploy-main
+                Condition:
+                  StringEquals:
+                    iam:PermissionsBoundary: !Ref WorkloadPermissionsBoundary
+              - Sid: ManageBoundedWorkloadRoles
+                Effect: Allow
+                Action:
+                  - iam:DeleteRole
+                  - iam:GetRole
+                  - iam:TagRole
+                  - iam:UntagRole
+                  - iam:UpdateRole
+                  - iam:UpdateAssumeRolePolicy
+                  - iam:PutRolePolicy
+                  - iam:GetRolePolicy
+                  - iam:DeleteRolePolicy
+                  - iam:ListRolePolicies
+                  - iam:ListAttachedRolePolicies
+                  - iam:ListRoleTags
+                Resource:
+                  - !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:role/sarabeth-amplify-service
+                  - !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:role/sarabeth-amplify-compute-main
+                  - !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:role/sarabeth-amplify-webhook-provider
+                  - !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:role/sarabeth-amplify-deploy-main
+              - Sid: PassProjectRoles
+                Effect: Allow
+                Action: iam:PassRole
+                Resource:
+                  - !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:role/sarabeth-amplify-service
+                  - !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:role/sarabeth-amplify-compute-main
+                  - !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:role/sarabeth-amplify-webhook-provider
+                  - !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:role/sarabeth-amplify-deploy-main
+                Condition:
+                  StringEquals:
+                    iam:PassedToService:
+                      - amplify.amazonaws.com
+                      - cloudformation.amazonaws.com
+                      - lambda.amazonaws.com
+              - Sid: AmplifyWebhookCustomResource
+                Effect: Allow
+                Action:
+                  - lambda:AddPermission
+                  - lambda:CreateFunction
+                  - lambda:DeleteFunction
+                  - lambda:GetFunction
+                  - lambda:GetFunctionConfiguration
+                  - lambda:InvokeFunction
+                  - lambda:ListTags
+                  - lambda:RemovePermission
+                  - lambda:TagResource
+                  - lambda:UntagResource
+                  - lambda:UpdateFunctionCode
+                  - lambda:UpdateFunctionConfiguration
+                Resource: !Sub arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:sarabeth-amplify-*
+              - Sid: ContentfulSecret
+                Effect: Allow
+                Action:
+                  - secretsmanager:CreateSecret
+                  - secretsmanager:DeleteSecret
+                  - secretsmanager:DescribeSecret
+                  - secretsmanager:TagResource
+                  - secretsmanager:UntagResource
+                  - secretsmanager:UpdateSecret
+                  - secretsmanager:PutResourcePolicy
+                  - secretsmanager:DeleteResourcePolicy
+                  - secretsmanager:GetResourcePolicy
+                Resource: !Sub arn:${AWS::Partition}:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:sarabeth-studio/production/*
+              - Sid: AmplifyLogs
+                Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:DeleteLogGroup
+                  - logs:PutRetentionPolicy
+                  - logs:DeleteRetentionPolicy
+                  - logs:TagResource
+                  - logs:UntagResource
+                  - logs:DescribeLogGroups
+                Resource:
+                  - !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/amplify/*
+                  - !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/amplify/*:*
+                  - !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/sarabeth-amplify-webhook-custom-resource
+                  - !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/sarabeth-amplify-webhook-custom-resource:*
+              - Sid: Monitoring
+                Effect: Allow
+                Action:
+                  - cloudwatch:DeleteAlarms
+                  - cloudwatch:DescribeAlarms
+                  - cloudwatch:PutMetricAlarm
+                  - cloudwatch:TagResource
+                  - cloudwatch:UntagResource
+                Resource: !Sub arn:${AWS::Partition}:cloudwatch:${AWS::Region}:${AWS::AccountId}:alarm:sarabeth-amplify-*
+              - Sid: Sns
+                Effect: Allow
+                Action:
+                  - sns:CreateTopic
+                  - sns:DeleteTopic
+                  - sns:GetTopicAttributes
+                  - sns:SetTopicAttributes
+                  - sns:Subscribe
+                  - sns:Unsubscribe
+                  - sns:TagResource
+                  - sns:UntagResource
+                  - sns:ListSubscriptionsByTopic
+                Resource: !Sub arn:${AWS::Partition}:sns:${AWS::Region}:${AWS::AccountId}:sarabeth-amplify-*
+              - Sid: Route53CreateHostedZone
+                Effect: Allow
+                Action: route53:CreateHostedZone
+                Resource: "*"
+              - Sid: Route53
+                Effect: Allow
+                Action:
+                  - route53:DeleteHostedZone
+                  - route53:GetHostedZone
+                  - route53:ChangeResourceRecordSets
+                  - route53:ListQueryLoggingConfigs
+                  - route53:ListResourceRecordSets
+                  - route53:ListTagsForResource
+                  - route53:GetDNSSEC
+                  - route53:ChangeTagsForResource
+                Resource: !Sub arn:${AWS::Partition}:route53:::hostedzone/*
+              - Sid: Route53ChangeStatus
+                Effect: Allow
+                Action: route53:GetChange
+                Resource: !Sub arn:${AWS::Partition}:route53:::change/*
+
+  InfrastructureDeploymentRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: sarabeth-amplify-infrastructure-github
+      Description: Protected GitHub Actions role for sarabeth-studio CloudFormation changes.
+      MaxSessionDuration: 3600
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !If
+                - CreateGitHubOidcProvider
+                - !Ref GitHubOidcProvider
+                - !Ref ExistingGitHubOidcProviderArn
+            Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              StringEquals:
+                token.actions.githubusercontent.com:aud: sts.amazonaws.com
+                token.actions.githubusercontent.com:sub: !Sub repo:${GitHubOwner}/${GitHubRepository}:environment:${InfrastructureEnvironment}
+      Policies:
+        - PolicyName: DeploySarabethCloudFormation
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - cloudformation:ContinueUpdateRollback
+                  - cloudformation:CreateChangeSet
+                  - cloudformation:DeleteChangeSet
+                  - cloudformation:DescribeChangeSet
+                  - cloudformation:DescribeStackEvents
+                  - cloudformation:DescribeStackResources
+                  - cloudformation:DescribeStacks
+                  - cloudformation:ExecuteChangeSet
+                  - cloudformation:GetTemplate
+                  - cloudformation:GetTemplateSummary
+                  - cloudformation:ListChangeSets
+                  - cloudformation:UpdateTerminationProtection
+                  - cloudformation:ValidateTemplate
+                Resource:
+                  - !Sub arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/sarabeth-amplify-*/*
+                  - !Sub arn:${AWS::Partition}:cloudformation:${AWS::Region}:aws:transform/*
+              - Effect: Allow
+                Action:
+                  - cloudformation:DescribeStacks
+                  - cloudformation:ValidateTemplate
+                Resource: "*"
+              - Effect: Allow
+                Action: iam:PassRole
+                Resource: !GetAtt CloudFormationExecutionRole.Arn
+                Condition:
+                  StringEquals:
+                    iam:PassedToService: cloudformation.amazonaws.com
+
+Outputs:
+  GitHubOidcProviderArn:
+    Value: !If
+      - CreateGitHubOidcProvider
+      - !Ref GitHubOidcProvider
+      - !Ref ExistingGitHubOidcProviderArn
+  InfrastructureRoleArn:
+    Value: !GetAtt InfrastructureDeploymentRole.Arn
+  CloudFormationExecutionRoleArn:
+    Value: !GetAtt CloudFormationExecutionRole.Arn
+  WorkloadPermissionsBoundaryArn:
+    Value: !Ref WorkloadPermissionsBoundary

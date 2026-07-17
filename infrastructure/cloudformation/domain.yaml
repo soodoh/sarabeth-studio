@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Approval-gated Amplify production domain association for sarabethbelon.com.
+
+Parameters:
+  AmplifyAppId:
+    Type: String
+  GitHubBranch:
+    Type: String
+    Default: main
+  DomainName:
+    Type: String
+    Default: sarabethbelon.com
+  AssociateDomain:
+    Type: String
+    Default: "true"
+    AllowedValues:
+      - "true"
+      - "false"
+
+Conditions:
+  EnableDomainAssociation: !Equals [!Ref AssociateDomain, "true"]
+
+Resources:
+  ProductionDomainAssociation:
+    Type: AWS::Amplify::Domain
+    Condition: EnableDomainAssociation
+    Properties:
+      AppId: !Ref AmplifyAppId
+      DomainName: !Ref DomainName
+      EnableAutoSubDomain: false
+      SubDomainSettings:
+        - BranchName: !Ref GitHubBranch
+          Prefix: ""
+        - BranchName: !Ref GitHubBranch
+          Prefix: www
+
+Outputs:
+  DomainAssociationArn:
+    Condition: EnableDomainAssociation
+    Value: !GetAtt ProductionDomainAssociation.Arn
+  DomainStatus:
+    Condition: EnableDomainAssociation
+    Value: !GetAtt ProductionDomainAssociation.DomainStatus
+  DomainUpdateStatus:
+    Condition: EnableDomainAssociation
+    Value: !GetAtt ProductionDomainAssociation.UpdateStatus
+  CertificateRecord:
+    Condition: EnableDomainAssociation
+    Value: !GetAtt ProductionDomainAssociation.CertificateRecord

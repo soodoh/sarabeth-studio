@@ -1,5 +1,6 @@
 import {
 	SES,
+	type SESClientConfig,
 	type SendEmailCommandInput,
 	type SendEmailCommandOutput,
 } from "@aws-sdk/client-ses";
@@ -72,14 +73,15 @@ const readJsonBody = async (request: Request): Promise<unknown> => {
 	return JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(body));
 };
 
-const createEmailSender = (): EmailSender => {
-	const client = new SES({
-		region: "us-west-2",
-		credentials: {
-			accessKeyId: process.env.AWS_ACCESS ?? "",
-			secretAccessKey: process.env.AWS_SECRET ?? "",
-		},
-	});
+type SesClientFactory = (configuration: SESClientConfig) => EmailSender;
+
+const createSesClient: SesClientFactory = (configuration) =>
+	new SES(configuration);
+
+export const createEmailSender = (
+	clientFactory: SesClientFactory = createSesClient,
+): EmailSender => {
+	const client = clientFactory({ region: "us-west-2" });
 	return {
 		sendEmail: (input) => client.sendEmail(input),
 	};

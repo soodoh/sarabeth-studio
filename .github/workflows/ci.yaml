@@ -1,0 +1,250 @@
+name: CI and production deployment
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.13
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Lint
+        run: bun run lint
+
+      - name: Type-check
+        run: bun run typecheck
+
+      - name: Build deterministic CI target
+        run: bun run build:playwright
+
+      - name: Run Playwright tests
+        run: docker compose -f compose.playwright.yaml run --build --rm playwright
+
+      - name: Upload Playwright diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-test-results-${{ github.run_attempt }}
+          path: test-results
+          if-no-files-found: ignore
+          retention-days: 14
+
+  deploy:
+    name: Deploy production
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    concurrency:
+      group: amplify-production
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      AWS_REGION: us-west-2
+      AMPLIFY_APP_ID: ${{ vars.AMPLIFY_APP_ID }}
+      AMPLIFY_BRANCH: main
+      DEPLOYMENT_URL: ${{ vars.AMPLIFY_PRODUCTION_URL }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.13
+
+      - name: Install deployment tools
+        run: bun install --frozen-lockfile
+
+      - name: Check whether this commit was superseded
+        id: freshness
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          latest_sha=$(gh api "repos/${GITHUB_REPOSITORY}/commits/main" --jq .sha)
+          if [[ "$latest_sha" == "$GITHUB_SHA" ]]; then
+            echo "superseded=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "superseded=true" >> "$GITHUB_OUTPUT"
+            echo "Skipping $GITHUB_SHA because main now points to $latest_sha"
+          fi
+
+      - name: Configure production AWS credentials
+        if: steps.freshness.outputs.superseded == 'false'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AMPLIFY_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+          role-session-name: sarabeth-amplify-release
+
+      - name: Record previous successful release
+        if: steps.freshness.outputs.superseded == 'false'
+        id: previous
+        run: |
+          previous=$(aws amplify list-jobs \
+            --app-id "$AMPLIFY_APP_ID" \
+            --branch-name "$AMPLIFY_BRANCH" \
+            --max-results 50 \
+            --query 'jobSummaries[?status==`SUCCEED`] | [0].[jobId,commitId]' \
+            --output text)
+          if [[ -n "$previous" && "$previous" != "None" ]]; then
+            read -r previous_job previous_commit <<< "$previous"
+            echo "job_id=$previous_job" >> "$GITHUB_OUTPUT"
+            echo "commit_id=$previous_commit" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Start Amplify release
+        if: steps.freshness.outputs.superseded == 'false'
+        id: release
+        run: |
+          job=$(aws amplify start-job \
+            --app-id "$AMPLIFY_APP_ID" \
+            --branch-name "$AMPLIFY_BRANCH" \
+            --job-type RELEASE \
+            --job-reason "GitHub Actions release $GITHUB_SHA" \
+            --query 'jobSummary.[jobId,commitId]' \
+            --output text)
+          read -r job_id commit_id <<< "$job"
+          echo "job_id=$job_id" >> "$GITHUB_OUTPUT"
+          if [[ "$commit_id" != "$GITHUB_SHA" ]]; then
+            aws amplify stop-job \
+              --app-id "$AMPLIFY_APP_ID" \
+              --branch-name "$AMPLIFY_BRANCH" \
+              --job-id "$job_id" >/dev/null
+            echo "Stopped Amplify job $job_id because it selected superseding commit $commit_id" >&2
+            exit 1
+          fi
+
+      - name: Wait for matching Amplify release
+        if: steps.freshness.outputs.superseded == 'false'
+        id: release_wait
+        continue-on-error: true
+        run: scripts/wait-for-amplify-job.sh "$AMPLIFY_APP_ID" "$AMPLIFY_BRANCH" "${{ steps.release.outputs.job_id }}" "$GITHUB_SHA" 1800
+
+      - name: Run non-sending functional smoke tests
+        if: steps.freshness.outputs.superseded == 'false' && steps.release_wait.outcome == 'success'
+        id: functional_smoke
+        continue-on-error: true
+        run: bun scripts/smoke-deployment.ts "$DEPLOYMENT_URL"
+
+      - name: Restore previous successful release
+        if: steps.freshness.outputs.superseded == 'false' && (steps.release_wait.outcome == 'failure' || steps.functional_smoke.outcome == 'failure')
+        env:
+          PREVIOUS_JOB_ID: ${{ steps.previous.outputs.job_id }}
+          PREVIOUS_COMMIT_ID: ${{ steps.previous.outputs.commit_id }}
+        run: |
+          failed_job_id="${{ steps.release.outputs.job_id }}"
+          failed_status=$(aws amplify get-job \
+            --app-id "$AMPLIFY_APP_ID" \
+            --branch-name "$AMPLIFY_BRANCH" \
+            --job-id "$failed_job_id" \
+            --query 'job.summary.status' \
+            --output text)
+          case "$failed_status" in
+            CREATED | PENDING | PROVISIONING | RUNNING | CANCELLING)
+              aws amplify stop-job \
+                --app-id "$AMPLIFY_APP_ID" \
+                --branch-name "$AMPLIFY_BRANCH" \
+                --job-id "$failed_job_id" >/dev/null
+              for _ in {1..20}; do
+                failed_status=$(aws amplify get-job \
+                  --app-id "$AMPLIFY_APP_ID" \
+                  --branch-name "$AMPLIFY_BRANCH" \
+                  --job-id "$failed_job_id" \
+                  --query 'job.summary.status' \
+                  --output text)
+                [[ "$failed_status" == "CANCELLED" || "$failed_status" == "FAILED" || "$failed_status" == "SUCCEED" ]] && break
+                sleep 15
+              done
+              ;;
+          esac
+          if [[ "$failed_status" != "CANCELLED" && "$failed_status" != "FAILED" && "$failed_status" != "SUCCEED" ]]; then
+            echo "Refusing rollback while Amplify job $failed_job_id remains $failed_status" >&2
+            exit 1
+          fi
+          if [[ -z "$PREVIOUS_JOB_ID" || -z "$PREVIOUS_COMMIT_ID" ]]; then
+            echo "Release validation failed, but no previous successful release exists" >&2
+            exit 1
+          fi
+          rollback_job=$(aws amplify start-job \
+            --app-id "$AMPLIFY_APP_ID" \
+            --branch-name "$AMPLIFY_BRANCH" \
+            --job-type RETRY \
+            --job-id "$PREVIOUS_JOB_ID" \
+            --job-reason "Automatic rollback after release validation failure for $GITHUB_SHA" \
+            --query 'jobSummary.jobId' \
+            --output text)
+          scripts/wait-for-amplify-job.sh \
+            "$AMPLIFY_APP_ID" \
+            "$AMPLIFY_BRANCH" \
+            "$rollback_job" \
+            "$PREVIOUS_COMMIT_ID" \
+            1800
+          bun scripts/smoke-deployment.ts "$DEPLOYMENT_URL"
+
+      - name: Fail after release rollback
+        if: steps.freshness.outputs.superseded == 'false' && (steps.release_wait.outcome == 'failure' || steps.functional_smoke.outcome == 'failure')
+        run: |
+          echo "Release validation failed; the previous successful Amplify release was restored when available" >&2
+          exit 1
+
+      - name: Run mobile Lighthouse CI
+        if: steps.freshness.outputs.superseded == 'false' && steps.functional_smoke.outcome == 'success'
+        id: lhci_mobile
+        continue-on-error: true
+        env:
+          LHCI_BASE_URL: ${{ env.DEPLOYMENT_URL }}
+          LHCI_FORM_FACTOR: mobile
+        run: bunx lhci autorun --config=lighthouserc.cjs
+
+      - name: Run desktop Lighthouse CI
+        if: steps.freshness.outputs.superseded == 'false' && steps.functional_smoke.outcome == 'success'
+        id: lhci_desktop
+        continue-on-error: true
+        env:
+          LHCI_BASE_URL: ${{ env.DEPLOYMENT_URL }}
+          LHCI_FORM_FACTOR: desktop
+        run: bunx lhci autorun --config=lighthouserc.cjs
+
+      - name: Upload Lighthouse reports
+        if: always() && steps.freshness.outputs.superseded == 'false' && steps.functional_smoke.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-${{ github.sha }}-${{ github.run_attempt }}
+          path: .lighthouseci
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Enforce Lighthouse baseline policy
+        if: steps.freshness.outputs.superseded == 'false' && steps.functional_smoke.outcome == 'success' && (steps.lhci_mobile.outcome == 'failure' || steps.lhci_desktop.outcome == 'failure')
+        run: |
+          echo "Lighthouse regressed below the measured Netlify baseline policy; no rollback was triggered" >&2
+          exit 1

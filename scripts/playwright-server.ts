@@ -15,10 +15,6 @@ for (const key of forwardedEnvironment) {
 	if (value !== undefined) environment[key] = value;
 }
 const port = process.argv[2] ?? "3000";
-environment.AWS_ACCESS = "playwright-disabled";
-environment.AWS_SECRET = "playwright-disabled";
-environment.CONTENTFUL_ACCESS_TOKEN = "playwright-disabled";
-environment.CONTENTFUL_SPACE_ID = "playwright-disabled";
 environment.HOST = "127.0.0.1";
 environment.NODE_ENV = "production";
 environment.PORT = port;

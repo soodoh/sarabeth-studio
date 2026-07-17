@@ -43,4 +43,5 @@
 ## Security & Configuration Tips
 
 - Keep secrets in `.env` only; never commit credentials.
-- Required environment variables include server-only Contentful keys (`CONTENTFUL_SPACE_ID`, `CONTENTFUL_ACCESS_TOKEN`) and SES credentials (`AWS_ACCESS`, `AWS_SECRET`).
+- Production builds require server-only Contentful values (`CONTENTFUL_SPACE_ID`, `CONTENTFUL_ACCESS_TOKEN`). Amplify retrieves them from AWS Secrets Manager during `preBuild`; never expose them to browser code or commit them.
+- The contact endpoint uses the AWS SDK default credential provider chain. In Amplify, permissions come only from the compute IAM role; do not add static AWS access-key environment variables.

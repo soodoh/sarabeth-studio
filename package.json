@@ -25,6 +25,8 @@
 		"dev": "vite --port 3000",
 		"build": "tsc --noEmit && vite build",
 		"build:playwright": "tsc --noEmit && vite build --config vite.playwright.config.ts",
+		"prepare:amplify": "bun scripts/prepare-amplify-bundle.ts",
+		"validate:amplify": "bun scripts/validate-amplify-bundle.ts",
 		"start": "node .output/server/index.mjs",
 		"preview": "vite preview",
 		"typecheck": "tsc --noEmit",
@@ -33,7 +35,8 @@
 		"contentful:snapshot": "bun scripts/record-contentful-snapshot.ts",
 		"test:e2e": "playwright test --update-snapshots=none",
 		"test:e2e:update": "playwright test --update-snapshots",
-		"test:ci": "bun run lint && bun run test:e2e",
+		"test:deployment-scripts": "tests/scripts/wait-for-amplify-job.sh",
+		"test:ci": "bun run lint && bun run test:deployment-scripts && bun run test:e2e",
 		"prepare": "lefthook install"
 	},
 	"dependencies": {
@@ -64,7 +67,7 @@
 		"@commitlint/cli": "^21.2.1",
 		"@commitlint/config-conventional": "^21.2.0",
 		"@commitlint/types": "^21.2.0",
-		"@netlify/plugin-lighthouse": "^6.0.4",
+		"@lhci/cli": "0.15.1",
 		"@playwright/test": "1.61.0",
 		"@tailwindcss/vite": "^4.3.2",
 		"@types/node": "26.1.1",

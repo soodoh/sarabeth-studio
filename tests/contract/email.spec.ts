@@ -1,11 +1,16 @@
 import type {
+	SESClientConfig,
 	SendEmailCommandInput,
 	SendEmailCommandOutput,
 } from "@aws-sdk/client-ses";
 import { expect, test } from "@playwright/test";
 import { postEmailRequest } from "@/src/routes/api.email";
 import { emailFieldLimits } from "@/utils/email";
-import { type EmailSender, handleEmailRequest } from "@/utils/email.server";
+import {
+	createEmailSender,
+	type EmailSender,
+	handleEmailRequest,
+} from "@/utils/email.server";
 
 const emailData = {
 	name: "Test Singer",
@@ -29,6 +34,22 @@ const binaryRequest = (body: Uint8Array): Request =>
 		headers: { "Content-Type": "application/json" },
 		body: Uint8Array.from(body).buffer,
 	});
+
+test("configures SES to use the default AWS credential provider chain", () => {
+	let clientConfiguration: SESClientConfig | undefined;
+	const sender = createEmailSender((configuration) => {
+		clientConfiguration = configuration;
+		return {
+			sendEmail: async (): Promise<SendEmailCommandOutput> => ({
+				MessageId: "test-message",
+				$metadata: {},
+			}),
+		};
+	});
+
+	expect(sender.sendEmail).toEqual(expect.any(Function));
+	expect(clientConfiguration).toEqual({ region: "us-west-2" });
+});
 
 const createTrackingSender = (): {
 	sender: EmailSender;

@@ -2,17 +2,27 @@ import { createClient } from "contentful";
 import { createImageFormatter } from "@/utils/contentful-assets";
 import { getPlaceholder } from "./image.server";
 
-const space = process.env.CONTENTFUL_SPACE_ID;
-const accessToken = process.env.CONTENTFUL_ACCESS_TOKEN;
+type ContentfulClient = ReturnType<
+	typeof createClient
+>["withoutUnresolvableLinks"];
 
-if (!space || !accessToken) {
-	throw new Error("Missing Contentful environment variables");
-}
+let client: ContentfulClient | undefined;
 
-export const client = createClient({
-	space,
-	accessToken,
-}).withoutUnresolvableLinks;
+export const getContentfulClient = (): ContentfulClient => {
+	if (client) return client;
+
+	const space = process.env.CONTENTFUL_SPACE_ID;
+	const accessToken = process.env.CONTENTFUL_ACCESS_TOKEN;
+	if (!space || !accessToken) {
+		throw new Error("Missing Contentful build environment variables");
+	}
+
+	client = createClient({
+		space,
+		accessToken,
+	}).withoutUnresolvableLinks;
+	return client;
+};
 export const formatImage = createImageFormatter(getPlaceholder);
 export type { ImageFormatter } from "@/utils/contentful-assets";
 export {

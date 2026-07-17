@@ -1,0 +1,441 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Production AWS Amplify Hosting, IAM, Contentful secret, deployment role, and monitoring for sarabeth-studio.
+
+Parameters:
+  GitHubOwner:
+    Type: String
+    Default: soodoh
+  GitHubRepository:
+    Type: String
+    Default: sarabeth-studio
+  GitHubBranch:
+    Type: String
+    Default: main
+  GitHubOidcProviderArn:
+    Type: String
+    Description: ARN output from the bootstrap stack.
+  WorkloadPermissionsBoundaryArn:
+    Type: String
+    Description: Workload-role boundary ARN output from the bootstrap stack.
+  GitHubAccessToken:
+    Type: String
+    NoEcho: true
+    Default: ""
+    Description: Temporary GitHub token used only when creating the Amplify GitHub App connection.
+  NotificationEmail:
+    Type: String
+    Default: paul@diloreto.com
+  ContentfulSecretName:
+    Type: String
+    Default: sarabeth-studio/production/contentful
+  WebhookRotationVersion:
+    Type: String
+    Default: "2"
+    Description: Increment only to rotate the CMS build webhook URL.
+
+Conditions:
+  HasGitHubAccessToken: !Not [!Equals [!Ref GitHubAccessToken, ""]]
+
+Resources:
+  ContentfulSecret:
+    Type: AWS::SecretsManager::Secret
+    DeletionPolicy: RetainExceptOnCreate
+    UpdateReplacePolicy: Retain
+    Properties:
+      Name: !Ref ContentfulSecretName
+      Description: Build-only Contentful credentials for the sarabeth-studio production build.
+      Tags:
+        - Key: Project
+          Value: sarabeth-studio
+        - Key: Environment
+          Value: production
+
+  AmplifyServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: sarabeth-amplify-service
+      Description: Allows Amplify builds to read Contentful and deliver SSR logs.
+      PermissionsBoundary: !Ref WorkloadPermissionsBoundaryArn
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: amplify.amazonaws.com
+            Action: sts:AssumeRole
+            Condition:
+              ArnLike:
+                aws:SourceArn: !Sub arn:${AWS::Partition}:amplify:${AWS::Region}:${AWS::AccountId}:apps/*
+              StringEquals:
+                aws:SourceAccount: !Ref AWS::AccountId
+      Policies:
+        - PolicyName: ContentfulBuildSecretAndSsrLogs
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: ReadContentfulBuildSecret
+                Effect: Allow
+                Action:
+                  - secretsmanager:DescribeSecret
+                  - secretsmanager:GetSecretValue
+                Resource: !Ref ContentfulSecret
+              - Sid: DescribeAmplifyLogGroups
+                Effect: Allow
+                Action: logs:DescribeLogGroups
+                Resource: "*"
+              - Sid: CreateAmplifyLogGroups
+                Effect: Allow
+                Action: logs:CreateLogGroup
+                Resource: !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/amplify/*
+              - Sid: WriteAmplifyLogs
+                Effect: Allow
+                Action:
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/amplify/*:log-stream:*
+
+  AmplifyComputeRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: sarabeth-amplify-compute-main
+      Description: Least-privilege SES access for the production Amplify compute branch.
+      PermissionsBoundary: !Ref WorkloadPermissionsBoundaryArn
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: amplify.amazonaws.com
+            Action: sts:AssumeRole
+            Condition:
+              ArnLike:
+                aws:SourceArn: !Sub ${AmplifyApp.Arn}/branches/${GitHubBranch}
+              StringEquals:
+                aws:SourceAccount: !Ref AWS::AccountId
+      Policies:
+        - PolicyName: SendContactEmail
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: ses:SendEmail
+                Resource: !Sub arn:${AWS::Partition}:ses:${AWS::Region}:${AWS::AccountId}:identity/sarabethbelon.com
+                Condition:
+                  StringEquals:
+                    ses:FromAddress: contact@sarabethbelon.com
+
+  AmplifyApp:
+    Type: AWS::Amplify::App
+    Properties:
+      Name: sarabeth-studio-production
+      Description: Production TanStack Start application for sarabethbelon.com.
+      Repository: !Sub https://github.com/${GitHubOwner}/${GitHubRepository}
+      AccessToken: !If
+        - HasGitHubAccessToken
+        - !Ref GitHubAccessToken
+        - !Ref AWS::NoValue
+      Platform: WEB_COMPUTE
+      IAMServiceRole: !GetAtt AmplifyServiceRole.Arn
+      EnableBranchAutoDeletion: false
+      CustomHeaders: |
+        customHeaders:
+          - pattern: "**/*"
+            headers:
+              - key: "Strict-Transport-Security"
+                value: "max-age=31536000"
+              - key: "X-Content-Type-Options"
+                value: "nosniff"
+              - key: "Referrer-Policy"
+                value: "strict-origin-when-cross-origin"
+      CustomRules:
+        - Source: https://www.sarabethbelon.com/<*>
+          Target: https://sarabethbelon.com/<*>
+          Status: "301"
+      Tags:
+        - Key: Project
+          Value: sarabeth-studio
+        - Key: Environment
+          Value: production
+
+  MainBranch:
+    Type: AWS::Amplify::Branch
+    Properties:
+      AppId: !GetAtt AmplifyApp.AppId
+      BranchName: !Ref GitHubBranch
+      Description: Production branch; releases are started only after GitHub Actions CI succeeds.
+      ComputeRoleArn: !GetAtt AmplifyComputeRole.Arn
+      EnableAutoBuild: false
+      EnablePerformanceMode: false
+      EnablePullRequestPreview: false
+      EnableSkewProtection: false
+      Framework: TanStack Start
+      Stage: PRODUCTION
+      EnvironmentVariables:
+        - Name: CONTENTFUL_SECRET_ID
+          Value: !Ref ContentfulSecret
+      Tags:
+        - Key: Project
+          Value: sarabeth-studio
+        - Key: Environment
+          Value: production
+
+  WebhookCustomResourceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: sarabeth-amplify-webhook-provider
+      PermissionsBoundary: !Ref WorkloadPermissionsBoundaryArn
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: ManageContentfulAmplifyWebhook
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - amplify:CreateWebhook
+                  - amplify:DeleteWebhook
+                  - amplify:GetWebhook
+                  - amplify:UpdateWebhook
+                Resource:
+                  - !GetAtt AmplifyApp.Arn
+                  - !Sub ${AmplifyApp.Arn}/*
+                  - !Sub arn:${AWS::Partition}:amplify:${AWS::Region}:${AWS::AccountId}:webhooks/*
+              - Effect: Allow
+                Action: logs:CreateLogGroup
+                Resource: !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/sarabeth-amplify-webhook-custom-resource
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/sarabeth-amplify-webhook-custom-resource:*
+
+  WebhookCustomResourceFunction:
+    Type: AWS::Lambda::Function
+    DependsOn: WebhookCustomResourceLogGroup
+    Properties:
+      FunctionName: sarabeth-amplify-webhook-custom-resource
+      Description: CloudFormation provider for the Amplify CMS build webhook.
+      Runtime: python3.13
+      Handler: index.handler
+      Role: !GetAtt WebhookCustomResourceRole.Arn
+      Timeout: 60
+      Code:
+        ZipFile: |
+          import boto3
+          import json
+          import urllib.request
+
+          amplify = boto3.client("amplify")
+
+          def respond(event, context, status, physical_id, data, reason=None):
+              body = json.dumps({
+                  "Status": status,
+                  "Reason": reason or f"See CloudWatch log stream {context.log_stream_name}",
+                  "PhysicalResourceId": physical_id,
+                  "StackId": event["StackId"],
+                  "RequestId": event["RequestId"],
+                  "LogicalResourceId": event["LogicalResourceId"],
+                  "NoEcho": False,
+                  "Data": data,
+              }).encode()
+              request = urllib.request.Request(
+                  event["ResponseURL"],
+                  data=body,
+                  method="PUT",
+                  headers={"content-type": "", "content-length": str(len(body))},
+              )
+              urllib.request.urlopen(request).read()
+
+          def handler(event, context):
+              physical_id = event.get("PhysicalResourceId", context.log_stream_name)
+              try:
+                  properties = event["ResourceProperties"]
+                  request_type = event["RequestType"]
+                  if request_type == "Delete":
+                      if event.get("PhysicalResourceId"):
+                          try:
+                              amplify.delete_webhook(webhookId=event["PhysicalResourceId"])
+                          except amplify.exceptions.NotFoundException:
+                              pass
+                      respond(event, context, "SUCCESS", physical_id, {})
+                      return
+                  rotate = (
+                      request_type == "Update"
+                      and event.get("OldResourceProperties", {}).get("RotationVersion")
+                      != properties.get("RotationVersion")
+                  )
+                  if request_type == "Update" and event.get("PhysicalResourceId") and not rotate:
+                      result = amplify.update_webhook(
+                          webhookId=event["PhysicalResourceId"],
+                          branchName=properties["BranchName"],
+                          description=properties["Description"],
+                      )["webhook"]
+                  else:
+                      result = amplify.create_webhook(
+                          appId=properties["AppId"],
+                          branchName=properties["BranchName"],
+                          description=properties["Description"],
+                      )["webhook"]
+                  physical_id = result["webhookId"]
+                  respond(event, context, "SUCCESS", physical_id, {
+                      "WebhookUrl": result["webhookUrl"],
+                      "WebhookArn": result["webhookArn"],
+                  })
+              except Exception as error:
+                  respond(event, context, "FAILED", physical_id, {}, str(error))
+
+  WebhookCustomResourceLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: RetainExceptOnCreate
+    UpdateReplacePolicy: Retain
+    Properties:
+      LogGroupName: /aws/lambda/sarabeth-amplify-webhook-custom-resource
+      RetentionInDays: 14
+
+  ContentfulBuildWebhook:
+    Type: Custom::AmplifyWebhook
+    Properties:
+      ServiceToken: !GetAtt WebhookCustomResourceFunction.Arn
+      AppId: !GetAtt AmplifyApp.AppId
+      BranchName: !GetAtt MainBranch.BranchName
+      Description: Contentful publish and unpublish production rebuilds.
+      RotationVersion: !Ref WebhookRotationVersion
+
+  AmplifyComputeLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: RetainExceptOnCreate
+    UpdateReplacePolicy: Retain
+    Properties:
+      LogGroupName: !Sub /aws/amplify/${AmplifyApp.AppId}/${GitHubBranch}
+      RetentionInDays: 30
+      Tags:
+        - Key: Project
+          Value: sarabeth-studio
+        - Key: Environment
+          Value: production
+
+  AlarmTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: sarabeth-amplify-production-alarms
+      DisplayName: Sarabeth Amplify production alarms
+      Tags:
+        - Key: Project
+          Value: sarabeth-studio
+
+  AlarmEmailSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      TopicArn: !Ref AlarmTopic
+      Protocol: email
+      Endpoint: !Ref NotificationEmail
+
+  Amplify5xxAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: sarabeth-amplify-production-5xx
+      AlarmDescription: Amplify Hosting returned one or more 5xx responses in five minutes.
+      Namespace: AWS/AmplifyHosting
+      MetricName: 5xxErrors
+      Dimensions:
+        - Name: App
+          Value: !GetAtt AmplifyApp.AppId
+      Statistic: Sum
+      Period: 300
+      EvaluationPeriods: 1
+      DatapointsToAlarm: 1
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
+      AlarmActions:
+        - !Ref AlarmTopic
+      OKActions:
+        - !Ref AlarmTopic
+
+  AmplifyLatencyAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: sarabeth-amplify-production-latency
+      AlarmDescription: Amplify Hosting average time to first byte exceeded five seconds twice.
+      Namespace: AWS/AmplifyHosting
+      MetricName: Latency
+      Dimensions:
+        - Name: App
+          Value: !GetAtt AmplifyApp.AppId
+      Statistic: Average
+      Unit: Seconds
+      Period: 300
+      EvaluationPeriods: 2
+      DatapointsToAlarm: 2
+      Threshold: 5
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: notBreaching
+      AlarmActions:
+        - !Ref AlarmTopic
+      OKActions:
+        - !Ref AlarmTopic
+
+  RoutineDeploymentRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: sarabeth-amplify-deploy-main
+      Description: GitHub Actions role restricted to production releases of this Amplify app.
+      PermissionsBoundary: !Ref WorkloadPermissionsBoundaryArn
+      MaxSessionDuration: 3600
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !Ref GitHubOidcProviderArn
+            Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              StringEquals:
+                token.actions.githubusercontent.com:aud: sts.amazonaws.com
+                token.actions.githubusercontent.com:sub: !Sub repo:${GitHubOwner}/${GitHubRepository}:ref:refs/heads/${GitHubBranch}
+      Policies:
+        - PolicyName: ReleaseSpecificAmplifyApp
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - amplify:GetApp
+                  - amplify:GetBranch
+                  - amplify:GetJob
+                  - amplify:ListJobs
+                  - amplify:StartJob
+                  - amplify:StopJob
+                Resource:
+                  - !GetAtt AmplifyApp.Arn
+                  - !Sub ${AmplifyApp.Arn}/*
+
+Outputs:
+  AmplifyAppId:
+    Value: !GetAtt AmplifyApp.AppId
+  AmplifyAppArn:
+    Value: !GetAtt AmplifyApp.Arn
+  AmplifyDefaultDomain:
+    Value: !GetAtt AmplifyApp.DefaultDomain
+  AmplifyBranchUrl:
+    Value: !Sub https://${GitHubBranch}.${AmplifyApp.DefaultDomain}
+  AmplifyServiceRoleArn:
+    Value: !GetAtt AmplifyServiceRole.Arn
+  AmplifyComputeRoleArn:
+    Value: !GetAtt AmplifyComputeRole.Arn
+  RoutineDeploymentRoleArn:
+    Value: !GetAtt RoutineDeploymentRole.Arn
+  ContentfulSecretArn:
+    Value: !Ref ContentfulSecret
+  ContentfulWebhookUrl:
+    Value: !GetAtt ContentfulBuildWebhook.WebhookUrl
+  AlarmTopicArn:
+    Value: !Ref AlarmTopic
+  ComputeLogGroupName:
+    Value: !Ref AmplifyComputeLogGroup

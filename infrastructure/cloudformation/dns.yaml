@@ -1,0 +1,147 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Clean Route 53 production zone for sarabethbelon.com, initially retaining Netlify web targets.
+
+Parameters:
+  DomainName:
+    Type: String
+    Default: sarabethbelon.com
+  NetlifyIPv4Addresses:
+    Type: CommaDelimitedList
+    Default: 13.52.188.95,52.52.192.191
+    Description: Refresh from authoritative Netlify DNS immediately before applying or updating this stack.
+  NetlifyIPv6Addresses:
+    Type: CommaDelimitedList
+    Default: 2600:1f1c:446:4900::258,2600:1f1c:446:4900::259
+    Description: Refresh from authoritative Netlify DNS immediately before applying or updating this stack.
+  WebRecordTtl:
+    Type: Number
+    Default: 60
+    MinValue: 60
+    Description: Lowered ahead of cutover; email and verification TTLs remain unchanged.
+  WebTarget:
+    Type: String
+    Default: Netlify
+    AllowedValues:
+      - Netlify
+      - Amplify
+    Description: Netlify retains explicit web records; Amplify removes them so the domain association can manage its aliases.
+
+Conditions:
+  UseNetlifyWebTarget: !Equals [!Ref WebTarget, Netlify]
+
+Resources:
+  ProductionHostedZone:
+    Type: AWS::Route53::HostedZone
+    Properties:
+      Name: !Ref DomainName
+      HostedZoneConfig:
+        Comment: Production authoritative zone managed by sarabeth-studio CloudFormation.
+      HostedZoneTags:
+        - Key: Project
+          Value: sarabeth-studio
+        - Key: Environment
+          Value: production
+
+  ApexIPv4:
+    Type: AWS::Route53::RecordSet
+    Condition: UseNetlifyWebTarget
+    Properties:
+      HostedZoneId: !Ref ProductionHostedZone
+      Name: !Ref DomainName
+      Type: A
+      TTL: !Ref WebRecordTtl
+      ResourceRecords: !Ref NetlifyIPv4Addresses
+
+  ApexIPv6:
+    Type: AWS::Route53::RecordSet
+    Condition: UseNetlifyWebTarget
+    Properties:
+      HostedZoneId: !Ref ProductionHostedZone
+      Name: !Ref DomainName
+      Type: AAAA
+      TTL: !Ref WebRecordTtl
+      ResourceRecords: !Ref NetlifyIPv6Addresses
+
+  WwwIPv4:
+    Type: AWS::Route53::RecordSet
+    Condition: UseNetlifyWebTarget
+    Properties:
+      HostedZoneId: !Ref ProductionHostedZone
+      Name: !Sub www.${DomainName}
+      Type: A
+      TTL: !Ref WebRecordTtl
+      ResourceRecords: !Ref NetlifyIPv4Addresses
+
+  WwwIPv6:
+    Type: AWS::Route53::RecordSet
+    Condition: UseNetlifyWebTarget
+    Properties:
+      HostedZoneId: !Ref ProductionHostedZone
+      Name: !Sub www.${DomainName}
+      Type: AAAA
+      TTL: !Ref WebRecordTtl
+      ResourceRecords: !Ref NetlifyIPv6Addresses
+
+  MailFromMx:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref ProductionHostedZone
+      Name: !Sub mail.${DomainName}
+      Type: MX
+      TTL: 3600
+      ResourceRecords:
+        - 10 feedback-smtp.us-west-2.amazonses.com
+
+  MailFromSpf:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref ProductionHostedZone
+      Name: !Sub mail.${DomainName}
+      Type: TXT
+      TTL: 3600
+      ResourceRecords:
+        - '"v=spf1 include:amazonses.com ~all"'
+
+  DkimOne:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref ProductionHostedZone
+      Name: !Sub cdvixypkuk3bhikurkjjlpzhtdyvkxlu._domainkey.${DomainName}
+      Type: CNAME
+      TTL: 3600
+      ResourceRecords:
+        - cdvixypkuk3bhikurkjjlpzhtdyvkxlu.dkim.amazonses.com
+
+  DkimTwo:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref ProductionHostedZone
+      Name: !Sub f53nvk4kwn642ycmamvoee6qw4ukhofb._domainkey.${DomainName}
+      Type: CNAME
+      TTL: 3600
+      ResourceRecords:
+        - f53nvk4kwn642ycmamvoee6qw4ukhofb.dkim.amazonses.com
+
+  DkimThree:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref ProductionHostedZone
+      Name: !Sub y7w6a6ou2nzlwdzd4dfkci5wxmkydzir._domainkey.${DomainName}
+      Type: CNAME
+      TTL: 3600
+      ResourceRecords:
+        - y7w6a6ou2nzlwdzd4dfkci5wxmkydzir.dkim.amazonses.com
+
+Outputs:
+  HostedZoneId:
+    Value: !Ref ProductionHostedZone
+  HostedZoneName:
+    Value: !Ref DomainName
+  HostedZoneNameServers:
+    Value: !Join [",", !GetAtt ProductionHostedZone.NameServers]
+  NetlifyWebIPv4:
+    Value: !Join [",", !Ref NetlifyIPv4Addresses]
+  NetlifyWebIPv6:
+    Value: !Join [",", !Ref NetlifyIPv6Addresses]
+  WebTarget:
+    Value: !Ref WebTarget

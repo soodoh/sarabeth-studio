@@ -6,11 +6,13 @@ bun-debug.log*
 
 # testing
 /coverage
+/.lighthouseci/
 /playwright-report
 /test-results
 
 # generated application output
 /.output/
+/.amplify-hosting/
 
 # production
 /build

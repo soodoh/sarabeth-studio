@@ -1,0 +1,165 @@
+name: Apply production infrastructure
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply_domain:
+        description: Apply the approval-gated Amplify domain association
+        required: true
+        default: false
+        type: boolean
+      rollback_to_netlify:
+        description: Remove the Amplify domain association and restore Netlify web records
+        required: true
+        default: false
+        type: boolean
+      cutover_confirmation:
+        description: Enter APPROVAL_GATE_1_CONFIRMED when apply_domain is true
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  cloudformation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    environment: production-infrastructure
+    concurrency:
+      group: sarabeth-production-infrastructure
+      cancel-in-progress: false
+    env:
+      AWS_REGION: us-west-2
+      EXPECTED_AWS_ACCOUNT: "015989770400"
+      CLOUDFORMATION_EXECUTION_ROLE_ARN: ${{ vars.CLOUDFORMATION_EXECUTION_ROLE_ARN }}
+      OIDC_PROVIDER_ARN: ${{ vars.OIDC_PROVIDER_ARN }}
+      WORKLOAD_PERMISSIONS_BOUNDARY_ARN: ${{ vars.WORKLOAD_PERMISSIONS_BOUNDARY_ARN }}
+      AMPLIFY_APP_ID: ${{ vars.AMPLIFY_APP_ID }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Configure protected infrastructure credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.INFRASTRUCTURE_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+          role-session-name: sarabeth-amplify-infrastructure
+
+      - name: Verify production account
+        run: |
+          account=$(aws sts get-caller-identity --query Account --output text)
+          if [[ "$account" != "$EXPECTED_AWS_ACCOUNT" ]]; then
+            echo "Refusing to mutate unexpected AWS account $account" >&2
+            exit 1
+          fi
+
+      - name: Validate CloudFormation templates
+        run: |
+          for template in infrastructure/cloudformation/*.yaml; do
+            aws cloudformation validate-template --template-body "file://$template" >/dev/null
+          done
+
+      - name: Apply hosting stack
+        run: |
+          aws cloudformation deploy \
+            --stack-name sarabeth-amplify-hosting \
+            --template-file infrastructure/cloudformation/hosting.yaml \
+            --capabilities CAPABILITY_NAMED_IAM \
+            --role-arn "$CLOUDFORMATION_EXECUTION_ROLE_ARN" \
+            --parameter-overrides \
+              GitHubOidcProviderArn="$OIDC_PROVIDER_ARN" \
+              WorkloadPermissionsBoundaryArn="$WORKLOAD_PERMISSIONS_BOUNDARY_ARN" \
+            --no-fail-on-empty-changeset \
+            --tags Project=sarabeth-studio Environment=production
+
+      - name: Verify domain operation
+        env:
+          CUTOVER_CONFIRMATION: ${{ inputs.cutover_confirmation }}
+        run: |
+          if [[ "${{ inputs.apply_domain }}" == "true" && "${{ inputs.rollback_to_netlify }}" == "true" ]]; then
+            echo "apply_domain and rollback_to_netlify are mutually exclusive" >&2
+            exit 1
+          fi
+          if [[ "${{ inputs.apply_domain }}" == "true" && "$CUTOVER_CONFIRMATION" != "APPROVAL_GATE_1_CONFIRMED" ]]; then
+            echo "Domain association requires approval gate 1 confirmation" >&2
+            exit 1
+          fi
+
+      - name: Remove Amplify domain association before rollback
+        if: inputs.rollback_to_netlify
+        run: |
+          aws cloudformation deploy \
+            --stack-name sarabeth-amplify-domain \
+            --template-file infrastructure/cloudformation/domain.yaml \
+            --role-arn "$CLOUDFORMATION_EXECUTION_ROLE_ARN" \
+            --parameter-overrides \
+              AmplifyAppId="$AMPLIFY_APP_ID" \
+              AssociateDomain=false \
+            --no-fail-on-empty-changeset \
+            --tags Project=sarabeth-studio Environment=production
+
+      - name: Apply DNS stack without changing delegation
+        run: |
+          parameter_overrides=()
+          if [[ "${{ inputs.apply_domain }}" == "true" ]]; then
+            parameter_overrides=(--parameter-overrides WebTarget=Amplify)
+          elif [[ "${{ inputs.rollback_to_netlify }}" == "true" ]]; then
+            parameter_overrides=(--parameter-overrides WebTarget=Netlify)
+          fi
+          aws cloudformation deploy \
+            --stack-name sarabeth-amplify-dns \
+            --template-file infrastructure/cloudformation/dns.yaml \
+            --role-arn "$CLOUDFORMATION_EXECUTION_ROLE_ARN" \
+            "${parameter_overrides[@]}" \
+            --no-fail-on-empty-changeset \
+            --tags Project=sarabeth-studio Environment=production
+
+      - name: Preserve core stacks from accidental deletion
+        run: |
+          for stack in sarabeth-amplify-hosting sarabeth-amplify-dns; do
+            aws cloudformation update-termination-protection \
+              --enable-termination-protection \
+              --stack-name "$stack" >/dev/null
+          done
+
+      - name: Apply approval-gated domain association
+        if: inputs.apply_domain
+        id: domain_association
+        continue-on-error: true
+        run: |
+          aws cloudformation deploy \
+            --stack-name sarabeth-amplify-domain \
+            --template-file infrastructure/cloudformation/domain.yaml \
+            --role-arn "$CLOUDFORMATION_EXECUTION_ROLE_ARN" \
+            --parameter-overrides \
+              AmplifyAppId="$AMPLIFY_APP_ID" \
+              AssociateDomain=true \
+            --no-fail-on-empty-changeset \
+            --tags Project=sarabeth-studio Environment=production
+
+      - name: Restore Netlify records after domain failure
+        if: inputs.apply_domain && steps.domain_association.outcome == 'failure'
+        run: |
+          aws cloudformation deploy \
+            --stack-name sarabeth-amplify-dns \
+            --template-file infrastructure/cloudformation/dns.yaml \
+            --role-arn "$CLOUDFORMATION_EXECUTION_ROLE_ARN" \
+            --parameter-overrides WebTarget=Netlify \
+            --no-fail-on-empty-changeset \
+            --tags Project=sarabeth-studio Environment=production
+
+      - name: Fail after domain rollback
+        if: inputs.apply_domain && steps.domain_association.outcome == 'failure'
+        run: |
+          echo "Domain association failed; Netlify web records were restored" >&2
+          exit 1
+
+      - name: Preserve domain stack from accidental deletion
+        if: inputs.apply_domain || inputs.rollback_to_netlify
+        run: |
+          aws cloudformation update-termination-protection \
+            --enable-termination-protection \
+            --stack-name sarabeth-amplify-domain >/dev/null
