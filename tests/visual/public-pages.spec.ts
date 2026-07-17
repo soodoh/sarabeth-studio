@@ -9,52 +9,53 @@ const pages = [
 ] as const;
 
 const waitForHomeAnimations = async (page: Page): Promise<void> => {
-	await page.evaluate(async () => {
-		const nextFrame = async (): Promise<void> => {
-			await new Promise<void>((resolve) =>
-				requestAnimationFrame(() => resolve()),
-			);
-		};
-		const pageBottom =
-			document.documentElement.scrollHeight - window.innerHeight;
-		const scrollStep = Math.max(window.innerHeight * 0.75, 1);
-
-		for (
-			let scrollPosition = 0;
-			scrollPosition < pageBottom;
-			scrollPosition += scrollStep
-		) {
-			window.scrollTo(0, scrollPosition);
-			await nextFrame();
-			await nextFrame();
+	const reveals = page.locator('[data-slot="home-reveal"]');
+	for (let index = 0; index < (await reveals.count()); index += 1) {
+		const reveal = reveals.nth(index);
+		await reveal.scrollIntoViewIfNeeded();
+		await expect(reveal).toHaveAttribute("style", /opacity:\s*1/);
+		await expect(reveal).toHaveCSS("opacity", "1");
+	}
+	await reveals.evaluateAll((elements) => {
+		for (const element of elements) {
+			for (const animation of element.getAnimations()) {
+				animation.cancel();
+			}
 		}
-		window.scrollTo(0, pageBottom);
-		await nextFrame();
-		await nextFrame();
+	});
+	await page.addStyleTag({
+		content: '[data-slot="home-reveal"] { opacity: 1 !important; }',
+	});
+	const viewport = page.viewportSize();
+	if (!viewport) {
+		throw new Error("Home visual test requires a viewport");
+	}
+	const fullHeight = await page.evaluate(
+		() => document.documentElement.scrollHeight,
+	);
+	await page.setViewportSize({ width: viewport.width, height: fullHeight });
+	await page.evaluate(() => window.scrollTo(0, 0));
+};
 
+const waitForImages = async (page: Page): Promise<void> => {
+	await page.evaluate(async () => {
+		const images = [...document.images].filter(
+			(image) => !image.closest('[aria-hidden="true"]'),
+		);
 		await Promise.all(
-			document.getAnimations().map(async (animation) => {
+			images.map(async (image) => {
+				image.loading = "eager";
 				try {
-					await animation.finished;
+					await image.decode();
 				} catch {
-					// A replaced animation is complete for screenshot purposes.
+					throw new Error(`Image failed to decode: ${image.currentSrc}`);
+				}
+				if (!image.complete || image.naturalWidth === 0) {
+					throw new Error(`Image failed to load: ${image.currentSrc}`);
 				}
 			}),
 		);
-		window.scrollTo(0, 0);
 	});
-
-	await expect
-		.poll(() =>
-			page
-				.locator('[style*="opacity"]')
-				.evaluateAll((elements) =>
-					elements.every(
-						(element) => getComputedStyle(element).opacity === "1",
-					),
-				),
-		)
-		.toBe(true);
 };
 
 const preparePage = async (page: Page, path: string): Promise<void> => {
@@ -65,22 +66,8 @@ const preparePage = async (page: Page, path: string): Promise<void> => {
 		});
 	});
 	await page.goto(path, { waitUntil: "networkidle" });
-	await page.evaluate(async () => {
-		await document.fonts.ready;
-		const images = [...document.images].filter(
-			(image) => !image.closest('[aria-hidden="true"]'),
-		);
-		await Promise.all(
-			images.map(async (image) => {
-				if (!image.complete) {
-					await new Promise<void>((resolve) => {
-						image.addEventListener("load", () => resolve(), { once: true });
-						image.addEventListener("error", () => resolve(), { once: true });
-					});
-				}
-			}),
-		);
-	});
+	await page.evaluate(() => document.fonts.ready);
+	await waitForImages(page);
 };
 
 for (const pageDefinition of pages) {
@@ -88,9 +75,12 @@ for (const pageDefinition of pages) {
 		await preparePage(page, pageDefinition.path);
 		if (pageDefinition.name === "home") {
 			await waitForHomeAnimations(page);
+			await waitForImages(page);
 		}
 		await expect(page).toHaveScreenshot(`${pageDefinition.name}.png`, {
+			animations: pageDefinition.name === "home" ? "allow" : "disabled",
 			fullPage: true,
+			timeout: 15_000,
 		});
 	});
 }

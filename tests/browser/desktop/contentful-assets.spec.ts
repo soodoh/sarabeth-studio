@@ -11,6 +11,17 @@ test("renders production-shaped transformed Contentful image URLs", async ({
 	expect(sourceSet).toContain("images.ctfassets.net");
 	expect(sourceSet).toMatch(/[?&]w=\d+/);
 	expect(sourceSet?.split(",").length).toBeGreaterThan(1);
+	expect(await image.getAttribute("sizes")).toContain("30vw");
+	await expect
+		.poll(() =>
+			image.evaluate(
+				(element) =>
+					element instanceof HTMLImageElement &&
+					element.complete &&
+					element.naturalWidth > 0,
+			),
+		)
+		.toBe(true);
 });
 
 test("keeps audio on its Contentful URL without a production proxy", async ({

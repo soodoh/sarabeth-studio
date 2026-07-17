@@ -32,7 +32,12 @@ function AboutPage(): JSX.Element {
 	return (
 		<WidthContainer className="mb-16 grid grid-cols-[30%_1fr] gap-16 max-sm:grid-cols-1">
 			<div className="max-sm:max-w-[300px]">
-				<StyledImage overlayDirection="right" image={headshot} priority />
+				<StyledImage
+					overlayDirection="right"
+					image={headshot}
+					priority
+					sizes="(max-width: 379px) calc(100vw - 5rem), (max-width: 699px) 300px, (max-width: 1199px) 30vw, 336px"
+				/>
 			</div>
 			<div className="leading-7 [&_h1]:text-[3rem] [&_h1]:leading-[3.5rem] [&_p]:mb-8">
 				{documentToReactComponents(bio)}

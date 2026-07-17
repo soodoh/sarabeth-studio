@@ -48,6 +48,33 @@ test.beforeEach(async ({ page }) => {
 	await page.goto("/media");
 });
 
+test("lazy-loads the video player", async ({ page }) => {
+	await expect(page.getByTitle("YouTube video player")).toHaveAttribute(
+		"loading",
+		"lazy",
+	);
+});
+
+test("provides high-density photo candidates", async ({ page }) => {
+	const image = page
+		.getByRole("region", { name: "Photo gallery" })
+		.getByRole("img")
+		.first();
+	const box = await image.boundingBox();
+	const sourceSet = await image.getAttribute("srcset");
+	if (!box || !sourceSet) {
+		throw new Error("The first gallery image must be visible and responsive");
+	}
+	const candidateWidths = sourceSet.split(",").flatMap((candidate) => {
+		const width = candidate.trim().match(/ (\d+)w$/)?.[1];
+		return width ? [Number(width)] : [];
+	});
+	const displayWidth = Math.round(box.width);
+
+	expect(candidateWidths).toContain(displayWidth);
+	expect(Math.max(...candidateWidths)).toBeGreaterThanOrEqual(displayWidth * 2);
+});
+
 test("moves the photo carousel forwards and backwards with arrows", async ({
 	page,
 }) => {

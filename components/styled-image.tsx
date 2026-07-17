@@ -7,15 +7,17 @@ type Props = {
 	overlayDirection: "left" | "right";
 	image: ImageType;
 	priority?: boolean;
+	sizes?: string;
 };
 
 const StyledImage = ({
 	overlayDirection,
 	priority,
 	image,
+	sizes,
 }: Props): JSX.Element => (
 	<OffsetShadow direction={overlayDirection} type="image">
-		<ImageWrapper image={image} priority={priority} sizes="100vw" />
+		<ImageWrapper image={image} priority={priority} sizes={sizes} />
 	</OffsetShadow>
 );
 

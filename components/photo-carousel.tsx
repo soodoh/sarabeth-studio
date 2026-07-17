@@ -47,6 +47,14 @@ const PhotoCarousel = ({ images }: { images: ImageType[] }): JSX.Element => {
 			<CarouselContent className="h-full">
 				{images.map((image, index) => {
 					const { aspectRatio, height, width } = getImageDimensions(image);
+					const displayWidth = Math.max(
+						1,
+						Math.min(width, 1200, Math.round(aspectRatio * 560)),
+					);
+					const candidateWidth = Math.min(width, displayWidth * 2);
+					const breakpoints = [
+						...new Set([displayWidth, ...getImageBreakpoints(candidateWidth)]),
+					].sort((first, second) => first - second);
 					return (
 						<CarouselItem
 							key={image.id}
@@ -62,13 +70,13 @@ const PhotoCarousel = ({ images }: { images: ImageType[] }): JSX.Element => {
 								}}
 							>
 								<Image
-									priority={index < 2}
+									priority={index === 0}
 									alt={image.description}
-									breakpoints={getImageBreakpoints(width)}
+									breakpoints={breakpoints}
 									className="h-full w-full object-contain"
 									height={height}
 									layout="fixed"
-									sizes="100vw"
+									sizes={`(max-width: ${displayWidth}px) 100vw, ${displayWidth}px`}
 									src={image.url}
 									transformer={transformImageUrl}
 									unstyled

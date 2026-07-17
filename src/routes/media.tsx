@@ -39,6 +39,7 @@ function MediaPage(): JSX.Element {
 				<iframe
 					src="https://www.youtube.com/embed/videoseries?list=PL2ucJM2n3hm_c0L7-_dAnJ_Kajde66Id1"
 					title="YouTube video player"
+					loading="lazy"
 					style={{ border: 0 }}
 					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 					allowFullScreen

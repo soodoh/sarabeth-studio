@@ -6,6 +6,7 @@ import Label from "@/components/ui/label";
 import Textarea from "@/components/ui/textarea";
 import WidthContainer from "@/components/width-container";
 import { brandButtonClasses, cn } from "@/lib/utils";
+import { emailFieldLimits, isValidEmailField } from "@/utils/email";
 import type { EmailData } from "@/utils/types";
 
 type SendState = "success" | "fail" | undefined;
@@ -16,6 +17,7 @@ type TextFieldProps = {
 	error: boolean;
 	loading: boolean;
 	errorMessage: string;
+	maxLength: number;
 	onChange: (value: string) => void;
 };
 
@@ -26,12 +28,13 @@ type MessageFieldProps = {
 	onChange: (value: string) => void;
 };
 
-const isInvalid = (values: Partial<EmailData>): boolean => {
-	if (values.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
-		return true;
-	}
-	return Object.values(values).some((value) => !value);
-};
+const isInvalid = (values: Partial<EmailData>): boolean =>
+	(values.name !== undefined && !isValidEmailField("name", values.name)) ||
+	(values.email !== undefined && !isValidEmailField("email", values.email)) ||
+	(values.subject !== undefined &&
+		!isValidEmailField("subject", values.subject)) ||
+	(values.message !== undefined &&
+		!isValidEmailField("message", values.message));
 
 const fieldClasses = "py-2.5 text-base font-sans";
 
@@ -44,6 +47,7 @@ const ContactTextField = ({
 	error,
 	loading,
 	errorMessage,
+	maxLength,
 	onChange,
 }: TextFieldProps): JSX.Element => (
 	<div className="my-4 w-[60%] max-sm:w-full">
@@ -56,8 +60,9 @@ const ContactTextField = ({
 				name={id}
 				id={id}
 				disabled={loading}
+				maxLength={maxLength}
 				onChange={(event) => onChange(event.target.value)}
-				type="text"
+				type={id === "Email" ? "email" : "text"}
 				value={value}
 				aria-invalid={error}
 				aria-required="true"
@@ -96,6 +101,7 @@ const ContactMessageField = ({
 				name="Message"
 				id="Message"
 				disabled={loading}
+				maxLength={emailFieldLimits.message}
 				onChange={(event) => onChange(event.target.value)}
 				value={value}
 				aria-invalid={error}
@@ -144,19 +150,26 @@ const ContactContent = (): JSX.Element => {
 		}
 
 		setLoading(true);
-		const response = await fetch("/api/email", {
-			method: "POST",
-			body: JSON.stringify(data),
-		});
-		if (response.status === 200) {
+		setSendState(undefined);
+		try {
+			const response = await fetch("/api/email", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(data),
+			});
+			if (!response.ok) {
+				setSendState("fail");
+				return;
+			}
+
 			setShowErrors(false);
 			resetForm();
 			setSendState("success");
-		} else {
-			await response.json();
+		} catch {
 			setSendState("fail");
+		} finally {
+			setLoading(false);
 		}
-		setLoading(false);
 	};
 
 	const nameError = showErrors && isInvalid({ name });
@@ -168,8 +181,8 @@ const ContactContent = (): JSX.Element => {
 		<WidthContainer className="flex flex-col [&>h1]:mx-auto [&>h1]:my-16">
 			{sendState === "success" && <h1>Message successfully sent!</h1>}
 			{sendState === "fail" && <h1>Message failed to send</h1>}
-			{!sendState && (
-				<form onSubmit={submit}>
+			{sendState !== "success" && (
+				<form onSubmit={submit} noValidate>
 					<ContactTextField
 						id="Name"
 						value={name}
@@ -177,6 +190,7 @@ const ContactContent = (): JSX.Element => {
 						loading={loading}
 						onChange={setName}
 						errorMessage='"Name" is a required field'
+						maxLength={emailFieldLimits.name}
 					/>
 					<ContactTextField
 						id="Email"
@@ -185,6 +199,7 @@ const ContactContent = (): JSX.Element => {
 						loading={loading}
 						onChange={setEmail}
 						errorMessage="Please enter a valid email"
+						maxLength={emailFieldLimits.email}
 					/>
 					<ContactTextField
 						id="Subject"
@@ -193,6 +208,7 @@ const ContactContent = (): JSX.Element => {
 						loading={loading}
 						onChange={setSubject}
 						errorMessage='"Subject" is a required field'
+						maxLength={emailFieldLimits.subject}
 					/>
 					<ContactMessageField
 						value={message}

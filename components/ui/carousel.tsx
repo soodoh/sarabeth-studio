@@ -104,7 +104,8 @@ function Carousel({
 		emblaApi.on("select", onSelect);
 
 		return () => {
-			emblaApi?.off("select", onSelect);
+			emblaApi.off("reInit", onSelect);
+			emblaApi.off("select", onSelect);
 		};
 	}, [emblaApi, onSelect]);
 

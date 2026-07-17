@@ -13,4 +13,4 @@ COPY . .
 
 ENV CI=1
 
-CMD ["bun", "run", "test:e2e"]
+CMD ["bun", "run", "test:ci"]

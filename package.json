@@ -33,6 +33,7 @@
 		"contentful:snapshot": "bun scripts/record-contentful-snapshot.ts",
 		"test:e2e": "playwright test --update-snapshots=none",
 		"test:e2e:update": "playwright test --update-snapshots",
+		"test:ci": "bun run lint && bun run test:e2e",
 		"prepare": "lefthook install"
 	},
 	"dependencies": {
