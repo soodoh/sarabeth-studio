@@ -137,6 +137,7 @@ Resources:
                   - iam:TagRole
                   - iam:UntagRole
                   - iam:UpdateRole
+                  - iam:UpdateRoleDescription
                   - iam:UpdateAssumeRolePolicy
                   - iam:PutRolePolicy
                   - iam:GetRolePolicy

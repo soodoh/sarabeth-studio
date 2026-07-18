@@ -128,6 +128,19 @@ test("keeps infrastructure credentials valid beyond the job timeout", () => {
 	expect(credentials).toContain("role-duration-seconds: 14400");
 });
 
+test("allows CloudFormation to update bounded role descriptions", () => {
+	const executionRole = extractYamlBlock(
+		bootstrapTemplate,
+		"CloudFormationExecutionRole:",
+	);
+	const roleManagement = extractYamlBlock(
+		executionRole,
+		"- Sid: ManageBoundedWorkloadRoles",
+	);
+
+	expect(roleManagement).toContain("iam:UpdateRoleDescription");
+});
+
 test("restores Netlify DNS before removing the Amplify association", () => {
 	const dnsStep = "- name: Apply DNS stack without changing delegation";
 	const removalStep =
