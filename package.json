@@ -81,6 +81,6 @@
 		"tailwindcss": "^4.3.3",
 		"typescript": "^7.0.2",
 		"vite": "^8.1.5",
-		"yaml": "2.8.2"
+		"yaml": "2.9.0"
 	}
 }
