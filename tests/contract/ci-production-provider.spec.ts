@@ -126,6 +126,38 @@ test("bootstraps last-known-good state from a validated live deployment", () => 
 	);
 });
 
+test("stages the Contentful SSM parameter without removing the existing secret", () => {
+	const serviceRole = extractYamlBlock(hostingTemplate, "AmplifyServiceRole:");
+	const mainBranch = extractYamlBlock(hostingTemplate, "MainBranch:");
+	const parameterBoundary = extractYamlBlock(
+		bootstrapTemplate,
+		"- Sid: ContentfulBuildParameter",
+	);
+	const hostingDeployment = extractYamlBlock(
+		infrastructureWorkflow,
+		"- name: Apply hosting stack",
+	);
+	const parameterName = "/sarabeth-studio/production/contentful/access-token";
+
+	for (const policy of [serviceRole, parameterBoundary]) {
+		expect(policy).toContain("ssm:GetParameter");
+		expect(policy).not.toContain("ssm:PutParameter");
+	}
+	expect(serviceRole).toContain(
+		`parameter\${ContentfulAccessTokenParameterName}`,
+	);
+	expect(parameterBoundary).toContain(parameterName.slice(1));
+	expect(mainBranch).toContain("CONTENTFUL_SECRET_ID");
+	expect(mainBranch).toContain("CONTENTFUL_SPACE_ID");
+	expect(mainBranch).toContain("CONTENTFUL_ACCESS_TOKEN_PARAMETER");
+	expect(infrastructureWorkflow).toContain(
+		`CONTENTFUL_SPACE_ID: \${{ vars.CONTENTFUL_SPACE_ID }}`,
+	);
+	expect(hostingDeployment).toContain(
+		'ContentfulSpaceId="$CONTENTFUL_SPACE_ID"',
+	);
+});
+
 test("builds the production provider graph with only external boundaries replaced", () => {
 	const buildStep = extractYamlBlock(
 		ciWorkflow,

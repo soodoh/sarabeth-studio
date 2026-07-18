@@ -59,6 +59,10 @@ Resources:
               - secretsmanager:DescribeSecret
               - secretsmanager:GetSecretValue
             Resource: !Sub arn:${AWS::Partition}:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:sarabeth-studio/production/*
+          - Sid: ContentfulBuildParameter
+            Effect: Allow
+            Action: ssm:GetParameter
+            Resource: !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/sarabeth-studio/production/contentful/access-token
           - Sid: ContactEmail
             Effect: Allow
             Action: ses:SendEmail

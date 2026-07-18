@@ -28,6 +28,15 @@ Parameters:
   ContentfulSecretName:
     Type: String
     Default: sarabeth-studio/production/contentful
+  ContentfulSpaceId:
+    Type: String
+    MinLength: 1
+    Description: Non-secret Contentful space identifier used during production builds.
+  ContentfulAccessTokenParameterName:
+    Type: String
+    Default: /sarabeth-studio/production/contentful/access-token
+    AllowedPattern: ^/sarabeth-studio/production/contentful/access-token$
+    Description: SSM SecureString parameter containing the build-only Contentful Delivery API token.
   WebhookRotationVersion:
     Type: String
     Default: "2"
@@ -79,6 +88,10 @@ Resources:
                   - secretsmanager:DescribeSecret
                   - secretsmanager:GetSecretValue
                 Resource: !Ref ContentfulSecret
+              - Sid: ReadContentfulBuildParameter
+                Effect: Allow
+                Action: ssm:GetParameter
+                Resource: !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter${ContentfulAccessTokenParameterName}
               - Sid: VerifyAmplifyBuildSource
                 Effect: Allow
                 Action: amplify:GetJob
@@ -221,6 +234,10 @@ Resources:
       EnvironmentVariables:
         - Name: CONTENTFUL_SECRET_ID
           Value: !Ref ContentfulSecret
+        - Name: CONTENTFUL_SPACE_ID
+          Value: !Ref ContentfulSpaceId
+        - Name: CONTENTFUL_ACCESS_TOKEN_PARAMETER
+          Value: !Ref ContentfulAccessTokenParameterName
         - Name: EMAIL_RATE_LIMIT_TABLE
           Value: !Ref EmailRateLimitTable
       Tags:
@@ -489,6 +506,8 @@ Outputs:
     Value: !GetAtt RoutineDeploymentRole.Arn
   ContentfulSecretArn:
     Value: !Ref ContentfulSecret
+  ContentfulAccessTokenParameterName:
+    Value: !Ref ContentfulAccessTokenParameterName
   ContentfulWebhookUrl:
     Value: !GetAtt ContentfulBuildWebhook.WebhookUrl
   AlarmTopicArn:

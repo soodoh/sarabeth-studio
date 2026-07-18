@@ -37,6 +37,7 @@ jobs:
       OIDC_PROVIDER_ARN: ${{ vars.OIDC_PROVIDER_ARN }}
       WORKLOAD_PERMISSIONS_BOUNDARY_ARN: ${{ vars.WORKLOAD_PERMISSIONS_BOUNDARY_ARN }}
       AMPLIFY_APP_ID: ${{ vars.AMPLIFY_APP_ID }}
+      CONTENTFUL_SPACE_ID: ${{ vars.CONTENTFUL_SPACE_ID }}
     steps:
       - name: Check out repository
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -87,6 +88,7 @@ jobs:
             --parameter-overrides \
               GitHubOidcProviderArn="$OIDC_PROVIDER_ARN" \
               WorkloadPermissionsBoundaryArn="$WORKLOAD_PERMISSIONS_BOUNDARY_ARN" \
+              ContentfulSpaceId="$CONTENTFUL_SPACE_ID" \
             --no-fail-on-empty-changeset \
             --tags Project=sarabeth-studio Environment=production
 
