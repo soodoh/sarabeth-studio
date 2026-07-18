@@ -40,18 +40,18 @@
 		"prepare": "lefthook install"
 	},
 	"dependencies": {
-		"@aws-sdk/client-ses": "^3.1085.0",
+		"@aws-sdk/client-ses": "^3.1090.0",
 		"@contentful/rich-text-react-renderer": "^16.2.1",
 		"@contentful/rich-text-types": "^17.2.7",
 		"@tanstack/react-router": "^1.170.18",
-		"@tanstack/react-start": "^1.168.28",
+		"@tanstack/react-start": "^1.168.30",
 		"@tanstack/start-static-server-functions": "1.167.19",
 		"@unpic/react": "^1.0.2",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"contentful": "^11.12.7",
 		"embla-carousel-react": "^8.6.0",
-		"lucide-react": "^1.24.0",
+		"lucide-react": "^1.25.0",
 		"motion": "^12.42.2",
 		"nitro": "^3.0.260610-beta",
 		"radix-ui": "^1.6.2",
@@ -63,19 +63,19 @@
 		"unpic": "^4.2.2"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.5.3",
+		"@biomejs/biome": "^2.5.4",
 		"@commitlint/cli": "^21.2.1",
 		"@commitlint/config-conventional": "^21.2.0",
 		"@commitlint/types": "^21.2.0",
 		"@lhci/cli": "0.15.1",
-		"@playwright/test": "1.61.0",
-		"@tailwindcss/vite": "^4.3.2",
+		"@playwright/test": "1.61.1",
+		"@tailwindcss/vite": "^4.3.3",
 		"@types/node": "26.1.1",
 		"@types/react": "^19.2.17",
 		"@vitejs/plugin-react": "^6.0.3",
 		"lefthook": "^2.1.10",
-		"tailwindcss": "^4.3.2",
-		"typescript": "^6.0.3",
-		"vite": "^8.1.4"
+		"tailwindcss": "^4.3.3",
+		"typescript": "^7.0.2",
+		"vite": "^8.1.5"
 	}
 }
