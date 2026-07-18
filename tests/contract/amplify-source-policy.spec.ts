@@ -22,6 +22,10 @@ const repositoryRoot = dirname(
 const verifierPath = fileURLToPath(
 	new URL("../../scripts/verify-amplify-source.ts", import.meta.url),
 );
+const ciWorkflow = readFileSync(
+	new URL("../../.github/workflows/ci.yaml", import.meta.url),
+	"utf8",
+);
 const actualCommit = "b".repeat(40);
 const differentCommit = "a".repeat(40);
 const newerCommit = "c".repeat(40);
@@ -114,6 +118,9 @@ test("classifies only the CI release marker as a release", () => {
 	expect(classifyAmplifyJob(actualCommit, "Published by Contentful")).toBe(
 		"WEB_HOOK",
 	);
+	expect(ciWorkflow).toContain(
+		'--commit-message "GitHub Actions release $GITHUB_SHA"',
+	);
 });
 
 test("executes the real source verifier without repository Git metadata", () => {
@@ -185,14 +192,24 @@ test("loads only the Contentful access token from SSM during preBuild", () => {
 	);
 	const commands: unknown[] =
 		amplifyConfiguration.frontend.phases.preBuild.commands;
-	const parameterCommand = commands.find(
+	const parameterCommands = commands.filter(
 		(command) =>
 			typeof command === "string" && command.includes("aws ssm get-parameter"),
 	);
+	const typeCommand = parameterCommands.find(
+		(command) =>
+			typeof command === "string" && command.includes("Parameter.Type"),
+	);
+	const valueCommand = parameterCommands.find(
+		(command) =>
+			typeof command === "string" && command.includes("Parameter.Value"),
+	);
 
-	expect(parameterCommand).toContain("CONTENTFUL_ACCESS_TOKEN_PARAMETER");
-	expect(parameterCommand).toContain("--with-decryption");
-	expect(parameterCommand).toContain("CONTENTFUL_ACCESS_TOKEN");
+	expect(typeCommand).toContain("CONTENTFUL_ACCESS_TOKEN_PARAMETER");
+	expect(typeCommand).toContain('= "SecureString"');
+	expect(valueCommand).toContain("CONTENTFUL_ACCESS_TOKEN_PARAMETER");
+	expect(valueCommand).toContain("--with-decryption");
+	expect(valueCommand).toContain("CONTENTFUL_ACCESS_TOKEN");
 	expect(commands.join("\n")).not.toContain("secretsmanager");
 	expect(commands.join("\n")).not.toContain("CONTENTFUL_SECRET_ID");
 });

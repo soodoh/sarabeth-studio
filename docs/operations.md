@@ -26,7 +26,7 @@ Termination protection is enabled on the bootstrap, hosting, and DNS stacks. The
 
 The GitHub repository authorization token is temporary. Read it from the authenticated `gh` process into a mode-0600 temporary file or standard input, pass it only to the `NoEcho` stack parameter during initial app creation, and securely remove the temporary file immediately afterward. Amplify uses the token to authorize its GitHub App and does not store it.
 
-CloudFormation cannot create an SSM `SecureString`, so bootstrap the build-only Contentful Delivery API token separately before applying the hosting stack. Store only the token in the standard parameter and configure the non-secret space ID as the protected environment's `CONTENTFUL_SPACE_ID` GitHub variable. Never pass the token through CloudFormation or an Amplify environment variable.
+CloudFormation cannot create an SSM `SecureString`, so bootstrap the build-only Contentful Delivery API token separately before applying the hosting stack. Store only the token in the standard parameter and configure the non-secret space ID as the repository-level `CONTENTFUL_SPACE_ID` GitHub variable. Never pass the token through CloudFormation or an Amplify environment variable.
 
 ```bash
 umask 077
@@ -94,9 +94,9 @@ Do not add `--overwrite` to this bootstrap command. A concurrent creation must f
 
 ## CMS rebuilds
 
-A CloudFormation custom resource manages the Amplify build webhook because CloudFormation has no native `AWS::Amplify::Webhook` resource. Its URL is configured in Contentful through a temporary Management API token. Publish and unpublish events invoke the webhook and start a production build on `main`. Webhook rotation creates the replacement first and returns a new physical ID; CloudFormation deletes the old webhook only after the replacement succeeds. The token is needed only to configure or rotate the Contentful webhook and must not be stored in Amplify, GitHub, or CloudFormation.
+A CloudFormation custom resource manages the Amplify build webhook because CloudFormation has no native `AWS::Amplify::Webhook` resource. Its URL is configured in Contentful through a temporary Management API token. Publish and unpublish events invoke the webhook and start a production build on `main`. The token is needed only to configure or rotate the Contentful webhook and must not be stored in Amplify, GitHub, or CloudFormation.
 
-To test the integration, trigger one controlled Contentful publish/unpublish event, record the resulting Amplify job ID and commit, wait for success, then restore the entry if necessary. Do not include the webhook URL in public logs even though it is not an AWS credential.
+Changing `WebhookRotationVersion` replaces the Amplify webhook and CloudFormation deletes the old endpoint during the same stack update. Rotation is therefore a controlled maintenance operation, not a zero-downtime update: freeze Contentful publishing, apply the reviewed rotation, read the new `ContentfulWebhookUrl` stack output without logging it, replace the endpoint in Contentful using a temporary Management API token, trigger one controlled publish/unpublish event, verify the resulting Amplify job and commit, then unfreeze publishing and revoke the temporary token. Disaster recovery uses the same endpoint-restoration sequence. Do not include either webhook URL in public logs even though it is not an AWS credential.
 
 ## Rollback
 
@@ -121,7 +121,7 @@ Inspect stack events before taking action. For `UPDATE_ROLLBACK_FAILED`, repair 
 
 ### DNS rollback before Netlify deletion
 
-Before cutover, record the exact Netlify apex and `www` answers and the registrar's four NS values. If production validation fails while Netlify remains available, dispatch the protected infrastructure workflow with `rollback_to_netlify=true`. It first declaratively restores the captured Netlify A/AAAA records, then removes the Amplify domain association so a later failure cannot leave DNS pointing at a detached target. Wait for TTL expiry and rerun the status/header/visual checks. Do not delete the Netlify site or zone until approval gate 2. A failed domain-association deployment uses the same DNS-first recovery order before failing the workflow.
+Before cutover, record the exact Netlify apex and `www` answers and the registrar's four NS values. If production validation fails while Netlify remains available, dispatch the protected infrastructure workflow with `rollback_to_netlify=true`. The rollback path skips unrelated hosting-stack updates, first declaratively restores the captured Netlify A/AAAA records, then removes the Amplify domain association so a later failure cannot leave DNS pointing at a detached target. Wait for TTL expiry and rerun the status/header/visual checks. Do not delete the Netlify site or zone until approval gate 2. A failed domain-association deployment uses the same DNS-first recovery order before failing the workflow.
 
 If Route 53 delegation itself causes mail or web failure before the Amplify domain is attached, restore the registrar nameservers to:
 
@@ -167,13 +167,18 @@ Amplify compute uses its least-privilege IAM role and the AWS SDK default creden
 
 The Contentful space ID is not secret; update the `CONTENTFUL_SPACE_ID` GitHub variable and reapply the hosting stack only if the site moves to another Contentful space. No runtime restart is needed because Contentful credentials are build-only. Rotate the temporary Contentful Management token and GitHub authorization token by revoking them after their one-time use.
 
+### One-time Secrets Manager migration cleanup
+
+After both a CI release and a Contentful webhook rebuild succeed using SSM, verify no Amplify environment variable or IAM policy references Secrets Manager. With a break-glass administrator, schedule deletion of the retained `sarabeth-studio/production/contentful` secret using at least a seven-day recovery window; never force-delete it. Revoke the superseded Delivery API key in Contentful after the SSM-backed builds pass, and confirm the new key remains active.
+
 ## Disaster recovery
 
-- Recreate AWS resources from the CloudFormation templates in the verified production account. Bootstrap is applied manually; hosting/DNS/domain changes use the protected workflow after bootstrap.
+- Recreate AWS resources from the CloudFormation templates in the verified production account. Bootstrap and initial hosting-app creation are manual break-glass change sets; subsequent hosting updates and DNS/domain changes use the protected workflow.
 - The SSM SecureString is managed outside CloudFormation and the fixed-name log groups are retained on normal stack deletion. Preserve or deliberately delete them during recovery rather than assuming stack deletion removed them.
-- Restore `/sarabeth-studio/production/contentful/access-token` through an out-of-band mode-0600 file.
-- Reauthorize the Amplify GitHub App with a temporary token and repopulate GitHub repository variables from stack outputs, including the non-secret `CONTENTFUL_SPACE_ID` value.
+- Restore `/sarabeth-studio/production/contentful/access-token` through an out-of-band mode-0600 file. Recover the non-secret Contentful space ID from Contentful space settings or separately recorded configuration, set the repository-level `CONTENTFUL_SPACE_ID` variable, and pass that value as `ContentfulSpaceId` during initial hosting creation.
+- Initial Amplify app recreation is a break-glass manual hosting-stack change set, not a protected workflow dispatch: provide the temporary GitHub authorization token to the `NoEcho` `GitHubAccessToken` parameter through a mode-0600 CLI input file, inspect the change set, execute it, and securely remove the file. Use the protected infrastructure workflow only after the app exists and its output-derived GitHub variables have been restored.
 - Restore Route 53 records from the sanitized inventory and current stack template, never from copied SOA/NS records.
+- Read the new `ContentfulWebhookUrl` stack output without logging it, replace the endpoint in Contentful with a temporary Management API token while publishing is frozen, trigger and verify one controlled rebuild, then revoke the token.
 - Trigger a `main` release, validate the default Amplify URL, then attach the domain.
 - If Amplify is unavailable while the retained Netlify site still exists, use the documented pre-decommission DNS rollback. After Netlify deletion, restore a previously validated source revision through `main` or recreate the app from CloudFormation.
 

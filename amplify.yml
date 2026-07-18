@@ -11,6 +11,7 @@ frontend:
         - export AMPLIFY_JOB_MESSAGE="$(aws amplify get-job --app-id "$AWS_APP_ID" --branch-name "$AWS_BRANCH" --job-id "$AWS_JOB_ID" --query 'job.summary.commitMessage' --output text)"
         - bun scripts/verify-amplify-source.ts
         - unset AMPLIFY_JOB_COMMIT AMPLIFY_JOB_MESSAGE
+        - test "$(aws ssm get-parameter --name "$CONTENTFUL_ACCESS_TOKEN_PARAMETER" --query 'Parameter.Type' --output text)" = "SecureString"
         - export CONTENTFUL_ACCESS_TOKEN="$(aws ssm get-parameter --name "$CONTENTFUL_ACCESS_TOKEN_PARAMETER" --with-decryption --query 'Parameter.Value' --output text)"
         - test -n "$CONTENTFUL_SPACE_ID" && test "$CONTENTFUL_SPACE_ID" != "undefined"
         - test -n "$CONTENTFUL_ACCESS_TOKEN" && test "$CONTENTFUL_ACCESS_TOKEN" != "undefined"

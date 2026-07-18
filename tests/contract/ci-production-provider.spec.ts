@@ -128,6 +128,7 @@ test("bootstraps last-known-good state from a validated live deployment", () => 
 
 test("grants build-only access to the Contentful SSM parameter", () => {
 	const serviceRole = extractYamlBlock(hostingTemplate, "AmplifyServiceRole:");
+	const computeRole = extractYamlBlock(hostingTemplate, "AmplifyComputeRole:");
 	const mainBranch = extractYamlBlock(hostingTemplate, "MainBranch:");
 	const parameterBoundary = extractYamlBlock(
 		bootstrapTemplate,
@@ -143,10 +144,10 @@ test("grants build-only access to the Contentful SSM parameter", () => {
 		expect(policy).toContain("ssm:GetParameter");
 		expect(policy).not.toContain("ssm:PutParameter");
 	}
-	expect(serviceRole).toContain(
-		`parameter\${ContentfulAccessTokenParameterName}`,
-	);
+	expect(serviceRole).toContain(parameterName.slice(1));
 	expect(parameterBoundary).toContain(parameterName.slice(1));
+	expect(computeRole).not.toContain("ssm:GetParameter");
+	expect(computeRole).not.toContain(parameterName.slice(1));
 	expect(mainBranch).toContain("CONTENTFUL_SPACE_ID");
 	expect(mainBranch).toContain("CONTENTFUL_ACCESS_TOKEN_PARAMETER");
 	expect(infrastructureWorkflow).toContain(
@@ -154,6 +155,9 @@ test("grants build-only access to the Contentful SSM parameter", () => {
 	);
 	expect(hostingDeployment).toContain(
 		'ContentfulSpaceId="$CONTENTFUL_SPACE_ID"',
+	);
+	expect(hostingDeployment).toContain(
+		"if: inputs.rollback_to_netlify == false",
 	);
 	for (const configuration of [hostingTemplate, bootstrapTemplate]) {
 		expect(configuration).not.toContain("secretsmanager:");

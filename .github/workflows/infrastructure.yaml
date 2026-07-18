@@ -78,6 +78,7 @@ jobs:
           fi
 
       - name: Apply hosting stack
+        if: inputs.rollback_to_netlify == false
         timeout-minutes: 30
         run: |
           aws cloudformation deploy \
