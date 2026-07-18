@@ -1,17 +1,21 @@
 import type { JSX } from "react";
+import { getCurrentYear } from "@/utils/temporal-data";
 import type { SocialMediaLink } from "@/utils/types";
+import { useCurrentDateKey } from "@/utils/use-current-date";
 
 type Props = {
 	socialMediaLinks: SocialMediaLink[];
 	location: string;
-	currentYear: number;
+	renderedAt: string;
 };
 
 const Footer = ({
-	currentYear,
+	renderedAt,
 	location,
 	socialMediaLinks,
 }: Props): JSX.Element => {
+	const currentDate = useCurrentDateKey(renderedAt);
+	const currentYear = getCurrentYear(new Date(`${currentDate}T12:00:00`));
 	const instagramLink = socialMediaLinks.find((socialLink) =>
 		/instagram/i.test(socialLink.source),
 	);

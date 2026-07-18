@@ -1,4 +1,5 @@
 import { expect, type Page, test } from "@/tests/playwright";
+import { getContrastRatio } from "@/tests/support/contrast";
 import { emailFieldLimits } from "@/utils/email";
 
 test("hydrates and performs client-side header navigation", async ({
@@ -24,7 +25,9 @@ test("hydrates and performs client-side header navigation", async ({
 	});
 
 	if (await page.getByRole("button", { name: "Open Navigation" }).isVisible()) {
-		await page.getByRole("button", { name: "Open Navigation" }).click();
+		const menuButton = page.getByRole("button", { name: "Open Navigation" });
+		await menuButton.focus();
+		await menuButton.press("Enter");
 	}
 	await page.getByRole("link", { name: "About", exact: true }).click();
 	await expect(page).toHaveURL(/\/about$/);
@@ -95,22 +98,121 @@ const fillContactForm = async (page: Page): Promise<void> => {
 	await page.getByLabel("Message").fill("I would like more information.");
 };
 
-test("submits the hydrated contact form to the email endpoint", async ({
+test("keeps submitted contact errors at normal-text contrast", async ({
 	page,
 }) => {
-	let requestBody: unknown;
-	let contentType: string | undefined;
+	await page.goto("/contact");
+	await page.getByRole("button", { name: "Submit" }).click();
+	await expect(page.getByRole("alert")).toHaveCount(4);
+
+	for (const label of ["Name", "Email", "Subject", "Message"]) {
+		const field = page.getByLabel(label);
+		expect(
+			await getContrastRatio(page.locator(`label[for="${label}"]`)),
+		).toBeGreaterThanOrEqual(4.5);
+		expect(
+			await getContrastRatio(page.locator(`#${label}-error`)),
+		).toBeGreaterThanOrEqual(4.5);
+		await expect(field).toHaveClass(/!border-red-600/);
+	}
+});
+
+test("normalizes modern CSS colors and composites alpha for contrast", async ({
+	page,
+}) => {
+	await page.goto("/contact");
+	await page.evaluate(() => {
+		const sample = document.createElement("span");
+		sample.id = "contrast-color-sample";
+		sample.style.color = "oklch(0 0 0 / 50%)";
+		sample.textContent = "Contrast sample";
+		document.body.append(sample);
+	});
+
+	const ratio = await getContrastRatio(page.locator("#contrast-color-sample"));
+	expect(ratio).toBeGreaterThan(3.7);
+	expect(ratio).toBeLessThan(3.8);
+});
+
+test("keeps dark accent surfaces at normal-text contrast", async ({ page }) => {
+	await page.setViewportSize({ width: 390, height: 844 });
+	await page.goto("/contact");
+	const bannerTitle = page.getByRole("heading", { name: "Contact Sarabeth" });
+	expect(await getContrastRatio(bannerTitle)).toBeGreaterThanOrEqual(4.5);
+
+	const submit = page.getByRole("button", { name: "Submit" });
+	await submit.hover();
+	expect(await getContrastRatio(submit)).toBeGreaterThanOrEqual(4.5);
+});
+
+test("disables sheet motion when reduced motion is requested", async ({
+	page,
+}) => {
+	await page.setViewportSize({ width: 390, height: 844 });
+	await page.emulateMedia({ reducedMotion: "reduce" });
+	await page.goto("/");
+	await page.getByRole("button", { name: "Open Navigation" }).click();
+
+	const overlay = page.locator('[data-slot="sheet-overlay"]');
+	const content = page.locator('[data-slot="sheet-content"]');
+	await expect(overlay).toBeVisible();
+	await expect(overlay).toHaveCSS("animation-name", "none");
+	await expect(content).toHaveCSS("animation-name", "none");
+	await expect(content).toHaveCSS("transition-property", "none");
+});
+
+test("stops the loading indicator when reduced motion is requested", async ({
+	page,
+}) => {
+	let finishResponse = (): void => {};
+	const responseGate = new Promise<void>((resolve) => {
+		finishResponse = resolve;
+	});
+	await page.emulateMedia({ reducedMotion: "reduce" });
 	await page.route("**/api/email", async (route) => {
-		requestBody = route.request().postDataJSON();
-		contentType = route.request().headers()["content-type"];
+		await responseGate;
 		await route.fulfill({ status: 200, json: { success: true } });
 	});
 	await page.goto("/contact");
 	await fillContactForm(page);
 	await page.getByRole("button", { name: "Submit" }).click();
+
+	const loadingCircle = page.locator('[data-slot="loading-circle"] circle');
+	await expect(loadingCircle).toBeVisible();
+	await expect(loadingCircle).toHaveCSS("animation-name", "none");
+	finishResponse();
 	await expect(
 		page.getByRole("heading", { name: "Message successfully sent!" }),
 	).toBeVisible();
+});
+
+test("submits the hydrated contact form to the email endpoint", async ({
+	page,
+}) => {
+	let requestBody: unknown;
+	let contentType: string | undefined;
+	let finishResponse = (): void => {};
+	const responseGate = new Promise<void>((resolve) => {
+		finishResponse = resolve;
+	});
+	await page.route("**/api/email", async (route) => {
+		requestBody = route.request().postDataJSON();
+		contentType = route.request().headers()["content-type"];
+		await responseGate;
+		await route.fulfill({ status: 200, json: { success: true } });
+	});
+	await page.goto("/contact");
+	await fillContactForm(page);
+	const submitButton = page.getByRole("button", { name: "Submit" });
+	await submitButton.click();
+	await expect(submitButton).toBeDisabled();
+	await expect(submitButton).toHaveAttribute("aria-busy", "true");
+	await expect(page.getByRole("status")).toContainText("Sending message");
+	finishResponse();
+	await expect(
+		page.getByRole("heading", { name: "Message successfully sent!" }),
+	).toBeVisible();
+	await expect(page.getByRole("status")).toBeFocused();
 	expect(contentType).toBe("application/json");
 	expect(requestBody).toEqual({
 		name: "Test Singer",
@@ -148,6 +250,59 @@ test("restores the contact form after a non-JSON server failure", async ({
 		page.getByRole("heading", { name: "Message failed to send" }),
 	).toBeVisible();
 	await expect(page.getByRole("button", { name: "Submit" })).toBeEnabled();
+});
+
+test("moves and selects lesson tabs with the keyboard", async ({ page }) => {
+	await page.goto("/lessons");
+	const aboutTab = page.getByRole("tab", { name: "About", exact: true });
+	const studioTab = page.getByRole("tab", { name: "Studio", exact: true });
+	const resumeTab = page.getByRole("tab", {
+		name: "Teaching Resume",
+		exact: true,
+	});
+
+	await aboutTab.focus();
+	await aboutTab.press("ArrowRight");
+	await expect(studioTab).toBeFocused();
+	await expect(studioTab).toHaveAttribute("aria-selected", "true");
+	await studioTab.press("End");
+	await expect(resumeTab).toBeFocused();
+	await expect(resumeTab).toHaveAttribute("aria-selected", "true");
+	await resumeTab.press("Home");
+	await expect(aboutTab).toBeFocused();
+	await aboutTab.press("ArrowLeft");
+	await expect(resumeTab).toBeFocused();
+	await expect(page.getByRole("tabpanel")).toHaveAttribute(
+		"aria-labelledby",
+		"lessons-tab-teaching-resume",
+	);
+});
+
+test("keeps the selected lesson tab at normal-text contrast", async ({
+	page,
+}) => {
+	await page.goto("/lessons");
+	const selectedTab = page.getByRole("tab", { selected: true });
+	expect(await getContrastRatio(selectedTab)).toBeGreaterThanOrEqual(4.5);
+});
+
+test("repartitions engagements after the browser crosses midnight", async ({
+	page,
+}) => {
+	await page.clock.setSystemTime("2026-03-22T23:59:00-07:00");
+	await page.goto("/engagements");
+	const akhnatenRow = page
+		.getByText("Akhnaten", { exact: true })
+		.locator("..")
+		.locator("..");
+
+	await expect(
+		akhnatenRow.getByRole("link", { name: "Buy Tickets" }),
+	).toBeVisible();
+	await page.clock.runFor("02:00");
+	await expect(
+		akhnatenRow.getByRole("link", { name: "Company Info" }),
+	).toBeVisible();
 });
 
 test("shows inline contact form validation without sending a request", async ({

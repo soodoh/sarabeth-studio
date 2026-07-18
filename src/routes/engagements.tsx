@@ -4,6 +4,8 @@ import BannerImage from "@/components/banner-image";
 import EngagementsTable from "@/components/engagements-table";
 import WidthContainer from "@/components/width-container";
 import { fetchEngagementsData } from "@/utils/server-functions";
+import { partitionEngagements } from "@/utils/temporal-data";
+import { useCurrentDateKey } from "@/utils/use-current-date";
 
 export const Route = createFileRoute("/engagements")({
 	loader: () => fetchEngagementsData(),
@@ -23,7 +25,12 @@ export const Route = createFileRoute("/engagements")({
 });
 
 function EngagementsPage(): JSX.Element {
-	const { bannerImage, past, title, upcoming } = Route.useLoaderData();
+	const { bannerImage, engagements, renderedAt, title } = Route.useLoaderData();
+	const currentDate = useCurrentDateKey(renderedAt);
+	const { past, upcoming } = partitionEngagements(
+		engagements,
+		new Date(`${currentDate}T12:00:00.000Z`),
+	);
 
 	return (
 		<>

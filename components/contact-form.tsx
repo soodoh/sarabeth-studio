@@ -1,4 +1,10 @@
-import { type JSX, type SyntheticEvent, useState } from "react";
+import {
+	type JSX,
+	type SyntheticEvent,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import LoadingCircle from "@/components/loading-circle";
 import { Button } from "@/components/ui/button";
 import Input from "@/components/ui/input";
@@ -38,8 +44,7 @@ const isInvalid = (values: Partial<EmailData>): boolean =>
 
 const fieldClasses = "py-2.5 text-base font-sans";
 
-const labelClasses =
-	"text-sm font-medium text-accent has-[+_*:focus]:text-foreground";
+const labelClasses = "text-sm font-medium text-foreground";
 
 const ContactTextField = ({
 	id,
@@ -52,7 +57,7 @@ const ContactTextField = ({
 }: TextFieldProps): JSX.Element => (
 	<div className="my-4 w-[60%] max-sm:w-full">
 		<div className="space-y-1.5">
-			<Label htmlFor={id} className={cn(labelClasses, error && "text-red-600")}>
+			<Label htmlFor={id} className={cn(labelClasses, error && "text-error")}>
 				{id}
 			</Label>
 			<Input
@@ -70,11 +75,7 @@ const ContactTextField = ({
 				required
 			/>
 			{error && (
-				<p
-					role="alert"
-					id={`${id}-error`}
-					className="text-[0.8rem] text-red-600"
-				>
+				<p role="alert" id={`${id}-error`} className="text-[0.8rem] text-error">
 					{errorMessage}
 				</p>
 			)}
@@ -92,7 +93,7 @@ const ContactMessageField = ({
 		<div className="space-y-1.5">
 			<Label
 				htmlFor="Message"
-				className={cn(labelClasses, error && "text-red-600")}
+				className={cn(labelClasses, error && "text-error")}
 			>
 				Message
 			</Label>
@@ -111,11 +112,7 @@ const ContactMessageField = ({
 				required
 			/>
 			{error && (
-				<p
-					role="alert"
-					id="Message-error"
-					className="text-[0.8rem] text-red-600"
-				>
+				<p role="alert" id="Message-error" className="text-[0.8rem] text-error">
 					&quot;Message&quot; is a required field
 				</p>
 			)}
@@ -131,7 +128,12 @@ const ContactContent = (): JSX.Element => {
 	const [showErrors, setShowErrors] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [sendState, setSendState] = useState<SendState>(undefined);
+	const statusRef = useRef<HTMLDivElement>(null);
 	const data: EmailData = { name, email, subject, message };
+
+	useEffect(() => {
+		if (sendState === "success") statusRef.current?.focus();
+	}, [sendState]);
 
 	const resetForm = (): void => {
 		setName("");
@@ -178,9 +180,12 @@ const ContactContent = (): JSX.Element => {
 	const messageError = showErrors && isInvalid({ message });
 
 	return (
-		<WidthContainer className="flex flex-col [&>h1]:mx-auto [&>h1]:my-16">
-			{sendState === "success" && <h1>Message successfully sent!</h1>}
-			{sendState === "fail" && <h1>Message failed to send</h1>}
+		<WidthContainer className="flex flex-col [&_h1]:mx-auto [&_h1]:my-16">
+			<div ref={statusRef} role="status" aria-live="polite" tabIndex={-1}>
+				{loading && <span className="sr-only">Sending message</span>}
+				{sendState === "success" && <h1>Message successfully sent!</h1>}
+				{sendState === "fail" && <h1>Message failed to send</h1>}
+			</div>
 			{sendState !== "success" && (
 				<form onSubmit={submit} noValidate>
 					<ContactTextField
@@ -217,18 +222,22 @@ const ContactContent = (): JSX.Element => {
 						onChange={setMessage}
 					/>
 					<div className="my-4 w-[60%] max-sm:w-full">
-						{loading ? (
-							<LoadingCircle />
-						) : (
-							<Button
-								type="submit"
-								variant="unstyled"
-								size="unstyled"
-								className={brandButtonClasses}
-							>
-								Submit
-							</Button>
-						)}
+						<Button
+							type="submit"
+							variant="unstyled"
+							size="unstyled"
+							disabled={loading}
+							aria-busy={loading}
+							aria-label="Submit"
+							className={cn(brandButtonClasses, "relative")}
+						>
+							<span className={cn(loading && "invisible")}>Submit</span>
+							{loading && (
+								<span className="absolute inset-0 flex items-center justify-center">
+									<LoadingCircle size={20} strokeWidth={12} />
+								</span>
+							)}
+						</Button>
 					</div>
 				</form>
 			)}

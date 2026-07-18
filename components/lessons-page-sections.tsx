@@ -25,7 +25,7 @@ const LessonsPageSections = ({ section, lessonsData }: Props): JSX.Element => {
 	switch (section) {
 		case LessonsPages.Studio:
 			return (
-				<div className="my-12 grid grid-cols-[1fr_auto_1fr] gap-16 max-sm:grid-cols-1">
+				<div className="grid grid-cols-[1fr_auto_1fr] gap-16 max-sm:grid-cols-1">
 					<div className={richTextClasses}>
 						{documentToReactComponents(teachingPhilosophy)}
 					</div>
@@ -38,14 +38,14 @@ const LessonsPageSections = ({ section, lessonsData }: Props): JSX.Element => {
 
 		case LessonsPages.Resume:
 			return (
-				<div className={`my-12 ${richTextClasses}`}>
+				<div className={richTextClasses}>
 					{documentToReactComponents(teachingResume)}
 				</div>
 			);
 
 		default:
 			return (
-				<div className="my-12 grid grid-cols-[1fr_auto_1fr] gap-16 max-sm:grid-cols-1">
+				<div className="grid grid-cols-[1fr_auto_1fr] gap-16 max-sm:grid-cols-1">
 					<div className={richTextClasses}>
 						{documentToReactComponents(aboutDescription)}
 					</div>

@@ -20,7 +20,7 @@ while (($#)); do
 done
 
 if [[ "$query" == "job.summary.commitId" ]]; then
-  echo "expected-commit"
+  echo "$MOCK_AWS_COMMIT"
   exit 0
 fi
 
@@ -41,18 +41,37 @@ chmod +x "$temporary_directory/aws"
 
 export PATH="$temporary_directory:$PATH"
 export MOCK_AWS_STATE="$temporary_directory/state"
-export MOCK_AWS_STATUSES="CREATED,PENDING,PROVISIONING,RUNNING,CANCELLING,SUCCEED"
 export AMPLIFY_JOB_POLL_SECONDS=0
+expected_commit=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
-"$repository_root/scripts/wait-for-amplify-job.sh" \
-  test-app main 1 expected-commit 10 >/dev/null
+run_waiter() {
+  printf '0' > "$MOCK_AWS_STATE"
+  "$repository_root/scripts/wait-for-amplify-job.sh" \
+    test-app main 1 "$expected_commit" 10 >/dev/null
+}
 
-printf '0' > "$MOCK_AWS_STATE"
+export MOCK_AWS_STATUSES="CREATED,PENDING,PROVISIONING,RUNNING,CANCELLING,SUCCEED"
+export MOCK_AWS_COMMIT="$expected_commit"
+run_waiter
+
+export MOCK_AWS_STATUSES="SUCCEED"
+export MOCK_AWS_COMMIT="bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+if run_waiter 2>/dev/null; then
+  echo "Expected a concrete commit mismatch to fail the waiter" >&2
+  exit 1
+fi
+
+export MOCK_AWS_COMMIT="HEAD"
+if run_waiter 2>/dev/null; then
+  echo "Expected movable HEAD to fail the release waiter" >&2
+  exit 1
+fi
+
 export MOCK_AWS_STATUSES="FAILED"
-if "$repository_root/scripts/wait-for-amplify-job.sh" \
-  test-app main 2 expected-commit 10 >/dev/null 2>&1; then
+export MOCK_AWS_COMMIT="$expected_commit"
+if run_waiter 2>/dev/null; then
   echo "Expected a failed Amplify job to fail the waiter" >&2
   exit 1
 fi
 
-echo "Amplify job waiter status tests passed"
+echo "Amplify job waiter commit-pinning and status tests passed"

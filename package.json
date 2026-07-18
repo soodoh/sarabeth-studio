@@ -24,7 +24,10 @@
 	"scripts": {
 		"dev": "vite --port 3000",
 		"build": "tsc --noEmit && vite build",
+		"build:production-provider": "vite build --config vite.production-provider.config.ts",
 		"build:playwright": "tsc --noEmit && vite build --config vite.playwright.config.ts",
+		"build:playwright:unchecked": "vite build --config vite.playwright.config.ts",
+		"build:amplify:fixture": "NITRO_PRESET=aws-amplify vite build --config vite.playwright.config.ts",
 		"prepare:amplify": "bun scripts/prepare-amplify-bundle.ts",
 		"validate:amplify": "bun scripts/validate-amplify-bundle.ts",
 		"start": "node .output/server/index.mjs",
@@ -37,9 +40,11 @@
 		"test:e2e:update": "playwright test --update-snapshots",
 		"test:deployment-scripts": "tests/scripts/wait-for-amplify-job.sh",
 		"test:ci": "bun run lint && bun run test:deployment-scripts && bun run test:e2e",
+		"test:ci:prebuilt": "bun run test:deployment-scripts && PLAYWRIGHT_SKIP_BUILD=1 bun run test:e2e",
 		"prepare": "lefthook install"
 	},
 	"dependencies": {
+		"@aws-sdk/client-dynamodb": "^3.1090.0",
 		"@aws-sdk/client-ses": "^3.1090.0",
 		"@contentful/rich-text-react-renderer": "^16.2.1",
 		"@contentful/rich-text-types": "^17.2.7",
@@ -52,7 +57,6 @@
 		"contentful": "^11.12.7",
 		"embla-carousel-react": "^8.6.0",
 		"lucide-react": "^1.25.0",
-		"motion": "^12.42.2",
 		"nitro": "^3.0.260610-beta",
 		"radix-ui": "^1.6.2",
 		"react": "^19.2.7",
@@ -76,6 +80,7 @@
 		"lefthook": "^2.1.10",
 		"tailwindcss": "^4.3.3",
 		"typescript": "^7.0.2",
-		"vite": "^8.1.5"
+		"vite": "^8.1.5",
+		"yaml": "2.8.2"
 	}
 }

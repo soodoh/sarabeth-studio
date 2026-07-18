@@ -30,11 +30,11 @@ while (( SECONDS < deadline )); do
         --job-id "$job_id" \
         --query 'job.summary.commitId' \
         --output text)
-      if [[ "$commit_id" != "HEAD" && "$commit_id" != "$expected_commit" ]]; then
+      if [[ "$commit_id" != "$expected_commit" ]]; then
         echo "Amplify job $job_id reported commit $commit_id, expected $expected_commit" >&2
         exit 1
       fi
-      echo "Amplify job $job_id succeeded with summary commit $commit_id; deployment metadata verification follows"
+      echo "Amplify job $job_id succeeded with concrete commit $commit_id"
       exit 0
       ;;
     FAILED | CANCELLED)

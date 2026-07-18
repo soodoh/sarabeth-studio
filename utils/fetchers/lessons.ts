@@ -15,20 +15,18 @@ const getLessonsData = async (
 		"lessons",
 	);
 	const fields = entry.fields;
+	const [bannerImage, socialMediaImage] = await Promise.all([
+		imageFormatter(fields.bannerImage, "lessons.bannerImage"),
+		imageFormatter(fields.socialMediaImage, "lessons.socialMediaImage"),
+	]);
 	return decodeLessonsData({
 		title: fields.title,
-		bannerImage: await imageFormatter(
-			fields.bannerImage,
-			"lessons.bannerImage",
-		),
+		bannerImage,
 		aboutDescription: fields.aboutDescription,
 		teachingPhilosophy: fields.teachingPhilosophy,
 		studioExpectations: fields.studioExpectations,
 		socialMediaDescription: fields.socialMediaDescription,
-		socialMediaImage: await imageFormatter(
-			fields.socialMediaImage,
-			"lessons.socialMediaImage",
-		),
+		socialMediaImage,
 		teachingResume: fields.teachingResume,
 		reviewLink: fields.reviewLink,
 		phoneNumber: fields.phoneNumber,

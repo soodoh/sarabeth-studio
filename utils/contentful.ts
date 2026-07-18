@@ -1,6 +1,6 @@
 import { createClient } from "contentful";
 import { createImageFormatter } from "@/utils/contentful-assets";
-import { getPlaceholder } from "./image.server";
+import { getPlaceholder } from "@/utils/image.server";
 
 type ContentfulClient = ReturnType<
 	typeof createClient

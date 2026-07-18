@@ -7,6 +7,9 @@ frontend:
         - nvm use 24.18.0
         - npm install --global bun@1.3.14
         - node --version && bun --version
+        - read -r AMPLIFY_JOB_COMMIT AMPLIFY_JOB_TYPE <<< "$(aws amplify get-job --app-id "$AWS_APP_ID" --branch-name "$AWS_BRANCH" --job-id "$AWS_JOB_ID" --query 'job.summary.[commitId,jobType]' --output text)" && export AMPLIFY_JOB_COMMIT AMPLIFY_JOB_TYPE
+        - bun scripts/verify-amplify-source.ts
+        - unset AMPLIFY_JOB_COMMIT AMPLIFY_JOB_TYPE
         - export CONTENTFUL_SECRET_FILE="$(mktemp)"
         - chmod 600 "$CONTENTFUL_SECRET_FILE"
         - aws secretsmanager get-secret-value --secret-id "$CONTENTFUL_SECRET_ID" --query SecretString --output text > "$CONTENTFUL_SECRET_FILE"

@@ -9,6 +9,7 @@ const LoadingCircle = ({ size = 50, strokeWidth = 10 }: Props): JSX.Element => {
 	return (
 		<svg
 			aria-hidden="true"
+			data-slot="loading-circle"
 			className="-rotate-90 fill-none [stroke-linecap:round]"
 			style={{
 				width: `${size}px`,
@@ -19,7 +20,7 @@ const LoadingCircle = ({ size = 50, strokeWidth = 10 }: Props): JSX.Element => {
 			xmlns="http://www.w3.org/2000/svg"
 		>
 			<circle
-				className="animate-loading-spin stroke-accent origin-center"
+				className="animate-loading-spin stroke-accent origin-center motion-reduce:animate-none"
 				style={{ strokeDasharray: 312, strokeDashoffset: 0 }}
 				cx="60"
 				cy="60"

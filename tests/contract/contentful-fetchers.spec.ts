@@ -1,4 +1,8 @@
 import { expect, test } from "@playwright/test";
+import {
+	contentfulDocumentFixture,
+	contentfulEntryFixture,
+} from "@/tests/support/contentful-entry-fixture";
 import { createImageFormatter } from "@/utils/contentful-assets";
 import type { EntryQuery, EntrySource } from "@/utils/contentful-entry-source";
 import getAboutData from "@/utils/fetchers/about";
@@ -9,122 +13,6 @@ import getHomeData from "@/utils/fetchers/home";
 import getLessonsData from "@/utils/fetchers/lessons";
 import getMediaData from "@/utils/fetchers/media";
 
-const document = {
-	nodeType: "document",
-	data: {},
-	content: [
-		{
-			nodeType: "paragraph",
-			data: {},
-			content: [{ nodeType: "text", data: {}, value: "Text", marks: [] }],
-		},
-	],
-};
-
-const asset = (id: string, image = true) => ({
-	sys: { id },
-	fields: {
-		title: `${id} title`,
-		description: `${id} description`,
-		file: {
-			url: image
-				? `//images.ctfassets.net/space/${id}/${id}.jpg`
-				: `//assets.ctfassets.net/space/${id}/${id}.wav`,
-			details: image ? { image: { width: 800, height: 600 } } : {},
-		},
-	},
-});
-
-const entries: Readonly<Record<string, readonly unknown[]>> = {
-	about: [
-		{
-			sys: { id: "about" },
-			fields: {
-				title: "Sarabeth Belón",
-				location: "Los Angeles",
-				headshot: asset("headshot"),
-				bio: document,
-				resume: asset("resume", false),
-			},
-		},
-	],
-	socialMedia: [
-		{
-			sys: { id: "social" },
-			fields: {
-				order: 1,
-				source: "Instagram",
-				link: "https://instagram.com/example",
-			},
-		},
-	],
-	home: [
-		{
-			sys: { id: "home-entry" },
-			fields: {
-				order: 1,
-				mainSection: true,
-				title: "Home",
-				description: document,
-				images: [asset("home-image")],
-			},
-		},
-	],
-	engagementsPage: [
-		{
-			sys: { id: "engagements-page" },
-			fields: { title: "Engagements", banner: asset("engagements-banner") },
-		},
-	],
-	engagements: [
-		{
-			sys: { id: "engagement" },
-			fields: {
-				label: "Show",
-				role: "Singer",
-				company: "Company",
-				link: "https://example.com/show",
-				startDate: "2026-01-01",
-				endDate: "2026-01-02",
-			},
-		},
-	],
-	lessons: [
-		{
-			sys: { id: "lessons" },
-			fields: {
-				title: "Lessons",
-				bannerImage: asset("lessons-banner"),
-				aboutDescription: document,
-				teachingPhilosophy: document,
-				studioExpectations: document,
-				socialMediaDescription: document,
-				socialMediaImage: asset("social-image"),
-				teachingResume: document,
-				reviewLink: "https://example.com/review",
-				phoneNumber: "555-0100",
-				email: "studio@example.com",
-				followLink: "https://example.com/follow",
-			},
-		},
-	],
-	mediaPage: [
-		{
-			sys: { id: "media" },
-			fields: {
-				images: [asset("media-image")],
-				audio: [asset("audio", false)],
-			},
-		},
-	],
-	contact: [
-		{
-			sys: { id: "contact" },
-			fields: { bannerImage: asset("contact-banner") },
-		},
-	],
-};
-
 test("canonical fetchers query and map raw Contentful entries", async () => {
 	const queries: EntryQuery[] = [];
 	const entrySource: EntrySource = {
@@ -134,7 +22,7 @@ test("canonical fetchers query and map raw Contentful entries", async () => {
 			if (typeof contentType !== "string") {
 				throw new Error("content_type must be a string");
 			}
-			return { items: entries[contentType] ?? [] };
+			return { items: contentfulEntryFixture[contentType] ?? [] };
 		},
 	};
 	const formatImage = createImageFormatter(
@@ -152,30 +40,83 @@ test("canonical fetchers query and map raw Contentful entries", async () => {
 			getContactData(entrySource, formatImage),
 		]);
 
-	expect(common).toMatchObject({
+	const expectedImage = (id: string) => ({
+		id,
+		title: `${id} title`,
+		description: `${id} description`,
+		url: `https://images.ctfassets.net/space/${id}/${id}.jpg`,
+		width: 800,
+		height: 600,
+		placeholder: "data:image/gif;base64,test",
+	});
+	const expectedAsset = (id: string) => ({
+		id,
+		title: `${id} title`,
+		description: `${id} description`,
+		url: `https://assets.ctfassets.net/space/${id}/${id}.wav`,
+	});
+
+	expect(common).toEqual({
 		brandName: "Sarabeth Belón",
-		socialMediaLinks: [{ source: "instagram" }],
-	});
-	expect(home).toMatchObject([
-		{ id: "home-entry", title: "Home", images: [{ id: "home-image" }] },
-	]);
-	expect(about).toMatchObject({
 		location: "Los Angeles",
-		headshot: { id: "headshot" },
+		socialMediaLinks: [
+			{ source: "instagram", link: "https://instagram.com/example" },
+		],
 	});
-	expect(engagements).toMatchObject({
+	expect(home).toEqual([
+		{
+			id: "home-entry",
+			mainSection: true,
+			title: "Home",
+			subtitle: "Soprano",
+			description: contentfulDocumentFixture,
+			buttonText: "Learn more",
+			buttonLink: "/about",
+			images: [expectedImage("home-image")],
+		},
+	]);
+	expect(about).toEqual({
+		location: "Los Angeles",
+		headshot: expectedImage("headshot"),
+		bio: contentfulDocumentFixture,
+		resume: expectedAsset("resume").url,
+	});
+	expect(engagements).toEqual({
 		title: "Engagements",
-		engagements: [{ id: "engagement", title: "Show" }],
+		bannerImage: expectedImage("engagements-banner"),
+		engagements: [
+			{
+				id: "engagement",
+				title: "Show",
+				role: "Singer",
+				company: "Company",
+				link: "https://example.com/show",
+				startDate: "2026-01-01",
+				endDate: "2026-01-02",
+			},
+		],
 	});
-	expect(lessons).toMatchObject({
+	expect(lessons).toEqual({
 		title: "Lessons",
-		socialMediaImage: { id: "social-image" },
+		bannerImage: expectedImage("lessons-banner"),
+		aboutDescription: contentfulDocumentFixture,
+		teachingPhilosophy: contentfulDocumentFixture,
+		studioExpectations: contentfulDocumentFixture,
+		socialMediaDescription: contentfulDocumentFixture,
+		socialMediaImage: expectedImage("social-image"),
+		teachingResume: contentfulDocumentFixture,
+		reviewLink: "https://example.com/review",
+		phoneNumber: "555-0100",
+		email: "studio@example.com",
+		followLink: "https://example.com/follow",
 	});
-	expect(media).toMatchObject({
-		images: [{ id: "media-image" }],
-		audio: [{ id: "audio" }],
+	expect(media).toEqual({
+		images: [expectedImage("media-image")],
+		audio: [expectedAsset("audio")],
 	});
-	expect(contact).toMatchObject({ bannerImage: { id: "contact-banner" } });
+	expect(contact).toEqual({
+		bannerImage: expectedImage("contact-banner"),
+	});
 	expect(queries).toContainEqual({
 		content_type: "home",
 		order: ["fields.order"],

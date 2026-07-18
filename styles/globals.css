@@ -21,6 +21,8 @@
 	--color-background: #efdcd3;
 	--color-background-light: #f5e7dd;
 	--color-accent: rgb(188, 89, 87);
+	--color-accent-dark: #8f3837;
+	--color-error: #a02f2f;
 	--color-foreground: #1e1d1d;
 
 	--font-serif: "Cormorant", serif;
@@ -45,6 +47,60 @@
 		stroke-dashoffset: -312;
 		transform: rotate(450deg);
 	}
+}
+
+[data-slot="home-reveal"] {
+	opacity: 1;
+}
+
+.js [data-slot="home-reveal"]:not([data-visible="true"]) {
+	opacity: 0;
+}
+
+.js [data-slot="home-reveal"][data-focus-revealed="true"] {
+	transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.js [data-slot="home-reveal"]:not([data-visible="true"]) {
+		opacity: 1;
+	}
+}
+
+[data-slot="audio-seek"]::-webkit-slider-runnable-track {
+	height: 10px;
+	background: transparent;
+}
+
+[data-slot="audio-seek"]::-moz-range-track {
+	height: 10px;
+	background: transparent;
+}
+
+[data-slot="audio-seek"]::-webkit-slider-thumb {
+	width: 0;
+	height: 10px;
+	appearance: none;
+	border: 0;
+}
+
+[data-slot="audio-seek"]::-moz-range-thumb {
+	width: 0;
+	height: 10px;
+	border: 0;
+}
+
+[data-slot="audio-seek"]:is(:hover, :focus-visible)::-webkit-slider-thumb,
+[data-slot="audio-seek"]:is(:hover, :focus-visible)::-moz-range-thumb {
+	width: 16px;
+	height: 16px;
+	border: 2px solid var(--color-background-light);
+	border-radius: 9999px;
+	background: var(--color-accent-dark);
+}
+
+[data-slot="audio-seek"]:is(:hover, :focus-visible)::-webkit-slider-thumb {
+	margin-top: -3px;
 }
 
 @layer base {

@@ -8,14 +8,7 @@ if (!new Set(["desktop", "mobile"]).has(formFactor)) {
 	throw new Error("LHCI_FORM_FACTOR must be desktop or mobile");
 }
 
-const routes = [
-	"/",
-	"/about",
-	"/contact",
-	"/engagements",
-	"/lessons",
-	"/media",
-];
+const routes = require("./scripts/public-routes.json");
 const baselineMinimums = {
 	desktop: {
 		performance: 0.77,

@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
-import { type Operations, transformUrl } from "unpic";
+import { transform as transformContentfulUrl } from "unpic/providers/contentful";
+import type { Operations } from "unpic/types";
 import type { ImageType } from "@/utils/types";
 
 const maximumContentfulDimension = 3840;
@@ -73,13 +74,10 @@ export const transformImageUrl = (
 	const height = requestedHeight
 		? Math.round(requestedHeight * scale)
 		: undefined;
-	return (
-		transformUrl({
-			url,
-			width,
-			height,
-			quality: parseImageOperation(operations.quality),
-			format: operations.format,
-		})?.toString() ?? url
-	);
+	return transformContentfulUrl(url, {
+		width,
+		height,
+		quality: parseImageOperation(operations.quality),
+		format: operations.format,
+	});
 };

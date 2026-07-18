@@ -2,7 +2,6 @@ import { createServerFn } from "@tanstack/react-start";
 import { staticFunctionMiddleware } from "@tanstack/start-static-server-functions";
 import { dataProvider } from "@/utils/data-provider.server";
 import { getCurrentDate } from "@/utils/get-current-date.server";
-import { getCurrentYear, partitionEngagements } from "@/utils/temporal-data";
 
 export const fetchCommonData = createServerFn()
 	.middleware([staticFunctionMiddleware])
@@ -10,7 +9,7 @@ export const fetchCommonData = createServerFn()
 		const commonData = await dataProvider.getCommonData();
 		return {
 			...commonData,
-			currentYear: getCurrentYear(getCurrentDate()),
+			renderedAt: getCurrentDate().toISOString(),
 		};
 	});
 
@@ -28,14 +27,10 @@ export const fetchContactData = createServerFn()
 
 export const fetchEngagementsData = createServerFn()
 	.middleware([staticFunctionMiddleware])
-	.handler(async () => {
-		const { engagements, ...pageData } =
-			await dataProvider.getEngagementsData();
-		return {
-			...pageData,
-			...partitionEngagements(engagements, getCurrentDate()),
-		};
-	});
+	.handler(async () => ({
+		...(await dataProvider.getEngagementsData()),
+		renderedAt: getCurrentDate().toISOString(),
+	}));
 
 export const fetchLessonsData = createServerFn()
 	.middleware([staticFunctionMiddleware])

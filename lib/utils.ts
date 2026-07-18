@@ -7,4 +7,4 @@ export function cn(...inputs: ClassValue[]): string {
 }
 
 export const brandButtonClasses =
-	"cursor-pointer text-base font-bold bg-background-light border-none rounded-none px-[2.25rem] py-3 transition-all duration-200 ease-in-out hover:bg-accent hover:text-background-light";
+	"cursor-pointer text-base font-bold bg-background-light border-none rounded-none px-[2.25rem] py-3 transition-all duration-200 ease-in-out hover:bg-accent-dark hover:text-background-light";

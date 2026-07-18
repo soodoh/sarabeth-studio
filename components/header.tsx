@@ -1,16 +1,13 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu } from "lucide-react";
-import { type JSX, useState } from "react";
+import { type JSX, lazy, Suspense, useState } from "react";
 import SvgLogo from "@/components/icons/logo";
+import type { NavigationLink } from "@/components/mobile-navigation";
 import { Button } from "@/components/ui/button";
-import {
-	Sheet,
-	SheetClose,
-	SheetContent,
-	SheetTitle,
-	SheetTrigger,
-} from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+
+const loadMobileNavigation = () => import("@/components/mobile-navigation");
+const MobileNavigation = lazy(loadMobileNavigation);
 
 type HeaderProps = {
 	brandName: string;
@@ -22,16 +19,36 @@ const links = [
 	{ label: "Media", url: "/media" },
 	{ label: "Lessons", url: "/lessons" },
 	{ label: "Contact", url: "/contact" },
-] satisfies ReadonlyArray<{
-	label: string;
-	url: "/about" | "/engagements" | "/media" | "/lessons" | "/contact";
-}>;
+] satisfies readonly NavigationLink[];
 
 const Header = ({ brandName }: HeaderProps): JSX.Element => {
 	const route = useRouterState({
 		select: (state) => state.location.pathname,
 	});
-	const [mobileNavOpen, setMobileNav] = useState(false);
+	const [mobileNavLoaded, setMobileNavLoaded] = useState(false);
+	const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+	const preloadMobileNavigation = (): void => {
+		void loadMobileNavigation();
+	};
+	const openMobileNavigation = (): void => {
+		setMobileNavLoaded(true);
+		setMobileNavOpen(true);
+	};
+	const menuButton = (
+		<Button
+			variant="unstyled"
+			size="unstyled"
+			className="hidden cursor-pointer rounded-none bg-background-light p-2 hover:bg-background-light max-md:inline-flex"
+			aria-label="Open Navigation"
+			aria-expanded={mobileNavOpen}
+			onClick={openMobileNavigation}
+			onFocus={preloadMobileNavigation}
+			onPointerEnter={preloadMobileNavigation}
+		>
+			<Menu className="size-5 text-foreground" />
+		</Button>
+	);
 
 	return (
 		<header className="sticky top-0 z-40 flex w-full items-center justify-between bg-background px-[2.5rem] py-2 max-xs:px-4">
@@ -59,38 +76,18 @@ const Header = ({ brandName }: HeaderProps): JSX.Element => {
 				))}
 			</nav>
 
-			<Sheet open={mobileNavOpen} onOpenChange={setMobileNav}>
-				<SheetTrigger asChild>
-					<Button
-						variant="unstyled"
-						size="unstyled"
-						className="hidden cursor-pointer rounded-none bg-background-light p-2 hover:bg-background-light max-md:inline-flex"
-						aria-label="Open Navigation"
-					>
-						<Menu className="size-5 text-foreground" />
-					</Button>
-				</SheetTrigger>
-				<SheetContent side="right" className="flex items-center justify-center">
-					<SheetTitle className="sr-only">Navigation</SheetTitle>
-					<nav className="flex flex-col items-center gap-8">
-						{links.map((link) => (
-							<SheetClose asChild key={`mobile-nav-${link.url}`}>
-								<Link to={link.url} className="w-full text-center">
-									<span
-										className={cn(
-											"relative inline-block text-base font-bold uppercase transition-all duration-100 ease-in-out",
-											link.url === route &&
-												"before:absolute before:bottom-[-0.2rem] before:left-[-0.5rem] before:-z-1 before:h-[80%] before:w-full before:bg-background-light",
-										)}
-									>
-										{link.label}
-									</span>
-								</Link>
-							</SheetClose>
-						))}
-					</nav>
-				</SheetContent>
-			</Sheet>
+			{mobileNavLoaded ? (
+				<Suspense fallback={menuButton}>
+					<MobileNavigation
+						links={links}
+						onOpenChange={setMobileNavOpen}
+						open={mobileNavOpen}
+						route={route}
+					/>
+				</Suspense>
+			) : (
+				menuButton
+			)}
 		</header>
 	);
 };

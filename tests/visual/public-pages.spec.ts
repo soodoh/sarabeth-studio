@@ -13,7 +13,6 @@ const waitForHomeAnimations = async (page: Page): Promise<void> => {
 	for (let index = 0; index < (await reveals.count()); index += 1) {
 		const reveal = reveals.nth(index);
 		await reveal.scrollIntoViewIfNeeded();
-		await expect(reveal).toHaveAttribute("style", /opacity:\s*1/);
 		await expect(reveal).toHaveCSS("opacity", "1");
 	}
 	await reveals.evaluateAll((elements) => {
@@ -66,6 +65,11 @@ const preparePage = async (page: Page, path: string): Promise<void> => {
 		});
 	});
 	await page.goto(path, { waitUntil: "networkidle" });
+	if (path === "/media") {
+		await page.getByRole("button", { name: "Load video playlist" }).click();
+		await expect(page.getByTitle("YouTube video playlist")).toBeVisible();
+		await page.evaluate(() => window.scrollTo(0, 0));
+	}
 	await page.evaluate(() => document.fonts.ready);
 	await waitForImages(page);
 };
@@ -92,10 +96,10 @@ test.describe("lessons page", () => {
 
 	for (const tab of ["About", "Studio", "Teaching Resume"] as const) {
 		test(`${tab} tab`, async ({ page }) => {
-			await page.getByRole("button", { name: tab, exact: true }).click();
+			await page.getByRole("tab", { name: tab, exact: true }).click();
 			await expect(
-				page.getByRole("button", { name: tab, exact: true }),
-			).toHaveClass(/bg-accent/);
+				page.getByRole("tab", { name: tab, exact: true }),
+			).toHaveAttribute("aria-selected", "true");
 			await expect(page).toHaveScreenshot(
 				`lessons-${tab.toLowerCase().replaceAll(" ", "-")}.png`,
 				{ fullPage: true },

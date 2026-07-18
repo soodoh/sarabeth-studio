@@ -5,6 +5,10 @@ import {
 	type SendEmailCommandOutput,
 } from "@aws-sdk/client-ses";
 import { normalizeEmailData } from "@/utils/email";
+import {
+	createEmailRateLimiter,
+	type EmailRateLimiter,
+} from "@/utils/email-rate-limit.server";
 import type { EmailData } from "@/utils/types";
 
 const sendEmail = "contact@sarabethbelon.com";
@@ -12,6 +16,11 @@ const receiveEmail = "sarabethstudio@gmail.com";
 
 export interface EmailSender {
 	sendEmail(input: SendEmailCommandInput): Promise<SendEmailCommandOutput>;
+}
+
+export interface EmailDependencies {
+	createRateLimiter(): EmailRateLimiter;
+	createSender(): EmailSender;
 }
 
 const getEmailMessage = (emailData: EmailData): SendEmailCommandInput => ({
@@ -22,9 +31,12 @@ const getEmailMessage = (emailData: EmailData): SendEmailCommandInput => ({
 		Body: {
 			Text: {
 				Charset: "UTF-8",
-				Data: `${emailData.message}
-                    \n\nEmail From: ${emailData.name}
-                    \n${emailData.email}`,
+				Data: [
+					emailData.message,
+					"",
+					`Email From: ${emailData.name}`,
+					emailData.email,
+				].join("\n"),
 			},
 		},
 		Subject: {
@@ -39,6 +51,11 @@ const getEmailMessage = (emailData: EmailData): SendEmailCommandInput => ({
 const maximumRequestBytes = 32_768;
 
 class RequestBodyTooLargeError extends Error {}
+
+const getRateLimitIdentity = (request: Request): string => {
+	const forwardedFor = request.headers.get("x-forwarded-for");
+	return forwardedFor?.split(",").at(-1)?.trim() || "unknown";
+};
 
 const readJsonBody = async (request: Request): Promise<unknown> => {
 	const contentLength = Number(request.headers.get("content-length"));
@@ -87,12 +104,17 @@ export const createEmailSender = (
 	};
 };
 
+const productionEmailDependencies: EmailDependencies = {
+	createRateLimiter: () => createEmailRateLimiter(),
+	createSender: () => createEmailSender(),
+};
+
 export const handleEmailRequest = async (
 	request: Request,
-	sender?: EmailSender,
+	dependencies?: EmailDependencies,
 ): Promise<Response> => {
 	const contentType = request.headers.get("content-type")?.split(";", 1)[0];
-	if (!sender) {
+	if (!dependencies) {
 		console.info("Contact email request received", {
 			contentType: contentType?.trim().toLowerCase() ?? "missing",
 		});
@@ -123,9 +145,18 @@ export const handleEmailRequest = async (
 	}
 
 	try {
-		const emailResponse = await (sender ?? createEmailSender()).sendEmail(
-			getEmailMessage(emailData),
-		);
+		const emailDependencies = dependencies ?? productionEmailDependencies;
+		const limiter = emailDependencies.createRateLimiter();
+		if (!(await limiter.consume(getRateLimitIdentity(request)))) {
+			return Response.json(
+				{ error: "Too many email requests" },
+				{ status: 429, headers: { "Retry-After": "300" } },
+			);
+		}
+
+		const emailResponse = await emailDependencies
+			.createSender()
+			.sendEmail(getEmailMessage(emailData));
 		return Response.json(emailResponse, { status: 200 });
 	} catch (error) {
 		console.error("Failed to send contact email", error);

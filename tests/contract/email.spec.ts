@@ -1,3 +1,4 @@
+import { ConditionalCheckFailedException } from "@aws-sdk/client-dynamodb";
 import type {
 	SESClientConfig,
 	SendEmailCommandInput,
@@ -8,9 +9,15 @@ import { postEmailRequest } from "@/src/routes/api.email";
 import { emailFieldLimits } from "@/utils/email";
 import {
 	createEmailSender,
+	type EmailDependencies,
 	type EmailSender,
 	handleEmailRequest,
 } from "@/utils/email.server";
+import {
+	createEmailRateLimiter,
+	type EmailRateLimitClient,
+	type EmailRateLimiter,
+} from "@/utils/email-rate-limit.server";
 
 const emailData = {
 	name: "Test Singer",
@@ -67,6 +74,50 @@ const createTrackingSender = (): {
 	};
 };
 
+const allowRateLimiter: EmailRateLimiter = {
+	consume: async () => true,
+};
+
+const createDependencies = (
+	sender: EmailSender,
+	rateLimiter: EmailRateLimiter = allowRateLimiter,
+): EmailDependencies => ({
+	createRateLimiter: () => rateLimiter,
+	createSender: () => sender,
+});
+
+const createProductionDependencies = (
+	events: string[],
+	rateLimitResult: "allowed" | "rejected" | "failure",
+): EmailDependencies => {
+	const rateLimitClient: EmailRateLimitClient = {
+		send: async () => {
+			events.push("DynamoDB");
+			if (rateLimitResult === "rejected") {
+				throw new ConditionalCheckFailedException({
+					$metadata: {},
+					message: "Rate limit reached",
+				});
+			}
+			if (rateLimitResult === "failure") {
+				throw new Error("DynamoDB unavailable");
+			}
+		},
+	};
+
+	return {
+		createRateLimiter: () =>
+			createEmailRateLimiter(rateLimitClient, "email-rate-limit", () => 0),
+		createSender: () =>
+			createEmailSender(() => ({
+				sendEmail: async () => {
+					events.push("SES");
+					return { MessageId: "test-message", $metadata: {} };
+				},
+			})),
+	};
+};
+
 test("sends a normalized email through the injected sender", async () => {
 	let sentMessage: SendEmailCommandInput | undefined;
 	const sender: EmailSender = {
@@ -83,7 +134,7 @@ test("sends a normalized email through the injected sender", async () => {
 			subject: ` ${emailData.subject} `,
 			message: ` ${emailData.message} `,
 		}),
-		sender,
+		createDependencies(sender),
 	);
 
 	expect(response.status).toBe(200);
@@ -97,9 +148,12 @@ test("sends a normalized email through the injected sender", async () => {
 			Body: {
 				Text: {
 					Charset: "UTF-8",
-					Data: `I would like more information.
-                    \n\nEmail From: Test Singer
-                    \nsinger@example.com`,
+					Data: [
+						"I would like more information.",
+						"",
+						"Email From: Test Singer",
+						"singer@example.com",
+					].join("\n"),
 				},
 			},
 			Subject: { Charset: "UTF-8", Data: "Website Email: Lessons" },
@@ -113,7 +167,7 @@ test("accepts a 64-character email local part", async () => {
 	const { sender, getCalls } = createTrackingSender();
 	const response = await handleEmailRequest(
 		request({ ...emailData, email: `${"a".repeat(64)}@example.com` }),
-		sender,
+		createDependencies(sender),
 	);
 
 	expect(response.status).toBe(200);
@@ -124,7 +178,7 @@ test("accepts a punycode top-level domain", async () => {
 	const { sender, getCalls } = createTrackingSender();
 	const response = await handleEmailRequest(
 		request({ ...emailData, email: "singer@example.xn--p1ai" }),
-		sender,
+		createDependencies(sender),
 	);
 
 	expect(response.status).toBe(200);
@@ -138,6 +192,39 @@ test("rejects invalid input through the registered route adapter", async () => {
 	await expect(response.json()).resolves.toEqual({
 		error: "Invalid email request",
 	});
+});
+
+test("runs the production limiter before SES for a valid registered request", async () => {
+	const events: string[] = [];
+	const response = await postEmailRequest(
+		{ request: request(emailData) },
+		createProductionDependencies(events, "allowed"),
+	);
+
+	expect(response.status).toBe(200);
+	expect(events).toEqual(["DynamoDB", "DynamoDB", "SES"]);
+});
+
+test("does not call SES when the production limiter rejects a registered request", async () => {
+	const events: string[] = [];
+	const response = await postEmailRequest(
+		{ request: request(emailData) },
+		createProductionDependencies(events, "rejected"),
+	);
+
+	expect(response.status).toBe(429);
+	expect(events).toEqual(["DynamoDB"]);
+});
+
+test("fails closed when the production limiter fails for a registered request", async () => {
+	const events: string[] = [];
+	const response = await postEmailRequest(
+		{ request: request(emailData) },
+		createProductionDependencies(events, "failure"),
+	);
+
+	expect(response.status).toBe(500);
+	expect(events).toEqual(["DynamoDB"]);
 });
 
 const invalidRequests = [
@@ -200,7 +287,7 @@ for (const invalidRequest of invalidRequests) {
 
 		const response = await handleEmailRequest(
 			request(invalidRequest.body),
-			sender,
+			createDependencies(sender),
 		);
 
 		expect(response.status).toBe(400);
@@ -214,7 +301,10 @@ for (const invalidRequest of invalidRequests) {
 test("rejects malformed JSON without calling the sender", async () => {
 	const { sender, getCalls } = createTrackingSender();
 
-	const response = await handleEmailRequest(rawRequest("{"), sender);
+	const response = await handleEmailRequest(
+		rawRequest("{"),
+		createDependencies(sender),
+	);
 
 	expect(response.status).toBe(400);
 	await expect(response.json()).resolves.toEqual({
@@ -234,7 +324,10 @@ test("rejects malformed UTF-8 without calling the sender", async () => {
 	}
 	body[markerIndex] = 0x80;
 
-	const response = await handleEmailRequest(binaryRequest(body), sender);
+	const response = await handleEmailRequest(
+		binaryRequest(body),
+		createDependencies(sender),
+	);
 
 	expect(response.status).toBe(400);
 	await expect(response.json()).resolves.toEqual({
@@ -248,7 +341,7 @@ test("rejects unsupported content types without calling the sender", async () =>
 
 	const response = await handleEmailRequest(
 		rawRequest(JSON.stringify(emailData), "text/plain"),
-		sender,
+		createDependencies(sender),
 	);
 
 	expect(response.status).toBe(415);
@@ -262,7 +355,7 @@ test("accepts validation-compliant multibyte request bodies", async () => {
 	const { sender, getCalls } = createTrackingSender();
 	const response = await handleEmailRequest(
 		request({ ...emailData, message: "界".repeat(3_000) }),
-		sender,
+		createDependencies(sender),
 	);
 
 	expect(response.status).toBe(200);
@@ -276,11 +369,38 @@ test("rejects oversized request bodies before calling the sender", async () => {
 		unexpected: "x".repeat(40_000),
 	});
 
-	const response = await handleEmailRequest(rawRequest(oversizedBody), sender);
+	const response = await handleEmailRequest(
+		rawRequest(oversizedBody),
+		createDependencies(sender),
+	);
 
 	expect(response.status).toBe(413);
 	await expect(response.json()).resolves.toEqual({
 		error: "Request body is too large",
+	});
+	expect(getCalls()).toBe(0);
+});
+
+test("rate limits valid requests by the proxy-provided caller address", async () => {
+	const { sender, getCalls } = createTrackingSender();
+	let rateLimitIdentity = "";
+	const emailRequest = request(emailData);
+	emailRequest.headers.set("X-Forwarded-For", "spoofed, 203.0.113.42");
+	const response = await handleEmailRequest(
+		emailRequest,
+		createDependencies(sender, {
+			consume: async (identity) => {
+				rateLimitIdentity = identity;
+				return false;
+			},
+		}),
+	);
+
+	expect(rateLimitIdentity).toBe("203.0.113.42");
+	expect(response.status).toBe(429);
+	expect(response.headers.get("retry-after")).toBe("300");
+	await expect(response.json()).resolves.toEqual({
+		error: "Too many email requests",
 	});
 	expect(getCalls()).toBe(0);
 });
@@ -292,7 +412,10 @@ test("does not expose sender failure details", async () => {
 		},
 	};
 
-	const response = await handleEmailRequest(request(emailData), sender);
+	const response = await handleEmailRequest(
+		request(emailData),
+		createDependencies(sender),
+	);
 
 	expect(response.status).toBe(500);
 	await expect(response.json()).resolves.toEqual({

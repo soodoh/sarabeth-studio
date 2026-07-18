@@ -44,5 +44,7 @@ const run = (args: string[]): Promise<void> =>
 		});
 	});
 
-await run(["run", "build:playwright"]);
+if (process.env.PLAYWRIGHT_SKIP_BUILD !== "1") {
+	await run(["run", "build:playwright"]);
+}
 await run(["run", "start"]);

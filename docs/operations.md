@@ -22,7 +22,7 @@ The native CloudFormation templates live under `infrastructure/cloudformation/`:
 
 Use change sets for manual bootstrap and inspect them before execution. Bootstrap changes remain a break-glass administrator operation because the protected workflow is intentionally unable to rewrite its own OIDC or CloudFormation execution roles. The bootstrap stack creates a workload permissions boundary; the execution role can manage only the four exact application-role names and must attach that boundary. The manually dispatched infrastructure workflow applies hosting, DNS, and optional domain changes through the protected `production-infrastructure` GitHub environment.
 
-Termination protection is enabled on the bootstrap, hosting, and DNS stacks. The infrastructure workflow re-enables it for the stacks it manages. Disable it only during a reviewed recovery or decommissioning operation.
+Termination protection is enabled on the bootstrap, hosting, and DNS stacks. The infrastructure workflow re-enables it for the stacks it manages. Disable it only during a reviewed recovery or decommissioning operation. Before the first deployment of the contact rate-limit table and last-known-good marker, manually reapply the bootstrap stack so the execution role and workload boundary include the checked-in DynamoDB and SSM permissions; only then run the protected infrastructure workflow.
 
 The GitHub repository authorization token is temporary. Read it from the authenticated `gh` process into a mode-0600 temporary file or standard input, pass it only to the `NoEcho` stack parameter during initial app creation, and securely remove the temporary file immediately afterward. Amplify uses the token to authorize its GitHub App and does not store it.
 
@@ -41,11 +41,46 @@ rm -f "$secret_file"
 
 ## Application deployment
 
-Pull requests and pushes run lint, type checking, a normal Node build, and Playwright. A successful push to `main` then assumes the narrow deployment role through GitHub OIDC and starts an Amplify `RELEASE` job. Amplify—not GitHub Actions—runs `amplify.yml`, fetches the Contentful secret with its build role, builds `.amplify-hosting`, and validates the deployment bundle.
+Pull requests and pushes run lint and type checking, build the production data-provider graph against deterministic external Contentful fixtures, build and validate a deterministic Amplify fixture bundle, build a separate deterministic Playwright target, and then run Playwright against that target. A successful push to `main` assumes the narrow deployment role through GitHub OIDC and starts an Amplify `RELEASE` job. Amplify—not GitHub Actions—runs `amplify.yml`, fetches the Contentful secret with its build role, builds `.amplify-hosting`, and validates the deployment bundle.
 
-Repository auto-builds and preview branches are disabled. Deployment concurrency allows only one production release. The workflow checks that the SHA is still current and rejects any concrete mismatched commit returned by `StartJob`. Manual Amplify `RELEASE` jobs report the literal `HEAD` rather than a Git SHA, so the Amplify build writes the checked-out `git rev-parse HEAD` to `__deployment.json`; post-deployment smoke testing requires that immutable value to equal the expected GitHub SHA.
+Repository auto-builds and preview branches are disabled. Deployment concurrency allows only one production release. CI starts the release with `--commit-id "$GITHUB_SHA"` and rejects any different commit returned by `StartJob`. During pre-build, Amplify reads `job.summary.commitId` and `job.summary.jobType` from `GetJob`; a `RELEASE` must provide the same concrete 40-character SHA as the checked-out `git rev-parse HEAD`. The job reason remains diagnostic metadata and is not a source-verification input. Every Contentful `WEB_HOOK` job fetches the immutable commit from the live Amplify deployment metadata and proceeds only when its checkout matches that CI attestation, whether Amplify reports `HEAD` or a concrete SHA. Content publishing therefore cannot deploy code newer than the last CI-attested release. The build writes its checked-out SHA to `__deployment.json`, and post-deployment smoke testing requires that immutable value to equal the expected GitHub SHA.
 
-Functional smoke tests run against the Amplify URL without sending email. A failed release wait, commit mismatch, or functional smoke test stops an active job when possible and fails the workflow. Restore the last commit proven by the live `__deployment.json` through the explicit source rollback procedure below. Lighthouse CI runs only after functional checks; a Lighthouse regression fails/reports the workflow but never triggers rollback.
+The deployment manifest routes only `/api/email` to compute. Prerendered pages, assets, and the catch-all are static-only, so unknown requests return a hosting 404 without invoking server rendering or requiring build-only Contentful credentials.
+
+Functional smoke tests run against the Amplify URL without sending email. Only after those checks pass, CI writes the validated SHA to the protected durable SSM parameter `/sarabeth-studio/production/last-known-good-sha`; the deployment role can read and overwrite only that parameter and cannot delete it. A failed release wait, commit mismatch, functional smoke test, or marker update stops an active job when possible and fails the workflow while reporting the stored last-known-good SHA. The live `__deployment.json` remains source attestation for the currently deployed release, not rollback history, because an Amplify release that succeeds but fails smoke has already replaced it. Lighthouse CI runs only after functional checks; a Lighthouse regression fails/reports the workflow but never triggers rollback.
+
+### One-time last-known-good bootstrap
+
+Before the first rollout that can update the marker, seed it from the deployment already being served. Set `DEPLOYMENT_URL` to the canonical Amplify production URL, then run the following from a reviewed checkout with dependencies installed. The initial `get-parameter` is a safety gate: if the parameter exists, stop and inspect its value and AWS metadata instead of replacing it.
+
+```bash
+parameter_name=/sarabeth-studio/production/last-known-good-sha
+
+if existing_parameter=$(aws ssm get-parameter \
+  --name "$parameter_name" \
+  --output json 2>&1); then
+  printf '%s\n' "$existing_parameter" | jq '{Parameter: {Name: .Parameter.Name, Type: .Parameter.Type, Value: .Parameter.Value, Version: .Parameter.Version, LastModifiedDate: .Parameter.LastModifiedDate}}'
+  echo "Last-known-good state already exists; inspect it and do not replace it during bootstrap." >&2
+  exit 1
+elif [[ "$existing_parameter" != *"ParameterNotFound"* ]]; then
+  printf '%s\n' "$existing_parameter" >&2
+  exit 1
+fi
+
+deployment_metadata=$(curl --fail --silent --show-error \
+  -H 'Cache-Control: no-cache' \
+  "$DEPLOYMENT_URL/__deployment.json?bootstrap=$(date +%s)")
+current_sha=$(jq -er '.commit | select(test("^[0-9a-f]{40}$"))' <<< "$deployment_metadata")
+printf 'Currently served deployment: %s\n' "$current_sha"
+
+bun scripts/smoke-deployment.ts "$DEPLOYMENT_URL" "$current_sha"
+aws ssm put-parameter \
+  --name "$parameter_name" \
+  --type String \
+  --value "$current_sha" >/dev/null
+```
+
+Do not add `--overwrite` to this bootstrap command. A concurrent creation must fail rather than replace a marker that another operator or deployment wrote.
 
 ## CMS rebuilds
 
@@ -57,7 +92,18 @@ To test the integration, trigger one controlled Contentful publish/unpublish eve
 
 ### Deployment rollback
 
-This is an explicit operator-gated path: confirm the immutable SHA in the last validated live `__deployment.json`, restore that source tree with a new Conventional Commit on `main`, review the diff, and push it. Let the protected production workflow build, deploy, and validate the restoration. Do not use Amplify's `RETRY` job type as a rollback mechanism for this repository-connected app: a retry clones the current `HEAD` and does not restore the original job artifact.
+This is an explicit operator-gated path. Read the durable last-known-good SHA, verify that it names the intended repository commit, restore that source tree with a new Conventional Commit on `main`, review the diff, and push it:
+
+```bash
+last_known_good_sha=$(aws ssm get-parameter \
+  --name /sarabeth-studio/production/last-known-good-sha \
+  --query 'Parameter.Value' \
+  --output text)
+git cat-file -e "${last_known_good_sha}^{commit}"
+printf 'Last-known-good deployment: %s\n' "$last_known_good_sha"
+```
+
+Let the protected production workflow build, deploy, validate, and advance the marker. Use the live `__deployment.json` only to attest the source currently served; do not treat it as rollback history. Do not use Amplify's `RETRY` job type as a rollback mechanism for this repository-connected app: a retry clones the current `HEAD` and does not restore the original job artifact.
 
 ### CloudFormation rollback recovery
 
@@ -65,7 +111,7 @@ Inspect stack events before taking action. For `UPDATE_ROLLBACK_FAILED`, repair 
 
 ### DNS rollback before Netlify deletion
 
-Before cutover, record the exact Netlify apex and `www` answers and the registrar's four NS values. If production validation fails while Netlify remains available, dispatch the protected infrastructure workflow with `rollback_to_netlify=true`. It removes the Amplify domain association first and then declaratively restores the captured Netlify A/AAAA records. Wait for TTL expiry and rerun the status/header/visual checks. Do not delete the Netlify site or zone until approval gate 2. A failed domain-association deployment automatically restores `WebTarget=Netlify` before failing the workflow.
+Before cutover, record the exact Netlify apex and `www` answers and the registrar's four NS values. If production validation fails while Netlify remains available, dispatch the protected infrastructure workflow with `rollback_to_netlify=true`. It first declaratively restores the captured Netlify A/AAAA records, then removes the Amplify domain association so a later failure cannot leave DNS pointing at a detached target. Wait for TTL expiry and rerun the status/header/visual checks. Do not delete the Netlify site or zone until approval gate 2. A failed domain-association deployment uses the same DNS-first recovery order before failing the workflow.
 
 If Route 53 delegation itself causes mail or web failure before the Amplify domain is attached, restore the registrar nameservers to:
 
@@ -88,7 +134,7 @@ After approval gate 1:
 4. Wait for the Amplify certificate/domain association. If any association, DNS, or stabilization step fails, the workflow restores the same record resources to Netlify before removing the failed association. The app-level domain rule keeps the apex canonical and sends a path/query-preserving 301 from `www` to the apex.
 5. Repeat the complete production validation. Future DNS workflow runs retain the stack's existing `WebTarget` unless an explicit approved cutover override is supplied.
 
-No WAF is provisioned.
+No WAF is provisioned. The contact endpoint instead uses DynamoDB-backed limits of 10 validation-compliant requests per caller and 100 requests globally per five-minute window before SES is called. The counters fail closed if DynamoDB is unavailable, expire automatically, and apply across all Amplify compute instances.
 
 ## Monitoring and logs
 
@@ -100,7 +146,7 @@ CloudWatch alarms monitor Amplify Hosting 5xx errors and latency/error signals. 
 
 Routine tests cover GET 405/`Allow: POST` and invalid POST 400/413/415 cases only. Exactly one clearly labeled real contact-form message is sent through the Amplify default URL during pre-cutover validation and its receipt is recorded. Do not send another routine real message during cutover or deployment CI.
 
-Amplify compute uses its least-privilege IAM role and the AWS SDK default credential provider chain. It can call only the required SES send actions from `contact@sarabethbelon.com`; it cannot read Secrets Manager and has no static AWS key.
+Amplify compute uses its least-privilege IAM role and the AWS SDK default credential provider chain. It can call only the required SES send action from `contact@sarabethbelon.com` when every recipient is `sarabethstudio@gmail.com`, plus `dynamodb:UpdateItem` on the contact rate-limit table; it cannot read Secrets Manager and has no static AWS key.
 
 ## Secret rotation
 

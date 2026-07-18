@@ -63,6 +63,19 @@ Resources:
             Effect: Allow
             Action: ses:SendEmail
             Resource: !Sub arn:${AWS::Partition}:ses:${AWS::Region}:${AWS::AccountId}:identity/sarabethbelon.com
+            Condition:
+              ForAllValues:StringEquals:
+                ses:Recipients: sarabethstudio@gmail.com
+          - Sid: ContactEmailRateLimit
+            Effect: Allow
+            Action: dynamodb:UpdateItem
+            Resource: !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/sarabeth-contact-email-rate-limit
+          - Sid: LastKnownGoodDeployment
+            Effect: Allow
+            Action:
+              - ssm:GetParameter
+              - ssm:PutParameter
+            Resource: !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/sarabeth-studio/production/last-known-good-sha
           - Sid: ApplicationLogs
             Effect: Allow
             Action:
@@ -200,6 +213,21 @@ Resources:
                 Effect: Allow
                 Action: logs:DescribeLogGroups
                 Resource: "*"
+              - Sid: ContactEmailRateLimit
+                Effect: Allow
+                Action:
+                  - dynamodb:CreateTable
+                  - dynamodb:DeleteTable
+                  - dynamodb:DescribeContinuousBackups
+                  - dynamodb:DescribeTable
+                  - dynamodb:DescribeTimeToLive
+                  - dynamodb:ListTagsOfResource
+                  - dynamodb:TagResource
+                  - dynamodb:UntagResource
+                  - dynamodb:UpdateContinuousBackups
+                  - dynamodb:UpdateTable
+                  - dynamodb:UpdateTimeToLive
+                Resource: !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/sarabeth-contact-email-rate-limit
               - Sid: Monitoring
                 Effect: Allow
                 Action:
@@ -251,7 +279,7 @@ Resources:
     Properties:
       RoleName: sarabeth-amplify-infrastructure-github
       Description: Protected GitHub Actions role for sarabeth-studio CloudFormation changes.
-      MaxSessionDuration: 3600
+      MaxSessionDuration: 14400
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -289,6 +317,16 @@ Resources:
                 Resource:
                   - !Sub arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/sarabeth-amplify-*/*
                   - !Sub arn:${AWS::Partition}:cloudformation:${AWS::Region}:aws:transform/*
+              - Sid: CancelTimedOutDomainOrDnsUpdate
+                Effect: Allow
+                Action: cloudformation:CancelUpdateStack
+                Resource:
+                  - !Sub arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/sarabeth-amplify-domain/*
+                  - !Sub arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/sarabeth-amplify-dns/*
+              - Sid: DeleteFailedDomainStack
+                Effect: Allow
+                Action: cloudformation:DeleteStack
+                Resource: !Sub arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/sarabeth-amplify-domain/*
               - Effect: Allow
                 Action:
                   - cloudformation:DescribeStacks

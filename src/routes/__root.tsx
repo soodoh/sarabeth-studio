@@ -4,7 +4,7 @@ import {
 	Outlet,
 	Scripts,
 } from "@tanstack/react-router";
-import type { JSX } from "react";
+import { type JSX, useEffect } from "react";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import globalStyles from "@/styles/globals.css?url";
@@ -13,6 +13,8 @@ import { fetchCommonData } from "@/utils/server-functions";
 const title = "Sarabeth Belón: Portfolio";
 const description =
 	"Sarabeth Belon, a young female opera singer, captivates audiences with her tessitura and repertoire versatility. Learn more about this artist!";
+const prepareEnhancedStyles =
+	'document.documentElement.classList.add("js-pending")';
 
 export const Route = createRootRoute({
 	loader: () => fetchCommonData(),
@@ -75,13 +77,18 @@ export const Route = createRootRoute({
 });
 
 function RootComponent(): JSX.Element {
-	const { brandName, currentYear, location, socialMediaLinks } =
+	const { brandName, location, renderedAt, socialMediaLinks } =
 		Route.useLoaderData();
+
+	useEffect(() => {
+		document.documentElement.classList.remove("js-pending");
+	}, []);
 
 	return (
 		<html lang="en">
 			<head>
 				<HeadContent />
+				<script>{prepareEnhancedStyles}</script>
 			</head>
 			<body>
 				<Header brandName={brandName} />
@@ -89,7 +96,7 @@ function RootComponent(): JSX.Element {
 					<Outlet />
 				</main>
 				<Footer
-					currentYear={currentYear}
+					renderedAt={renderedAt}
 					location={location}
 					socialMediaLinks={socialMediaLinks}
 				/>

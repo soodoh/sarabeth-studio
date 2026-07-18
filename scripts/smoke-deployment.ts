@@ -1,4 +1,4 @@
-export {};
+import publicRoutes from "@/scripts/public-routes.json" with { type: "json" };
 
 const deploymentUrl = process.argv[2]?.replace(/\/$/, "");
 const expectedCommit = process.argv[3];
@@ -43,16 +43,11 @@ if (deployedCommit !== expectedCommit) {
 	);
 }
 
-const publicRoutes = [
-	"/",
-	"/about",
-	"/contact",
-	"/engagements",
-	"/lessons",
-	"/media",
-];
+const publicPaths = publicRoutes.flatMap((route) =>
+	route === "/" ? [route] : [route, `${route}/`],
+);
 let homeHtml = "";
-for (const route of publicRoutes) {
+for (const route of publicPaths) {
 	const response = await expectStatus(route, 200);
 	const contentType = response.headers.get("content-type") ?? "";
 	if (!contentType.includes("text/html")) {
@@ -122,5 +117,5 @@ for (const assetPath of assetPaths) {
 }
 
 console.log(
-	`Functional smoke passed for ${deploymentUrl} at ${expectedCommit}: ${publicRoutes.length} pages, ${assetPaths.size} assets, 404 behavior, and non-sending email API checks`,
+	`Functional smoke passed for ${deploymentUrl} at ${expectedCommit}: ${publicPaths.length} page URLs, ${assetPaths.size} assets, 404 behavior, and non-sending email API checks`,
 );

@@ -12,6 +12,7 @@ export default defineConfig({
 	outputDir: "test-results",
 	fullyParallel: true,
 	forbidOnly: Boolean(process.env.CI),
+	failOnFlakyTests: Boolean(process.env.CI),
 	timeout: 45_000,
 	workers: 2,
 	retries: process.env.CI ? 2 : 0,

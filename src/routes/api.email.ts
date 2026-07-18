@@ -1,8 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { handleEmailRequest } from "@/utils/email.server";
+import {
+	type EmailDependencies,
+	handleEmailRequest,
+} from "@/utils/email.server";
 
-export const postEmailRequest = ({ request }: { request: Request }) =>
-	handleEmailRequest(request);
+export const postEmailRequest = (
+	{ request }: { request: Request },
+	dependencies?: EmailDependencies,
+) => handleEmailRequest(request, dependencies);
 
 export const methodNotAllowedRequest = () =>
 	new Response(null, {

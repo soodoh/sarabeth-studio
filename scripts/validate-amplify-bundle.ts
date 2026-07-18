@@ -2,6 +2,7 @@ import { execFile } from "node:child_process";
 import { readdir, readFile, stat } from "node:fs/promises";
 import { join } from "node:path";
 import { promisify } from "node:util";
+import publicRoutes from "@/scripts/public-routes.json" with { type: "json" };
 
 const outputDirectory = ".amplify-hosting";
 const manifestPath = join(outputDirectory, "deploy-manifest.json");
@@ -45,9 +46,8 @@ const staticAssetRoute = manifest.routes[staticAssetRouteIndex];
 assert(
 	staticAssetRouteIndex >= 0 &&
 		staticAssetRoute?.target?.kind === "Static" &&
-		staticAssetRoute.fallback?.kind === "Compute" &&
-		staticAssetRoute.fallback?.src === "default",
-	"Static asset routing must precede the compute fallback",
+		staticAssetRoute.fallback === undefined,
+	"Static asset routing must not fall through to compute",
 );
 const deploymentMetadataRouteIndex = manifest.routes.findIndex(
 	(route: { path?: string }) => route.path === "/__deployment.json",
@@ -60,23 +60,39 @@ assert(
 		deploymentMetadataRoute.target.cacheControl === "no-store",
 	"Deployment metadata must use a non-cached static route",
 );
+const apiRouteIndex = manifest.routes.findIndex(
+	(route: { path?: string }) => route.path === "/api/email",
+);
+const apiRoute = manifest.routes[apiRouteIndex];
+assert(
+	apiRouteIndex >= 0 &&
+		apiRoute?.target?.kind === "Compute" &&
+		apiRoute.target.src === "default" &&
+		apiRoute.fallback === undefined,
+	"The email API must be the only compute route",
+);
 const catchAllRoute = manifest.routes.at(-1);
 assert(
 	catchAllRoute?.path === "/*" &&
-		catchAllRoute.target?.kind === "Compute" &&
-		catchAllRoute.target?.src === "default" &&
-		catchAllRoute.fallback?.kind === "Static",
-	"Unmatched extensionless requests, including /api/email, must use compute with a static fallback",
+		catchAllRoute.target?.kind === "Static" &&
+		catchAllRoute.fallback === undefined,
+	"Unmatched extensionless requests must return a static 404",
 );
+for (const route of manifest.routes) {
+	if (route.path === "/api/email") continue;
+	assert(
+		route.target?.kind !== "Compute" && route.fallback?.kind !== "Compute",
+		`Only /api/email may route to compute: ${route.path}`,
+	);
+}
 
-const prerenderedPages = [
-	{ path: "/", file: "index.html" },
-	{ path: "/about", file: "about.html" },
-	{ path: "/contact", file: "contact.html" },
-	{ path: "/engagements", file: "engagements.html" },
-	{ path: "/lessons", file: "lessons.html" },
-	{ path: "/media", file: "media.html" },
-];
+const prerenderedPages = publicRoutes.map((path) => ({
+	path,
+	files:
+		path === "/"
+			? ["index.html"]
+			: [`${path.slice(1)}.html`, `${path.slice(1)}/index.html`],
+}));
 for (const page of prerenderedPages) {
 	const routeIndex = manifest.routes.findIndex(
 		(route: { path?: string }) => route.path === page.path,
@@ -86,14 +102,15 @@ for (const page of prerenderedPages) {
 		routeIndex >= 0 &&
 			routeIndex < staticAssetRouteIndex &&
 			route?.target?.kind === "Static" &&
-			route.fallback?.kind === "Compute" &&
-			route.fallback?.src === "default",
+			route.fallback === undefined,
 		`Prerendered page must use static-first routing: ${page.path}`,
 	);
-	assert(
-		(await stat(join(outputDirectory, "static", page.file))).isFile(),
-		`Missing prerendered page: ${page.file}`,
-	);
+	for (const file of page.files) {
+		assert(
+			(await stat(join(outputDirectory, "static", file))).isFile(),
+			`Missing prerendered page: ${file}`,
+		);
+	}
 }
 
 const staticCacheDirectory = join(
@@ -137,5 +154,5 @@ for (const environmentName of secretEnvironmentNames) {
 }
 
 console.log(
-	`Validated Amplify bundle: ${prerenderedPages.length} pages, ${staticCacheFiles.length} static server-function cache files, nodejs24.x compute`,
+	`Validated Amplify bundle: ${prerenderedPages.length} pages, ${staticCacheFiles.length} static server-function cache files, isolated email compute, and static 404 routing`,
 );
