@@ -1,5 +1,11 @@
 const commitPattern = /^[0-9a-f]{40}$/;
 
+export const classifyAmplifyJob = (
+	jobCommit: string,
+	jobMessage: string,
+): "RELEASE" | "WEB_HOOK" =>
+	jobMessage === `GitHub Actions release ${jobCommit}` ? "RELEASE" : "WEB_HOOK";
+
 export const verifyAmplifySource = (
 	jobCommit: string,
 	jobType: string,

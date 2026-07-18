@@ -1,6 +1,9 @@
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import { verifyAmplifySource } from "@/scripts/amplify-source-policy";
+import {
+	classifyAmplifyJob,
+	verifyAmplifySource,
+} from "@/scripts/amplify-source-policy";
 
 const requiredEnvironment = (name: string): string => {
 	const value = process.env[name];
@@ -37,7 +40,8 @@ const getAttestedCommit = async (
 };
 
 const jobCommit = requiredEnvironment("AMPLIFY_JOB_COMMIT");
-const jobType = requiredEnvironment("AMPLIFY_JOB_TYPE");
+const jobMessage = requiredEnvironment("AMPLIFY_JOB_MESSAGE");
+const jobType = classifyAmplifyJob(jobCommit, jobMessage);
 const { stdout } = await promisify(execFile)("git", ["rev-parse", "HEAD"]);
 const actualCommit = stdout.trim();
 const result = verifyAmplifySource(

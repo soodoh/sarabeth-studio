@@ -11,7 +11,10 @@ import { delimiter, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "@playwright/test";
 import { parse } from "yaml";
-import { verifyAmplifySource } from "@/scripts/amplify-source-policy";
+import {
+	classifyAmplifyJob,
+	verifyAmplifySource,
+} from "@/scripts/amplify-source-policy";
 
 const repositoryRoot = dirname(
 	dirname(dirname(fileURLToPath(import.meta.url))),
@@ -45,7 +48,7 @@ const runVerifier = (environment: Record<string, string | undefined>) =>
 			...process.env,
 			AMPLIFY_ATTESTED_COMMIT_URL: undefined,
 			AMPLIFY_JOB_COMMIT: undefined,
-			AMPLIFY_JOB_TYPE: undefined,
+			AMPLIFY_JOB_MESSAGE: undefined,
 			FAKE_GIT_COMMIT: actualCommit,
 			PATH: `${fakeGitDirectory}${delimiter}${process.env.PATH ?? ""}`,
 			...environment,
@@ -104,10 +107,19 @@ test("rejects a newer concrete webhook commit than CI attested", () => {
 	);
 });
 
+test("classifies only the CI release marker as a release", () => {
+	expect(
+		classifyAmplifyJob(actualCommit, `GitHub Actions release ${actualCommit}`),
+	).toBe("RELEASE");
+	expect(classifyAmplifyJob(actualCommit, "Published by Contentful")).toBe(
+		"WEB_HOOK",
+	);
+});
+
 test("executes the real source verifier without repository Git metadata", () => {
 	const success = runVerifier({
 		AMPLIFY_JOB_COMMIT: actualCommit,
-		AMPLIFY_JOB_TYPE: "RELEASE",
+		AMPLIFY_JOB_MESSAGE: `GitHub Actions release ${actualCommit}`,
 	});
 	expect(success.status, success.stderr).toBe(0);
 	expect(success.stdout).toContain(
@@ -116,7 +128,7 @@ test("executes the real source verifier without repository Git metadata", () => 
 
 	const mismatch = runVerifier({
 		AMPLIFY_JOB_COMMIT: differentCommit,
-		AMPLIFY_JOB_TYPE: "RELEASE",
+		AMPLIFY_JOB_MESSAGE: `GitHub Actions release ${differentCommit}`,
 	});
 	expect(mismatch.status).not.toBe(0);
 	expect(mismatch.stderr).toContain(
@@ -126,7 +138,7 @@ test("executes the real source verifier without repository Git metadata", () => 
 	const newerWebhook = runVerifier({
 		AMPLIFY_ATTESTED_COMMIT_URL: attestationUrl(actualCommit),
 		AMPLIFY_JOB_COMMIT: newerCommit,
-		AMPLIFY_JOB_TYPE: "WEB_HOOK",
+		AMPLIFY_JOB_MESSAGE: "Published by Contentful",
 		FAKE_GIT_COMMIT: newerCommit,
 	});
 	expect(newerWebhook.status).not.toBe(0);
@@ -134,7 +146,9 @@ test("executes the real source verifier without repository Git metadata", () => 
 		`Amplify webhook checked out ${newerCommit}, but production attests ${actualCommit}`,
 	);
 
-	const missing = runVerifier({ AMPLIFY_JOB_TYPE: "RELEASE" });
+	const missing = runVerifier({
+		AMPLIFY_JOB_MESSAGE: `GitHub Actions release ${actualCommit}`,
+	});
 	expect(missing.status).not.toBe(0);
 	expect(missing.stderr).toContain("AMPLIFY_JOB_COMMIT is required");
 });
@@ -153,16 +167,34 @@ test("wires GetJob exports before the real verifier in Amplify preBuild", () => 
 		"bun scripts/verify-amplify-source.ts",
 	);
 	const unsetIndex = commands.indexOf(
-		"unset AMPLIFY_JOB_COMMIT AMPLIFY_JOB_TYPE",
+		"unset AMPLIFY_JOB_COMMIT AMPLIFY_JOB_MESSAGE",
 	);
 
 	expect(getJobIndex).toBeGreaterThan(-1);
-	expect(commands[getJobIndex]).toContain("job.summary.[commitId,jobType]");
-	expect(commands[getJobIndex]).toContain(
-		"export AMPLIFY_JOB_COMMIT AMPLIFY_JOB_TYPE",
-	);
+	expect(commands[getJobIndex]).toContain("job.summary.commitId");
+	expect(commands[getJobIndex + 1]).toContain("job.summary.commitMessage");
+	expect(commands[getJobIndex]).toContain("export AMPLIFY_JOB_COMMIT");
+	expect(commands[getJobIndex + 1]).toContain("export AMPLIFY_JOB_MESSAGE");
 	expect(verifierIndex).toBeGreaterThan(getJobIndex);
 	expect(unsetIndex).toBeGreaterThan(verifierIndex);
+});
+
+test("loads only the Contentful access token from SSM during preBuild", () => {
+	const amplifyConfiguration = parse(
+		readFileSync(new URL("../../amplify.yml", import.meta.url), "utf8"),
+	);
+	const commands: unknown[] =
+		amplifyConfiguration.frontend.phases.preBuild.commands;
+	const parameterCommand = commands.find(
+		(command) =>
+			typeof command === "string" && command.includes("aws ssm get-parameter"),
+	);
+
+	expect(parameterCommand).toContain("CONTENTFUL_ACCESS_TOKEN_PARAMETER");
+	expect(parameterCommand).toContain("--with-decryption");
+	expect(parameterCommand).toContain("CONTENTFUL_ACCESS_TOKEN");
+	expect(commands.join("\n")).not.toContain("secretsmanager");
+	expect(commands.join("\n")).not.toContain("CONTENTFUL_SECRET_ID");
 });
 
 for (const commit of ["", "None", "GitHub Actions release", "abc123"]) {
