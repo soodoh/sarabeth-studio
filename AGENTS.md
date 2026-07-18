@@ -43,5 +43,5 @@
 ## Security & Configuration Tips
 
 - Keep secrets in `.env` only; never commit credentials.
-- Production builds require server-only Contentful values (`CONTENTFUL_SPACE_ID`, `CONTENTFUL_ACCESS_TOKEN`). Amplify retrieves them from AWS Secrets Manager during `preBuild`; never expose them to browser code or commit them.
+- Production builds receive the non-secret `CONTENTFUL_SPACE_ID` as Amplify branch configuration and retrieve `CONTENTFUL_ACCESS_TOKEN` from the standard SSM `SecureString` at `/sarabeth-studio/production/contentful/access-token` during `preBuild`; never expose the token to browser code or commit it.
 - The contact endpoint uses the AWS SDK default credential provider chain. In Amplify, permissions come only from the compute IAM role; do not add static AWS access-key environment variables.

@@ -16,7 +16,7 @@ The verified account must be `015989770400` and must own the `sarabethbelon.com`
 The native CloudFormation templates live under `infrastructure/cloudformation/`:
 
 1. `bootstrap.yaml` — account-level GitHub OIDC provider and the protected infrastructure role.
-2. `hosting.yaml` — Contentful secret container, Amplify build/compute roles, Amplify app and `main` branch, deployment role, CMS webhook, logging, SNS, and alarms.
+2. `hosting.yaml` — Amplify build/compute roles, Amplify app and `main` branch, deployment role, CMS webhook, logging, SNS, and alarms.
 3. `dns.yaml` — a clean Route 53 public hosted zone and the complete non-authoritative record import.
 4. `domain.yaml` — optional Amplify production-domain association, enabled only at approved cutover.
 
@@ -26,24 +26,34 @@ Termination protection is enabled on the bootstrap, hosting, and DNS stacks. The
 
 The GitHub repository authorization token is temporary. Read it from the authenticated `gh` process into a mode-0600 temporary file or standard input, pass it only to the `NoEcho` stack parameter during initial app creation, and securely remove the temporary file immediately afterward. Amplify uses the token to authorize its GitHub App and does not store it.
 
-Populate the generated Secrets Manager secret separately after stack creation. Do not pass its value through CloudFormation:
+CloudFormation cannot create an SSM `SecureString`, so bootstrap the build-only Contentful Delivery API token separately before applying the hosting stack. Store only the token in the standard parameter and configure the non-secret space ID as the protected environment's `CONTENTFUL_SPACE_ID` GitHub variable. Never pass the token through CloudFormation or an Amplify environment variable.
 
 ```bash
 umask 077
-secret_file="$(mktemp)"
-# Write the JSON object interactively without echoing it:
-# {"CONTENTFUL_SPACE_ID":"...","CONTENTFUL_ACCESS_TOKEN":"..."}
-aws secretsmanager put-secret-value \
-  --secret-id sarabeth-studio/production/contentful \
-  --secret-string "file://$secret_file"
-rm -f "$secret_file"
+token_file="$(mktemp)"
+# Write only the Contentful Delivery API token to the file without a trailing newline.
+aws ssm put-parameter \
+  --name /sarabeth-studio/production/contentful/access-token \
+  --description "Build-only Contentful Delivery API access token for sarabeth-studio production." \
+  --type SecureString \
+  --tier Standard \
+  --value "file://$token_file"
+aws ssm add-tags-to-resource \
+  --resource-type Parameter \
+  --resource-id /sarabeth-studio/production/contentful/access-token \
+  --tags Key=Project,Value=sarabeth-studio Key=Environment,Value=production
+rm -f "$token_file"
+
+gh variable set CONTENTFUL_SPACE_ID --body "<contentful-space-id>"
 ```
+
+The parameter uses the AWS-managed `aws/ssm` key by default. Do not introduce a customer-managed KMS key solely for this parameter.
 
 ## Application deployment
 
-Pull requests and pushes run lint and type checking, build the production data-provider graph against deterministic external Contentful fixtures, build and validate a deterministic Amplify fixture bundle, build a separate deterministic Playwright target, and then run Playwright against that target. A successful push to `main` assumes the narrow deployment role through GitHub OIDC and starts an Amplify `RELEASE` job. Amplify—not GitHub Actions—runs `amplify.yml`, fetches the Contentful secret with its build role, builds `.amplify-hosting`, and validates the deployment bundle.
+Pull requests and pushes run lint and type checking, build the production data-provider graph against deterministic external Contentful fixtures, build and validate a deterministic Amplify fixture bundle, build a separate deterministic Playwright target, and then run Playwright against that target. A successful push to `main` assumes the narrow deployment role through GitHub OIDC and starts an Amplify release. Amplify—not GitHub Actions—runs `amplify.yml`, fetches the Contentful access token from SSM with its build role, builds `.amplify-hosting`, and validates the deployment bundle. The Contentful space ID is ordinary branch configuration; only the token is decrypted from SSM.
 
-Repository auto-builds and preview branches are disabled. Deployment concurrency allows only one production release. CI starts the release with `--commit-id "$GITHUB_SHA"` and rejects any different commit returned by `StartJob`. During pre-build, Amplify reads `job.summary.commitId` and `job.summary.jobType` from `GetJob`; a `RELEASE` must provide the same concrete 40-character SHA as the checked-out `git rev-parse HEAD`. The job reason remains diagnostic metadata and is not a source-verification input. Every Contentful `WEB_HOOK` job fetches the immutable commit from the live Amplify deployment metadata and proceeds only when its checkout matches that CI attestation, whether Amplify reports `HEAD` or a concrete SHA. Content publishing therefore cannot deploy code newer than the last CI-attested release. The build writes its checked-out SHA to `__deployment.json`, and post-deployment smoke testing requires that immutable value to equal the expected GitHub SHA.
+Repository auto-builds and preview branches are disabled. Deployment concurrency allows only one production release. CI starts the release with `--commit-id "$GITHUB_SHA"` and the exact commit-message marker `GitHub Actions release $GITHUB_SHA`, then rejects any different commit returned by `StartJob`. Amplify's `GetJob` response does not expose the requested job type, so pre-build classifies only that exact self-referential marker as a pinned CI release. Other builds are treated as Contentful webhooks and must fetch the immutable commit from live deployment metadata; their checkout must match that CI attestation whether Amplify reports `HEAD` or a concrete SHA. Content publishing therefore cannot deploy code newer than the last CI-attested release. The build writes its checked-out SHA to `__deployment.json`, and post-deployment smoke testing requires that immutable value to equal the expected GitHub SHA.
 
 The deployment manifest routes only `/api/email` to compute. Prerendered pages, assets, and the catch-all are static-only, so unknown requests return a hosting 404 without invoking server rendering or requiring build-only Contentful credentials.
 
@@ -146,23 +156,23 @@ CloudWatch alarms monitor Amplify Hosting 5xx errors and latency/error signals. 
 
 Routine tests cover GET 405/`Allow: POST` and invalid POST 400/413/415 cases only. Exactly one clearly labeled real contact-form message is sent through the Amplify default URL during pre-cutover validation and its receipt is recorded. Do not send another routine real message during cutover or deployment CI.
 
-Amplify compute uses its least-privilege IAM role and the AWS SDK default credential provider chain. It can call only the required SES send action from `contact@sarabethbelon.com` when every recipient is `sarabethstudio@gmail.com`, plus `dynamodb:UpdateItem` on the contact rate-limit table; it cannot read Secrets Manager and has no static AWS key.
+Amplify compute uses its least-privilege IAM role and the AWS SDK default credential provider chain. It can call only the required SES send action from `contact@sarabethbelon.com` when every recipient is `sarabethstudio@gmail.com`, plus `dynamodb:UpdateItem` on the contact rate-limit table; it cannot read the Contentful SSM parameter and has no static AWS key.
 
 ## Secret rotation
 
-1. Create a mode-0600 temporary JSON file containing the new Contentful values.
-2. Call `secretsmanager put-secret-value` with `file://...` and securely remove the file.
+1. Create a mode-0600 temporary file containing only the new Contentful Delivery API token, without a trailing newline.
+2. Call `ssm put-parameter` for `/sarabeth-studio/production/contentful/access-token` with `--type SecureString`, `--value "file://..."`, and `--overwrite`, then securely remove the file.
 3. Trigger an Amplify release and verify production Contentful content.
 4. Revoke the previous Contentful token only after the build succeeds.
 
-No runtime restart is needed because Contentful credentials are build-only. Rotate the temporary Contentful Management token and GitHub authorization token by revoking them after their one-time use.
+The Contentful space ID is not secret; update the `CONTENTFUL_SPACE_ID` GitHub variable and reapply the hosting stack only if the site moves to another Contentful space. No runtime restart is needed because Contentful credentials are build-only. Rotate the temporary Contentful Management token and GitHub authorization token by revoking them after their one-time use.
 
 ## Disaster recovery
 
 - Recreate AWS resources from the CloudFormation templates in the verified production account. Bootstrap is applied manually; hosting/DNS/domain changes use the protected workflow after bootstrap.
-- The Contentful secret and fixed-name log groups are retained on normal stack deletion. Import retained resources into a recovery stack, or deliberately rename them after preserving their data, rather than attempting a conflicting create.
-- Restore the Contentful secret through an out-of-band mode-0600 file.
-- Reauthorize the Amplify GitHub App with a temporary token and repopulate GitHub repository variables from stack outputs.
+- The SSM SecureString is managed outside CloudFormation and the fixed-name log groups are retained on normal stack deletion. Preserve or deliberately delete them during recovery rather than assuming stack deletion removed them.
+- Restore `/sarabeth-studio/production/contentful/access-token` through an out-of-band mode-0600 file.
+- Reauthorize the Amplify GitHub App with a temporary token and repopulate GitHub repository variables from stack outputs, including the non-secret `CONTENTFUL_SPACE_ID` value.
 - Restore Route 53 records from the sanitized inventory and current stack template, never from copied SOA/NS records.
 - Trigger a `main` release, validate the default Amplify URL, then attach the domain.
 - If Amplify is unavailable while the retained Netlify site still exists, use the documented pre-decommission DNS rollback. After Netlify deletion, restore a previously validated source revision through `main` or recreate the app from CloudFormation.

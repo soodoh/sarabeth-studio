@@ -126,7 +126,7 @@ test("bootstraps last-known-good state from a validated live deployment", () => 
 	);
 });
 
-test("stages the Contentful SSM parameter without removing the existing secret", () => {
+test("grants build-only access to the Contentful SSM parameter", () => {
 	const serviceRole = extractYamlBlock(hostingTemplate, "AmplifyServiceRole:");
 	const mainBranch = extractYamlBlock(hostingTemplate, "MainBranch:");
 	const parameterBoundary = extractYamlBlock(
@@ -147,7 +147,6 @@ test("stages the Contentful SSM parameter without removing the existing secret",
 		`parameter\${ContentfulAccessTokenParameterName}`,
 	);
 	expect(parameterBoundary).toContain(parameterName.slice(1));
-	expect(mainBranch).toContain("CONTENTFUL_SECRET_ID");
 	expect(mainBranch).toContain("CONTENTFUL_SPACE_ID");
 	expect(mainBranch).toContain("CONTENTFUL_ACCESS_TOKEN_PARAMETER");
 	expect(infrastructureWorkflow).toContain(
@@ -156,6 +155,10 @@ test("stages the Contentful SSM parameter without removing the existing secret",
 	expect(hostingDeployment).toContain(
 		'ContentfulSpaceId="$CONTENTFUL_SPACE_ID"',
 	);
+	for (const configuration of [hostingTemplate, bootstrapTemplate]) {
+		expect(configuration).not.toContain("secretsmanager:");
+		expect(configuration).not.toContain("ContentfulSecret");
+	}
 });
 
 test("builds the production provider graph with only external boundaries replaced", () => {

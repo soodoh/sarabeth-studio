@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: Production AWS Amplify Hosting, IAM, Contentful secret, deployment role, and monitoring for sarabeth-studio.
+Description: Production AWS Amplify Hosting, IAM, deployment role, and monitoring for sarabeth-studio.
 
 Parameters:
   GitHubOwner:
@@ -25,9 +25,6 @@ Parameters:
   NotificationEmail:
     Type: String
     Default: paul@diloreto.com
-  ContentfulSecretName:
-    Type: String
-    Default: sarabeth-studio/production/contentful
   ContentfulSpaceId:
     Type: String
     MinLength: 1
@@ -46,24 +43,11 @@ Conditions:
   HasGitHubAccessToken: !Not [!Equals [!Ref GitHubAccessToken, ""]]
 
 Resources:
-  ContentfulSecret:
-    Type: AWS::SecretsManager::Secret
-    DeletionPolicy: RetainExceptOnCreate
-    UpdateReplacePolicy: Retain
-    Properties:
-      Name: !Ref ContentfulSecretName
-      Description: Build-only Contentful credentials for the sarabeth-studio production build.
-      Tags:
-        - Key: Project
-          Value: sarabeth-studio
-        - Key: Environment
-          Value: production
-
   AmplifyServiceRole:
     Type: AWS::IAM::Role
     Properties:
       RoleName: sarabeth-amplify-service
-      Description: Allows Amplify builds to read Contentful and deliver SSR logs.
+      Description: Allows Amplify builds to read the Contentful SSM parameter and deliver SSR logs.
       PermissionsBoundary: !Ref WorkloadPermissionsBoundaryArn
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
@@ -78,16 +62,10 @@ Resources:
               StringEquals:
                 aws:SourceAccount: !Ref AWS::AccountId
       Policies:
-        - PolicyName: ContentfulBuildSecretAndSsrLogs
+        - PolicyName: ContentfulBuildParameterAndSsrLogs
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
-              - Sid: ReadContentfulBuildSecret
-                Effect: Allow
-                Action:
-                  - secretsmanager:DescribeSecret
-                  - secretsmanager:GetSecretValue
-                Resource: !Ref ContentfulSecret
               - Sid: ReadContentfulBuildParameter
                 Effect: Allow
                 Action: ssm:GetParameter
@@ -232,8 +210,6 @@ Resources:
       Framework: TanStack Start
       Stage: PRODUCTION
       EnvironmentVariables:
-        - Name: CONTENTFUL_SECRET_ID
-          Value: !Ref ContentfulSecret
         - Name: CONTENTFUL_SPACE_ID
           Value: !Ref ContentfulSpaceId
         - Name: CONTENTFUL_ACCESS_TOKEN_PARAMETER
@@ -504,8 +480,6 @@ Outputs:
     Value: !GetAtt AmplifyComputeRole.Arn
   RoutineDeploymentRoleArn:
     Value: !GetAtt RoutineDeploymentRole.Arn
-  ContentfulSecretArn:
-    Value: !Ref ContentfulSecret
   ContentfulAccessTokenParameterName:
     Value: !Ref ContentfulAccessTokenParameterName
   ContentfulWebhookUrl:

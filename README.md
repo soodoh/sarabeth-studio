@@ -30,6 +30,6 @@ To produce the AWS Amplify deployment bundle:
 NITRO_PRESET=aws-amplify bun run build
 ```
 
-The ignored output is written to `.amplify-hosting/`. Amplify retrieves Contentful build credentials from AWS Secrets Manager. Runtime compute receives no Contentful secret and uses its IAM role—not static AWS keys—to send contact email through SES.
+The ignored output is written to `.amplify-hosting/`. Amplify receives the non-secret Contentful space ID as branch configuration and retrieves the build-only Contentful access token from an SSM `SecureString`. Runtime compute cannot read that parameter and uses its IAM role—not static AWS keys—to send contact email through SES.
 
 See [`docs/operations.md`](docs/operations.md) for deployment, CMS rebuild, rollback, DNS, monitoring, secret rotation, and disaster-recovery procedures.
