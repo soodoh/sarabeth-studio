@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import type { JSX } from "react";
+import { type JSX, useState } from "react";
 import AudioPlayer from "@/components/audio-player";
 import PhotoCarousel from "@/components/photo-carousel";
 import TextHeading from "@/components/text-heading";
@@ -29,6 +29,8 @@ export const Route = createFileRoute("/media")({
 
 function MediaPage(): JSX.Element {
 	const { images, audio } = Route.useLoaderData();
+	const [activeMediaId, setActiveMediaId] = useState<string | null>(null);
+	const videoMediaId = "youtube-playlist";
 
 	return (
 		<div className="flex flex-col items-center">
@@ -36,7 +38,10 @@ function MediaPage(): JSX.Element {
 			<PhotoCarousel images={images} />
 
 			<TextHeading text="Videos" />
-			<VideoPlaylistLoader />
+			<VideoPlaylistLoader
+				isPlaybackActive={activeMediaId === videoMediaId}
+				onPlaybackStart={() => setActiveMediaId(videoMediaId)}
+			/>
 
 			<TextHeading text="Audio" />
 			<WidthContainer>
@@ -48,7 +53,12 @@ function MediaPage(): JSX.Element {
 							</h2>
 							<span className="font-sans">{audioFile.description}</span>
 						</div>
-						<AudioPlayer source={audioFile.url} title={audioFile.title} />
+						<AudioPlayer
+							source={audioFile.url}
+							title={audioFile.title}
+							isPlaybackActive={activeMediaId === audioFile.id}
+							onPlaybackStart={() => setActiveMediaId(audioFile.id)}
+						/>
 					</div>
 				))}
 			</WidthContainer>

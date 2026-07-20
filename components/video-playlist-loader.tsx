@@ -8,6 +8,11 @@ import {
 } from "@/utils/youtube-playlist-config";
 import { decodeYouTubePlaylist } from "@/utils/youtube-playlist-data";
 
+type VideoPlaylistLoaderProps = {
+	isPlaybackActive: boolean;
+	onPlaybackStart: () => void;
+};
+
 type PlaylistState =
 	| { status: "loading"; attempt: number }
 	| { status: "success"; playlist: YouTubePlaylist }
@@ -60,7 +65,10 @@ const PlaylistError = ({ retry }: { retry: () => void }): JSX.Element => (
 	</section>
 );
 
-const VideoPlaylistLoader = (): JSX.Element => {
+const VideoPlaylistLoader = ({
+	isPlaybackActive,
+	onPlaybackStart,
+}: VideoPlaylistLoaderProps): JSX.Element => {
 	const [attempt, setAttempt] = useState(0);
 	const [state, setState] = useState<PlaylistState>({
 		status: "loading",
@@ -97,6 +105,8 @@ const VideoPlaylistLoader = (): JSX.Element => {
 	}
 	return (
 		<VideoPlaylist
+			isPlaybackActive={isPlaybackActive}
+			onPlaybackStart={onPlaybackStart}
 			playlistId={state.playlist.id}
 			title={state.playlist.title}
 			unavailableCount={state.playlist.unavailableCount}

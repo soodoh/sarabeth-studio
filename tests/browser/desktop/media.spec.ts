@@ -45,7 +45,17 @@ const dragGallery = async (
 
 test.beforeEach(async ({ page }) => {
 	await page.route("https://www.youtube-nocookie.com/**", async (route) => {
-		await route.fulfill({ body: "", contentType: "text/html" });
+		await route.fulfill({
+			body: `<script>
+				window.addEventListener("message", (event) => {
+					try {
+						const message = JSON.parse(event.data);
+						if (message.func) document.body.dataset.lastCommand = message.func;
+					} catch {}
+				});
+			</script>`,
+			contentType: "text/html",
+		});
 	});
 	await page.route("https://i.ytimg.com/**", async (route) => {
 		await route.fulfill({
@@ -313,6 +323,58 @@ test("does not request audio until playback is requested", async ({ page }) => {
 		.click();
 	await expect.poll(() => audioRequests).toContain(firstSource);
 	expect(audioRequests).not.toContain(secondSource);
+});
+
+test("pauses the current media when another item starts", async ({ page }) => {
+	await page.goto("/media");
+	const audioElements = page.locator("audio");
+	const firstAudio = audioElements.first();
+	const secondAudio = audioElements.nth(1);
+
+	await firstAudio
+		.locator("..")
+		.getByRole("button", { name: "Play Let It Be Forgotten" })
+		.click();
+	await expect(firstAudio).toHaveJSProperty("paused", false);
+
+	await secondAudio
+		.locator("..")
+		.getByRole("button", { name: "Play Bereite dich Zion" })
+		.click();
+	await expect(firstAudio).toHaveJSProperty("paused", true);
+	await expect(secondAudio).toHaveJSProperty("paused", false);
+
+	await page
+		.getByRole("button", {
+			name: "Play featured video: Agnus Dei- Bach B minor Mass",
+		})
+		.click();
+	const player = page.getByTitle("YouTube video: Agnus Dei- Bach B minor Mass");
+	await expect(player).toBeVisible();
+	await expect(secondAudio).toHaveJSProperty("paused", true);
+
+	await firstAudio
+		.locator("..")
+		.getByRole("button", { name: "Play Let It Be Forgotten" })
+		.click();
+	await expect(firstAudio).toHaveJSProperty("paused", false);
+	const youtubeFrame = page
+		.frames()
+		.find((frame) =>
+			frame.url().startsWith("https://www.youtube-nocookie.com/"),
+		);
+	if (!youtubeFrame) throw new Error("YouTube player frame must be loaded");
+	await expect
+		.poll(() => youtubeFrame.locator("body").getAttribute("data-last-command"))
+		.toBe("pauseVideo");
+
+	await youtubeFrame.evaluate(() => {
+		window.parent.postMessage(
+			JSON.stringify({ event: "onStateChange", info: 1 }),
+			"*",
+		);
+	});
+	await expect(firstAudio).toHaveJSProperty("paused", true);
 });
 
 test("keeps the media page within a 320px viewport", async ({ page }) => {

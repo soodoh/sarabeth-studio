@@ -1,8 +1,10 @@
 import { Pause, Play } from "lucide-react";
-import { type ChangeEvent, type JSX, useRef, useState } from "react";
+import { type ChangeEvent, type JSX, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 type Props = {
+	isPlaybackActive: boolean;
+	onPlaybackStart: () => void;
 	source: string;
 	title: string;
 };
@@ -15,12 +17,23 @@ const formatTime = (time: number): string => {
 	return `${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 };
 
-const AudioPlayer = ({ source, title }: Props): JSX.Element => {
+const AudioPlayer = ({
+	isPlaybackActive,
+	onPlaybackStart,
+	source,
+	title,
+}: Props): JSX.Element => {
 	const audioRef = useRef<HTMLAudioElement>(null);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [duration, setDuration] = useState(0);
 	const [currentTime, setCurrentTime] = useState(0);
 	const [playbackError, setPlaybackError] = useState("");
+
+	useEffect(() => {
+		if (!isPlaybackActive && audioRef.current && !audioRef.current.paused) {
+			audioRef.current.pause();
+		}
+	}, [isPlaybackActive]);
 
 	const handlePlaybackError = (): void => {
 		if (audioRef.current && !audioRef.current.paused) {
@@ -76,7 +89,10 @@ const AudioPlayer = ({ source, title }: Props): JSX.Element => {
 					onError={handlePlaybackError}
 					onLoadedMetadata={synchronizeAudioTime}
 					onPause={() => setIsPlaying(false)}
-					onPlay={() => setIsPlaying(true)}
+					onPlay={() => {
+						setIsPlaying(true);
+						onPlaybackStart();
+					}}
 					onTimeUpdate={synchronizeAudioTime}
 				>
 					<track

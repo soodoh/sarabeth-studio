@@ -5,15 +5,21 @@ import { cn } from "@/lib/utils";
 import type { YouTubePlaylistVideo } from "@/utils/types";
 
 type VideoPlaylistProps = {
+	isPlaybackActive: boolean;
+	onPlaybackStart: () => void;
 	playlistId: string;
 	title: string;
 	unavailableCount: number;
 	videos: YouTubePlaylistVideo[];
 };
 
+const YOUTUBE_EMBED_ORIGIN = "https://www.youtube-nocookie.com";
+const YOUTUBE_PLAYING_STATE = 1;
+
 const getEmbedUrl = (playlistId: string, videoId: string): string => {
 	const parameters = new URLSearchParams({
 		autoplay: "1",
+		enablejsapi: "1",
 		list: playlistId,
 		playsinline: "1",
 	});
@@ -22,6 +28,39 @@ const getEmbedUrl = (playlistId: string, videoId: string): string => {
 
 const getPlaylistUrl = (playlistId: string): string =>
 	`https://www.youtube.com/playlist?list=${playlistId}`;
+
+const getPlayerState = (message: unknown): number | null => {
+	let data = message;
+	if (typeof message === "string") {
+		try {
+			const parsedMessage: unknown = JSON.parse(message);
+			data = parsedMessage;
+		} catch {
+			return null;
+		}
+	}
+	if (typeof data !== "object" || data === null || !("event" in data)) {
+		return null;
+	}
+	if (
+		data.event === "onStateChange" &&
+		"info" in data &&
+		typeof data.info === "number"
+	) {
+		return data.info;
+	}
+	if (
+		data.event !== "infoDelivery" ||
+		!("info" in data) ||
+		typeof data.info !== "object" ||
+		data.info === null ||
+		!("playerState" in data.info) ||
+		typeof data.info.playerState !== "number"
+	) {
+		return null;
+	}
+	return data.info.playerState;
+};
 
 const getVideosWithKeys = (videos: YouTubePlaylistVideo[]) => {
 	const occurrences = new Map<string, number>();
@@ -33,6 +72,8 @@ const getVideosWithKeys = (videos: YouTubePlaylistVideo[]) => {
 };
 
 const VideoPlaylist = ({
+	isPlaybackActive,
+	onPlaybackStart,
 	playlistId,
 	title,
 	unavailableCount,
@@ -52,6 +93,41 @@ const VideoPlaylist = ({
 		else externalVideoRef.current?.focus();
 	}, [isPlayerActive, selectedVideo]);
 
+	useEffect(() => {
+		if (isPlaybackActive || !isPlayerActive) return;
+		playerRef.current?.contentWindow?.postMessage(
+			JSON.stringify({ event: "command", func: "pauseVideo", args: [] }),
+			YOUTUBE_EMBED_ORIGIN,
+		);
+	}, [isPlaybackActive, isPlayerActive]);
+
+	useEffect(() => {
+		const handlePlayerMessage = (event: MessageEvent<unknown>): void => {
+			if (
+				event.origin === YOUTUBE_EMBED_ORIGIN &&
+				event.source === playerRef.current?.contentWindow &&
+				getPlayerState(event.data) === YOUTUBE_PLAYING_STATE
+			) {
+				onPlaybackStart();
+			}
+		};
+		window.addEventListener("message", handlePlayerMessage);
+		return () => window.removeEventListener("message", handlePlayerMessage);
+	}, [onPlaybackStart]);
+
+	const handlePlayerLoad = (): void => {
+		playerRef.current?.contentWindow?.postMessage(
+			JSON.stringify({ event: "listening" }),
+			YOUTUBE_EMBED_ORIGIN,
+		);
+		if (!isPlaybackActive) {
+			playerRef.current?.contentWindow?.postMessage(
+				JSON.stringify({ event: "command", func: "pauseVideo", args: [] }),
+				YOUTUBE_EMBED_ORIGIN,
+			);
+		}
+	};
+
 	if (!selectedVideo) {
 		return (
 			<a
@@ -68,6 +144,7 @@ const VideoPlaylist = ({
 	const playVideo = (videoIndex: number): void => {
 		setSelectedVideoIndex(videoIndex);
 		setIsPlayerActive(true);
+		if (videos[videoIndex]?.embeddable) onPlaybackStart();
 	};
 
 	return (
@@ -84,6 +161,7 @@ const VideoPlaylist = ({
 						title={`YouTube video: ${selectedVideo.title}`}
 						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 						referrerPolicy="strict-origin-when-cross-origin"
+						onLoad={handlePlayerLoad}
 						allowFullScreen
 					/>
 				) : selectedVideo.embeddable ? (
