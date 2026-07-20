@@ -33,7 +33,6 @@ export interface YouTubeSsmClient {
 }
 
 export interface YouTubeServerEnvironment {
-	AWS_REGION?: string;
 	YOUTUBE_API_KEY_PARAMETER?: string;
 	YOUTUBE_API_KEY?: string;
 }
@@ -55,48 +54,45 @@ export const createYouTubeApiKeyReader = ({
 	clientFactory?: SsmClientFactory;
 } = {}): (() => Promise<string>) => {
 	return async () => {
-		const parameterName = environment.YOUTUBE_API_KEY_PARAMETER?.trim();
-		if (parameterName) {
-			if (parameterName !== youtubeApiKeyParameterName) {
-				throw new YouTubePlaylistConfigurationError(
-					"The YouTube API key parameter is not configured correctly",
-				);
-			}
-			try {
-				const client = clientFactory({
-					region: environment.AWS_REGION?.trim() || "us-west-2",
-				});
-				const response = await client.send(
-					new GetParameterCommand({
-						Name: parameterName,
-						WithDecryption: true,
-					}),
-				);
-				if (response.Parameter?.Type !== "SecureString") {
-					throw new YouTubePlaylistConfigurationError(
-						"The YouTube API key parameter must be a SecureString",
-					);
-				}
-				const value = response.Parameter.Value?.trim();
-				if (!value) {
-					throw new YouTubePlaylistConfigurationError(
-						"The YouTube API key parameter is empty",
-					);
-				}
-				return value;
-			} catch (error) {
-				if (error instanceof YouTubePlaylistConfigurationError) throw error;
-				throw new YouTubePlaylistConfigurationError(
-					"Unable to read the YouTube API key parameter",
-				);
-			}
+		const configuredParameterName =
+			environment.YOUTUBE_API_KEY_PARAMETER?.trim();
+		if (!configuredParameterName) {
+			const localApiKey = environment.YOUTUBE_API_KEY?.trim();
+			if (localApiKey) return localApiKey;
 		}
 
-		const localApiKey = environment.YOUTUBE_API_KEY?.trim();
-		if (localApiKey) return localApiKey;
-		throw new YouTubePlaylistConfigurationError(
-			"The YouTube API key is not configured",
-		);
+		const parameterName = configuredParameterName || youtubeApiKeyParameterName;
+		if (parameterName !== youtubeApiKeyParameterName) {
+			throw new YouTubePlaylistConfigurationError(
+				"The YouTube API key parameter is not configured correctly",
+			);
+		}
+		try {
+			const client = clientFactory({ region: "us-west-2" });
+			const response = await client.send(
+				new GetParameterCommand({
+					Name: parameterName,
+					WithDecryption: true,
+				}),
+			);
+			if (response.Parameter?.Type !== "SecureString") {
+				throw new YouTubePlaylistConfigurationError(
+					"The YouTube API key parameter must be a SecureString",
+				);
+			}
+			const value = response.Parameter.Value?.trim();
+			if (!value) {
+				throw new YouTubePlaylistConfigurationError(
+					"The YouTube API key parameter is empty",
+				);
+			}
+			return value;
+		} catch (error) {
+			if (error instanceof YouTubePlaylistConfigurationError) throw error;
+			throw new YouTubePlaylistConfigurationError(
+				"Unable to read the YouTube API key parameter",
+			);
+		}
 	};
 };
 

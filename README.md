@@ -15,7 +15,7 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-Contentful-backed production builds require server-only `CONTENTFUL_SPACE_ID` and `CONTENTFUL_ACCESS_TOKEN` values. The runtime YouTube playlist endpoint reads its key from the SSM parameter named by `YOUTUBE_API_KEY_PARAMETER`; local development may instead use the server-only `YOUTUBE_API_KEY` fallback. Local values can be loaded from an ignored `.env` file. Never prefix secrets with `VITE_`, expose them to browser code, log them, or commit them.
+Contentful-backed production builds require server-only `CONTENTFUL_SPACE_ID` and `CONTENTFUL_ACCESS_TOKEN` values. The runtime YouTube playlist endpoint reads its key from the exact production SSM parameter in `us-west-2`; `YOUTUBE_API_KEY_PARAMETER` may name that same parameter explicitly, and local development may instead use the server-only `YOUTUBE_API_KEY` fallback. Local values can be loaded from an ignored `.env` file. Never prefix secrets with `VITE_`, expose them to browser code, log them, or commit them.
 
 Normal local production builds use Nitro's Node server preset:
 

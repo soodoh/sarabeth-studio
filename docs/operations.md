@@ -56,24 +56,24 @@ Create the YouTube parameter only after `aws sts get-caller-identity` confirms a
 ```bash
 test "$(stat -c '%a' /tmp/sarabeth-youtube-key 2>/dev/null || stat -f '%Lp' /tmp/sarabeth-youtube-key)" = "600"
 test -s /tmp/sarabeth-youtube-key
-test "$(aws sts get-caller-identity --query Account --output text)" = "015989770400"
+test "$(aws --region us-west-2 sts get-caller-identity --query Account --output text)" = "015989770400"
 
-aws ssm put-parameter \
+aws --region us-west-2 ssm put-parameter \
   --name /sarabeth-studio/production/youtube/api-key \
   --description "Production YouTube Data API key for Sarabeth Studio runtime compute" \
   --type SecureString \
   --tier Standard \
   --value "file:///tmp/sarabeth-youtube-key"
-aws ssm add-tags-to-resource \
+aws --region us-west-2 ssm add-tags-to-resource \
   --resource-type Parameter \
   --resource-id /sarabeth-studio/production/youtube/api-key \
   --tags Key=Project,Value=sarabeth-studio Key=Environment,Value=production
-aws ssm describe-parameters \
+aws --region us-west-2 ssm describe-parameters \
   --parameter-filters 'Key=Name,Option=Equals,Values=/sarabeth-studio/production/youtube/api-key' \
   --query 'Parameters[].{Name:Name,Type:Type}'
 ```
 
-Verify only the parameter name and `SecureString` type. Keep `/tmp/sarabeth-youtube-key` until the application release, smoke test, cache/log/quota verification, and explicit deletion approval are complete.
+Verify only the parameter name and `SecureString` type. The runtime client pins SSM access to `us-west-2`; do not rely on an operator's default AWS CLI region when provisioning or rotating the parameter. Keep `/tmp/sarabeth-youtube-key` until the application release, smoke test, cache/log/quota verification, and explicit deletion approval are complete.
 
 Before creating or rotating the key in Google Cloud, restrict it to **YouTube Data API v3**. Amplify compute does not provide a guaranteed fixed egress IP, so a fixed-IP application restriction may not be practical; treat API-only restriction, least privilege, quota alerts, and monitoring as required compensating controls. Set quota alerts below the daily limit and investigate unexpected growth.
 
@@ -213,7 +213,7 @@ Amplify compute uses its least-privilege IAM role and the AWS SDK default creden
 
 The Contentful space ID is not secret; update the `CONTENTFUL_SPACE_ID` GitHub variable and reapply the hosting stack only if the site moves to another Contentful space. No runtime restart is needed because Contentful credentials are build-only. Rotate the temporary Contentful Management token and GitHub authorization token by revoking them after their one-time use.
 
-To rotate the YouTube key, create a new restricted key in Google Cloud, write only that value to a new mode-0600 temporary file, and update the existing SecureString with `aws ssm put-parameter --overwrite --value "file://..."` during a reviewed maintenance window. Run the playlist smoke test, inspect sanitized compute logs and quota, then revoke the old Google key. Keep the temporary file until verification is complete and delete it only with explicit approval. Never rotate by adding a `YOUTUBE_API_KEY` or `VITE_` variable to Amplify.
+To rotate the YouTube key, create a new restricted key in Google Cloud, write only that value to a new mode-0600 temporary file, and update the existing SecureString with `aws --region us-west-2 ssm put-parameter --overwrite --value "file://..."` during a reviewed maintenance window. Run the playlist smoke test, inspect sanitized compute logs and quota, then revoke the old Google key. Keep the temporary file until verification is complete and delete it only with explicit approval. Never rotate by adding a `YOUTUBE_API_KEY` or `VITE_` variable to Amplify.
 
 ### One-time Secrets Manager migration cleanup
 

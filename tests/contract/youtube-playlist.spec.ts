@@ -107,7 +107,6 @@ test("retrieves the API key from the exact SSM SecureString with decryption", as
 	let commandInput: { Name?: string; WithDecryption?: boolean } | undefined;
 	const readApiKey = createYouTubeApiKeyReader({
 		environment: {
-			AWS_REGION: "us-west-2",
 			YOUTUBE_API_KEY_PARAMETER: youtubeApiKeyParameterName,
 		},
 		clientFactory: (clientConfiguration) => {
@@ -164,10 +163,29 @@ test("uses only the server-side local API key fallback when no parameter is conf
 	expect(createdClient).toBe(false);
 });
 
-test("rejects missing or unexpected API key configuration", async () => {
-	await expect(
-		createYouTubeApiKeyReader({ environment: {} })(),
-	).rejects.toThrow("not configured");
+test("uses the exact shared SSM parameter when the runtime pointer is absent", async () => {
+	let commandInput: { Name?: string; WithDecryption?: boolean } | undefined;
+	const readApiKey = createYouTubeApiKeyReader({
+		environment: {},
+		clientFactory: () => ({
+			send: async (command): Promise<GetParameterCommandOutput> => {
+				commandInput = command.input;
+				return {
+					Parameter: { Type: "SecureString", Value: secretApiKey },
+					$metadata: {},
+				};
+			},
+		}),
+	});
+
+	await expect(readApiKey()).resolves.toBe(secretApiKey);
+	expect(commandInput).toEqual({
+		Name: youtubeApiKeyParameterName,
+		WithDecryption: true,
+	});
+});
+
+test("rejects an unexpected API key parameter", async () => {
 	await expect(
 		createYouTubeApiKeyReader({
 			environment: { YOUTUBE_API_KEY_PARAMETER: "/unexpected/parameter" },
@@ -387,7 +405,9 @@ test("sanitizes missing configuration failures and never logs the API key", asyn
 	const messages: string[] = [];
 	const response = await handleYouTubePlaylistRequest({
 		...createDependencies(defaultFetch, messages),
-		readApiKey: createYouTubeApiKeyReader({ environment: {} }),
+		readApiKey: createYouTubeApiKeyReader({
+			environment: { YOUTUBE_API_KEY_PARAMETER: "/unexpected/parameter" },
+		}),
 	});
 	const responseText = await response.text();
 
