@@ -45,7 +45,6 @@ export const createTestSnapshot = () =>
 		about: {
 			headshot: image,
 			bio: document,
-			resume: "https://assets.ctfassets.net/test/master/resume/resume.pdf",
 			location: "Los Angeles",
 		},
 		engagements: {

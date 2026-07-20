@@ -79,7 +79,6 @@ test("canonical fetchers query and map raw Contentful entries", async () => {
 		location: "Los Angeles",
 		headshot: expectedImage("headshot"),
 		bio: contentfulDocumentFixture,
-		resume: expectedAsset("resume").url,
 	});
 	expect(engagements).toEqual({
 		title: "Engagements",

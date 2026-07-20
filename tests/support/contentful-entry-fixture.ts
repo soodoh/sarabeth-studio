@@ -35,7 +35,6 @@ export const contentfulEntryFixture: Readonly<
 				location: "Los Angeles",
 				headshot: asset("headshot"),
 				bio: contentfulDocumentFixture,
-				resume: asset("resume", false),
 			},
 		},
 	],

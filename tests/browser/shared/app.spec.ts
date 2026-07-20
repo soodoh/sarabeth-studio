@@ -34,6 +34,7 @@ test("hydrates and performs client-side header navigation", async ({
 	await expect(
 		page.getByRole("heading", { name: "Sarabeth Belón" }),
 	).toBeVisible();
+	await expect(page.getByRole("link", { name: "View Resume" })).toHaveCount(0);
 	expect(documentNavigations).toBe(0);
 	expect(
 		dataRequests.some((pathname) =>

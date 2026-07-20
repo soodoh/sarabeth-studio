@@ -1,5 +1,4 @@
 import {
-	formatAsset,
 	type ImageFormatter,
 	requireFirstEntry,
 } from "@/utils/contentful-assets";
@@ -15,7 +14,6 @@ const getAboutData = async (
 	return decodeAboutData({
 		headshot: await imageFormatter(entry.fields.headshot, "about.headshot"),
 		bio: entry.fields.bio,
-		resume: formatAsset(entry.fields.resume, "about.resume").url,
 		location: entry.fields.location,
 	});
 };

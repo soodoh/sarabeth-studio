@@ -21,7 +21,6 @@ export type HomeData = {
 export type AboutData = {
 	headshot: ImageType;
 	bio: Document;
-	resume: string;
 	location: string;
 };
 

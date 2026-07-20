@@ -1,7 +1,6 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { createFileRoute } from "@tanstack/react-router";
 import type { JSX } from "react";
-import ArrowButton from "@/components/arrow-button";
 import StyledImage from "@/components/styled-image";
 import WidthContainer from "@/components/width-container";
 import { fetchAboutData } from "@/utils/server-functions";
@@ -27,7 +26,7 @@ export const Route = createFileRoute("/about")({
 });
 
 function AboutPage(): JSX.Element {
-	const { headshot, bio, resume } = Route.useLoaderData();
+	const { headshot, bio } = Route.useLoaderData();
 
 	return (
 		<WidthContainer className="mb-16 grid grid-cols-[30%_1fr] gap-16 max-sm:grid-cols-1">
@@ -41,7 +40,6 @@ function AboutPage(): JSX.Element {
 			</div>
 			<div className="leading-7 [&_h1]:text-[3rem] [&_h1]:leading-[3.5rem] [&_p]:mb-8">
 				{documentToReactComponents(bio)}
-				<ArrowButton url={resume} label="View Resume" />
 			</div>
 		</WidthContainer>
 	);

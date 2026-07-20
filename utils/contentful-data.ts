@@ -282,7 +282,6 @@ export const decodeAboutData = (value: unknown, path = "about"): AboutData => {
 	return {
 		headshot: decodeImage(data.headshot, `${path}.headshot`),
 		bio: decodeDocument(data.bio, `${path}.bio`),
-		resume: readUrl(data.resume, `${path}.resume`, { internal: true }),
 		location: readString(data.location, `${path}.location`),
 	};
 };
