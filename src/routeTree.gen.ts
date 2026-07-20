@@ -15,7 +15,9 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EngagementsRouteImport } from './routes/engagements'
 import { Route as LessonsRouteImport } from './routes/lessons'
 import { Route as MediaRouteImport } from './routes/media'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ApiEmailRouteImport } from './routes/api.email'
+import { Route as ApiYoutubePlaylistRouteImport } from './routes/api.youtube-playlist'
 import { Route as _tsrStaticServerFnCacheFilenameRouteImport } from './routes/[_]_tsr.staticServerFnCache.$filename'
 
 const IndexRoute = IndexRouteImport.update({
@@ -48,9 +50,19 @@ const MediaRoute = MediaRouteImport.update({
   path: '/media',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiEmailRoute = ApiEmailRouteImport.update({
   id: '/api/email',
   path: '/api/email',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiYoutubePlaylistRoute = ApiYoutubePlaylistRouteImport.update({
+  id: '/api/youtube-playlist',
+  path: '/api/youtube-playlist',
   getParentRoute: () => rootRouteImport,
 } as any)
 const _tsrStaticServerFnCacheFilenameRoute =
@@ -67,7 +79,9 @@ export interface FileRoutesByFullPath {
   '/engagements': typeof EngagementsRoute
   '/lessons': typeof LessonsRoute
   '/media': typeof MediaRoute
+  '/privacy': typeof PrivacyRoute
   '/api/email': typeof ApiEmailRoute
+  '/api/youtube-playlist': typeof ApiYoutubePlaylistRoute
   '/__tsr/staticServerFnCache/$filename': typeof _tsrStaticServerFnCacheFilenameRoute
 }
 export interface FileRoutesByTo {
@@ -77,7 +91,9 @@ export interface FileRoutesByTo {
   '/engagements': typeof EngagementsRoute
   '/lessons': typeof LessonsRoute
   '/media': typeof MediaRoute
+  '/privacy': typeof PrivacyRoute
   '/api/email': typeof ApiEmailRoute
+  '/api/youtube-playlist': typeof ApiYoutubePlaylistRoute
   '/__tsr/staticServerFnCache/$filename': typeof _tsrStaticServerFnCacheFilenameRoute
 }
 export interface FileRoutesById {
@@ -88,7 +104,9 @@ export interface FileRoutesById {
   '/engagements': typeof EngagementsRoute
   '/lessons': typeof LessonsRoute
   '/media': typeof MediaRoute
+  '/privacy': typeof PrivacyRoute
   '/api/email': typeof ApiEmailRoute
+  '/api/youtube-playlist': typeof ApiYoutubePlaylistRoute
   '/__tsr/staticServerFnCache/$filename': typeof _tsrStaticServerFnCacheFilenameRoute
 }
 export interface FileRouteTypes {
@@ -100,7 +118,9 @@ export interface FileRouteTypes {
     | '/engagements'
     | '/lessons'
     | '/media'
+    | '/privacy'
     | '/api/email'
+    | '/api/youtube-playlist'
     | '/__tsr/staticServerFnCache/$filename'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -110,7 +130,9 @@ export interface FileRouteTypes {
     | '/engagements'
     | '/lessons'
     | '/media'
+    | '/privacy'
     | '/api/email'
+    | '/api/youtube-playlist'
     | '/__tsr/staticServerFnCache/$filename'
   id:
     | '__root__'
@@ -120,7 +142,9 @@ export interface FileRouteTypes {
     | '/engagements'
     | '/lessons'
     | '/media'
+    | '/privacy'
     | '/api/email'
+    | '/api/youtube-playlist'
     | '/__tsr/staticServerFnCache/$filename'
   fileRoutesById: FileRoutesById
 }
@@ -131,7 +155,9 @@ export interface RootRouteChildren {
   EngagementsRoute: typeof EngagementsRoute
   LessonsRoute: typeof LessonsRoute
   MediaRoute: typeof MediaRoute
+  PrivacyRoute: typeof PrivacyRoute
   ApiEmailRoute: typeof ApiEmailRoute
+  ApiYoutubePlaylistRoute: typeof ApiYoutubePlaylistRoute
   _tsrStaticServerFnCacheFilenameRoute: typeof _tsrStaticServerFnCacheFilenameRoute
 }
 
@@ -179,11 +205,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MediaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/email': {
       id: '/api/email'
       path: '/api/email'
       fullPath: '/api/email'
       preLoaderRoute: typeof ApiEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/youtube-playlist': {
+      id: '/api/youtube-playlist'
+      path: '/api/youtube-playlist'
+      fullPath: '/api/youtube-playlist'
+      preLoaderRoute: typeof ApiYoutubePlaylistRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/__tsr/staticServerFnCache/$filename': {
@@ -203,7 +243,9 @@ const rootRouteChildren: RootRouteChildren = {
   EngagementsRoute: EngagementsRoute,
   LessonsRoute: LessonsRoute,
   MediaRoute: MediaRoute,
+  PrivacyRoute: PrivacyRoute,
   ApiEmailRoute: ApiEmailRoute,
+  ApiYoutubePlaylistRoute: ApiYoutubePlaylistRoute,
   _tsrStaticServerFnCacheFilenameRoute: _tsrStaticServerFnCacheFilenameRoute,
 }
 export const routeTree = rootRouteImport

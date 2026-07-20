@@ -57,6 +57,10 @@ Resources:
             Effect: Allow
             Action: ssm:GetParameter
             Resource: !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/sarabeth-studio/production/contentful/access-token
+          - Sid: YouTubeRuntimeParameter
+            Effect: Allow
+            Action: ssm:GetParameter
+            Resource: !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/sarabeth-studio/production/youtube/api-key
           - Sid: ContactEmail
             Effect: Allow
             Action: ses:SendEmail

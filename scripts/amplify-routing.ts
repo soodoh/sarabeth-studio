@@ -12,6 +12,10 @@ export type AmplifyRoute = {
 
 const computeTarget: AmplifyTarget = { kind: "Compute", src: "default" };
 const staticTarget: AmplifyTarget = { kind: "Static" };
+export const productionComputePaths = [
+	"/api/email",
+	"/api/youtube-playlist",
+] as const;
 
 export const createProductionRoutes = (
 	routes: readonly AmplifyRoute[],
@@ -20,7 +24,7 @@ export const createProductionRoutes = (
 	const replacedPaths = new Set([
 		...prerenderedRoutes,
 		"/__deployment.json",
-		"/api/email",
+		...productionComputePaths,
 		"/*",
 	]);
 	const remainingRoutes = routes
@@ -37,7 +41,7 @@ export const createProductionRoutes = (
 			target: { kind: "Static", cacheControl: "no-store" },
 		},
 		...prerenderedRoutes.map((path) => ({ path, target: staticTarget })),
-		{ path: "/api/email", target: computeTarget },
+		...productionComputePaths.map((path) => ({ path, target: computeTarget })),
 		...remainingRoutes,
 		{ path: "/*", target: staticTarget },
 	];

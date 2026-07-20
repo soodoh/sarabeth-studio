@@ -112,7 +112,7 @@ Resources:
     Type: AWS::IAM::Role
     Properties:
       RoleName: sarabeth-amplify-compute-main
-      Description: Least-privilege SES access for the production Amplify compute branch.
+      Description: Least-privilege contact email and YouTube playlist access for the production Amplify compute branch.
       PermissionsBoundary: !Ref WorkloadPermissionsBoundaryArn
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
@@ -127,11 +127,12 @@ Resources:
               StringEquals:
                 aws:SourceAccount: !Ref AWS::AccountId
       Policies:
-        - PolicyName: SendRateLimitedContactEmail
+        - PolicyName: ProductionRuntimeAccess
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
-              - Effect: Allow
+              - Sid: SendContactEmail
+                Effect: Allow
                 Action: ses:SendEmail
                 Resource: !Sub arn:${AWS::Partition}:ses:${AWS::Region}:${AWS::AccountId}:identity/sarabethbelon.com
                 Condition:
@@ -139,9 +140,14 @@ Resources:
                     ses:FromAddress: contact@sarabethbelon.com
                   ForAllValues:StringEquals:
                     ses:Recipients: sarabethstudio@gmail.com
-              - Effect: Allow
+              - Sid: UpdateContactEmailRateLimit
+                Effect: Allow
                 Action: dynamodb:UpdateItem
                 Resource: !GetAtt EmailRateLimitTable.Arn
+              - Sid: ReadYouTubeApiKey
+                Effect: Allow
+                Action: ssm:GetParameter
+                Resource: !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/sarabeth-studio/production/youtube/api-key
 
   AmplifyApp:
     Type: AWS::Amplify::App
@@ -185,6 +191,9 @@ Resources:
         - Source: /media
           Target: /media.html
           Status: "200"
+        - Source: /privacy
+          Target: /privacy.html
+          Status: "200"
       Tags:
         - Key: Project
           Value: sarabeth-studio
@@ -209,6 +218,8 @@ Resources:
           Value: !Ref ContentfulSpaceId
         - Name: CONTENTFUL_ACCESS_TOKEN_PARAMETER
           Value: /sarabeth-studio/production/contentful/access-token
+        - Name: YOUTUBE_API_KEY_PARAMETER
+          Value: /sarabeth-studio/production/youtube/api-key
         - Name: EMAIL_RATE_LIMIT_TABLE
           Value: !Ref EmailRateLimitTable
       Tags:

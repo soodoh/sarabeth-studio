@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import type { JSX } from "react";
 import { getCurrentYear } from "@/utils/temporal-data";
 import type { SocialMediaLink } from "@/utils/types";
@@ -25,6 +26,7 @@ const Footer = ({
 			<div className="flex flex-col items-start max-sm:items-center">
 				<span>{location}</span>
 				<span>Copyright &copy;{currentYear} Sarabeth Bel&oacute;n</span>
+				<Link to="/privacy">Privacy</Link>
 			</div>
 			<div className="flex flex-1 justify-center max-sm:row-[1]">
 				{instagramLink && (

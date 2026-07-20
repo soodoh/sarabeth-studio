@@ -1,5 +1,6 @@
 import { expect, type Locator, type Page, test } from "@/tests/playwright";
 import { getContrastRatio } from "@/tests/support/contrast";
+import { youtubePlaylistFixture } from "@/tests/support/youtube-playlist-route";
 
 const expectActiveImage = async (
 	gallery: Locator,
@@ -43,47 +44,182 @@ const dragGallery = async (
 };
 
 test.beforeEach(async ({ page }) => {
-	await page.route("https://www.youtube.com/**", async (route) => {
+	await page.route("https://www.youtube-nocookie.com/**", async (route) => {
 		await route.fulfill({ body: "", contentType: "text/html" });
+	});
+	await page.route("https://i.ytimg.com/**", async (route) => {
+		await route.fulfill({
+			body: '<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180"><rect width="320" height="180" fill="#1e1d1d"/></svg>',
+			contentType: "image/svg+xml",
+		});
 	});
 });
 
-test("loads the video player only after explicit activation", async ({
+test("shows a fixed-size loading state before playlist data arrives", async ({
+	page,
+}) => {
+	await page.setViewportSize({ width: 390, height: 844 });
+	let releaseRequest = (): void => {};
+	const blockedRequest = new Promise<void>((resolve) => {
+		releaseRequest = resolve;
+	});
+	await page.route("**/api/youtube-playlist", async (route) => {
+		await blockedRequest;
+		await route.fulfill({
+			status: 200,
+			contentType: "application/json",
+			body: JSON.stringify(youtubePlaylistFixture),
+		});
+	});
+
+	await page.goto("/media");
+	const loading = page.getByRole("region", {
+		name: "Loading YouTube playlist",
+	});
+	await expect(loading).toBeVisible();
+	const loadingBox = await loading.boundingBox();
+	if (!loadingBox) throw new Error("Playlist loading state must have a size");
+	expect(loadingBox.height).toBeGreaterThanOrEqual(288);
+
+	releaseRequest();
+	const loaded = page.getByRole("region", { name: "Arias video playlist" });
+	await expect(loaded).toBeVisible();
+	const loadedBox = await loaded.boundingBox();
+	if (!loadedBox) throw new Error("Loaded playlist must have a size");
+	expect(Math.abs(loadedBox.height - loadingBox.height)).toBeLessThanOrEqual(1);
+});
+
+test("loads the selected video only after explicit activation", async ({
 	page,
 }) => {
 	const youtubeRequests: string[] = [];
 	page.on("request", (request) => {
-		if (request.url().startsWith("https://www.youtube.com/")) {
+		if (request.url().startsWith("https://www.youtube-nocookie.com/")) {
 			youtubeRequests.push(request.url());
 		}
 	});
 	await page.goto("/media");
 
-	const loadPlaylist = page.getByRole("button", {
-		name: "Load video playlist",
+	const playFeaturedVideo = page.getByRole("button", {
+		name: "Play featured video: Agnus Dei- Bach B minor Mass",
 	});
-	const player = page.getByTitle("YouTube video playlist");
+	const player = page.getByTitle("YouTube video: Agnus Dei- Bach B minor Mass");
 	await expect(player).toHaveCount(0);
 	expect(youtubeRequests).toEqual([]);
-	await loadPlaylist.focus();
-	await loadPlaylist.press("Enter");
+	await playFeaturedVideo.focus();
+	await playFeaturedVideo.press("Enter");
 	await expect(player).toBeVisible();
 	await expect(player).toBeFocused();
 	await expect.poll(() => youtubeRequests.length).toBeGreaterThan(0);
+	await expect(player).toHaveAttribute(
+		"src",
+		/https:\/\/www\.youtube-nocookie\.com\/embed\/kcUyxVRmihw/,
+	);
 	await expect(
 		page.getByRole("link", { name: "Open playlist on YouTube" }),
 	).toHaveAttribute(
 		"href",
 		"https://www.youtube.com/playlist?list=PL2ucJM2n3hm_c0L7-_dAnJ_Kajde66Id1",
 	);
+});
 
-	await page.getByRole("button", { name: "Play Let It Be Forgotten" }).focus();
-	await page.keyboard.press("Shift+Tab");
+test("shows every fixture playlist video and plays a selection", async ({
+	page,
+}) => {
+	await page.goto("/media");
+	const playlist = page.getByRole("region", {
+		name: "Arias video playlist",
+	});
+	const videoButtons = playlist.getByRole("list").getByRole("button");
+	const firstVideo = videoButtons.first();
+	const lastVideo = videoButtons.last();
+
+	await expect(videoButtons).toHaveCount(13);
+	await expect(firstVideo).toHaveAttribute("aria-current", "true");
+	await expect(playlist).toContainText("13 videos");
+
+	await lastVideo.click();
+	const player = page.getByTitle("YouTube video: Seguidilla");
+	await expect(player).toBeVisible();
+	await expect(player).toBeFocused();
+	await expect(player).toHaveAttribute("src", /\/embed\/7h9Civvi58o/);
+	await expect(lastVideo).toHaveAttribute("aria-current", "true");
+	await expect(firstVideo).not.toHaveAttribute("aria-current", "true");
+});
+
+test("links non-embeddable selections to YouTube without loading an iframe", async ({
+	page,
+}) => {
+	const youtubeRequests: string[] = [];
+	page.on("request", (request) => {
+		if (request.url().startsWith("https://www.youtube-nocookie.com/")) {
+			youtubeRequests.push(request.url());
+		}
+	});
+	await page.goto("/media");
+	await page
+		.getByRole("button", {
+			name: "Select Only Echo; opens on YouTube",
+		})
+		.click();
+
+	const externalVideo = page.getByRole("link", {
+		name: "Open video on YouTube: Only Echo",
+	});
+	await expect(externalVideo).toBeVisible();
+	await expect(externalVideo).toBeFocused();
+	await expect(externalVideo).toHaveAttribute(
+		"href",
+		"https://www.youtube.com/watch?v=TD3ePn-gvgE",
+	);
+	await expect(page.getByTitle("YouTube video: Only Echo")).toHaveCount(0);
+	expect(youtubeRequests).toEqual([]);
+});
+
+test("shows an external fallback and retries a failed playlist request", async ({
+	page,
+}) => {
+	await page.setViewportSize({ width: 390, height: 844 });
+	let attempts = 0;
+	await page.route("**/api/youtube-playlist", async (route) => {
+		attempts += 1;
+		if (attempts === 1) {
+			await route.fulfill({
+				status: 502,
+				contentType: "application/json",
+				body: JSON.stringify({ error: "Unavailable" }),
+			});
+			return;
+		}
+		await route.fulfill({
+			status: 200,
+			contentType: "application/json",
+			body: JSON.stringify(youtubePlaylistFixture),
+		});
+	});
+	await page.goto("/media");
+
+	await expect(page.getByRole("alert")).toContainText("Videos are unavailable");
+	const fallback = page.getByRole("region", {
+		name: "YouTube playlist unavailable",
+	});
+	const fallbackBox = await fallback.boundingBox();
+	if (!fallbackBox) throw new Error("Playlist fallback must have a size");
 	await expect(
 		page.getByRole("link", { name: "Open playlist on YouTube" }),
-	).toBeFocused();
-	await page.keyboard.press("Shift+Tab");
-	await expect(player).toBeFocused();
+	).toHaveAttribute(
+		"href",
+		"https://www.youtube.com/playlist?list=PL2ucJM2n3hm_c0L7-_dAnJ_Kajde66Id1",
+	);
+	await page.getByRole("button", { name: "Retry" }).click();
+	const loaded = page.getByRole("region", { name: "Arias video playlist" });
+	await expect(loaded).toBeVisible();
+	const loadedBox = await loaded.boundingBox();
+	if (!loadedBox) throw new Error("Loaded playlist must have a size");
+	expect(Math.abs(loadedBox.height - fallbackBox.height)).toBeLessThanOrEqual(
+		1,
+	);
+	expect(attempts).toBe(2);
 });
 
 test("provides high-density photo candidates", async ({ page }) => {

@@ -1,4 +1,9 @@
 import publicRoutes from "@/scripts/public-routes.json" with { type: "json" };
+import {
+	youtubeApiKeyParameterName,
+	youtubePlaylistId,
+} from "@/utils/youtube-playlist-config";
+import { decodeYouTubePlaylist } from "@/utils/youtube-playlist-data";
 
 const deploymentUrl = process.argv[2]?.replace(/\/$/, "");
 const expectedCommit = process.argv[3];
@@ -100,6 +105,33 @@ await expectStatus("/api/email", 413, {
 	body: JSON.stringify({ unexpected: "x".repeat(40_000) }),
 });
 
+const youtubeResponse = await expectStatus("/api/youtube-playlist", 200);
+const youtubeContentType = youtubeResponse.headers.get("content-type") ?? "";
+if (!youtubeContentType.includes("application/json")) {
+	throw new Error(
+		`GET /api/youtube-playlist: expected JSON, received ${youtubeContentType}`,
+	);
+}
+const youtubeResponseText = await youtubeResponse.text();
+const youtubeBody: unknown = JSON.parse(youtubeResponseText);
+const youtubePlaylist = decodeYouTubePlaylist(youtubeBody);
+if (youtubePlaylist.id !== youtubePlaylistId) {
+	throw new Error("GET /api/youtube-playlist: returned an unexpected playlist");
+}
+if (youtubePlaylist.videos.length === 0) {
+	throw new Error("GET /api/youtube-playlist: returned no available videos");
+}
+if (
+	youtubeResponseText.includes(youtubeApiKeyParameterName) ||
+	/YOUTUBE_API_KEY|api[_-]?key/i.test(youtubeResponseText)
+) {
+	throw new Error("GET /api/youtube-playlist: exposed secret configuration");
+}
+const localYouTubeApiKey = process.env.YOUTUBE_API_KEY;
+if (localYouTubeApiKey && youtubeResponseText.includes(localYouTubeApiKey)) {
+	throw new Error("GET /api/youtube-playlist: exposed the API key value");
+}
+
 const assetPaths = new Set(
 	[...homeHtml.matchAll(/(?:src|href)="(\/[^"?#]+)"/g)]
 		.map((match) => match[1])
@@ -117,5 +149,5 @@ for (const assetPath of assetPaths) {
 }
 
 console.log(
-	`Functional smoke passed for ${deploymentUrl} at ${expectedCommit}: ${publicPaths.length} page URLs, ${assetPaths.size} assets, 404 behavior, and non-sending email API checks`,
+	`Functional smoke passed for ${deploymentUrl} at ${expectedCommit}: ${publicPaths.length} page URLs, ${assetPaths.size} assets, 404 behavior, non-sending email API checks, and the configured YouTube playlist`,
 );

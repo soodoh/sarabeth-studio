@@ -14,6 +14,23 @@ export type ImageType = Asset & {
 
 export type Audio = Asset;
 
+export type YouTubePlaylistVideo = {
+	id: string;
+	title: string;
+	duration: string;
+	thumbnailUrl: string;
+	embeddable: boolean;
+	madeForKids: boolean;
+	watchUrl: string;
+};
+
+export type YouTubePlaylist = {
+	id: string;
+	title: string;
+	unavailableCount: number;
+	videos: YouTubePlaylistVideo[];
+};
+
 export type SocialMediaType =
 	| "facebook"
 	| "instagram"

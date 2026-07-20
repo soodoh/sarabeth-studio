@@ -21,17 +21,20 @@ const productionRoutes = createProductionRoutes(
 	publicRoutes,
 );
 
-test("routes only the email endpoint to production compute", () => {
-	expect(resolveRouteTarget("/api/email", productionRoutes)).toEqual({
-		kind: "Compute",
-		src: "default",
-	});
+test("routes only the approved API endpoints to production compute", () => {
+	for (const path of ["/api/email", "/api/youtube-playlist"]) {
+		expect(resolveRouteTarget(path, productionRoutes)).toEqual({
+			kind: "Compute",
+			src: "default",
+		});
+	}
 	const publicPaths = publicRoutes.flatMap((route) =>
 		route === "/" ? [route] : [route, `${route}/`],
 	);
 	for (const path of [...publicPaths, "/assets/app.js"]) {
 		expect(resolveRouteTarget(path, productionRoutes)?.kind).toBe("Static");
 	}
+	expect(resolveRouteTarget("/media", productionRoutes)?.kind).toBe("Static");
 });
 
 test("requests an unknown route through the static 404 policy without Contentful credentials", () => {

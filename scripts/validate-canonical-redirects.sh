@@ -57,6 +57,7 @@ paths=(
   "/engagements?redirect-check=$check_id"
   "/lessons?redirect-check=$check_id"
   "/media?redirect-check=$check_id"
+  "/privacy?redirect-check=$check_id"
 )
 deadline=$((SECONDS + validation_timeout))
 while (( SECONDS < deadline )); do

@@ -65,6 +65,34 @@ test("rejects unsupported email endpoint methods", async ({ request }) => {
 	expect(await response.body()).toHaveLength(0);
 });
 
+test("rejects unsupported YouTube playlist endpoint methods", async ({
+	request,
+}) => {
+	const response = await request.post("/api/youtube-playlist");
+
+	expect(response.status()).toBe(405);
+	expect(response.headers().allow).toBe("GET");
+	expect(response.headers()["cache-control"]).toBe("no-store");
+});
+
+test("publishes the approved YouTube privacy disclosure", async ({ page }) => {
+	await page.goto("/privacy");
+
+	await expect(
+		page.getByRole("heading", { name: "Privacy Policy" }),
+	).toBeVisible();
+	await expect(page.getByText("Effective July 19, 2026")).toBeVisible();
+	await expect(
+		page.getByRole("link", { name: "YouTube Terms of Service" }),
+	).toHaveAttribute("href", "https://www.youtube.com/t/terms");
+	await expect(
+		page.getByRole("link", { name: "Google Privacy Policy" }),
+	).toHaveAttribute("href", "https://policies.google.com/privacy");
+	await expect(
+		page.getByRole("link", { name: "Privacy", exact: true }),
+	).toHaveAttribute("href", "/privacy");
+});
+
 test("serves the icons declared by the web manifest", async ({ request }) => {
 	const manifestResponse = await request.get("/favicon/site.webmanifest");
 	expect(manifestResponse.status()).toBe(200);

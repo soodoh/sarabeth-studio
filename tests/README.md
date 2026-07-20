@@ -1,11 +1,14 @@
 # Playwright tests
 
-The Playwright server uses the committed fixture in `tests/fixtures/contentful`.
-Its explicit Vite configuration aliases the production provider and current-date
-modules to deterministic test implementations; canonical production builds
-exclude fixture code. Focused contract tests run every Contentful fetcher against
-raw entry-shaped data, while browser routes intercept the fixture's absolute
-image and audio URLs to exercise production media markup.
+The Playwright server uses the committed Contentful fixture in
+`tests/fixtures/contentful` and the public playlist response fixture in
+`tests/fixtures/youtube-playlist.json`. Its explicit Vite configuration aliases
+the production Contentful provider and current-date modules to deterministic
+test implementations; canonical production builds exclude fixture code. Browser
+contexts intercept `/api/youtube-playlist`, YouTube thumbnails, and activated
+iframes, so CI never contacts Google or SSM. Focused contract tests run every
+Contentful fetcher against raw entry-shaped data, while browser routes intercept
+the fixture's absolute image and audio URLs to exercise production media markup.
 
 CMS-backed server functions use TanStack's static-function middleware. Their
 build-time results are emitted as static assets, so client-side navigation does

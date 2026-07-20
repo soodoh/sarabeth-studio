@@ -6,6 +6,7 @@ const pages = [
 	{ name: "contact", path: "/contact" },
 	{ name: "engagements", path: "/engagements" },
 	{ name: "media", path: "/media" },
+	{ name: "privacy", path: "/privacy" },
 ] as const;
 
 const waitForHomeAnimations = async (page: Page): Promise<void> => {
@@ -58,18 +59,19 @@ const waitForImages = async (page: Page): Promise<void> => {
 };
 
 const preparePage = async (page: Page, path: string): Promise<void> => {
-	await page.route("https://www.youtube.com/**", async (route) => {
+	await page.route("https://www.youtube-nocookie.com/**", async (route) => {
 		await route.fulfill({
 			body: "<style>html,body{height:100%;margin:0;background:#000}</style>",
 			contentType: "text/html",
 		});
 	});
+	await page.route("https://i.ytimg.com/**", async (route) => {
+		await route.fulfill({
+			body: '<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180"><rect width="320" height="180" fill="#302d2c"/><circle cx="160" cy="90" r="30" fill="#bc5957"/></svg>',
+			contentType: "image/svg+xml",
+		});
+	});
 	await page.goto(path, { waitUntil: "networkidle" });
-	if (path === "/media") {
-		await page.getByRole("button", { name: "Load video playlist" }).click();
-		await expect(page.getByTitle("YouTube video playlist")).toBeVisible();
-		await page.evaluate(() => window.scrollTo(0, 0));
-	}
 	await page.evaluate(() => document.fonts.ready);
 	await waitForImages(page);
 };

@@ -2,6 +2,7 @@ import { execFile } from "node:child_process";
 import { readdir, readFile, stat } from "node:fs/promises";
 import { join } from "node:path";
 import { promisify } from "node:util";
+import { productionComputePaths } from "@/scripts/amplify-routing";
 import publicRoutes from "@/scripts/public-routes.json" with { type: "json" };
 
 const outputDirectory = ".amplify-hosting";
@@ -60,17 +61,19 @@ assert(
 		deploymentMetadataRoute.target.cacheControl === "no-store",
 	"Deployment metadata must use a non-cached static route",
 );
-const apiRouteIndex = manifest.routes.findIndex(
-	(route: { path?: string }) => route.path === "/api/email",
-);
-const apiRoute = manifest.routes[apiRouteIndex];
-assert(
-	apiRouteIndex >= 0 &&
-		apiRoute?.target?.kind === "Compute" &&
-		apiRoute.target.src === "default" &&
-		apiRoute.fallback === undefined,
-	"The email API must be the only compute route",
-);
+for (const path of productionComputePaths) {
+	const apiRouteIndex = manifest.routes.findIndex(
+		(route: { path?: string }) => route.path === path,
+	);
+	const apiRoute = manifest.routes[apiRouteIndex];
+	assert(
+		apiRouteIndex >= 0 &&
+			apiRoute?.target?.kind === "Compute" &&
+			apiRoute.target.src === "default" &&
+			apiRoute.fallback === undefined,
+		`The ${path} API must route only to compute`,
+	);
+}
 const catchAllRoute = manifest.routes.at(-1);
 assert(
 	catchAllRoute?.path === "/*" &&
@@ -79,10 +82,10 @@ assert(
 	"Unmatched extensionless requests must return a static 404",
 );
 for (const route of manifest.routes) {
-	if (route.path === "/api/email") continue;
+	if (productionComputePaths.includes(route.path)) continue;
 	assert(
 		route.target?.kind !== "Compute" && route.fallback?.kind !== "Compute",
-		`Only /api/email may route to compute: ${route.path}`,
+		`Only the approved API endpoints may route to compute: ${route.path}`,
 	);
 }
 
@@ -129,6 +132,7 @@ assert(
 
 const secretEnvironmentNames = [
 	"CONTENTFUL_ACCESS_TOKEN",
+	"YOUTUBE_API_KEY",
 	"AWS_ACCESS_KEY_ID",
 	"AWS_SECRET_ACCESS_KEY",
 	"AWS_SESSION_TOKEN",
@@ -154,5 +158,5 @@ for (const environmentName of secretEnvironmentNames) {
 }
 
 console.log(
-	`Validated Amplify bundle: ${prerenderedPages.length} pages, ${staticCacheFiles.length} static server-function cache files, isolated email compute, and static 404 routing`,
+	`Validated Amplify bundle: ${prerenderedPages.length} pages, ${staticCacheFiles.length} static server-function cache files, isolated email and YouTube API compute, and static 404 routing`,
 );

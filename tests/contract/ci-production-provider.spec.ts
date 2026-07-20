@@ -26,8 +26,20 @@ const operations = readFileSync(
 	new URL("../../docs/operations.md", import.meta.url),
 	"utf8",
 );
+const privacyPolicy = readFileSync(
+	new URL("../../docs/privacy-policy.md", import.meta.url),
+	"utf8",
+);
 const productionProviderConfig = readFileSync(
 	new URL("../../vite.production-provider.config.ts", import.meta.url),
+	"utf8",
+);
+const deploymentSmoke = readFileSync(
+	new URL("../../scripts/smoke-deployment.ts", import.meta.url),
+	"utf8",
+);
+const bundleValidator = readFileSync(
+	new URL("../../scripts/validate-amplify-bundle.ts", import.meta.url),
 	"utf8",
 );
 
@@ -146,7 +158,6 @@ test("grants build-only access to the Contentful SSM parameter", () => {
 	}
 	expect(serviceRole).toContain(parameterName.slice(1));
 	expect(parameterBoundary).toContain(parameterName.slice(1));
-	expect(computeRole).not.toContain("ssm:GetParameter");
 	expect(computeRole).not.toContain(parameterName.slice(1));
 	expect(mainBranch).toContain("CONTENTFUL_SPACE_ID");
 	expect(mainBranch).toContain("CONTENTFUL_ACCESS_TOKEN_PARAMETER");
@@ -163,6 +174,53 @@ test("grants build-only access to the Contentful SSM parameter", () => {
 		expect(configuration).not.toContain("secretsmanager:");
 		expect(configuration).not.toContain("ContentfulSecret");
 	}
+});
+
+test("grants runtime access to only the exact YouTube SSM parameter", () => {
+	const serviceRole = extractYamlBlock(hostingTemplate, "AmplifyServiceRole:");
+	const computeRole = extractYamlBlock(hostingTemplate, "AmplifyComputeRole:");
+	const computeParameterPolicy = extractYamlBlock(
+		hostingTemplate,
+		"- Sid: ReadYouTubeApiKey",
+	);
+	const parameterBoundary = extractYamlBlock(
+		bootstrapTemplate,
+		"- Sid: YouTubeRuntimeParameter",
+	);
+	const mainBranch = extractYamlBlock(hostingTemplate, "MainBranch:");
+	const parameterName = "/sarabeth-studio/production/youtube/api-key";
+
+	for (const policy of [computeParameterPolicy, parameterBoundary]) {
+		expect(policy).toContain("ssm:GetParameter");
+		expect(policy).toContain(parameterName.slice(1));
+		expect(policy).not.toContain("ssm:PutParameter");
+		expect(policy).not.toContain("*");
+	}
+	expect(computeRole).toContain("ProductionRuntimeAccess");
+	expect(computeRole).toContain("ReadYouTubeApiKey");
+	expect(serviceRole).not.toContain(parameterName.slice(1));
+	expect(mainBranch).toContain("YOUTUBE_API_KEY_PARAMETER");
+	expect(mainBranch).toContain(parameterName);
+	expect(operations).toContain("Phase 1 — infrastructure readiness");
+	expect(operations).toContain("Phase 2 — application release");
+	expect(operations).toContain("YouTube Data API v3");
+	expect(operations).toContain("YouTube Terms of Service");
+	expect(operations).toContain("Google Privacy Policy");
+	expect(operations).toContain("explicit owner approval");
+	expect(operations).toContain("at `/privacy`");
+	expect(privacyPolicy).toContain("Owner-approved for publication");
+	expect(privacyPolicy).toContain("YouTube Terms of Service");
+	expect(privacyPolicy).toContain("Google Privacy Policy");
+});
+
+test("smoke tests the configured YouTube playlist without exposing secrets", () => {
+	expect(deploymentSmoke).toContain('"/api/youtube-playlist", 200');
+	expect(deploymentSmoke).toContain("decodeYouTubePlaylist");
+	expect(deploymentSmoke).toContain("youtubePlaylistId");
+	expect(deploymentSmoke).toContain("videos.length === 0");
+	expect(deploymentSmoke).toContain("YOUTUBE_API_KEY");
+	expect(deploymentSmoke).not.toContain("with-decryption");
+	expect(bundleValidator).toContain('"YOUTUBE_API_KEY"');
 });
 
 test("builds the production provider graph with only external boundaries replaced", () => {
