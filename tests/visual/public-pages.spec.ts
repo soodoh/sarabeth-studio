@@ -96,7 +96,7 @@ test.describe("lessons page", () => {
 		await preparePage(page, "/lessons");
 	});
 
-	for (const tab of ["About", "Studio", "Teaching Resume"] as const) {
+	for (const tab of ["About", "Studio", "Credentials"] as const) {
 		test(`${tab} tab`, async ({ page }) => {
 			await page.getByRole("tab", { name: tab, exact: true }).click();
 			await expect(

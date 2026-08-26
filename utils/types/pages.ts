@@ -81,5 +81,5 @@ export type PageProps = {
 export enum LessonsPages {
 	About = "About",
 	Studio = "Studio",
-	Resume = "Teaching Resume",
+	Resume = "Credentials",
 }

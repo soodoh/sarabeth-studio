@@ -286,7 +286,7 @@ test("moves and selects lesson tabs with the keyboard", async ({ page }) => {
 	const aboutTab = page.getByRole("tab", { name: "About", exact: true });
 	const studioTab = page.getByRole("tab", { name: "Studio", exact: true });
 	const resumeTab = page.getByRole("tab", {
-		name: "Teaching Resume",
+		name: "Credentials",
 		exact: true,
 	});
 
@@ -303,7 +303,7 @@ test("moves and selects lesson tabs with the keyboard", async ({ page }) => {
 	await expect(resumeTab).toBeFocused();
 	await expect(page.getByRole("tabpanel")).toHaveAttribute(
 		"aria-labelledby",
-		"lessons-tab-teaching-resume",
+		"lessons-tab-credentials",
 	);
 });
 
