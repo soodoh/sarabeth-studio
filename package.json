@@ -58,7 +58,7 @@
 		"contentful": "^11.12.7",
 		"embla-carousel-react": "^8.6.0",
 		"lucide-react": "^1.25.0",
-		"nitro": "^3.0.260610-beta",
+		"nitro": "^3.0.260903-beta",
 		"radix-ui": "^1.6.4",
 		"react": "^19.2.7",
 		"react-dom": "^19.2.7",
